@@ -5,7 +5,6 @@
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -22,11 +21,12 @@
             <MaterialDesignIconView glyphName="ALARM_PLUS" size="20" text="" />
          </graphic>
       </Button>
-      <Label fx:id="halpLabel" alignment="TOP_LEFT" prefHeight="49.0" prefWidth="212.0" text="Label" textFill="#c40a0a">
+      <JFXButton fx:id="moreInformation" alignment="TOP_LEFT" onAction="#moreInformationEvent" prefHeight="55.0" prefWidth="234.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
          <graphic>
-            <FontAwesomeIconView fill="#d9462e" glyphName="EXCLAMATION_CIRCLE" size="20" />
+            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
          </graphic>
-      </Label>
-      <JFXButton fx:id="moreInformation" alignment="TOP_LEFT" onAction="#moreInformationEvent" prefHeight="31.0" prefWidth="218.0" text="more information" textFill="#1b0eae" underline="true" />
+         <font>
+            <Font size="14.0" />
+         </font></JFXButton>
    </children>
 </VBox>

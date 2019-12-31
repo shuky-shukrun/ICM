@@ -289,41 +289,6 @@ public class DBConnection {
         return crList;
     }
     
-
-    public List<Phase> getPhaseDetails(List<ChangeRequest> crList) {
-
-    	ChangeRequest currRequest = new ChangeRequest();
-    	Phase currPhase = new Phase();
-    	List<Phase> phases = new ArrayList<>();
-    	currRequest=crList.get(0);
-    	System.out.println(currRequest);
-    	//System.out.println(currRequest.getId());
-    	//System.out.println(currRequest.getCurrPhaseName().toString());
-    	
-    	 try {
-    	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phIDChangeRequest = ? AND phPhaseName = ?");
-        ps.setInt(1, currRequest.getId());
-        ps.setString(2,currRequest.getCurrPhaseName().toString());
-
-        ResultSet rs = ps.executeQuery();
-        rs.beforeFirst();
-        rs.next();
-
-        currPhase.setChangeRequestId(currRequest.getId());     
-        currPhase.setName(currRequest.getCurrPhaseName());
-        currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
-        currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
-        currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequest"));
-        
-        phases.add(currPhase);
-        ps.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-            return phases;
-    } 
-    
     public List<Boolean> updatePhaseExtensionTime (List<Phase> pList) {
     	
     	List<Boolean> updateList = new ArrayList<>();
