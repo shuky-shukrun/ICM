@@ -50,8 +50,8 @@ public class JavaEmail
         /**
          * Sender's credentials
          * */
-        String fromUser = "tomro91@gmail.com";
-        String fromUserEmailPassword = "tOm31544";
+        String fromUser = "trsmaicm@gmail.com";
+        String fromUserEmailPassword = "SMARTProject1!";
  
         String emailHost = "smtp.gmail.com";
         Transport transport = mailSession.getTransport("smtp");
