@@ -34,7 +34,7 @@ public class EvaluatorButtons implements ClientUI {
 	@FXML
 	public void showCreateEvaluationReportDialog(ActionEvent event) {
 		if (CrDetails.getCurrRequest().isSuspended())
-			IcmUtils.displayErrorMsg("request is thaw");
+			IcmUtils.displayErrorMsg("request is frozen");
 		else if (CrDetails.getCurrRequest().getPhases().get(0)
 				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
 			try {
@@ -50,7 +50,7 @@ public class EvaluatorButtons implements ClientUI {
 	@FXML
 	public void showRequestTimeDialog(ActionEvent event) {
 		if (CrDetails.getCurrRequest().isSuspended())
-			IcmUtils.displayErrorMsg("request is thaw");
+			IcmUtils.displayErrorMsg("request is frozen");
 		else {
 			try {
 				IcmUtils.loadScene(this, IcmUtils.Scenes.show_Request_Time_Dialog);
