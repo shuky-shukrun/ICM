@@ -42,8 +42,7 @@ public class EvaluatorButtons implements ClientUI {
 	public void showCreateEvaluationReportDialog(ActionEvent event) {
 		//check if the request is suspended
 		if (CrDetails.getCurrRequest().isSuspended())
-			IcmUtils.displayErrorMsg("request is thaw");
-		//check if time for phase approved
+			IcmUtils.displayErrorMsg("request is frozen");
 		else if (CrDetails.getCurrRequest().getPhases().get(0)
 				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
 			try {
@@ -63,7 +62,7 @@ public class EvaluatorButtons implements ClientUI {
 	 */
 	public void showRequestTimeDialog(ActionEvent event) {
 		if (CrDetails.getCurrRequest().isSuspended())
-			IcmUtils.displayErrorMsg("request is thaw");
+			IcmUtils.displayErrorMsg("request is frozen");
 		else {
 			try {
 				IcmUtils.loadScene(this, IcmUtils.Scenes.show_Request_Time_Dialog);
