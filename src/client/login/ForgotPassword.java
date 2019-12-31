@@ -25,7 +25,9 @@ public class ForgotPassword implements ClientUI {
 	private Button SubmitLoginEmail;
 	@FXML
 	private JFXButton backToLogin;
-
+	/**
+	 * Initialize the forgot password screen
+	 */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -33,7 +35,10 @@ public class ForgotPassword implements ClientUI {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * send email to restore password when appropriate button pressed
+	 * @param e-"submit" button pressed
+	 */
 	public void forgotPasswordAction(ActionEvent e) {
 		IcmUtils.displayInformationMsg("restore password sent to you", "please check your entered email");
 		try {
@@ -51,6 +56,10 @@ public class ForgotPassword implements ClientUI {
 			IcmUtils.displayErrorMsg("you did not enter a mail");
 	}
 	@FXML
+	/**
+	 * back to the login screen when appropriate button pressed
+	 * @param e-"back" button pressed
+	 */
 	public void backToLogin(ActionEvent e) {
 		try {
 			IcmUtils.loadScene(this, Scenes.Login);
@@ -60,12 +69,7 @@ public class ForgotPassword implements ClientUI {
 	}
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
-		//try {
-		//	IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
-		//} catch (IOException e) {
-		//	e.printStackTrace();
-	//	}
-
+	
 	}
 
 }
