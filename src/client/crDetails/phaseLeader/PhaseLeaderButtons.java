@@ -61,13 +61,13 @@ public class PhaseLeaderButtons implements ClientUI {
             
             if(CrDetails.getCurrRequest().isSuspended()!=true) {
          
-        if(!(days< 4 && days > 0)|| days>3) {
-        	helpType="Time Exception";
-        	moreInformation.setVisible(true);       		
-        }      
-        else if(currPhase.isExtensionRequest()== true && currPhase.getPhaseStatus()!=PhaseStatus.EXTENSION_TIME_REQUESTED) {
+        if(currPhase.isExtensionRequest()== true) {
         	helpType="Time extension already exists";
         	moreInformation.setVisible(true);
+        }
+        else  if (!(days< 4 && days > 0)|| days>3) { 
+        	helpType="Time Exception";
+        	moreInformation.setVisible(true); 
         	   }    
         else if(currPhase.getPhaseStatus()==PhaseStatus.EXTENSION_TIME_REQUESTED) {
         	helpType="time extension requested";
