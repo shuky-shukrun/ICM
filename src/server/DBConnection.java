@@ -335,7 +335,7 @@ public class DBConnection {
     	java.sql.Date sqlDate = new java.sql.Date(date.getTime());
     	
     	 try {
-    		 PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phExtensionRequest=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    		 PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phExtensionRequestDecision=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
              ps.setDate(1,sqlDate);
              ps.setString(2, currPhase.getPhaseStatus().toString());
              ps.setBoolean(3, currPhase.isExtensionRequest());
