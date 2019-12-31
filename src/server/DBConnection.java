@@ -231,7 +231,7 @@ public class DBConnection {
             currPhase.setName(cr.getCurrPhaseName());
             currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
             currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
-            currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequest"));
+            currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
             // TODO: handle phExtensionRequest
 //            Date date = rs.getDate("phExceptionTime");
 //            if(date != null) {
@@ -313,7 +313,7 @@ public class DBConnection {
         currPhase.setName(currRequest.getCurrPhaseName());
         currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
         currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
-        currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequest"));
+        currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
         
         phases.add(currPhase);
         ps.close();
