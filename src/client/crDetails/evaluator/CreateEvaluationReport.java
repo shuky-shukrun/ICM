@@ -38,17 +38,13 @@ public class CreateEvaluationReport implements ClientUI {
 	private Button cancelButton;
 	@FXML
 	private Button createButton;
-	
-	/**
-	 * Initialize the create evaluation report dialog
-	 */
+
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//initialize the combobox of info systems
 		List<String> list = new ArrayList<String>();
 		list.add("MOODLE");
 		list.add("LIBRARY");
@@ -67,10 +63,6 @@ public class CreateEvaluationReport implements ClientUI {
 	}
 
 	@FXML
-	/**
-	 * Back to change request summary dialog when cancel button pressed
-	 * @param e-cancel button pressed event
-	 */
 	public void cancelEvaluationReport(ActionEvent e) {
 		try {
 			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
@@ -80,10 +72,6 @@ public class CreateEvaluationReport implements ClientUI {
 	}
 
 	@FXML
-	/**
-	 * Creates evaluation report if possible when create button pressed
-	 * @param e-create button pressed event
-	 */
 	public void createEvaluationReport(ActionEvent e) {
 		boolean flag = true;
 		String temp = "";
@@ -120,11 +108,7 @@ public class CreateEvaluationReport implements ClientUI {
 			IcmUtils.displayErrorMsg("one or more fields are empty");
 	}
 
-	/**
-	 *   check if a given string is number
-	 * @param strNum
-	 * @return true-string is number,false-else
-	 */
+	// gets string and check if it is number
 	private boolean isNumeric(String strNum) {
 		if (strNum == null) {
 			return false;
@@ -138,10 +122,6 @@ public class CreateEvaluationReport implements ClientUI {
 	}
 
 	@Override
-	/**
-	 * Show pop-up with the information if the create evaluation report succeed
-	 * @param serverService-ServerService object that the client controller send
-	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true && list.get(1) == true)
