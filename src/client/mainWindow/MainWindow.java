@@ -4,6 +4,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import client.crDetails.itd.itdCreateReport.ITDCreateReport;
+import client.mainWindow.newRequest.NewRequest;
 import common.IcmUtils;
 import entities.*;
 import javafx.beans.binding.Bindings;
@@ -34,9 +35,14 @@ public class MainWindow implements ClientUI {
     private Button searchButton;
     @FXML
     private Button logoutButton;
+    @FXML
+    private TabPane tabPane;
+
 
     @FXML
     private Tab inMyTreatmentTab;
+    @FXML
+    private Tab myRequestsTab;
     // my change requests tab
     @FXML
     private TableView<ChangeRequest> myTableView;
@@ -68,6 +74,25 @@ public class MainWindow implements ClientUI {
     private TableColumn<ChangeRequest, Phase.PhaseStatus> phaseStatusColumn1;
     @FXML
     private TableColumn<ChangeRequest, String> phaseLeaderColumn1;
+
+    // search results tab
+    @FXML
+    private Tab searchTab;
+    @FXML
+    private TableView<ChangeRequest> searchTableView;
+    @FXML
+    private TableColumn<ChangeRequest, Integer> idColumn2;
+    @FXML
+    private TableColumn<ChangeRequest, InfoSystem> infoSystemColumn2;
+    @FXML
+    private TableColumn<ChangeRequest, LocalDate> dateColumn2;
+    @FXML
+    private TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn2;
+    @FXML
+    private TableColumn<ChangeRequest, Phase.PhaseStatus> phaseStatusColumn2;
+    @FXML
+    private TableColumn<ChangeRequest, String> phaseLeaderColumn2;
+
 
     // buttons VBox
     @FXML
@@ -107,21 +132,58 @@ public class MainWindow implements ClientUI {
         inMyTreatmentRequests = FXCollections.observableArrayList();
 
         // init tables columns
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        infoSystemColumn.setCellValueFactory(new PropertyValueFactory<>("infoSystem"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        currPhaseColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseName"));
-        phaseStatusColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseStatus"));
-        phaseLeaderColumn.setCellValueFactory(new PropertyValueFactory<>("currPhasePhaseLeaderName"));
-
-        idColumn1.setCellValueFactory(new PropertyValueFactory<>("id"));
-        infoSystemColumn1.setCellValueFactory(new PropertyValueFactory<>("infoSystem"));
-        dateColumn1.setCellValueFactory(new PropertyValueFactory<>("date"));
-        currPhaseColumn1.setCellValueFactory(new PropertyValueFactory<>("currPhaseName"));
-        phaseStatusColumn1.setCellValueFactory(new PropertyValueFactory<>("currPhaseStatus"));
-        phaseLeaderColumn1.setCellValueFactory(new PropertyValueFactory<>("currPhasePhaseLeaderName"));
+        initTableValueFactory(idColumn, infoSystemColumn, dateColumn, currPhaseColumn, phaseStatusColumn, phaseLeaderColumn);
+        initTableValueFactory(idColumn1, infoSystemColumn1, dateColumn1, currPhaseColumn1, phaseStatusColumn1, phaseLeaderColumn1);
+        initTableValueFactory(idColumn2, infoSystemColumn2, dateColumn2, currPhaseColumn2, phaseStatusColumn2, phaseLeaderColumn2);
 
         // init tables double clicks to open change request
+        initRowDoubleClick(myTableView);
+        initRowDoubleClick(workTableView);
+        initRowDoubleClick(searchTableView);
+
+        //hide search table when it unnecessary
+        searchTab.setDisable(true);
+
+        // load data into tables
+        // prepare service request to pass to server
+        List<ChangeInitiator> userList = new ArrayList<>();
+        userList.add(ClientController.getUser());
+        ServerService serverService = new ServerService(ServerService.DatabaseService.Get_All_Requests, userList);
+        // pass to client controller.
+        // client controller uses 'handleMessageFromClientController' function to load server answer into the ui
+        clientController.handleMessageFromClientUI(serverService);
+
+        //initialize search change listener
+        searchChangeRequestTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            ObservableList<ChangeRequest> searchResult = FXCollections.observableArrayList();
+
+            if(!newValue.trim().equals("")) {
+                ChangeRequest searchValue = new ChangeRequest();
+                searchValue.setId(Integer.parseInt(newValue));
+                int index = myRequests.indexOf(searchValue);
+
+                if (index != -1) {
+                    searchResult.setAll(myRequests.get(index));
+                } else if (inMyTreatmentRequests != null) {
+                    index = inMyTreatmentRequests.indexOf(searchValue);
+                    if (index != -1) {
+                        searchResult.setAll(inMyTreatmentRequests.get(index));
+                    } else {
+                        searchTab.setDisable(true);
+                        tabPane.getSelectionModel().select(myRequestsTab);
+                    }
+                }
+                searchTableView.setItems(searchResult);
+                searchTab.setDisable(false);
+                tabPane.getSelectionModel().select(searchTab);
+            } else {
+                searchTab.setDisable(true);
+                tabPane.getSelectionModel().select(myRequestsTab);
+            }
+        });
+    }
+
+    private void initRowDoubleClick(TableView<ChangeRequest> myTableView) {
         myTableView.setRowFactory(tv -> {
             TableRow<ChangeRequest> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -132,26 +194,20 @@ public class MainWindow implements ClientUI {
             });
             return row;
         });
+    }
 
-        workTableView.setRowFactory(tv -> {
-            TableRow<ChangeRequest> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    CrDetails.setCurrRequest(workTableView.getSelectionModel().getSelectedItem());
-                    showRequestDialog();
-                }
-            });
-            return row;
-        });
-
-        // load data into tables
-        // prepare service request to pass to server
-        List<ChangeInitiator> userList = new ArrayList<>();
-        userList.add(ClientController.getUser());
-        ServerService serverService = new ServerService(ServerService.DatabaseService.Get_All_Requests, userList);
-        // pass to client controller.
-        // client controller uses 'handleMessageFromClientController' function to load server answer into the ui
-        clientController.handleMessageFromClientUI(serverService);
+    private void initTableValueFactory(TableColumn<ChangeRequest, Integer> idColumn,
+                                       TableColumn<ChangeRequest, InfoSystem> infoSystemColumn,
+                                       TableColumn<ChangeRequest, LocalDate> dateColumn,
+                                       TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn,
+                                       TableColumn<ChangeRequest, Phase.PhaseStatus> phaseStatusColumn,
+                                       TableColumn<ChangeRequest, String> phaseLeaderColumn) {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        infoSystemColumn.setCellValueFactory(new PropertyValueFactory<>("infoSystem"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        currPhaseColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseName"));
+        phaseStatusColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseStatus"));
+        phaseLeaderColumn.setCellValueFactory(new PropertyValueFactory<>("currPhasePhaseLeaderName"));
     }
 
     private void showRequestDialog() {
@@ -171,6 +227,8 @@ public class MainWindow implements ClientUI {
 
     @FXML
     void search(ActionEvent event) {
+
+
 
     }
 
@@ -220,7 +278,35 @@ public class MainWindow implements ClientUI {
     }
 
     @FXML
-    void showNewRequestDialog(ActionEvent event) {
+    void showNewRequestDialog(ActionEvent event) throws IOException {
+
+        Dialog<ButtonType> newRequestDialog = new Dialog<>();
+        newRequestDialog.initOwner(mainAnchorPane.getScene().getWindow());
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/client/mainWindow/newRequest/NewRequest.fxml"));
+        newRequestDialog.getDialogPane().setContent(loader.load());
+        newRequestDialog.setTitle("New Change Request");
+        NewRequest newRequest = loader.getController();
+
+        ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = ButtonType.CANCEL;
+        newRequestDialog.getDialogPane().getButtonTypes().setAll(submitButton, cancelButton);
+
+        Button btn;
+        btn = (Button) newRequestDialog.getDialogPane().lookupButton(submitButton);
+        btn.styleProperty().setValue("-fx-background-radius: 10");
+        btn.setDefaultButton(true);
+        btn = (Button) newRequestDialog.getDialogPane().lookupButton(cancelButton);
+        btn.styleProperty().setValue("-fx-background-radius: 10");
+
+
+        // if create button is pressed, create report
+        Optional<ButtonType> result = newRequestDialog.showAndWait();
+        if (result.isPresent() && result.get() == submitButton) {
+            newRequest.submitNewChangeRequest();
+        }
+
     }
 
     @Override
@@ -236,4 +322,5 @@ public class MainWindow implements ClientUI {
             workTableView.setItems(inMyTreatmentRequests);
         }
     }
+
 }
