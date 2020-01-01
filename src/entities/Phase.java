@@ -17,6 +17,7 @@ public class Phase implements Serializable {
 	private Map<IEPhasePosition.PhasePosition, IEPhasePosition> iePhasePosition;
 
 	public enum PhaseName {
+		SUBMITTED,
 		EVALUATION,
 		EXAMINATION,
 		EXECUTION,
