@@ -40,7 +40,8 @@ public class ServerService implements Serializable {
         Submit_New_Request,
         Create_Evaluation_Report,
         Request_Time_Evaluation,
-        Forgot_Password
+        Forgot_Password,
+        Add_New_Request
         
     }
 }
