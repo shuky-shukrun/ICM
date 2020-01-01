@@ -536,4 +536,40 @@ public class DBConnection {
             e.printStackTrace();
         }
     }
+
+    public List<EvaluationReport> getEvaluationReportDetails(List<Integer> params)  {
+        System.out.println("good");
+        EvaluationReport e=new EvaluationReport();
+        List<EvaluationReport> evRptDetails = new ArrayList<>();
+
+        PreparedStatement ps;
+        try {
+            System.out.println("very good");
+            ps = sqlConnection.prepareStatement("SELECT * FROM evaluationReport WHERE cRequestId = ?");
+            System.out.println("very good1");
+            ps.setInt(1, params.get(1));
+            System.out.println("very good2");
+
+            ResultSet rs = ps.executeQuery();
+            //rs.beforeFirst();
+            // rs.next();
+            System.out.println("very very good");
+            //eReport = new EvaluationReport();
+            e.setInfoSystem(InfoSystem.valueOf(rs.getString("infoSystem")));
+            e.setRequiredChange(rs.getString("requestedChange"));
+            e.setExpectedResult(rs.getString("expectedResult"));
+            e.setRisksAndConstraints(rs.getString("risksAndConstraints"));
+            e.setEvaluatedTime(rs.getDate("EvaluatedTime").toLocalDate());
+            System.out.println("very very very good");
+            ps.close();
+            System.out.println("database got leader");
+
+            evRptDetails.add(e);
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+        return evRptDetails;
+    }
 }
