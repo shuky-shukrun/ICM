@@ -14,10 +14,7 @@ import client.crDetails.phaseLeader.PhaseLeaderButtons;
 import common.IcmUtils;
 import entities.ChangeRequest;
 import entities.Phase;
-import entities.Report;
 import entities.Phase.PhaseStatus;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,8 +28,6 @@ import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.util.Callback;
-import javafx.scene.control.DateCell;
 
 public class RequestExtensionTime implements ClientUI{
 	
@@ -53,17 +48,6 @@ public class RequestExtensionTime implements ClientUI{
 	final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public void initialize() {
-		RequestedtimeDatePicker.setDayCellFactory(picker -> new DateCell() {
-	        public void updateItem(LocalDate date, boolean empty) {
-	            super.updateItem(date, empty);
-	            LocalDate today = LocalDate.now();
-
-	            setDisable(empty || date.compareTo(today) < 0 );
-	        }
-	    });
-	
-		
-		
 		 try {
 	            clientController = ClientController.getInstance(this);
 	        } catch (IOException e) {
@@ -80,10 +64,9 @@ public class RequestExtensionTime implements ClientUI{
     		System.out.println(description+datePickerChoice.format(formatter));
     		
     		newCurrPhase.setTimeExtensionRequest(datePickerChoice);
-    		//newCurrPhase.setExtensionRequest(true);
+    		newCurrPhase.setExtensionRequest(true);
     		newCurrPhase.setPhaseStatus(PhaseStatus.EXTENSION_TIME_REQUESTED);
     		newCurrPhase.setDescription(description);
-    		PhaseLeaderButtons.setPhase(newCurrPhase);
     		
             List<Phase> phaseList = new ArrayList<>();
             phaseList.add(newCurrPhase);
@@ -109,7 +92,7 @@ public class RequestExtensionTime implements ClientUI{
         	List<Boolean> update=serverService.getParams();
         	boolean checkUpdate= update.get(0);
         	if(checkUpdate== true) {
-        		IcmUtils.displayInformationMsg("Time Extension Request Submited", "Time extension request has been successfully submited","Current deadline: " + newCurrPhase.getDeadLine().format(formatter) + "\n"+ "Time extension request: " + newCurrPhase.getTimeExtensionRequest().format(formatter));
+        		IcmUtils.displayInformationMsg("Time Extension Request Submited", "Time extension request has been successfully submited", "Time extension request: " + newCurrPhase.getTimeExtensionRequest().format(formatter));
         	    IcmUtils.getPopUp().close();    	  
         	}
         	

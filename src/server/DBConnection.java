@@ -289,6 +289,41 @@ public class DBConnection {
         return crList;
     }
     
+
+    public List<Phase> getPhaseDetails(List<ChangeRequest> crList) {
+
+    	ChangeRequest currRequest = new ChangeRequest();
+    	Phase currPhase = new Phase();
+    	List<Phase> phases = new ArrayList<>();
+    	currRequest=crList.get(0);
+    	System.out.println(currRequest);
+    	//System.out.println(currRequest.getId());
+    	//System.out.println(currRequest.getCurrPhaseName().toString());
+    	
+    	 try {
+    	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+        ps.setInt(1, currRequest.getId());
+        ps.setString(2,currRequest.getCurrPhaseName().toString());
+
+        ResultSet rs = ps.executeQuery();
+        rs.beforeFirst();
+        rs.next();
+
+        currPhase.setChangeRequestId(currRequest.getId());     
+        currPhase.setName(currRequest.getCurrPhaseName());
+        currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
+        currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
+        currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
+        
+        phases.add(currPhase);
+        ps.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            return phases;
+    } 
+    
     public List<Boolean> updatePhaseExtensionTime (List<Phase> pList) {
     	
     	List<Boolean> updateList = new ArrayList<>();
@@ -300,12 +335,13 @@ public class DBConnection {
     	java.sql.Date sqlDate = new java.sql.Date(date.getTime());
     	
     	 try {
-    		 PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    		 PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phExtensionRequestDecision=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
              ps.setDate(1,sqlDate);
              ps.setString(2, currPhase.getPhaseStatus().toString());
-             ps.setString(3, currPhase.getDescription());
-             ps.setInt(4, currPhase.getChangeRequestId());
-             ps.setString(5, currPhase.getName().toString());
+             ps.setBoolean(3, currPhase.isExtensionRequest());
+             ps.setString(4, currPhase.getDescription());
+             ps.setInt(5, currPhase.getChangeRequestId());
+             ps.setString(6, currPhase.getName().toString());
              
              //System.out.println(sqlDate+ " " +currPhase.getPhaseStatus().toString()+ " "+currPhase.isExtensionRequest());
             // System.out.println(currPhase.getChangeRequestId()+" "+ currPhase.getName().toString());

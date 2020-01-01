@@ -26,6 +26,9 @@ public class RequestTimeEvaluation implements ClientUI {
 	@FXML
 	private Button applyButton;
 	
+	/**
+	 * initialize the request time dialog
+	 */
 	public void initialize()
 	{
 		try {
@@ -36,6 +39,10 @@ public class RequestTimeEvaluation implements ClientUI {
 	}
 	
 	@FXML
+	/**
+	 * Back to the change request summary dialog when cancel button pressed
+	 * @param e- cancel button pressed event
+	 */
 	public void cancelTimeRequest(ActionEvent e) {
 		try {
 			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
@@ -45,7 +52,13 @@ public class RequestTimeEvaluation implements ClientUI {
 	}
 	
 	@FXML
+	/**
+	 * Request approval for time of evaluation phase when apply button pressed
+	 * @param e-apply button pressed event
+	 */
 	public void applyTimeRequest(ActionEvent e) {
+		//create ServerService object with the picked date and the id of the request ,in order to send it to the 
+		//client controller 
 		List<Object> l=new ArrayList<Object>();
 		LocalDate date=datePickid.getValue();
 		l.add(CrDetails.getCurrRequest().getId());
@@ -54,6 +67,10 @@ public class RequestTimeEvaluation implements ClientUI {
 		clientController.handleMessageFromClientUI(serverService);
 	}
 	@Override
+	/**
+	 * Shows pop-up with the information about if the request time succeed
+	 * @param serverService -ServerService object that the client controller send to the client gui
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean>list=serverService.getParams();
 		if(list.get(0)==true)

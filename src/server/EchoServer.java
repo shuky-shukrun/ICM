@@ -163,6 +163,21 @@ public class EchoServer extends AbstractServer {
 				e.printStackTrace();
 			}
 			break;
+      case Get_Phase_Details:
+            	System.out.println("server handle Get_Phase_Details");
+            	List<ChangeRequest> ChangeRequestList = serverService.getParams();
+                System.out.println(ChangeRequestList.get(0));
+                List<Phase> PhaseList =dbConnection.getPhaseDetails(ChangeRequestList);
+                //System.out.println(PhaseList);
+                System.out.println("Get_Phase_Details server got data");
+                serverService.setParams(PhaseList);
+                try {
+                    client.sendToClient(serverService);
+                    System.out.println("sent request details to client");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case Update_Phase_Extension:
             	System.out.println("server handle Update_Phase_Extension");
             	List<Phase> phaseList2 = serverService.getParams();
