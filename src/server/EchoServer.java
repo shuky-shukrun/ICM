@@ -6,6 +6,7 @@ package server;// This file contains material supporting section 3.7 of the text
 import common.JavaEmail;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
+import entities.EvaluationReport;
 import entities.Phase;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -138,7 +139,25 @@ public class EchoServer extends AbstractServer {
 			}
 			break;
 
-		case Update_Request_Status:
+		case View_Evaluation_Report:
+
+			System.out.println("server handle View_Evaluation_Report");
+			//List<Integer> evRpParams = serverService.getParams();
+
+			List<EvaluationReport> EvRp= dbConnection.getEvaluationReportDetails(serverService.getParams());
+			System.out.println("Get_Evaluation_Report_Details server got data");
+			serverService.setParams(EvRp);
+
+			try {
+
+				client.sendToClient(serverService);
+				System.out.println("sent evaluation details to client");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+
+			case Update_Request_Status:
 			System.out.println("server handle Update_Request_Status");
 			List<String> requirementList = serverService.getParams();
 			System.out.println(requirementList);
