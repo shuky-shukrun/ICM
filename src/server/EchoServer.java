@@ -171,7 +171,14 @@ public class EchoServer extends AbstractServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                break; 	
+                break;
+			case Add_New_Request:
+				System.out.println("server handle Add_New_Request");
+				List<ChangeRequest> changeRequestList = serverService.getParams();
+				ChangeRequest newRequest = changeRequestList.get(0);
+				dbConnection.addNewRequest(newRequest);
+				System.out.println("done");
+				break;
 		}
 	}
 
