@@ -468,4 +468,72 @@ public class DBConnection {
 		}
 		return l;
 	}
+
+    public void addNewRequest(ChangeRequest newRequest) {
+        System.out.println("Database handle addNewRequest");
+        // insert request
+        try {
+            ps = sqlConnection.prepareStatement("INSERT INTO changeRequest " +
+                    "(crIDuser, crInfoSystem, crCurrState, crRequestedChange, crReasonForChange, " +
+                    "crComments, crDate, crCurrPhaseName, crSuspended) " +
+                    "VALUE (?,?,?,?,?,?,?,?, 0)");
+            ps.setInt(1, newRequest.getInitiator().getId());
+            ps.setString(2, newRequest.getInfoSystem().toString());
+            ps.setString(3, newRequest.getCurrState());
+            ps.setString(4, newRequest.getRequestedChange());
+            ps.setString(5, newRequest.getReasonForChange());
+            ps.setString(6, newRequest.getComment());
+            ps.setDate(7, java.sql.Date.valueOf(newRequest.getDate()));
+            ps.setString(8, newRequest.getCurrPhaseName().toString());
+            System.out.println("Database insert request");
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ps = sqlConnection.prepareStatement("SELECT MAX(crID) FROM changeRequest");
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            newRequest.setId(rs.getInt(1));
+            System.out.println("get request id: " + newRequest.getId());
+
+            ps.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // insert phase
+        try {
+            ps = sqlConnection.prepareStatement("INSERT INTO phase " +
+                    "(phIDChangeRequest, phPhaseName, phDeadline, phStatus) " +
+                    "VALUE (?,?,?,?)");
+            ps.setInt(1, newRequest.getId());
+            ps.setString(2, newRequest.getCurrPhaseName().toString());
+            ps.setDate(3, java.sql.Date.valueOf(newRequest.getDate().plusDays(7)));
+            ps.setString(4, newRequest.getPhases().get(0).getPhaseStatus().toString());
+
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // insert IEinPhase
+        try {
+            ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase " +
+                    "(IDieInPhase, crID, iePhaseName, iePhasePosition) " +
+                    "VALUE (?,?,?,?)");
+            ps.setInt(1, 1);
+            ps.setInt(2, newRequest.getId());
+            ps.setString(3, newRequest.getCurrPhaseName().toString());
+            ps.setString(4, IEPhasePosition.PhasePosition.PHASE_LEADER.toString());
+
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
