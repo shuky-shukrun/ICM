@@ -84,18 +84,18 @@ public class EchoServer extends AbstractServer {
 			{
 				String text="hey "+(String)l.get(2)+"\n your id: "+(int)l.get(1)+"\n your password is: "+(String)l.get(3);
 				JavaEmail emailer=new JavaEmail();
-				 emailer.setMailServerProperties();
-				
+				emailer.setMailServerProperties();
+
 				try {
 					emailer.sendEmail((String)l.get(4), "restore password", text);
-					
+
 				} catch (MessagingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-			}
 
+			}
+		break;
 		case Get_All_Requests:
 			System.out.println("server handle Get_All_Requests_New");
 			// pass the request to the database
