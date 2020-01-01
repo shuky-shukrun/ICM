@@ -56,9 +56,9 @@
       </AnchorPane>
    </top>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="Request Summary">
+      <TabPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab text="Request Summary">
                <content>
                   <AnchorPane fx:id="changeRequestIdTextField" style="-fx-background-color: white;">
                      <children>
@@ -114,59 +114,59 @@
                      </children>
                   </AnchorPane>
                </content>
-          </Tab>
-          <Tab text="Request Status">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
+            </Tab>
+            <Tab text="Request Status">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="37.0" layoutY="30.0" prefHeight="15.0" prefWidth="120.0" text="Current Phase:">
+                        <Label layoutX="46.0" layoutY="285.0" prefHeight="15.0" prefWidth="120.0" text="Current Phase:">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="currentPhaseTextField" editable="false" layoutX="192.0" layoutY="27.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                        <Label layoutX="37.0" layoutY="83.0" prefHeight="15.0" prefWidth="120.0" text="Phase Deadline:">
+                        <TextField fx:id="currentPhaseTextField" editable="false" layoutX="201.0" layoutY="282.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                        <Label layoutX="46.0" layoutY="338.0" prefHeight="15.0" prefWidth="120.0" text="Phase Deadline:">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="phaseDeadLineTextField" editable="false" layoutX="192.0" layoutY="80.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                        <Label layoutX="410.0" layoutY="30.0" prefHeight="15.0" prefWidth="120.0" text="Your Position:">
+                        <TextField fx:id="phaseDeadLineTextField" editable="false" layoutX="201.0" layoutY="335.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                        <Label layoutX="419.0" layoutY="285.0" prefHeight="15.0" prefWidth="120.0" text="Your Position:">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="userPositionTextField" editable="false" layoutX="541.0" layoutY="27.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                        <Label layoutX="410.0" layoutY="83.0" prefHeight="15.0" prefWidth="120.0" text="Phase Leader:">
+                        <TextField fx:id="userPositionTextField" editable="false" layoutX="550.0" layoutY="282.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                        <Label layoutX="419.0" layoutY="338.0" prefHeight="15.0" prefWidth="120.0" text="Phase Leader:">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="phaseLeaderTextField" editable="false" layoutX="541.0" layoutY="80.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                        <ProgressBar layoutX="93.0" layoutY="423.0" prefHeight="23.0" prefWidth="602.0" progress="0.4" />
-                        <Label layoutX="54.0" layoutY="380.0" prefHeight="25.0" prefWidth="78.0" text="Evaluation">
+                        <TextField fx:id="phaseLeaderTextField" editable="false" layoutX="550.0" layoutY="335.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                        <ProgressBar layoutX="85.0" layoutY="72.0" prefHeight="23.0" prefWidth="602.0" progress="0.4" />
+                        <Label layoutX="46.0" layoutY="29.0" prefHeight="25.0" prefWidth="78.0" text="Evaluation">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="165.0" layoutY="461.0" prefHeight="25.0" prefWidth="92.0" text="Examination">
+                        <Label layoutX="157.0" layoutY="110.0" prefHeight="25.0" prefWidth="92.0" text="Examination">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="285.0" layoutY="380.0" prefHeight="25.0" prefWidth="92.0" text="Examination">
+                        <Label layoutX="277.0" layoutY="29.0" prefHeight="25.0" prefWidth="92.0" text="Examination">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Line endX="-100.0" endY="15.0" layoutX="310.0" layoutY="450.0" startX="-100.0" startY="-5.0" />
-                        <Line endX="-100.0" endY="15.0" layoutX="430.0" layoutY="408.0" startX="-100.0" startY="-5.0" />
-                        <Line endX="-100.0" endY="15.0" layoutX="194.0" layoutY="409.0" startX="-100.0" startY="-5.0" />
+                        <Line endX="-100.0" endY="15.0" layoutX="302.0" layoutY="99.0" startX="-100.0" startY="-5.0" />
+                        <Line endX="-100.0" endY="15.0" layoutX="422.0" layoutY="57.0" startX="-100.0" startY="-5.0" />
+                        <Line endX="-100.0" endY="15.0" layoutX="186.0" layoutY="58.0" startX="-100.0" startY="-5.0" />
                      </children>
                   </AnchorPane>
-            </content>
-          </Tab>
-        </tabs>
+               </content>
+            </Tab>
+         </tabs>
       </TabPane>
    </center>
 </BorderPane>
