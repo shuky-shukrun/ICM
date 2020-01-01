@@ -30,6 +30,7 @@ public class ServerService implements Serializable {
     }
 
     public enum DatabaseService {
+        Error,
         Login,
         Get_All_Requests,
         Get_All_Requests_New,

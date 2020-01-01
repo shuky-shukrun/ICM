@@ -3,6 +3,7 @@ package server;
 import client.crDetails.CrDetails;
 import entities.*;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.*;
 import java.time.LocalDate;
@@ -469,7 +470,7 @@ public class DBConnection {
 		return l;
 	}
 
-    public void addNewRequest(ChangeRequest newRequest) {
+    public void addNewRequest(ChangeRequest newRequest) throws IOException {
         System.out.println("Database handle addNewRequest");
         // insert request
         try {
@@ -489,7 +490,7 @@ public class DBConnection {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
 
         try {
@@ -502,7 +503,7 @@ public class DBConnection {
             ps.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
 
         // insert SUBMITTED phase
@@ -518,7 +519,7 @@ public class DBConnection {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
 
         // insert all other phases
@@ -546,7 +547,7 @@ public class DBConnection {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
 
         // find supervisor
@@ -560,7 +561,7 @@ public class DBConnection {
 
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
 
         // set the supervisor as phase leader of the SUBMITTED phase
@@ -576,7 +577,7 @@ public class DBConnection {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
     }
 

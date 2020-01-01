@@ -279,34 +279,7 @@ public class MainWindow implements ClientUI {
 
     @FXML
     void showNewRequestDialog(ActionEvent event) throws IOException {
-
-        Dialog<ButtonType> newRequestDialog = new Dialog<>();
-        newRequestDialog.initOwner(mainAnchorPane.getScene().getWindow());
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/client/mainWindow/newRequest/NewRequest.fxml"));
-        newRequestDialog.getDialogPane().setContent(loader.load());
-        newRequestDialog.setTitle("New Change Request");
-        NewRequest newRequest = loader.getController();
-
-        ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
-        ButtonType cancelButton = ButtonType.CANCEL;
-        newRequestDialog.getDialogPane().getButtonTypes().setAll(submitButton, cancelButton);
-
-        Button btn;
-        btn = (Button) newRequestDialog.getDialogPane().lookupButton(submitButton);
-        btn.styleProperty().setValue("-fx-background-radius: 10");
-        btn.setDefaultButton(true);
-        btn = (Button) newRequestDialog.getDialogPane().lookupButton(cancelButton);
-        btn.styleProperty().setValue("-fx-background-radius: 10");
-
-
-        // if create button is pressed, create report
-        Optional<ButtonType> result = newRequestDialog.showAndWait();
-        if (result.isPresent() && result.get() == submitButton) {
-            newRequest.submitNewChangeRequest();
-        }
-
+        IcmUtils.popUpScene(this, "New Change Request", "/client/mainWindow/newRequest/NewRequest.fxml", 585, 730);
     }
 
     @Override

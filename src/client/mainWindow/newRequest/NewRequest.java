@@ -2,6 +2,7 @@ package client.mainWindow.newRequest;
 
 import client.ClientController;
 import client.ClientUI;
+import common.IcmUtils;
 import entities.ChangeRequest;
 import entities.InfoSystem;
 import entities.Phase;
@@ -125,7 +126,26 @@ public class NewRequest implements ClientUI {
 
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
+        switch (serverService.getDatabaseService()) {
+            case Add_New_Request:
+                IcmUtils.displayInformationMsg("Request Submitted Successfully", "Congratulations!",  "Your request has been submitted successfully.\nYou will get updates to your email.");
+                try {
+                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    IcmUtils.displayErrorMsg(e.getMessage());
+                }
+                break;
+            case Error:
+                IOException ioException = ((IOException) serverService.getParams().get(0));
+                IcmUtils.displayErrorMsg("Server Error", "Server Error", ioException.getMessage());
+                break;
+        }
+    }
 
+    @FXML
+    private void backToMainWindow() {
+        IcmUtils.getPopUp().close();
     }
 }
 
