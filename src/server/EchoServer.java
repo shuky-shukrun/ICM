@@ -3,6 +3,7 @@ package server;// This file contains material supporting section 3.7 of the text
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
+import common.JavaEmail;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.Phase;
@@ -10,16 +11,9 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import server.ServerService.DatabaseService;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
-
-import javax.mail.*;
-
-
-import client.ClientController;
-import client.ClientUI;
-import common.IcmUtils;
-import common.JavaEmail;
 
 /**
  * This class overrides some of the methods in the abstract superclass in order
@@ -163,21 +157,6 @@ public class EchoServer extends AbstractServer {
 				e.printStackTrace();
 			}
 			break;
-      case Get_Phase_Details:
-            	System.out.println("server handle Get_Phase_Details");
-            	List<ChangeRequest> ChangeRequestList = serverService.getParams();
-                System.out.println(ChangeRequestList.get(0));
-                List<Phase> PhaseList =dbConnection.getPhaseDetails(ChangeRequestList);
-                //System.out.println(PhaseList);
-                System.out.println("Get_Phase_Details server got data");
-                serverService.setParams(PhaseList);
-                try {
-                    client.sendToClient(serverService);
-                    System.out.println("sent request details to client");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
             case Update_Phase_Extension:
             	System.out.println("server handle Update_Phase_Extension");
             	List<Phase> phaseList2 = serverService.getParams();
