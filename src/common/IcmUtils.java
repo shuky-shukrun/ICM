@@ -24,7 +24,8 @@ public class IcmUtils {
         Create_Evaluation_Report,
         show_Request_Time_Dialog,
         Itd_Create_Report,
-        Extention_Time_Request      
+        Extension_Time_Request,
+        View_Evaluation_Report
         }
 
     public static void displayConfirmationMsg(String title, String headerText, String contentText) {
@@ -148,7 +149,15 @@ public class IcmUtils {
                 width = 1000;
                 height = 650;
                 break;
-           
+
+            case View_Evaluation_Report:
+                sceneTitle = "ICM View Evaluation Report";
+                fxmlPath = "/client/crDetails/ccc/viewEvaluationReport.fxml";
+                width = 600;
+                height = 632;
+                break;
+
+
             default:
                 throw new IOException();
         }
