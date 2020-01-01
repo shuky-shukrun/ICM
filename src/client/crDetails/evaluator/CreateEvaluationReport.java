@@ -10,6 +10,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,12 +34,15 @@ public class CreateEvaluationReport implements ClientUI {
 	@FXML
 	private TextArea risksAndConstraintsTextArea;
 	@FXML
-	private TextField EvaluatedTimeDatePicker;
+	private DatePicker EvaluatedTimeDatePicker;
 	@FXML
 	private Button cancelButton;
 	@FXML
 	private Button createButton;
+	@FXML
+	private Button moreInformation;
 	
+	private String info;
 	/**
 	 * Initialize the create evaluation report dialog
 	 */
@@ -63,6 +67,36 @@ public class CreateEvaluationReport implements ClientUI {
 		infoSystemChoiceBox.setItems(obList);
 		infoSystemChoiceBox.setValue(CrDetails.getCurrRequest().getInfoSystem().toString());
 		infoSystemChoiceBox.setDisable(true);
+		   // disable Create button any field is invalid
+		BooleanBinding bb = new BooleanBinding() {
+		    {
+		        super.bind(requiredChangeTextArea.textProperty(),
+		                expectedResultTextArea.textProperty(),
+		                risksAndConstraintsTextArea.textProperty(),
+		                EvaluatedTimeDatePicker.valueProperty());
+		    }
+
+		    @Override
+		    // disable, if one selection is missing or evaluated time is later than the deadline of the phase
+		    protected boolean computeValue() {
+		        return (requiredChangeTextArea.getText().isEmpty()
+		                ||  expectedResultTextArea.getText().isEmpty()
+		                ||risksAndConstraintsTextArea.getText().isEmpty()||EvaluatedTimeDatePicker.getValue()==null
+		               || EvaluatedTimeDatePicker.getValue().compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine())>=0);
+		    }
+		};
+		
+		createButton.disableProperty().bind(bb);
+		//System.out.println(EvaluatedTimeDatePicker.getValue().toString());
+		boolean flag=bb.get();
+		if(flag&&EvaluatedTimeDatePicker.getValue()!=null&&EvaluatedTimeDatePicker.getValue().compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine())>0)
+			info="date entered is later than deadline";
+		else if(flag)
+			info="empty fields";
+		else if(!flag)
+			moreInformation.setDisable(true);
+	
+		
 
 	}
 
@@ -87,37 +121,18 @@ public class CreateEvaluationReport implements ClientUI {
 	public void createEvaluationReport(ActionEvent e) {
 		boolean flag = true;
 		String temp = "";
-		// checks if one or more fields are empty
-		System.out.println(requiredChangeTextArea.getText().trim());
-		if (requiredChangeTextArea.getText().trim().contentEquals("")) {
-			flag = false;
-		}
-		if (expectedResultTextArea.getText().trim().contentEquals("")) {
-			flag = false;
-		}
-		if (risksAndConstraintsTextArea.getText().trim().contentEquals("")) {
-			flag = false;
-		}
-		if (EvaluatedTimeDatePicker.getText().trim().contentEquals("")) {
-			flag = false;
-		}
-		// if all the fields are full then save to db the report
-		// all the fields are string
-		if (flag == true && isNumeric(EvaluatedTimeDatePicker.getText().trim())) {
-			List<String> l = new ArrayList<String>();
+		
+			List<Object> l = new ArrayList<Object>();
 			temp += "" + CrDetails.getCurrRequest().getId();
 			l.add(temp);
 			l.add(CrDetails.getCurrRequest().getInfoSystem().toString());
 			l.add(requiredChangeTextArea.getText());
 			l.add(expectedResultTextArea.getText());
 			l.add(risksAndConstraintsTextArea.getText());
-			LocalDate d1 = CrDetails.getCurrRequest().getDate();
-			d1 = d1.plusDays(Integer.parseInt(EvaluatedTimeDatePicker.getText()));
-			l.add(d1.toString());
+			l.add(EvaluatedTimeDatePicker.getValue());
 			ServerService serverService = new ServerService(DatabaseService.Create_Evaluation_Report, l);
 			clientController.handleMessageFromClientUI(serverService);
-		} else
-			IcmUtils.displayErrorMsg("one or more fields are empty");
+		
 	}
 
 	/**
@@ -149,5 +164,16 @@ public class CreateEvaluationReport implements ClientUI {
 		else
 			IcmUtils.displayErrorMsg("creating evaluation report failed!!");
 
+	}
+	@FXML
+	public void moreInformationEvent(ActionEvent e) {
+		switch(info) {
+		case "empty fields":
+			IcmUtils.displayInformationMsg("Information message", "one or more empty fields");
+			break;
+		case "date entered is later than deadline":
+			IcmUtils.displayInformationMsg("Information message", "the date you picked is later than the phase deadline");
+			break;
+		}
 	}
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -19,6 +21,14 @@
             <MaterialDesignIconView glyphName="ALARM" size="20" />
          </graphic>
       </Button>
+      <JFXButton fx:id="moreInformation1" alignment="TOP_LEFT" onAction="#moreInformation1Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+         <graphic>
+            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
       <Button fx:id="createEvaluationReportButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showCreateEvaluationReportDialog" prefHeight="35.0" style="-fx-background-radius: 10;" text="Create Evaluation Report">
          <font>
             <Font size="14.0" />
@@ -27,5 +37,13 @@
             <MaterialDesignIconView glyphName="CONTENT_PASTE" size="17" />
          </graphic>
       </Button>
+      <JFXButton fx:id="moreInformation2" alignment="TOP_LEFT" onAction="#moreInformation2Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+         <graphic>
+            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </VBox>
