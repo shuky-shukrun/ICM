@@ -105,11 +105,11 @@ public class NewRequest implements ClientUI {
         newRequest.setRequestedChange(requestedChangeTextArea.textProperty().getValue());
         newRequest.setReasonForChange(reasonForChangeTextArea.textProperty().getValue());
         newRequest.setComment(commentsTextArea.textProperty().getValue());
-        newRequest.setCurrPhaseName(Phase.PhaseName.EVALUATION);
+        newRequest.setCurrPhaseName(Phase.PhaseName.SUBMITTED);
         // TODO: add implementation to files
 
         Phase evaluation = new Phase();
-        evaluation.setName(Phase.PhaseName.EVALUATION);
+        evaluation.setName(newRequest.getCurrPhaseName());
         evaluation.setPhaseStatus(Phase.PhaseStatus.SUBMITTED);
 
         List<Phase> phaseList = new ArrayList<>();
