@@ -142,6 +142,7 @@ public class IcmUtils {
                 fxmlPath = "/client/crDetails/evaluator/TimeRequest.fxml";
                 width = 600;
                 height = 632;
+                break;
                 
             case Itd_Create_Report:
                 sceneTitle = "Create Reports";
