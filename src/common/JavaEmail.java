@@ -1,6 +1,6 @@
 package common;
 import java.util.Properties;
- 
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -8,11 +8,11 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
- 
+
 public class JavaEmail
 {
     Session mailSession;
- 
+
 
     public void setMailServerProperties()
     {
@@ -22,17 +22,17 @@ public class JavaEmail
         emailProperties.put("mail.smtp.starttls.enable", "true");
         mailSession = Session.getDefaultInstance(emailProperties, null);
     }
- 
+
     private MimeMessage draftEmailMessage( String toEmails,String emailSubject,String emailBody) throws AddressException, MessagingException
     {
-   
+
         MimeMessage emailMessage = new MimeMessage(mailSession);
         /**
          * Set the mail recipients
          * */
-        
-            emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails));
-      
+
+        emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails));
+
         emailMessage.setSubject(emailSubject);
         /**
          * If sending HTML mail
@@ -44,7 +44,7 @@ public class JavaEmail
         //emailMessage.setText(emailBody);// for a text email
         return emailMessage;
     }
- 
+
     public void sendEmail(String toemails,String emailSubject,String emailBody) throws AddressException, MessagingException
     {
         /**
@@ -52,7 +52,7 @@ public class JavaEmail
          * */
         String fromUser = "trsmaicm@gmail.com";
         String fromUserEmailPassword = "SMARTProject1!";
- 
+
         String emailHost = "smtp.gmail.com";
         Transport transport = mailSession.getTransport("smtp");
         transport.connect(emailHost, fromUser, fromUserEmailPassword);
