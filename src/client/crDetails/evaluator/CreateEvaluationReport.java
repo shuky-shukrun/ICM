@@ -57,19 +57,11 @@ public class CreateEvaluationReport implements ClientUI {
 		}
 		// initialize the combobox of info systems
 		List<String> list = new ArrayList<String>();
-		list.add("MOODLE");
-		list.add("LIBRARY");
-		list.add("STUDENT_INFO_CENTER");
-		list.add("LECTURER_INFO_CENTER");
-		list.add("EMPLOYEE_INFO_CENTER");
-		list.add("CLASS_COMPUTER");
-		list.add("LAB_COMPUTER");
-		list.add("COLLEGE_SITE");
+		list.add(CrDetails.getCurrRequest().getInfoSystem().toString());
 		ObservableList<String> obList = FXCollections.observableList(list);
 		infoSystemChoiceBox.getItems().clear();
 		infoSystemChoiceBox.setItems(obList);
 		infoSystemChoiceBox.setValue(CrDetails.getCurrRequest().getInfoSystem().toString());
-		infoSystemChoiceBox.setDisable(true);
 		// disable Create button any field is invalid
 		BooleanBinding bb = new BooleanBinding() {
 			{
@@ -82,15 +74,16 @@ public class CreateEvaluationReport implements ClientUI {
 			// deadline of the phase
 			protected boolean computeValue() {
 				if( EvaluatedTimeDatePicker.valueProperty().get() == null)
-						flagHelp=0;
+						info="empty fields";
+			
 				else if(EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine()) >= 0)
-					flagHelp=1;
-				else
-					flagHelp=2;
+						info="later date";
+				else if(EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getDate())<0)
+					info="earlier date";
 				return (requiredChangeTextArea.getText().isEmpty() || expectedResultTextArea.getText().isEmpty()
 						|| risksAndConstraintsTextArea.getText().isEmpty() || EvaluatedTimeDatePicker.getValue() == null
 						|| EvaluatedTimeDatePicker.getValue()
-								.compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine()) >= 0);
+								.compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine()) >= 0||EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getDate())<0);
 			}
 		};
 
@@ -139,18 +132,18 @@ public class CreateEvaluationReport implements ClientUI {
 
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
-		if(flagHelp==0)
-			info = "empty fields";
-		if(flagHelp==1)
-			info="not legal date";
+		
 		switch (info) {
 		case "empty fields":
 			IcmUtils.displayInformationMsg("Information message",
 					"one or more empty fields");
 			break;
-		case "not legal date":
+		case "later date":
 			IcmUtils.displayInformationMsg("Information message","you entered later date than deadline");
-
+			break;
+		case "earlier date":
+			IcmUtils.displayInformationMsg("Information message","you entered earlier date than the date when the request submitted");
+			break;
 		}
 	}
 
