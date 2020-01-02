@@ -382,7 +382,9 @@ public class DBConnection {
 		}
 		//insert examination phase to specific request with status phase leader assigned
 				try {
-					PreparedStatement ps=sqlConnection.prepareStatement("INSERT INTO phase VALUES(?,'EXAMINATION',?,'IN_PROCESS',null,null,null,0)");
+					//when updated-PreparedStatement ps=sqlConnection.prepareStatement("UPDATE phase SET phStatus='IN_PROCESS' where phIDChangeRequest=? AND phDeadline=?");
+					PreparedStatement ps=sqlConnection.prepareStatement("INSERT INTO phase VALUES(?,'EXAMINATION',?,'IN_PROCESS',null,null,null,0)");//delete when updated
+					//stay when updated!!!
 					ps.setInt(1, Integer.parseInt(requirementList1.get(0)));//id
 					PreparedStatement ps1=sqlConnection.prepareStatement("SELECT phDeadline FROM phase where phIDChangeRequest=?");
 					ps1.setInt(1, Integer.parseInt(requirementList1.get(0)) );
@@ -455,7 +457,7 @@ public class DBConnection {
 	public List<Object> forgotPasswordRequest(List<String> params) {
 		List<Object>l=new ArrayList<Object>();
 		try {
-			PreparedStatement ps=sqlConnection.prepareStatement("SELECT IDuser,firstName,password FROM cbaricmy_ICM.users where email=?");
+			PreparedStatement ps=sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName,password FROM cbaricmy_ICM.users where email=?");
 			ps.setString(1, params.get(0));
 			ResultSet rs=ps.executeQuery();
 			
@@ -463,6 +465,7 @@ public class DBConnection {
 				l.add(true);
 				l.add(rs.getInt("IDUser"));
 				l.add(rs.getString("firstName"));
+				l.add(rs.getString("lastName"));
 				l.add(rs.getString("password"));
 				l.add(params.get(0));
 			}
@@ -553,7 +556,7 @@ public class DBConnection {
 
         PreparedStatement ps;
         try {
-            System.out.println("very good");
+           
             ps = sqlConnection.prepareStatement("SELECT * FROM evaluationReport WHERE cRequestId = ?");
             System.out.println("very good1");
             ps.setInt(1, params.get(0));
@@ -591,7 +594,8 @@ public class DBConnection {
 		List<Boolean>l=new ArrayList<Boolean>();
 		PreparedStatement stmt3;
 		try {
-			stmt3 = sqlConnection.prepareStatement("SELECT COUNT(*) FROM evaluationReport where cRequestId=?");
+			stmt3 = sqlConnection.prepareStatement("SELECT COUNT(*) As count FROM evaluationReport where cRequestId=?");
+			stmt3.setInt(1, params.get(0));
 			ResultSet rs3 = stmt3.executeQuery();
 			   while(rs3.next()){
 				    count = rs3.getInt("count");

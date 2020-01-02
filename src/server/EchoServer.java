@@ -83,12 +83,15 @@ public class EchoServer extends AbstractServer {
 				}
 			else
 			{
-				String text="hey "+(String)l.get(2)+"\n your id: "+(int)l.get(1)+"\n your password is: "+(String)l.get(3);
+				String line1 = "Hey  "+(String)l.get(2)+" "+(String)l.get(3);
+		    	String line2 = "Your id is:"+(int)l.get(1)+"    ";
+		    	String line3 = "Your password is:"+(String)l.get(4);
+		    	String text = line1 + "\n" + line2+"\n"+line3;
 				JavaEmail emailer=new JavaEmail();
 				emailer.setMailServerProperties();
 
 				try {
-					emailer.sendEmail((String)l.get(4), "restore password", text);
+					emailer.sendEmail((String)l.get(5), "Restore Password", text);
 
 				} catch (MessagingException e) {
 					// TODO Auto-generated catch block
@@ -147,6 +150,7 @@ public class EchoServer extends AbstractServer {
 			catch(IOException e) {
 				e.printStackTrace();
 			}
+			break;
 
 		case View_Evaluation_Report:
 

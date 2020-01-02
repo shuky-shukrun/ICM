@@ -43,6 +43,7 @@ public class CreateEvaluationReport implements ClientUI {
 	private Button moreInformation;
 
 	private String info;
+	private int flagHelp;
 
 	/**
 	 * Initialize the create evaluation report dialog
@@ -80,6 +81,12 @@ public class CreateEvaluationReport implements ClientUI {
 			// disable, if one selection is missing or evaluated time is later than the
 			// deadline of the phase
 			protected boolean computeValue() {
+				if( EvaluatedTimeDatePicker.valueProperty().get() == null)
+						flagHelp=0;
+				else if(EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine()) >= 0)
+					flagHelp=1;
+				else
+					flagHelp=2;
 				return (requiredChangeTextArea.getText().isEmpty() || expectedResultTextArea.getText().isEmpty()
 						|| risksAndConstraintsTextArea.getText().isEmpty() || EvaluatedTimeDatePicker.getValue() == null
 						|| EvaluatedTimeDatePicker.getValue()
@@ -89,9 +96,7 @@ public class CreateEvaluationReport implements ClientUI {
 
 		createButton.disableProperty().bind(bb);
 		moreInformation.disableProperty().bind(bb.not());
-		boolean flag = bb.get();
-		if (flag)
-			info = "empty fields";
+		
 
 	}
 
@@ -134,11 +139,17 @@ public class CreateEvaluationReport implements ClientUI {
 
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
+		if(flagHelp==0)
+			info = "empty fields";
+		if(flagHelp==1)
+			info="not legal date";
 		switch (info) {
 		case "empty fields":
 			IcmUtils.displayInformationMsg("Information message",
-					"one or more empty fields or you entered later date than deadline");
+					"one or more empty fields");
 			break;
+		case "not legal date":
+			IcmUtils.displayInformationMsg("Information message","you entered later date than deadline");
 
 		}
 	}

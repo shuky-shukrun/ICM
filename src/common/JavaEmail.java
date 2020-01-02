@@ -37,7 +37,7 @@ public class JavaEmail
         /**
          * If sending HTML mail
          * */
-        emailMessage.setContent(emailBody, "text/html");
+        emailMessage.setContent(emailBody, "text/plain");
         /**
          * If sending only text mail
          * */
@@ -60,11 +60,17 @@ public class JavaEmail
          * Draft the message
          * */
         MimeMessage emailMessage = draftEmailMessage(toemails,emailSubject,emailBody);
-        /**
+         /**
          * Send the mail
          * */
         transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
         transport.close();
         System.out.println("Email sent successfully.");
     }
+    public static boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+ }
 }
