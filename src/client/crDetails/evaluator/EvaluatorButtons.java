@@ -1,6 +1,8 @@
 package client.crDetails.evaluator;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import client.ClientController;
 import client.ClientUI;
@@ -11,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import server.ServerService;
+import server.ServerService.DatabaseService;
 
 public class EvaluatorButtons implements ClientUI {
 
@@ -46,12 +49,17 @@ public class EvaluatorButtons implements ClientUI {
 			createEvaluationReportButton.setDisable(true);
 			moreInformation2.setDisable(false);
 		}
-		 if (CrDetails.getCurrRequest().getPhases().get(0)
+		else if (CrDetails.getCurrRequest().getPhases().get(0)
 					.getPhaseStatus() != entities.Phase.PhaseStatus.TIME_APPROVED) {
 			 info="time of phase yet not approved";
 			 createEvaluationReportButton.setDisable(true);
 				moreInformation2.setDisable(false);
 		 }
+		else {
+		List<Integer>l=new ArrayList<>();
+		l.add(CrDetails.getCurrRequest().getId());
+		 clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Is_Exists_Eva_Report,l));
+	}
 	}
 
 	@FXML
@@ -109,8 +117,14 @@ public class EvaluatorButtons implements ClientUI {
 	}
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
-		switch(info) {
-			
+		if(serverService.getDatabaseService().equals(DatabaseService.Is_Exists_Eva_Report)){
+			if((Boolean)serverService.getParams().get(0)==true) {
+				info="have Report";
+				createEvaluationReportButton.setDisable(true);
+				moreInformation2.setVisible(true);
+			}
+			else
+				moreInformation2.setVisible(false);
 		}
 	}
 }

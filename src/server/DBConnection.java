@@ -370,7 +370,7 @@ public class DBConnection {
 			ps.setString(3, requirementList1.get(2));
 			ps.setString(4, requirementList1.get(3));
 			ps.setString(5, requirementList1.get(4));
-			ps.setDate(6, Date.valueOf(requirementList1.get(5)));
+			ps.setDate(6,Date.valueOf(requirementList1.get(5)));
 			ps.executeUpdate();
 			flag=true;
 			l.add(flag);
@@ -380,6 +380,29 @@ public class DBConnection {
 			l.add(flag);
 			e.printStackTrace();
 		}
+		//insert examination phase to specific request with status phase leader assigned
+				try {
+					PreparedStatement ps=sqlConnection.prepareStatement("INSERT INTO phase VALUES(?,'EXAMINATION',?,'IN_PROCESS',null,null,null,0)");
+					ps.setInt(1, Integer.parseInt(requirementList1.get(0)));//id
+					PreparedStatement ps1=sqlConnection.prepareStatement("SELECT phDeadline FROM phase where phIDChangeRequest=?");
+					ps1.setInt(1, Integer.parseInt(requirementList1.get(0)) );
+					ResultSet rs=ps1.executeQuery();
+					rs.next();
+					Date d=rs.getDate(1);
+					Calendar c = Calendar.getInstance();
+			        c.setTime(d);
+			        c.add(Calendar.DATE, 7);
+			        d=new Date(c.getTimeInMillis());
+			        ps.setDate(2, d);
+					ps.executeUpdate();
+					flag=true;
+					l.add(flag);
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+					flag=false;
+					l.add(flag);
+					e.printStackTrace();
+				}
 		//update phase of specific request to examination in change request table
 		try {
 			System.out.println("update current phase of request to examination");
@@ -395,7 +418,7 @@ public class DBConnection {
 		}
 		//update evaluation phase of specific request status to done
 		try {
-			PreparedStatement ps1=sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ?");
+			PreparedStatement ps1=sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ? AND phPhaseName='EVALUATION'");
 			ps1.setInt(1, Integer.parseInt(requirementList1.get(0)));
 			ps1.executeUpdate();
 			flag=true;
@@ -405,21 +428,7 @@ public class DBConnection {
 			l.add(flag);
 			e.printStackTrace();
 		}
-		//insert examination phase to specific request with status phase leader assigned
-		try {
-			PreparedStatement ps=sqlConnection.prepareStatement("INSERT INTO phase VALUES(?,'EXAMINATION',?,'PHASE_LEADER_ASSIGNED',0,null)");
-			ps.setInt(1, Integer.parseInt(requirementList1.get(0)));//id
-			LocalDate newDate=CrDetails.getCurrRequest().getPhases().get(0).getDeadLine().plusDays(7);
-			ps.setDate(2, Date.valueOf(newDate));
-			ps.executeUpdate();
-			flag=true;
-			l.add(flag);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			flag=false;
-			l.add(flag);
-			e.printStackTrace();
-		}
+		
 		return l;
 	
 	}
@@ -575,4 +584,30 @@ public class DBConnection {
 
         return evRptDetails;
     }
+
+
+	public List<Boolean> existsEvaluationReport(List<Integer> params) {
+		int count=0;
+		List<Boolean>l=new ArrayList<Boolean>();
+		PreparedStatement stmt3;
+		try {
+			stmt3 = sqlConnection.prepareStatement("SELECT COUNT(*) FROM evaluationReport where cRequestId=?");
+			ResultSet rs3 = stmt3.executeQuery();
+			   while(rs3.next()){
+				    count = rs3.getInt("count");
+				    }
+			   if(count>=1)
+				   l.add(true);
+			   else
+				   l.add(false);
+			   
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return l;
+		
+		
+		
+		 
+	}
 }
