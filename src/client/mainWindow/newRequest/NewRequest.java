@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
 import server.ServerService;
 
 import java.io.File;
@@ -90,7 +91,9 @@ public class NewRequest implements ClientUI {
 
     @FXML
     void addFiles(ActionEvent event) {
-
+    	FileChooser fileCh=new FileChooser();
+    	List<File> s=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+    	System.out.println(s.get(0).getPath());
     }
 
     @FXML
