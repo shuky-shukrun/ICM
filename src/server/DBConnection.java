@@ -547,18 +547,21 @@ public class DBConnection {
             System.out.println("very good");
             ps = sqlConnection.prepareStatement("SELECT * FROM evaluationReport WHERE cRequestId = ?");
             System.out.println("very good1");
-            ps.setInt(1, params.get(1));
+            ps.setInt(1, params.get(0));
             System.out.println("very good2");
 
             ResultSet rs = ps.executeQuery();
-            //rs.beforeFirst();
-            // rs.next();
+            rs.next();
             System.out.println("very very good");
             //eReport = new EvaluationReport();
             e.setInfoSystem(InfoSystem.valueOf(rs.getString("infoSystem")));
+            System.out.println("very very good1");
             e.setRequiredChange(rs.getString("requestedChange"));
+            System.out.println("very very good2");
             e.setExpectedResult(rs.getString("expectedResult"));
+            System.out.println("very very good3");
             e.setRisksAndConstraints(rs.getString("risksAndConstraints"));
+            System.out.println("very very good4");
             e.setEvaluatedTime(rs.getDate("EvaluatedTime").toLocalDate());
             System.out.println("very very very good");
             ps.close();
