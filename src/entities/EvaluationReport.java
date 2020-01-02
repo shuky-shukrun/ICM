@@ -1,15 +1,16 @@
 package entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class EvaluationReport {
+public class EvaluationReport implements Serializable {
 
 	private int reportId;
 	private InfoSystem infoSystem;
 	private String requiredChange;
 	private String expectedResult;
 	private String risksAndConstraints;
-	private LocalDate EvaluatedTime;
+	private LocalDate evaluatedTime;
 
 	public int getReportId() {
 		return this.reportId;
@@ -72,8 +73,7 @@ public class EvaluationReport {
 	}
 
 	public LocalDate getEvaluatedTime() {
-		// TODO - implement EvaluationReport.getEvaluatedTime
-		throw new UnsupportedOperationException();
+		return evaluatedTime;
 	}
 
 	/**
@@ -81,8 +81,7 @@ public class EvaluationReport {
 	 * @param EvaluatedTime
 	 */
 	public void setEvaluatedTime(LocalDate EvaluatedTime) {
-		// TODO - implement EvaluationReport.setEvaluatedTime
-		throw new UnsupportedOperationException();
+		this.evaluatedTime = EvaluatedTime;
 	}
 
 }
