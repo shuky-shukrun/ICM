@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane prefHeight="632.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.ccc.ViewEvaluationReport">
+<DialogPane prefHeight="632.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.ccc.ViewEvaluationReport">
    <content>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
          <children>
@@ -45,17 +45,12 @@
                </font>
             </Label>
             <DatePicker fx:id="EvaluatedTimeDatePicker" layoutX="275.0" layoutY="489.0" prefHeight="30.0" prefWidth="257.0" promptText="Enter time in days" style="-fx-background-radius: 10;" />
-            <Button fx:id="cancelButton" cancelButton="true" layoutX="309.0" layoutY="592.0" mnemonicParsing="false" onAction="#cancelEvaluationReport" prefHeight="30.0" prefWidth="84.0" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="backButton" cancelButton="true" layoutX="258.0" layoutY="585.0" mnemonicParsing="false" onAction="#backAction" prefHeight="30.0" prefWidth="84.0" style="-fx-background-radius: 10;" text="Back">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
             <ChoiceBox fx:id="infoSystemChoiceBox" layoutX="275.0" layoutY="190.0" prefHeight="25.0" prefWidth="257.0" style="-fx-background-radius: 10;" />
-            <Button fx:id="createButton" layoutX="451.0" layoutY="591.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-radius: 10; -fx-background-color: #418de4;" text="Create">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="94.0" text="Evaluation Report">
                <font>
                   <Font name="System Bold" size="28.0" />
