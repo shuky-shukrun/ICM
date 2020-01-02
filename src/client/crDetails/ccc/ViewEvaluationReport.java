@@ -30,8 +30,6 @@ public class ViewEvaluationReport implements ClientUI {
 	@FXML
 	private ChoiceBox<String> infoSystemChoiceBox;
 	@FXML
-	private DatePicker evaluatedTimeDatePicker = new DatePicker();
-	@FXML
 	private TextArea risksAndConstraintsTextArea;
 	@FXML
 	private TextArea expectedResultTextArea;
@@ -85,10 +83,10 @@ public class ViewEvaluationReport implements ClientUI {
         expectedResultTextArea.setEditable(false);
         risksAndConstraintsTextArea.textProperty().setValue(currReport.getRisksAndConstraints());
         risksAndConstraintsTextArea.setEditable(false);
-        evaluatedTimeDatePicker.setValue(currReport.getEvaluatedTime());
+        timeTextArea.textProperty().setValue(currReport.getEvaluatedTime().toString());
+        timeTextArea.setEditable(false);
         
 
-        //evaluatedTimeDatePicker.setEditable(false);
 
 	 }
 	 
