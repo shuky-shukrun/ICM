@@ -10,13 +10,13 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import entities.EvaluationReport;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import server.ServerService;
 
 public class ViewEvaluationReport implements ClientUI {
@@ -28,7 +28,7 @@ public class ViewEvaluationReport implements ClientUI {
 	@FXML
 	private ChoiceBox<String> infoSystemChoiceBox;
 	@FXML
-	private DatePicker EvaluatedTimeDatePicker;
+	private DatePicker evaluatedTimeDatePicker;
 	@FXML
 	private TextArea risksAndConstraintsTextArea;
 	@FXML
@@ -67,34 +67,25 @@ public class ViewEvaluationReport implements ClientUI {
 	
 	 public void handleMessageFromClientController(ServerService serverService) {
      	System.out.println("adding details to screen");
-         /*List<String> params = new ArrayList<>();
-        //params.add(userName.getText());
-        params.add(crDetails.getCurrRequest().getId().toString());
-        ServerService evaluationService = new ServerService(ServerService.DatabaseService.View_Evaluation_Report, params);
-        clientController.handleMessageFromClientUI(evaluationService);*/
-        
+
         List<EvaluationReport> reportList = serverService.getParams();
-        //ClientController.setEvaluationReport(reportList.get(0));
-        
-        
+
         setCurrReport(reportList.get(0));
-        
-        infoSystemChoiceBox.setValue(currReport.getInfoSystem().toString());
+        infoSystemChoiceBox.setItems(FXCollections.observableArrayList(currReport.getInfoSystem().toString()));
+        infoSystemChoiceBox.getSelectionModel().select(0);
+        // TODO: infoSystemChoiceBox set Editable(false)
         requiredChangeTextArea.textProperty().setValue(currReport.getRequiredChange());
+        requiredChangeTextArea.setEditable(false);
         expectedResultTextArea.textProperty().setValue(currReport.getExpectedResult());
+        expectedResultTextArea.setEditable(false);
         risksAndConstraintsTextArea.textProperty().setValue(currReport.getRisksAndConstraints());
-        EvaluatedTimeDatePicker.setValue(currReport.getEvaluatedTime());
+        risksAndConstraintsTextArea.setEditable(false);
+        evaluatedTimeDatePicker.setValue(currReport.getEvaluatedTime());
+        evaluatedTimeDatePicker.setEditable(false);
 
 	 }
 	 
-	 public void cancleEvaluationReport(ActionEvent e) {
+	 public void cancelEvaluationReport(ActionEvent e) {
 		 
 	 }
-	 
-	 public static final LocalDate LOCAL_DATE (String dateString){
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		    LocalDate localDate = LocalDate.parse(dateString, formatter);
-		    return localDate;
-		}
-
 }
