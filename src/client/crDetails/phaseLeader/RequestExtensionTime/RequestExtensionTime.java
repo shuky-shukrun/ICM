@@ -6,6 +6,8 @@ import client.crDetails.phaseLeader.PhaseLeaderButtons;
 import common.IcmUtils;
 import entities.Phase;
 import entities.Phase.PhaseStatus;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,7 +27,7 @@ public class RequestExtensionTime implements ClientUI{
 	@FXML
 	private DatePicker RequestedtimeDatePicker;
 	@FXML
-	private TextArea DescriptionTextAreaDescriptionTextArea;
+	private TextArea DescriptionTextArea;
 	@FXML
 	private Button submitButton;
 	@FXML
@@ -48,8 +50,16 @@ public class RequestExtensionTime implements ClientUI{
 			}
 		});
 
-
-
+		BooleanBinding test = Bindings.createBooleanBinding(() -> {
+    		datePickerChoice = RequestedtimeDatePicker.getValue();
+    		description = DescriptionTextArea.getText();
+          System.out.println(DescriptionTextArea.getText()+RequestedtimeDatePicker.getValue());
+            return (datePickerChoice == null || description.isEmpty());
+        }, 	RequestedtimeDatePicker.valueProperty(),
+				DescriptionTextArea.textProperty()
+        );
+    	submitButton.disableProperty().bind(test);
+		
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
@@ -59,10 +69,10 @@ public class RequestExtensionTime implements ClientUI{
 
 	@FXML
 	void submitRequestTime(ActionEvent event) {
-
+		System.out.println("1");
 		newCurrPhase=PhaseLeaderButtons.getPhase();
 		datePickerChoice = RequestedtimeDatePicker.getValue();
-		description = DescriptionTextAreaDescriptionTextArea.getText();
+		description = DescriptionTextArea.getText();
 		System.out.println(description+datePickerChoice.format(formatter));
 
 		newCurrPhase.setTimeExtensionRequest(datePickerChoice);
