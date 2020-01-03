@@ -289,41 +289,6 @@ public class DBConnection {
         }
         return crList;
     }
-    
-
-    public List<Phase> getPhaseDetails(List<ChangeRequest> crList) {
-
-    	ChangeRequest currRequest = new ChangeRequest();
-    	Phase currPhase = new Phase();
-    	List<Phase> phases = new ArrayList<>();
-    	currRequest=crList.get(0);
-    	System.out.println(currRequest);
-    	//System.out.println(currRequest.getId());
-    	//System.out.println(currRequest.getCurrPhaseName().toString());
-    	
-    	 try {
-    	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phIDChangeRequest = ? AND phPhaseName = ?");
-        ps.setInt(1, currRequest.getId());
-        ps.setString(2,currRequest.getCurrPhaseName().toString());
-
-        ResultSet rs = ps.executeQuery();
-        rs.beforeFirst();
-        rs.next();
-
-        currPhase.setChangeRequestId(currRequest.getId());     
-        currPhase.setName(currRequest.getCurrPhaseName());
-        currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
-        currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
-        currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
-        
-        phases.add(currPhase);
-        ps.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-            return phases;
-    }
 
     public List<Boolean> updatePhaseExtensionTime (List<Phase> pList) {
 
@@ -550,35 +515,6 @@ public class DBConnection {
             throw new IOException(e);
         }
 
-        // find supervisor
-        Integer supervisorID = null;
-        try {
-            ps = sqlConnection.prepareStatement("SELECT IDuser FROM users WHERE position = 'SUPERVISOR'");
-
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            supervisorID = rs.getInt("IDuser");
-
-            ps.close();
-        } catch (SQLException e) {
-            throw new IOException(e);
-        }
-
-        // set the supervisor as phase leader of the SUBMITTED phase
-        try {
-            ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase " +
-                    "(IDieInPhase, crID, iePhaseName, iePhasePosition) " +
-                    "VALUE (?,?,?,?)");
-            ps.setInt(1, supervisorID);
-            ps.setInt(2, newRequest.getId());
-            ps.setString(3, newRequest.getCurrPhaseName().toString());
-            ps.setString(4, IEPhasePosition.PhasePosition.PHASE_LEADER.toString());
-
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new IOException(e);
-        }
     }
 
     public List<EvaluationReport> getEvaluationReportDetails(List<Integer> params)  {

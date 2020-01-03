@@ -130,6 +130,7 @@ public class NewRequest implements ClientUI {
             case Add_New_Request:
                 IcmUtils.displayInformationMsg("Request Submitted Successfully", "Congratulations!",  "Your request has been submitted successfully.\nYou will get updates to your email.");
                 try {
+                    IcmUtils.getPopUp().close();
                     IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
                 } catch (IOException e) {
                     e.printStackTrace();
