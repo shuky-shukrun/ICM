@@ -44,7 +44,8 @@ public class ServerService implements Serializable {
         Add_New_Request,
         View_Evaluation_Report,
         Tester_Decision,
-        Is_Exists_Eva_Report
+        Is_Exists_Eva_Report, 
+        download_files
         
     }
 }

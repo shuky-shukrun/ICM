@@ -9,6 +9,7 @@ import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.IEPhasePosition;
 import entities.InformationEngineer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import server.ServerService;
+import server.ServerService.DatabaseService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,7 +82,10 @@ public class CrDetails implements ClientUI {
 
     }
 
-
+    @FXML
+    public void downloadFiles(ActionEvent event) {
+    	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.download_files, null));
+    }
 
 
     @FXML
