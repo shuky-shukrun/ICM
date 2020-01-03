@@ -13,6 +13,9 @@ import ocsf.server.ConnectionToClient;
 import server.ServerService.DatabaseService;
 
 import javax.mail.MessagingException;
+
+import client.crDetails.CrDetails;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -211,7 +214,10 @@ public class EchoServer extends AbstractServer {
 				dbConnection.addNewRequest(newRequest);
 				System.out.println("done");
 				break;
-			
+			case download_files:
+				System.out.println("server handle download files");
+				dbConnection.downloadFiles(23);
+				break;
 		}
 	}
 
