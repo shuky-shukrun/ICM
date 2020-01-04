@@ -14,6 +14,7 @@ import server.ServerService.DatabaseService;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -202,14 +203,20 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(serverService);
 					System.out.println("server finish Add_New_Request");
                     break;
+                case Get_Info_Engineers:
+                    System.out.println("server handle Get_Info_Engineers");
+                    serverService.setParams(dbConnection.getInfoEngineers());
+                    client.sendToClient(serverService);
+                    System.out.println("server finish Get_Info_Engineers");
+                    break;
             }
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
 			System.out.println("\n\nError: " + e.getMessage());
-            List<IOException> ioExceptionList = new ArrayList<>();
-            ioExceptionList.add(e);
+            List<Exception> ExceptionsList = new ArrayList<>();
+            ExceptionsList.add(e);
             serverService.setDatabaseService(DatabaseService.Error);
-            serverService.setParams(ioExceptionList);
+            serverService.setParams(ExceptionsList);
 			try {
 				client.sendToClient(serverService);
 			} catch (IOException ex) {

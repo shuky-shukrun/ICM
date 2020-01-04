@@ -555,4 +555,27 @@ public class DBConnection {
 
         return evRptDetails;
     }
+
+    public List<ChangeInitiator> getInfoEngineers() throws SQLException {
+        System.out.println("database handle getInfoEngineers");
+        List<ChangeInitiator> infoEngineersList = new ArrayList<>();
+
+        ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE title = 'INFOENGINEER'");
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            ChangeInitiator infoEngineer = new ChangeInitiator();
+            infoEngineer.setId(rs.getInt("IDuser"));
+            infoEngineer.setFirstName(rs.getString("firstName"));
+            infoEngineer.setLastName(rs.getString("lastName"));
+            infoEngineer.setPhoneNumber(rs.getString("phone"));
+            infoEngineer.setEmail(rs.getString("email"));
+            infoEngineer.setTitle(ChangeInitiator.Title.INFOENGINEER);
+            infoEngineer.setDepartment(CiDepartment.IT);
+            infoEngineer.setPosition(Position.valueOf(rs.getString("position")));
+
+            infoEngineersList.add(infoEngineer);
+        }
+        return infoEngineersList;
+    }
 }
