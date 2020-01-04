@@ -572,4 +572,136 @@ public class DBConnection {
 
         return evRptDetails;
     }
+    
+	public List<Boolean> setDecision(List<String> params){
+		boolean flag = false;
+		List<Boolean> list = new ArrayList<Boolean>();
+		PreparedStatement ps;
+		String decision = new String();
+		int crId = Integer.parseInt(params.get(2));
+		
+		//update decision in the db - set to null at first
+		try {
+			System.out.println("insert the decision to datebase");
+			ps = sqlConnection.prepareStatement("UPDATE phase SET phSetDectionDescription = ? WHERE phIDChangeRequest = ?");
+			decision = params.get(0) + params.get(1);
+			ps.setString(1, decision);
+			ps.setInt(2, crId);
+			System.out.println("6");
+			ps.executeUpdate();
+			System.out.println("7");
+			flag = true;
+			System.out.println("8");
+			list.add(flag);
+			System.out.println("9");
+		} catch (SQLException e) {
+			flag=false;
+			list.add(flag);
+			e.printStackTrace();
+		}
+		System.out.println("10");
+	
+		//update the current phase to done
+		try {
+			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ?");
+			ps.setInt(1, crId);
+			ps.executeUpdate();
+			flag = true;
+			list.add(flag);
+		} catch (SQLException e) {
+			flag=false;
+			list.add(flag);
+			e.printStackTrace();
+		}
+		
+		//update phase and status of specific request according to the decision.
+		decision = params.get(0);
+		switch(decision) {
+		case "Decline The Change":
+			try {
+				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DECLINED' WHERE phIDChangeRequest = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				flag = true;
+				list.add(flag);
+			}catch (SQLException e) {
+				flag=false;
+				list.add(flag);
+				e.printStackTrace();
+			}
+			break;
+			
+		case "Commite The Change":
+			try {
+				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				flag = true;
+				list.add(flag);
+			}catch (SQLException e) {
+				flag=false;
+				list.add(flag);
+				e.printStackTrace();
+			}
+			break;
+
+		case "Ask For Additional Data":
+			try {
+				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_EXEC_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				flag = true;
+				list.add(flag);
+			}catch (SQLException e) {
+				flag=false;
+				list.add(flag);
+				e.printStackTrace();
+			}
+			break;
+
+		case "Approve The Change":
+			try {
+				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				flag = true;
+				list.add(flag);
+			}catch (SQLException e) {
+				flag=false;
+				list.add(flag);
+				e.printStackTrace();
+			}
+			break;
+
+		case "Report Test Failure":
+			try {
+				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				flag = true;
+				list.add(flag);
+			}catch (SQLException e) {
+				flag=false;
+				list.add(flag);
+				e.printStackTrace();
+			}
+			break;
+			
+		}	
+		
+		return list;
+	}
+	
 }

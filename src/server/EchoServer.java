@@ -198,6 +198,19 @@ public class EchoServer extends AbstractServer {
 				dbConnection.addNewRequest(newRequest);
 				System.out.println("done");
 				break;
+				
+			case Set_Decision:
+				System.out.println("server handle set decision for tester in validation phase");
+				List<String> decision = serverService.getParams();
+				List<Boolean> details =dbConnection.setDecision(decision);
+				ServerService srvrService= new ServerService(DatabaseService.Set_Decision, details);
+				try {
+					client.sendToClient(srvrService);
+					System.out.println("set decision status sent to client");
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+				break;
 		}
 	}
 

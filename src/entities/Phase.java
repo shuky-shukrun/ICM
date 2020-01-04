@@ -14,8 +14,9 @@ public class Phase implements Serializable {
 	private LocalDate exceptionTime;
 	private LocalDate timeExtensionRequest;   ///// Check with team!!!!!!!
 	private String description;      ///// Check with team!!!!!!!
+	private String setDecisionDescription;		//if there is a decision to make about the privies phase- chairman and tester
 	private Map<IEPhasePosition.PhasePosition, IEPhasePosition> iePhasePosition;
-
+	
 	public enum PhaseName {
 		SUBMITTED,
 		EVALUATION,
@@ -128,6 +129,14 @@ public class Phase implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void setSetDecisionDescription(String decision) {
+		this.setDecisionDescription = decision;
+	}
+	
+	public String getSetDecisionDescription() {
+		return setDecisionDescription;
 	}
 
 }

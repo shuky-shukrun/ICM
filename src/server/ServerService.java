@@ -43,7 +43,7 @@ public class ServerService implements Serializable {
         Forgot_Password,
         Add_New_Request,
         View_Evaluation_Report,
-        Tester_Decision
+        Set_Decision,
         
     }
 }

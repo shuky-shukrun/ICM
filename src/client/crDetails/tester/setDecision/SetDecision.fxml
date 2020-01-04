@@ -20,19 +20,19 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="decisionChoiceBox" layoutX="124.0" layoutY="124.0" prefWidth="257.0" style="-fx-background-radius: 10;" />
+            <ChoiceBox fx:id="decisionChoiceBox" layoutX="124.0" layoutY="124.0" prefWidth="257.0" style="-fx-background-radius: 10;" onKeyReleased = "#keyReleaseProperty" />
             <Label layoutX="24.0" layoutY="179.0" text="Description:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="descriptionTextArea" layoutX="124.0" layoutY="159.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the decision description" />
+            <TextArea fx:id="descriptionTextArea" layoutX="124.0" layoutY="159.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the decision description" onKeyReleased = "#keyReleaseProperty"/>
             <Button fx:id="okButton" layoutX="305.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitDecision" style="-fx-background-radius: 10; -fx-background-color: #4b92e8;" text="Submit">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="cancelButton" cancelButton="true" layoutX="205.0" layoutY="250.0" mnemonicParsing="false" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="cancelButton" cancelButton="true" layoutX="205.0" layoutY="250.0" mnemonicParsing="false" onAction= "#cancelSetDecision" style="-fx-background-radius: 10;" text="Cancel">
                <font>
                   <Font size="14.0" />
                </font>
