@@ -4,21 +4,14 @@ import client.ClientController;
 import client.ClientUI;
 import common.IcmUtils;
 import entities.ChangeInitiator;
-import entities.InfoSystem;
-import entities.Position;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.util.StringConverter;
 import server.ServerService;
 
 import java.io.IOException;
@@ -51,8 +44,11 @@ public class ITDAssignPermissions implements ClientUI {
     ObservableList<ChangeInitiator> ccc1List = FXCollections.observableArrayList();
     ObservableList<ChangeInitiator> ccc2List = FXCollections.observableArrayList();
     ObservableList<ChangeInitiator> cccChairmanList = FXCollections.observableArrayList();
-    Set<ChoiceBox<ChangeInitiator>> choiceBoxes;
-
+    List<ChangeInitiator> oldSelection = new ArrayList<>();
+    ChangeInitiator selectedSupervisor;
+    ChangeInitiator selectedCcc1;
+    ChangeInitiator selectedCcc2;
+    ChangeInitiator selectedChairman;
 
     public void initialize() {
         // init client controller
@@ -94,7 +90,25 @@ public class ITDAssignPermissions implements ClientUI {
 
     @FXML
     void updatePermissions(ActionEvent event) {
+        selectedSupervisor = supervisorChoiceBox.getSelectionModel().getSelectedItem();
+        selectedCcc1 = cccMember1ChoiceBox.getSelectionModel().getSelectedItem();
+        selectedCcc2 = cccMember2ChoiceBox.getSelectionModel().getSelectedItem();
+        selectedChairman = cccChairmanChoiceBox.getSelectionModel().getSelectedItem();
 
+        List<ChangeInitiator> newSelection = new ArrayList<>();
+        newSelection.add(selectedSupervisor);
+        newSelection.add(selectedCcc1);
+        newSelection.add(selectedCcc2);
+        newSelection.add(selectedChairman);
+
+        // TODO: handle no change case!
+
+        List<List<ChangeInitiator>> oldAndNewSelection = new ArrayList<>();
+        oldAndNewSelection.add(oldSelection);
+        oldAndNewSelection.add(newSelection);
+        ServerService serverService = new ServerService(ServerService.DatabaseService.Itd_Update_Permissions, oldAndNewSelection);
+
+        clientController.handleMessageFromClientUI(serverService);
     }
 
     @Override
@@ -126,19 +140,26 @@ public class ITDAssignPermissions implements ClientUI {
                             break;
                         case SUPERVISOR:
                             supervisorChoiceBox.getSelectionModel().select(ci);
+                            oldSelection.add(ci);
                             break;
                         case CCC:
                             if (cccMember1ChoiceBox.getSelectionModel().getSelectedItem() == null)
                                 cccMember1ChoiceBox.getSelectionModel().select(ci);
                             else
                                 cccMember2ChoiceBox.getSelectionModel().select(ci);
+                            oldSelection.add(ci);
                             break;
                         case CHAIRMAN:
                             cccChairmanChoiceBox.getSelectionModel().select(ci);
+                            oldSelection.add(ci);
                             break;
                     }
                 }
+                break;
 
+            case Itd_Update_Permissions:
+                IcmUtils.displayInformationMsg("Updated!");
+                IcmUtils.getPopUp().close();
                 break;
 
             case Error:

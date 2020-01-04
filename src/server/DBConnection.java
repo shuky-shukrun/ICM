@@ -323,7 +323,7 @@ public class DBConnection {
         return updateList;
 
     }
-      
+
 	public List<Boolean> createEvaluationReport(List<String> requirementList1) {
 		boolean flag=false;
 		List<Boolean>l=new ArrayList<Boolean>();
@@ -387,7 +387,7 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		return l;
-	
+
 	}
 
 
@@ -399,7 +399,7 @@ public class DBConnection {
 			ps.setDate(1, Date.valueOf((LocalDate) requestTimeDetails.get(1)));
 			ps.executeUpdate();
 			list.add(true);
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			list.add(false);
@@ -415,7 +415,7 @@ public class DBConnection {
 			PreparedStatement ps=sqlConnection.prepareStatement("SELECT IDuser,firstName,password FROM cbaricmy_ICM.users where email=?");
 			ps.setString(1, params.get(0));
 			ResultSet rs=ps.executeQuery();
-			
+
 			if(rs.next()) {
 				l.add(true);
 				l.add(rs.getInt("IDUser"));
@@ -425,10 +425,10 @@ public class DBConnection {
 			}
 			else
 				l.add(false);
-					
-		} 
+
+		}
 		catch (SQLException e) {
-			
+
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
@@ -576,6 +576,37 @@ public class DBConnection {
 
             infoEngineersList.add(infoEngineer);
         }
+        ps.close();
         return infoEngineersList;
+    }
+
+    public void itdUpdatePermissions(List<List<ChangeInitiator>> params) throws SQLException {
+        System.out.println("database handle itdUpdatePermissions");
+        List<Position> positionList = new ArrayList<>();
+        positionList.add(Position.SUPERVISOR);
+        positionList.add(Position.CCC);
+        positionList.add(Position.CCC);
+        positionList.add(Position.CHAIRMAN);
+        System.out.println(params);
+
+        List<ChangeInitiator> oldSelection = params.get(0);
+        List<ChangeInitiator> newSelection = params.get(1);
+
+        for (int i = 0; i < 4; i++) {
+            ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
+            ps.setString(1, Position.REGULAR.toString());
+            ps.setInt(2 ,oldSelection.get(i).getId());
+            ps.executeUpdate();
+            ps.close();
+        }
+
+        for (int i = 0; i < 4; i++) {
+            ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
+            ps.setString(1, positionList.get(i).toString());
+            ps.setInt(2 ,newSelection.get(i).getId());
+            ps.executeUpdate();
+            ps.close();
+        }
+        System.out.println("database finish itdUpdatePermissions");
     }
 }

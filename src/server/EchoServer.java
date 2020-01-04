@@ -209,6 +209,12 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(serverService);
                     System.out.println("server finish Get_Info_Engineers");
                     break;
+                case Itd_Update_Permissions:
+                    System.out.println("server handle Itd_Update_Permissions");
+                    dbConnection.itdUpdatePermissions(serverService.getParams());
+                    client.sendToClient(serverService);
+                    System.out.println("server finish Itd_Update_Permissions");
+                    break;
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

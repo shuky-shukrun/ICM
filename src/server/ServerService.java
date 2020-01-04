@@ -45,7 +45,8 @@ public class ServerService implements Serializable {
         Add_New_Request,
         View_Evaluation_Report,
         Tester_Decision,
-        Get_Info_Engineers
+        Get_Info_Engineers,
+        Itd_Update_Permissions
         
     }
 }
