@@ -84,7 +84,9 @@ public class CrDetails implements ClientUI {
 
     @FXML
     public void downloadFiles(ActionEvent event) {
-    	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.download_files, null));
+    	List<Integer>param=new ArrayList<Integer>();
+    	param.add(Integer.parseInt(changeRequestIDTextField.getText()));
+    	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.download_files, param));
     }
 
 
@@ -124,6 +126,11 @@ public class CrDetails implements ClientUI {
                 }
 
                 break;
+            case download_files:
+            	if((Boolean)serverService.getParams().get(0)==true)
+            		IcmUtils.displayInformationMsg("Information message","check your downloads folder");
+            	else
+            		IcmUtils.displayInformationMsg("Information message", "Error in process", ((Exception)serverService.getParams().get(1)).getMessage());
         }
     }
 

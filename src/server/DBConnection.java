@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -615,40 +616,68 @@ public class DBConnection {
 		return l;
 
 	}
+	/**
+	 * download files of specific change request
+	 * @param id-change request id
+	 * @param zipName-always sent change_request_idOfChangeRequest
+	 * @return
+	 */
 
-	public void downloadFiles(int id) {
-		
-		
-		
+	public List<Object> downloadFiles(int id, String zipName) {
+		int count=0;
+		List<Object>lr=new ArrayList<Object>();
 		ResultSet rs = null;
 		List<File> l = new ArrayList<File>();
-		String selectSQL = "SELECT fileName,file FROM files where CrID=23";
-		PreparedStatement pstmt=null;
+		//get from database all the change request files
+		String selectSQL = "SELECT fileName,file FROM files where CrID=?";
+		PreparedStatement pstmt = null;
 		try {
-			
+
 			pstmt = sqlConnection.prepareStatement(selectSQL);
+			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
+			//convert from blobs to files
+				while (rs.next()) {
+
+					Blob blob = rs.getBlob("file");
+					InputStream in = blob.getBinaryStream();
+					File someFile = new File(rs.getString("fileName"));
+					OutputStream out = new FileOutputStream(someFile);
+					byte[] buff = new byte[4096]; // how much of the blob to read/write at a time
+					int len = 0;
+
+					while ((len = in.read(buff)) != -1) {
+
+						out.write(buff, 0, len);
+					}
+
+					l.add(someFile);
+				}
+				String home = System.getProperty("user.home");
+				File zipFile = new File(home + "/Downloads/" + zipName + ".zip");
+				return createZipFromMultipleFiles(zipFile, l);
 			
-			//pstmt.setInt(1, CrDetails.getCurrRequest().getId());
-			while (rs.next()) {
-		
-				File file = new File(rs.getString("fileName"));
-				l.add(file);
-			
-			}
-			
-			createZipFromMultipleFiles("C:\\stam", l);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		} catch (Exception e1) {
+
+			e1.printStackTrace();
+			lr.add(false);
+			lr.add(e1);
+			return lr;
 		}
 	}
 
-	public static void createZipFromMultipleFiles(String zipName, List<File> srcFiles) {
+	/**
+	 * create zip folder with given files
+	 * 
+	 * @param zipName
+	 * @param srcFiles
+	 */
+	private List<Object> createZipFromMultipleFiles(File zipName, List<File> srcFiles)  {
+		List<Object>l=new ArrayList<Object>();
 		try {
-			System.out.println(srcFiles.toString());
 			// create byte buffer
-			byte[] buffer = new byte[102400];
+			byte[] buffer = new byte[259000];
 
 			FileOutputStream fos = new FileOutputStream(zipName);
 
@@ -657,15 +686,15 @@ public class DBConnection {
 			for (int i = 0; i < srcFiles.size(); i++) {
 
 				File srcFile = srcFiles.get(i);
-				FileInputStream fis = new FileInputStream(zipName);
-			
+				System.out.println(srcFile.getPath());
+				FileInputStream fis = new FileInputStream(srcFile);
 
 				// begin writing a new ZIP entry, positions the stream to the start of the entry
 				// data
 				zos.putNextEntry(new ZipEntry(srcFile.getName()));
 
 				int length;
-				
+
 				while ((length = fis.read(buffer)) > 0) {
 					zos.write(buffer, 0, length);
 				}
@@ -680,10 +709,16 @@ public class DBConnection {
 			// close the ZipOutputStream
 			zos.close();
 			System.out.println("Succeed");
+			l.add(true);
+			l.add(null);
 
 		} catch (IOException ioe) {
 			System.out.println("Error creating zip file: " + ioe);
+			l.add(false);
+			l.add(ioe);
 		}
+		return l;
+		
 	}
 
 }

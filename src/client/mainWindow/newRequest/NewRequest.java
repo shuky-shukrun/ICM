@@ -93,7 +93,7 @@ public class NewRequest implements ClientUI {
     void addFiles(ActionEvent event) {
     	FileChooser fileCh=new FileChooser();
     	List<File> s=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
-    	System.out.println(s.get(0).getPath());
+
     }
 
     @FXML
