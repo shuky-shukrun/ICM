@@ -17,9 +17,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +86,11 @@ public class CrDetails implements ClientUI {
 
     @FXML
     public void downloadFiles(ActionEvent event) {
-    	List<Integer>param=new ArrayList<Integer>();
+    	DirectoryChooser dirChooser = new DirectoryChooser();
+    	File chosenDir = dirChooser.showDialog(client.ClientMain.getPrimaryStage());
+    	List<Object>param=new ArrayList<Object>();
     	param.add(Integer.parseInt(changeRequestIDTextField.getText()));
+    	param.add(chosenDir);
     	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.download_files, param));
     }
 
@@ -129,7 +134,7 @@ public class CrDetails implements ClientUI {
             case download_files:
             	switch((String)serverService.getParams().get(0)) {
             case "success":
-            		IcmUtils.displayInformationMsg("Information message","check your downloads folder");
+            		IcmUtils.displayInformationMsg("Information message","check your chosen folder");
             		break;
             case "noFiles":
             	IcmUtils.displayInformationMsg("Information message","no files to download");

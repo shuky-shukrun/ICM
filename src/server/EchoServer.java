@@ -16,6 +16,7 @@ import javax.mail.MessagingException;
 
 import client.crDetails.CrDetails;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -220,7 +221,7 @@ public class EchoServer extends AbstractServer {
                     break;
                 case download_files:
                     System.out.println("server handle download files");
-                    List<Object> flag=dbConnection.downloadFiles((int)serverService.getParams().get(0),"Change_Request_"+(int)serverService.getParams().get(0));
+                    List<Object> flag=dbConnection.downloadFiles((int)serverService.getParams().get(0),(File)serverService.getParams().get(1),"Change_Request_"+(int)serverService.getParams().get(0));
                     
                     try {
                         client.sendToClient(new ServerService(DatabaseService.download_files,flag));

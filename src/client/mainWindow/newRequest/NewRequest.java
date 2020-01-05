@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import server.ServerService;
 
@@ -94,6 +95,8 @@ public class NewRequest implements ClientUI {
 
     @FXML
     void addFiles(ActionEvent event) {
+    	
+    
     	FileChooser fileCh=new FileChooser();
     	List<File> filesToAttach=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
 		ObservableList<File> listTemp = FXCollections.observableArrayList();

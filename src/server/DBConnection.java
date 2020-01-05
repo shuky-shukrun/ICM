@@ -569,7 +569,7 @@ public class DBConnection {
 	 * @return
 	 */
 
-	public List<Object> downloadFiles(int id, String zipName) {
+	public List<Object> downloadFiles(int id,File folder, String zipName) {
 		int count=0;
 		List<Object>lr=new ArrayList<Object>();
 		ResultSet rs = null;
@@ -605,8 +605,8 @@ public class DBConnection {
 					lr.add("noFiles");
 					return lr;
 				}
-				String home = System.getProperty("user.home");
-				File zipFile = new File(home + "/Downloads/" + zipName + ".zip");
+			
+				File zipFile = new File(folder.getPath()+"/" + zipName + ".zip");
 				return createZipFromMultipleFiles(zipFile, l);
 			
 
