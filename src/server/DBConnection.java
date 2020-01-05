@@ -446,13 +446,14 @@ public class DBConnection {
 		return l;
 	}
 
-	public void addNewRequest(ChangeRequest newRequest) {
+	public void addNewRequest(ChangeRequest newRequest) throws IOException {
 		System.out.println("Database handle addNewRequest");
 		// insert request
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO changeRequest "
-					+ "(crIDuser, crInfoSystem, crCurrState, crRequestedChange, crReasonForChange, "
-					+ "crComments, crDate, crCurrPhaseName, crSuspended) " + "VALUE (?,?,?,?,?,?,?,?, 0)");
+			ps = sqlConnection.prepareStatement("INSERT INTO changeRequest " +
+					"(crIDuser, crInfoSystem, crCurrState, crRequestedChange, crReasonForChange, " +
+					"crComments, crDate, crCurrPhaseName, crSuspended) " +
+					"VALUE (?,?,?,?,?,?,?,?, 0)");
 			ps.setInt(1, newRequest.getInitiator().getId());
 			ps.setString(2, newRequest.getInfoSystem().toString());
 			ps.setString(3, newRequest.getCurrState());
@@ -465,7 +466,7 @@ public class DBConnection {
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new IOException(e);
 		}
 
 		try {
@@ -478,13 +479,14 @@ public class DBConnection {
 			ps.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new IOException(e);
 		}
 
-		// insert phase
+		// insert SUBMITTED phase
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO phase "
-					+ "(phIDChangeRequest, phPhaseName, phDeadline, phStatus) " + "VALUE (?,?,?,?)");
+			ps = sqlConnection.prepareStatement("INSERT INTO phase " +
+					"(phIDChangeRequest, phPhaseName, phDeadline, phStatus) " +
+					"VALUE (?,?,?,?)");
 			ps.setInt(1, newRequest.getId());
 			ps.setString(2, newRequest.getCurrPhaseName().toString());
 			ps.setDate(3, java.sql.Date.valueOf(newRequest.getDate().plusDays(7)));
@@ -493,21 +495,35 @@ public class DBConnection {
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new IOException(e);
 		}
-		// insert IEinPhase
+
+		// insert all other phases
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase "
-					+ "(IDieInPhase, crID, iePhaseName, iePhasePosition) " + "VALUE (?,?,?,?)");
-			ps.setInt(1, 1);
-			ps.setInt(2, newRequest.getId());
-			ps.setString(3, newRequest.getCurrPhaseName().toString());
-			ps.setString(4, IEPhasePosition.PhasePosition.PHASE_LEADER.toString());
+			ps = sqlConnection.prepareStatement("INSERT INTO phase " +
+					"(phIDChangeRequest, phPhaseName, phStatus) " +
+					"VALUES (?,?,?), (?,?,?), (?,?,?), (?,?,?)");
+
+			ps.setInt(1, newRequest.getId());
+			ps.setString(2, Phase.PhaseName.EXAMINATION.toString());
+			ps.setString(3, Phase.PhaseStatus.SUBMITTED.toString());
+
+			ps.setInt(4, newRequest.getId());
+			ps.setString(5, Phase.PhaseName.EXECUTION.toString());
+			ps.setString(6, Phase.PhaseStatus.SUBMITTED.toString());
+
+			ps.setInt(7, newRequest.getId());
+			ps.setString(8, Phase.PhaseName.VALIDATION.toString());
+			ps.setString(9, Phase.PhaseStatus.SUBMITTED.toString());
+
+			ps.setInt(10, newRequest.getId());
+			ps.setString(11, Phase.PhaseName.CLOSING.toString());
+			ps.setString(12, Phase.PhaseStatus.SUBMITTED.toString());
 
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new IOException(e);
 		}
 	}
 
