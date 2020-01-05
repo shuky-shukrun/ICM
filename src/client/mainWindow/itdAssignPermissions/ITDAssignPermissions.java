@@ -185,4 +185,9 @@ public class ITDAssignPermissions implements ClientUI {
                 c.getSelectionModel().clearSelection();
         });
     }
+
+    @FXML
+    private void backToMainWindow() {
+        IcmUtils.getPopUp().close();
+    }
 }

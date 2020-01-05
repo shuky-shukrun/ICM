@@ -57,7 +57,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="cancelButton" layoutX="264.0" layoutY="395.0" mnemonicParsing="false" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="cancelButton" layoutX="264.0" layoutY="395.0" mnemonicParsing="false" onAction="#backToMainWindow" style="-fx-background-radius: 10;" text="Cancel">
                <font>
                   <Font size="14.0" />
                </font>
