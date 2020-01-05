@@ -262,6 +262,12 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
 				    break;
+                case Execution_Confirmation:
+                    System.out.println("Server handle Execution_Confirmation");
+                    List<ChangeRequest> requestList = serverService.getParams();
+                    dbConnection.executionConfirmation(requestList.get(0));
+                    System.out.println("Server finish Execution_Confirmation");
+                    break;
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();
