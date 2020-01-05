@@ -864,4 +864,43 @@ public class DBConnection {
 		return list;
 	}
 	
+    public List<ChangeInitiator> getphaseLeadersDetails (List <ChangeInitiator> ChangeInitiatorList){
+    	
+    	List<ChangeInitiator> phaseLeadersList = new ArrayList<>();
+    	ChangeInitiator crInitiator = new ChangeInitiator();
+    	crInitiator=ChangeInitiatorList.get(0);
+        System.out.println(crInitiator);
+        
+        try {	
+        	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
+            ps.setInt(1, crInitiator.getId());
+            ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
+            ps.setString(3, Position.REGULAR.toString());
+            
+            ResultSet rs = ps.executeQuery();
+            rs.beforeFirst();
+            while (rs.next()) {
+            	ChangeInitiator row = new ChangeInitiator();
+                row.setId(rs.getInt("IDuser"));
+                row.setFirstName(rs.getString("firstName"));
+                row.setLastName(rs.getString("lastName"));
+                row.setEmail(rs.getString("email"));
+                row.setPassword(rs.getString("password"));
+                row.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
+                row.setPhoneNumber(rs.getString("phone"));
+                row.setDepartment(CiDepartment.valueOf(rs.getString("department")));
+                row.setPosition(Position.valueOf(rs.getString("position")));
+                phaseLeadersList.add(row);
+                System.out.println(row);
+            }
+            ps.close();
+            System.out.println("DB get phase leaders");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return phaseLeadersList;
+    	
+    	
+    }
 }

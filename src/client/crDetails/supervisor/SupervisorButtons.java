@@ -1,6 +1,14 @@
 package client.crDetails.supervisor;
 
+import java.io.IOException;
+
+import client.ClientController;
 import client.ClientUI;
+import client.crDetails.CrDetails;
+import common.IcmUtils;
+import entities.ChangeInitiator;
+import entities.ChangeRequest;
+import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,6 +32,8 @@ public class SupervisorButtons implements ClientUI {
     @FXML
     private Button closeChangeRequestButton;
 
+    
+    
     @FXML
     void closeChangeRequest(ActionEvent event) {
         System.out.println("closed!");
@@ -42,6 +52,14 @@ public class SupervisorButtons implements ClientUI {
     @FXML
     void showAssignPhaseLeadersDialog(ActionEvent event) {
 
+		try {
+			IcmUtils.popUpScene(this, "Assign Phase Leaders", "/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml",600 ,655 );
+		} catch (IOException e) {
+			e.printStackTrace(); }
+    	
+    	
+    	
+    	
     }
 
     @FXML

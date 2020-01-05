@@ -238,7 +238,20 @@ public class EchoServer extends AbstractServer {
                     ServerService srvrService= new ServerService(DatabaseService.Set_Decision, details);
                     client.sendToClient(srvrService);
                     System.out.println("set decision status sent to client");
-                break;
+                    break;
+                case Get_Phase_Leaders:
+                    System.out.println("server handle Get_Phase_Leaders");
+                    List<ChangeInitiator> ChangeInitiatorParams = serverService.getParams();
+                    List<ChangeInitiator> phaseLeadersList = dbConnection.getphaseLeadersDetails(ChangeInitiatorParams);
+                    System.out.println("Get_Phase_Leaders server got data");
+                    serverService.setParams(phaseLeadersList);
+                    try {
+                        client.sendToClient(serverService);
+                        System.out.println("sent phase leaders details to client");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+				    break;
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

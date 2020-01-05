@@ -81,7 +81,7 @@ public class PhaseLeaderButtons implements ClientUI {
 	void showExtensionTimeDialog(ActionEvent event) {
 
 		try {
-			IcmUtils.popUpScene(this, "Extention Time Request", "/client/crDetails/phaseLeader/RequestExtensionTime/RequestExtensionTime.fxml",407 ,381 );
+			IcmUtils.popUpScene(this, "Time Extention Request", "/client/crDetails/phaseLeader/RequestExtensionTime/RequestExtensionTime.fxml",407 ,381 );
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace(); }

@@ -36,7 +36,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="DescriptionTextAreaDescriptionTextArea" layoutX="185.0" layoutY="197.0" prefHeight="60.0" prefWidth="197.0" />
+            <TextArea fx:id="DescriptionTextArea" layoutX="185.0" layoutY="197.0" prefHeight="60.0" prefWidth="197.0" />
             <Label alignment="CENTER" layoutX="24.0" layoutY="81.0" text="Request Extension Time">
                <font>
                   <Font name="System Bold" size="28.0" />
