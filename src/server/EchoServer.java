@@ -145,7 +145,16 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
                     break;
-
+            	case Is_Exists_Eva_Report:
+        			System.out.println("server check if evaluation report exists");
+        			List<Boolean>flags=dbConnection.existsEvaluationReport(serverService.getParams());
+        			try {
+        				client.sendToClient(new ServerService(DatabaseService.Is_Exists_Eva_Report,flags));
+        			}
+        			catch(IOException e) {
+        				e.printStackTrace();
+        			}
+        			break;
                 case View_Evaluation_Report:
 
                     System.out.println("server handle View_Evaluation_Report");
