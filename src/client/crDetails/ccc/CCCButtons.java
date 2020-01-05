@@ -52,7 +52,13 @@ public class CCCButtons implements ClientUI {
 
     @FXML
     void showSetDecisionDialog(ActionEvent event) {
-
+    	try {
+    		
+    		IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml", 400, 300);
+   		 
+   		 } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
