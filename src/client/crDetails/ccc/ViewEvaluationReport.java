@@ -9,7 +9,9 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import common.IcmUtils;
 import entities.EvaluationReport;
+import javafx.beans.value.WritableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,13 +30,13 @@ public class ViewEvaluationReport implements ClientUI {
 	@FXML
 	private ChoiceBox<String> infoSystemChoiceBox;
 	@FXML
-	private DatePicker evaluatedTimeDatePicker;
-	@FXML
 	private TextArea risksAndConstraintsTextArea;
 	@FXML
 	private TextArea expectedResultTextArea;
 	@FXML
 	private TextArea requiredChangeTextArea;
+	@FXML
+	private TextArea timeTextArea;
 	
 	private ClientController clientController;	
     private CrDetails crDetails;
@@ -62,15 +64,16 @@ public class ViewEvaluationReport implements ClientUI {
 
         clientController.handleMessageFromClientUI(loadRequestData);
         
-        createButton.setDisable(false);
+       
     }
 	
 	 public void handleMessageFromClientController(ServerService serverService) {
      	System.out.println("adding details to screen");
 
         List<EvaluationReport> reportList = serverService.getParams();
-
+        
         setCurrReport(reportList.get(0));
+        
         infoSystemChoiceBox.setItems(FXCollections.observableArrayList(currReport.getInfoSystem().toString()));
         infoSystemChoiceBox.getSelectionModel().select(0);
         // TODO: infoSystemChoiceBox set Editable(false)
@@ -80,12 +83,20 @@ public class ViewEvaluationReport implements ClientUI {
         expectedResultTextArea.setEditable(false);
         risksAndConstraintsTextArea.textProperty().setValue(currReport.getRisksAndConstraints());
         risksAndConstraintsTextArea.setEditable(false);
-        evaluatedTimeDatePicker.setValue(currReport.getEvaluatedTime());
-        evaluatedTimeDatePicker.setEditable(false);
+        timeTextArea.textProperty().setValue(currReport.getEvaluatedTime().toString());
+        timeTextArea.setEditable(false);
+        
+
 
 	 }
 	 
-	 public void cancelEvaluationReport(ActionEvent e) {
+	 public void backAction(ActionEvent e) {
+		 
+			try {
+				IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		 
 	 }
 }
