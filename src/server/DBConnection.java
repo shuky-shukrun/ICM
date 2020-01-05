@@ -351,7 +351,7 @@ public class DBConnection {
 			// when updated-PreparedStatement ps=sqlConnection.prepareStatement("UPDATE
 			// phase SET phStatus='IN_PROCESS' where phIDChangeRequest=? AND phDeadline=?");
 			PreparedStatement ps = sqlConnection
-					.prepareStatement("INSERT INTO phase VALUES(?,'EXAMINATION',?,'IN_PROCESS',null,null,null,0)");// delete
+					.prepareStatement("INSERT INTO phase VALUES(?,'EXAMINATION',?,'IN_PROCESS',null,null,null,null,null)");// delete
 																													// when
 																													// updated
 			// stay when updated!!!
