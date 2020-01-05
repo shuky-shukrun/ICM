@@ -8,6 +8,8 @@ import entities.InfoSystem;
 import entities.Phase;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -93,8 +95,12 @@ public class NewRequest implements ClientUI {
     @FXML
     void addFiles(ActionEvent event) {
     	FileChooser fileCh=new FileChooser();
-    	List<File> s=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
-
+    	List<File> filesToAttach=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+		ObservableList<File> listTemp = FXCollections.observableArrayList();
+		for (File f : filesToAttach) {
+			listTemp.add(f);
+		}
+		filesListView.setItems(listTemp);// show the files on the screen
     }
 
     @FXML

@@ -127,10 +127,17 @@ public class CrDetails implements ClientUI {
 
                 break;
             case download_files:
-            	if((Boolean)serverService.getParams().get(0)==true)
+            	switch((String)serverService.getParams().get(0)) {
+            case "success":
             		IcmUtils.displayInformationMsg("Information message","check your downloads folder");
-            	else
-            		IcmUtils.displayInformationMsg("Information message", "Error in process", ((Exception)serverService.getParams().get(1)).getMessage());
+            		break;
+            case "noFiles":
+            	IcmUtils.displayInformationMsg("Information message","no files to download");
+            	break;
+            case "exception":	
+            	IcmUtils.displayInformationMsg("Information message", "Error in process", ((Exception)serverService.getParams().get(1)).getMessage());
+            	break;
+            	}
         }
     }
 

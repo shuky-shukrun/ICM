@@ -348,13 +348,7 @@ public class DBConnection {
 		// insert examination phase to specific request with status phase leader
 		// assigned
 		try {
-			// when updated-PreparedStatement ps=sqlConnection.prepareStatement("UPDATE
-			// phase SET phStatus='IN_PROCESS' where phIDChangeRequest=? AND phDeadline=?");
-			PreparedStatement ps = sqlConnection
-					.prepareStatement("INSERT INTO phase VALUES(?,'EXAMINATION',?,'IN_PROCESS',null,null,null,null,null)");// delete
-																													// when
-																													// updated
-			// stay when updated!!!
+			PreparedStatement ps=sqlConnection.prepareStatement("UPDATE phase SET phStatus='IN_PROCESS' where phIDChangeRequest=? AND phDeadline=?");
 			ps.setInt(1, Integer.parseInt(requirementList1.get(0)));// id
 			PreparedStatement ps1 = sqlConnection
 					.prepareStatement("SELECT phDeadline FROM phase where phIDChangeRequest=?");
@@ -600,7 +594,7 @@ public class DBConnection {
 			rs = pstmt.executeQuery();
 			//convert from blobs to files
 				while (rs.next()) {
-
+					count++;
 					Blob blob = rs.getBlob("file");
 					InputStream in = blob.getBinaryStream();
 					File someFile = new File(rs.getString("fileName"));
@@ -615,6 +609,12 @@ public class DBConnection {
 
 					l.add(someFile);
 				}
+				if(count==0)
+				{
+				
+					lr.add("noFiles");
+					return lr;
+				}
 				String home = System.getProperty("user.home");
 				File zipFile = new File(home + "/Downloads/" + zipName + ".zip");
 				return createZipFromMultipleFiles(zipFile, l);
@@ -623,7 +623,8 @@ public class DBConnection {
 		} catch (Exception e1) {
 
 			e1.printStackTrace();
-			lr.add(false);
+			
+			lr.add("exception");
 			lr.add(e1);
 			return lr;
 		}
@@ -671,12 +672,13 @@ public class DBConnection {
 			// close the ZipOutputStream
 			zos.close();
 			System.out.println("Succeed");
-			l.add(true);
-			l.add(null);
+			
+			l.add("success");
 
 		} catch (IOException ioe) {
 			System.out.println("Error creating zip file: " + ioe);
-			l.add(false);
+			
+			l.add("exception");
 			l.add(ioe);
 		}
 		return l;
