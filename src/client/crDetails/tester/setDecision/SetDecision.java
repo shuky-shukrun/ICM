@@ -102,10 +102,10 @@ public class SetDecision implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true && list.get(2) == true) {
-			IcmUtils.displayConfirmationMsg("update the tester decision- success");
+			IcmUtils.displayInformationMsg("update the tester decision- success");
 		} else {
 			IcmUtils.displayErrorMsg("update the tester decision- failed");
 		}
-
+		IcmUtils.getPopUp().close();
 	}
 }
