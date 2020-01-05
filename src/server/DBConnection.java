@@ -583,23 +583,19 @@ public class DBConnection {
 		//update decision in the db - set to null at first
 		try {
 			System.out.println("insert the decision to datebase");
-			ps = sqlConnection.prepareStatement("UPDATE phase SET phSetDectionDescription = ? WHERE phIDChangeRequest = ?");
-			decision = params.get(0) + params.get(1);
+			ps = sqlConnection.prepareStatement("UPDATE phase SET phSetDecisionDescription = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+			decision = params.get(0) +":"+ params.get(1);
 			ps.setString(1, decision);
 			ps.setInt(2, crId);
-			System.out.println("6");
+			ps.setString(3, params.get(3));
 			ps.executeUpdate();
-			System.out.println("7");
 			flag = true;
-			System.out.println("8");
 			list.add(flag);
-			System.out.println("9");
 		} catch (SQLException e) {
 			flag=false;
 			list.add(flag);
 			e.printStackTrace();
 		}
-		System.out.println("10");
 	
 		//update the current phase to done
 		try {

@@ -85,6 +85,7 @@ public class SetDecision implements ClientUI {
 		String crId = new String();
 		crId = CrDetails.getCurrRequest().getId().toString();
 		list.add(crId);
+		list.add(currPhase);
 
 		ServerService serverService = new ServerService(DatabaseService.Set_Decision, list);
 		clientController.handleMessageFromClientUI(serverService);
