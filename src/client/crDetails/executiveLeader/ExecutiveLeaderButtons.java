@@ -1,11 +1,11 @@
 package client.crDetails.executiveLeader;
 
 import client.ClientController;
-import client.ClientMain;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
 import entities.ChangeRequest;
+import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -22,13 +22,35 @@ import java.util.Optional;
 public class ExecutiveLeaderButtons implements ClientUI {
 
     @FXML
-    private Button requestPhaseTimeButton1;
+    private Button requestPhaseTimeButton;
     @FXML
     private Button confirmExecutionButton;
 
     ClientController clientController;
 
-    @FXML
+    public void initialize() {
+        ChangeRequest currRequest = CrDetails.getCurrRequest();
+
+        Phase.PhaseStatus currPhaseStatus = currRequest.getPhases().get(0).getPhaseStatus();
+        switch (currPhaseStatus) {
+            case PHASE_EXEC_LEADER_ASSIGNED:
+                confirmExecutionButton.setDisable(true);
+                break;
+            case IN_PROCESS:
+                requestPhaseTimeButton.setDisable(true);
+                break;
+            default:
+                IcmUtils.displayErrorMsg("Request status can't be " +
+                        currPhaseStatus + ". Please contact system administrator.");
+                try {
+                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+    }
+
+        @FXML
     void confirmExecution(ActionEvent event) {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Execution Confirmation");
