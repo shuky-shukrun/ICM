@@ -88,7 +88,7 @@ public class CreateEvaluationReport implements ClientUI {
 		};
 
 		createButton.disableProperty().bind(bb);
-		moreInformation.disableProperty().bind(bb.not());
+		moreInformation.visibleProperty().bind(bb);
 		
 
 	}
