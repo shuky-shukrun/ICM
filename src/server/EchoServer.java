@@ -13,6 +13,9 @@ import ocsf.server.ConnectionToClient;
 import server.ServerService.DatabaseService;
 
 import javax.mail.MessagingException;
+
+import client.crDetails.CrDetails;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -72,24 +75,27 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
                     break;
-
+                    
                 case Forgot_Password:
                     System.out.println("server handle forgot password request");
-                    List<Object> l = dbConnection.forgotPasswordRequest(serverService.getParams());
-                    if ((Boolean) l.get(0) == false)
+                    List<Object>l=dbConnection.forgotPasswordRequest(serverService.getParams());
+                    if((Boolean)l.get(0)==false)
                         try {
                             client.sendToClient(new ServerService(DatabaseService.Forgot_Password, l));
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
-                    else {
-                        String text = "hey " + (String) l.get(2) + "\n your id: " + (int) l.get(1) + "\n your password is: " + (String) l.get(3);
-                        JavaEmail emailer = new JavaEmail();
+                    else
+                    {
+                        String line1 = "Hey  "+(String)l.get(2)+" "+(String)l.get(3);
+                        String line2 = "Your id is:"+(int)l.get(1)+"    ";
+                        String line3 = "Your password is:"+(String)l.get(4);
+                        String text = line1 + "\n" + line2+"\n"+line3;
+                        JavaEmail emailer=new JavaEmail();
                         emailer.setMailServerProperties();
 
                         try {
-                            emailer.sendEmail((String) l.get(4), "restore password", text);
-
+                            emailer.sendEmail((String)l.get(5), "Restore Password", text);
                         } catch (MessagingException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -202,6 +208,16 @@ public class EchoServer extends AbstractServer {
                     dbConnection.addNewRequest(newRequest);
                     client.sendToClient(serverService);
 					System.out.println("server finish Add_New_Request");
+                    break;
+                case download_files:
+                    System.out.println("server handle download files");
+                    List<Object> flag=dbConnection.downloadFiles((int)serverService.getParams().get(0),"Change_Request_"+(int)serverService.getParams().get(0));
+                    
+                    try {
+                        client.sendToClient(new ServerService(DatabaseService.download_files,flag));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case Get_Info_Engineers:
                     System.out.println("server handle Get_Info_Engineers");

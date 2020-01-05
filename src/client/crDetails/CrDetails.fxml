@@ -112,7 +112,7 @@
                   <Image url="@../logo6.PNG" />
                </image>
             </ImageView>
-            <Button fx:id="downloadFilesButton" alignment="CENTER" contentDisplay="RIGHT" layoutX="15.0" layoutY="138.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="215.0" style="-fx-background-radius: 10;" text="Download Attached Files">
+            <Button fx:id="downloadFilesButton" alignment="CENTER" contentDisplay="RIGHT" layoutX="15.0" layoutY="138.0" mnemonicParsing="false" onAction="#downloadFiles" prefHeight="35.0" prefWidth="215.0" style="-fx-background-radius: 10;" text="Download Attached Files">
                <font>
                   <Font size="14.0" />
                </font>

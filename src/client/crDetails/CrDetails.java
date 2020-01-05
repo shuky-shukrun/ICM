@@ -9,6 +9,7 @@ import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.IEPhasePosition;
 import entities.InformationEngineer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import server.ServerService;
+import server.ServerService.DatabaseService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,7 +82,12 @@ public class CrDetails implements ClientUI {
 
     }
 
-
+    @FXML
+    public void downloadFiles(ActionEvent event) {
+    	List<Integer>param=new ArrayList<Integer>();
+    	param.add(Integer.parseInt(changeRequestIDTextField.getText()));
+    	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.download_files, param));
+    }
 
 
     @FXML
@@ -119,6 +126,11 @@ public class CrDetails implements ClientUI {
                 }
 
                 break;
+            case download_files:
+            	if((Boolean)serverService.getParams().get(0)==true)
+            		IcmUtils.displayInformationMsg("Information message","check your downloads folder");
+            	else
+            		IcmUtils.displayInformationMsg("Information message", "Error in process", ((Exception)serverService.getParams().get(1)).getMessage());
         }
     }
 

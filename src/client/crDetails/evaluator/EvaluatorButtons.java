@@ -1,6 +1,8 @@
 package client.crDetails.evaluator;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import client.ClientController;
 import client.ClientUI;
@@ -11,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import server.ServerService;
+import server.ServerService.DatabaseService;
 
 public class EvaluatorButtons implements ClientUI {
 
@@ -37,21 +40,29 @@ public class EvaluatorButtons implements ClientUI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		moreInformation1.setDisable(true);
-		moreInformation2.setDisable(true);
+		moreInformation1.setVisible(false);
+		moreInformation2.setVisible(false);
 		if (CrDetails.getCurrRequest().isSuspended()) {
 			info="request is frozen";
 			requestPhaseTimeButton.setDisable(true);
-			moreInformation1.setDisable(false);
+			moreInformation1.setVisible(true);
+			//moreInformation1.setDisable(false);
 			createEvaluationReportButton.setDisable(true);
-			moreInformation2.setDisable(false);
+			moreInformation1.setVisible(true);
+			//moreInformation2.setDisable(false);
 		}
-		 if (CrDetails.getCurrRequest().getPhases().get(0)
+		else if (CrDetails.getCurrRequest().getPhases().get(0)
 					.getPhaseStatus() != entities.Phase.PhaseStatus.TIME_APPROVED) {
 			 info="time of phase yet not approved";
 			 createEvaluationReportButton.setDisable(true);
-				moreInformation2.setDisable(false);
+				moreInformation2.setVisible(true);
+				//moreInformation2.setDisable(false);
 		 }
+		else {
+		List<Integer>l=new ArrayList<>();
+		l.add(CrDetails.getCurrRequest().getId());
+		 clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Is_Exists_Eva_Report,l));
+	}
 	}
 
 	@FXML
@@ -104,13 +115,24 @@ public class EvaluatorButtons implements ClientUI {
 			case "time of phase yet not approved":
 				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " + +CrDetails.getCurrRequest().getId()+ "\n" + "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString()
 						,"Change request " +CrDetails.getCurrRequest().getId()+ " -time request not approved yet." +"\n\n" + "evaluation report can't be submited when the phase time not yet approved!" );
+				break;
+			case "have Report":
+				IcmUtils.displayInformationMsg("Information message", "there is already evaluation report");
+				break;
 		}
 			
 	}
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
-		switch(info) {
-			
+		if(serverService.getDatabaseService().equals(DatabaseService.Is_Exists_Eva_Report)){
+			if((Boolean)serverService.getParams().get(0)==true) {
+				info="have Report";
+				createEvaluationReportButton.setDisable(true);
+				moreInformation2.setVisible(true);
+				//moreInformation2.setDisable(false);
+			}
+			else
+				moreInformation2.setVisible(false);
 		}
 	}
 }

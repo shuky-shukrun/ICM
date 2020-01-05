@@ -9,6 +9,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,6 +26,11 @@ public class RequestTimeEvaluation implements ClientUI {
 	private Button cancelbtn;
 	@FXML
 	private Button applyButton;
+	@FXML
+	private Button moreInformation;
+	
+	private String info;
+	private int flagHelp;
 	
 	/**
 	 * initialize the request time dialog
@@ -35,6 +41,60 @@ public class RequestTimeEvaluation implements ClientUI {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		// disable request time button any field is invalid
+		BooleanBinding bb = new BooleanBinding() {
+			{
+				super.bind( datePickid.valueProperty());
+			}
+
+			@Override
+			// disable, if one selection is missing or evaluated time is later than the
+			// deadline of the phase
+			protected boolean computeValue() {
+			
+				if( datePickid.valueProperty().get() == null)
+					flagHelp=0;
+				else if(datePickid.valueProperty().get().compareTo(LocalDate.now())<= 0)//check with team
+					flagHelp=1;
+				else
+					flagHelp=2;
+				return ( datePickid.getValue() == null|| datePickid.getValue().compareTo(LocalDate.now()) < 0);
+			}
+		};
+
+		applyButton.disableProperty().bind(bb);
+		moreInformation.visibleProperty().bind(bb);
+	
+		
+	}
+	@FXML
+	/**
+	 * Request approval for time of evaluation phase when apply button pressed
+	 * @param e-apply button pressed event
+	 */
+	public void applyTimeRequest(ActionEvent e) {
+		//create ServerService object with the picked date and the id of the request ,in order to send it to the 
+		//client controller 
+		List<Object> l=new ArrayList<Object>();
+		LocalDate date=datePickid.getValue();
+		l.add(CrDetails.getCurrRequest().getId());
+		l.add(date);
+		ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
+		clientController.handleMessageFromClientUI(serverService);
+	}
+	@FXML
+	public void moreInformationEvent(ActionEvent e) {
+		if(flagHelp==0)
+			info = "empty fields";
+		if(flagHelp==1)
+			info="not legal date";
+		switch(info) {
+		case "empty fields":
+			IcmUtils.displayInformationMsg("Information message", "the date field is empty");
+			break;
+		case "not legal date":
+			IcmUtils.displayInformationMsg("information message", "the date you entered is earlier than today");
 		}
 	}
 	
@@ -51,21 +111,7 @@ public class RequestTimeEvaluation implements ClientUI {
 		}
 	}
 	
-	@FXML
-	/**
-	 * Request approval for time of evaluation phase when apply button pressed
-	 * @param e-apply button pressed event
-	 */
-	public void applyTimeRequest(ActionEvent e) {
-		//create ServerService object with the picked date and the id of the request ,in order to send it to the 
-		//client controller 
-		List<Object> l=new ArrayList<Object>();
-		LocalDate date=datePickid.getValue();
-		l.add(CrDetails.getCurrRequest().getId());
-		l.add(date);
-		ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
-		clientController.handleMessageFromClientUI(serverService);
-	}
+
 	@Override
 	/**
 	 * Shows pop-up with the information about if the request time succeed
