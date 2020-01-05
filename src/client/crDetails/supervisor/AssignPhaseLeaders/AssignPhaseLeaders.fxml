@@ -25,19 +25,19 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="examinationPhaseLeaderChoicexaminationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="325.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <ChoiceBox fx:id="examinationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="325.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
             <Label layoutX="150.0" layoutY="384.0" text="Execution Phase Leader:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="executionPhaseLeaderChoiceBoxexecutionPhaseLeaderChoiceBox" layoutX="150.0" layoutY="411.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <ChoiceBox fx:id="executionPhaseLeaderChoiceBox" layoutX="150.0" layoutY="411.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
             <Label layoutX="150.0" layoutY="472.0" text="Validation Phase Leader:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="validationPhaseLeaderChoiceBoxvalidationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="499.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <ChoiceBox fx:id="validationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="499.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
             <Button fx:id="submitButton" layoutX="374.0" layoutY="600.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-background-color: #65a1ea;" text="Submit">
                <font>
                   <Font size="14.0" />
@@ -59,6 +59,11 @@
                </image>
             </ImageView>
             <MaterialDesignIconView fill="#216dcc" glyphName="ACCOUNT_MULTIPLE_PLUS" layoutX="438.0" layoutY="125.0" size="30" />
+            <Label fx:id="helpLabel" layoutX="150.0" layoutY="160.0" text="Label" textFill="#0f7ab9">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </content>

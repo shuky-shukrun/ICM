@@ -198,6 +198,20 @@ public class EchoServer extends AbstractServer {
 				dbConnection.addNewRequest(newRequest);
 				System.out.println("done");
 				break;
+			case Get_Phase_Leaders:
+				System.out.println("server handle Get_Phase_Leaders");
+				List<ChangeInitiator> ChangeInitiatorParams = serverService.getParams();
+				List<ChangeInitiator> phaseLeadersList = dbConnection.getphaseLeadersDetails(ChangeInitiatorParams);
+				System.out.println("Get_Phase_Leaders server got data");
+				serverService.setParams(phaseLeadersList);
+				try {
+					client.sendToClient(serverService);
+					System.out.println("sent phase leaders details to client");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+				
 		}
 	}
 

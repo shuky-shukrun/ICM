@@ -41,6 +41,7 @@ public class RequestExtensionTime implements ClientUI{
 	final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public void initialize() {
+		try {
 		RequestedtimeDatePicker.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
 				super.updateItem(date, empty);
@@ -60,7 +61,7 @@ public class RequestExtensionTime implements ClientUI{
         );
     	submitButton.disableProperty().bind(test);
 		
-		try {
+		
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -97,9 +98,8 @@ public class RequestExtensionTime implements ClientUI{
 
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
-
-
-		switch (serverService.getDatabaseService()) {
+		
+	switch (serverService.getDatabaseService()) {
 
 			case Update_Phase_Extension:
 				List<Boolean> update=serverService.getParams();
