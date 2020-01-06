@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -238,89 +239,93 @@ public class DBConnection {
 //                currPhase.setExceptionTime(exceptionDate);
 //           }
 
-            crPhaseList.add(currPhase);
-            ps.close();
+			crPhaseList.add(currPhase);
+			ps.close();
 
-            // get Information Engineer Phase Position for the current user
-            ps = sqlConnection.prepareStatement("SELECT * FROM ieInPhase WHERE crID = ? AND iePhaseName = ?");
-            ps.setInt(1, cr.getId());
-            ps.setString(2, cr.getCurrPhaseName().toString());
+			// get Information Engineer Phase Position for the current user
+			ps = sqlConnection.prepareStatement("SELECT * FROM ieInPhase WHERE crID = ? AND iePhaseName = ?");
+			ps.setInt(1, cr.getId());
+			ps.setString(2, cr.getCurrPhaseName().toString());
 
-            Map<IEPhasePosition.PhasePosition, IEPhasePosition> iePhasePositionMap = new HashMap<>();
+			Map<IEPhasePosition.PhasePosition, IEPhasePosition> iePhasePositionMap = new HashMap<>();
 
-            rs = ps.executeQuery();
-            rs.beforeFirst();
-            while (rs.next()) {
-                IEPhasePosition iePhasePosition = new IEPhasePosition();
-                iePhasePosition.setInformationEngineer(new InformationEngineer());
-                iePhasePosition.getInformationEngineer().setId(rs.getInt("IDieInPhase"));
-                iePhasePosition.setCrID(params.get(1));
-                iePhasePosition.setPhaseName(currPhase.getName());
-                iePhasePosition.setPhasePosition(IEPhasePosition.PhasePosition.valueOf(rs.getString("iePhasePosition")));
+			rs = ps.executeQuery();
+			rs.beforeFirst();
+			while (rs.next()) {
+				IEPhasePosition iePhasePosition = new IEPhasePosition();
+				iePhasePosition.setInformationEngineer(new InformationEngineer());
+				iePhasePosition.getInformationEngineer().setId(rs.getInt("IDieInPhase"));
+				iePhasePosition.setCrID(params.get(1));
+				iePhasePosition.setPhaseName(currPhase.getName());
+				iePhasePosition
+						.setPhasePosition(IEPhasePosition.PhasePosition.valueOf(rs.getString("iePhasePosition")));
 
-                iePhasePositionMap.put(iePhasePosition.getPhasePosition(),iePhasePosition);
-            }
+				iePhasePositionMap.put(iePhasePosition.getPhasePosition(), iePhasePosition);
+			}
 
-            currPhase.setIePhasePosition(iePhasePositionMap);
-            cr.setPhases(crPhaseList);
-            crList.add(cr);
+			currPhase.setIePhasePosition(iePhasePositionMap);
+			cr.setPhases(crPhaseList);
+			crList.add(cr);
 
-            ps.close();
+			ps.close();
 
+			// get initiator details
+			ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser = ?");
+			ps.setInt(1, cr.getInitiator().getId());
+			rs = ps.executeQuery();
+			rs.beforeFirst();
+			rs.next();
 
-            // get initiator details
-            ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser = ?");
-            ps.setInt(1, cr.getInitiator().getId());
-            rs = ps.executeQuery();
-            rs.beforeFirst();
-            rs.next();
+			initiator.setFirstName(rs.getString("firstName"));
+			initiator.setLastName(rs.getString("lastName"));
+			initiator.setEmail(rs.getString("email"));
+			ps.close();
 
-            initiator.setFirstName(rs.getString("firstName"));
-            initiator.setLastName(rs.getString("lastName"));
-            initiator.setEmail(rs.getString("email"));
-            ps.close();
+			System.out.println("database got leader");
 
-            System.out.println("database got leader");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return crList;
+	}
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return crList;
-    }
+	public List<Boolean> updatePhaseExtensionTime(List<Phase> pList) {
 
-    public List<Boolean> updatePhaseExtensionTime (List<Phase> pList) {
+		List<Boolean> updateList = new ArrayList<>();
+		boolean update = false;
+		Phase currPhase = new Phase();
+		currPhase = pList.get(0);
+		System.out.println(currPhase);
+		java.util.Date date = Date
+				.from(currPhase.getTimeExtensionRequest().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-        List<Boolean> updateList = new ArrayList<>();
-        boolean update= false;
-        Phase currPhase = new Phase();
-        currPhase=pList.get(0);
-        System.out.println(currPhase);
-        java.util.Date date = Date.from(currPhase.getTimeExtensionRequest().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+		try {
+			PreparedStatement ps = sqlConnection.prepareStatement(
+					"UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+			ps.setDate(1, sqlDate);
+			ps.setString(2, currPhase.getPhaseStatus().toString());
+			ps.setString(3, currPhase.getDescription());
+			ps.setInt(4, currPhase.getChangeRequestId());
+			ps.setString(5, currPhase.getName().toString());
 
-        try {
-            PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
-            ps.setDate(1,sqlDate);
-            ps.setString(2, currPhase.getPhaseStatus().toString());
-            ps.setString(3, currPhase.getDescription());
-            ps.setInt(4, currPhase.getChangeRequestId());
-            ps.setString(5, currPhase.getName().toString());
+			// System.out.println(sqlDate+ " " +currPhase.getPhaseStatus().toString()+ "
+			// "+currPhase.isExtensionRequest());
+			// System.out.println(currPhase.getChangeRequestId()+" "+
+			// currPhase.getName().toString());
 
-            //System.out.println(sqlDate+ " " +currPhase.getPhaseStatus().toString()+ " "+currPhase.isExtensionRequest());
-            // System.out.println(currPhase.getChangeRequestId()+" "+ currPhase.getName().toString());
+			ps.executeUpdate();
+			ps.close();
+			System.out.println("phase extension updated");
+			update = true;
+			updateList.add(update);
 
-            ps.executeUpdate();
-            ps.close();
-            System.out.println("phase extension updated");
-            update= true;
-            updateList.add(update);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return updateList;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return updateList;
-
-    }
+	}
 
 	public List<Boolean> createEvaluationReport(List<String> requirementList1) {
 		boolean flag = false;
@@ -348,10 +353,11 @@ public class DBConnection {
 		// update examination phase to specific request with status phase leader
 		// assigned
 		try {
-			PreparedStatement ps=sqlConnection.prepareStatement("UPDATE phase SET phStatus='IN_PROCESS',phDeadline=? where phIDChangeRequest=? AND phPhaseName='EXAMINATION'");
+			PreparedStatement ps = sqlConnection.prepareStatement(
+					"UPDATE phase SET phStatus='IN_PROCESS',phDeadline=? where phIDChangeRequest=? AND phPhaseName='EXAMINATION'");
 			ps.setInt(2, Integer.parseInt(requirementList1.get(0)));// id
-			PreparedStatement ps1 = sqlConnection
-					.prepareStatement("SELECT phDeadline FROM phase where phIDChangeRequest=? AND phPhaseName='EVALUATION'");
+			PreparedStatement ps1 = sqlConnection.prepareStatement(
+					"SELECT phDeadline FROM phase where phIDChangeRequest=? AND phPhaseName='EVALUATION'");
 			ps1.setInt(1, Integer.parseInt(requirementList1.get(0)));
 			ResultSet rs = ps1.executeQuery();
 			rs.next();
@@ -450,10 +456,9 @@ public class DBConnection {
 		System.out.println("Database handle addNewRequest");
 		// insert request
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO changeRequest " +
-					"(crIDuser, crInfoSystem, crCurrState, crRequestedChange, crReasonForChange, " +
-					"crComments, crDate, crCurrPhaseName, crSuspended) " +
-					"VALUE (?,?,?,?,?,?,?,?, 0)");
+			ps = sqlConnection.prepareStatement("INSERT INTO changeRequest "
+					+ "(crIDuser, crInfoSystem, crCurrState, crRequestedChange, crReasonForChange, "
+					+ "crComments, crDate, crCurrPhaseName, crSuspended) " + "VALUE (?,?,?,?,?,?,?,?, 0)");
 			ps.setInt(1, newRequest.getInitiator().getId());
 			ps.setString(2, newRequest.getInfoSystem().toString());
 			ps.setString(3, newRequest.getCurrState());
@@ -484,9 +489,8 @@ public class DBConnection {
 
 		// insert SUBMITTED phase
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO phase " +
-					"(phIDChangeRequest, phPhaseName, phDeadline, phStatus) " +
-					"VALUE (?,?,?,?)");
+			ps = sqlConnection.prepareStatement("INSERT INTO phase "
+					+ "(phIDChangeRequest, phPhaseName, phDeadline, phStatus) " + "VALUE (?,?,?,?)");
 			ps.setInt(1, newRequest.getId());
 			ps.setString(2, newRequest.getCurrPhaseName().toString());
 			ps.setDate(3, java.sql.Date.valueOf(newRequest.getDate().plusDays(7)));
@@ -500,9 +504,8 @@ public class DBConnection {
 
 		// insert all other phases
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO phase " +
-					"(phIDChangeRequest, phPhaseName, phStatus) " +
-					"VALUES (?,?,?), (?,?,?), (?,?,?), (?,?,?)");
+			ps = sqlConnection.prepareStatement("INSERT INTO phase " + "(phIDChangeRequest, phPhaseName, phStatus) "
+					+ "VALUES (?,?,?), (?,?,?), (?,?,?), (?,?,?)");
 
 			ps.setInt(1, newRequest.getId());
 			ps.setString(2, Phase.PhaseName.EXAMINATION.toString());
@@ -525,25 +528,58 @@ public class DBConnection {
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
+		// enter the files to files table
+		if (newRequest.getFiles() != null) {
+			uploadFiles(newRequest.getId(), newRequest.getFiles());
+		}
+	}
+
+	public void uploadFiles(int id, File[] listParams) {
+		System.out.println("server upload given files");
+		int i;
+
+		for (i = 0; i < listParams.length; i++) {
+			uploadFile(id, listParams[i].getName(), listParams[i].getPath());
+		}
+		System.out.println("success upload");
+	}
+
+	private void uploadFile(int id, String fileName, String filePath) {
+		String sql = "INSERT INTO files values (?,?,?,?)";
+		try {
+			PreparedStatement statement = sqlConnection.prepareStatement(sql);
+			statement.setInt(1, id);
+			statement.setString(2, fileName);
+			statement.setString(3, filePath);
+			File file = new File(filePath);
+			FileInputStream input = new FileInputStream(file);
+			statement.setBinaryStream(4, input);
+			statement.executeUpdate();
+		} catch (SQLException e) { // TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public List<EvaluationReport> getEvaluationReportDetails(List<Integer> params) {
-		
+
 		EvaluationReport e = new EvaluationReport();
 		List<EvaluationReport> evRptDetails = new ArrayList<>();
 
 		PreparedStatement ps;
 		try {
 
-			ps = sqlConnection.prepareStatement("SELECT * FROM evaluationReport WHERE cRequestId = ?");			
-			ps.setInt(1, params.get(0));			
+			ps = sqlConnection.prepareStatement("SELECT * FROM evaluationReport WHERE cRequestId = ?");
+			ps.setInt(1, params.get(0));
 			ResultSet rs = ps.executeQuery();
-			rs.next();						
-			e.setInfoSystem(InfoSystem.valueOf(rs.getString("infoSystem")));			
-			e.setRequiredChange(rs.getString("requestedChange"));			
-			e.setExpectedResult(rs.getString("expectedResult"));			
-			e.setRisksAndConstraints(rs.getString("risksAndConstraints"));			
-			e.setEvaluatedTime(rs.getDate("EvaluatedTime").toLocalDate());			
+			rs.next();
+			e.setInfoSystem(InfoSystem.valueOf(rs.getString("infoSystem")));
+			e.setRequiredChange(rs.getString("requestedChange"));
+			e.setExpectedResult(rs.getString("expectedResult"));
+			e.setRisksAndConstraints(rs.getString("risksAndConstraints"));
+			e.setEvaluatedTime(rs.getDate("EvaluatedTime").toLocalDate());
 			ps.close();
 			System.out.println("database got leader");
 
@@ -578,19 +614,21 @@ public class DBConnection {
 		return l;
 
 	}
+
 	/**
 	 * download files of specific change request
-	 * @param id-change request id
+	 * 
+	 * @param id-change      request id
 	 * @param zipName-always sent change_request_idOfChangeRequest
 	 * @return
 	 */
 
-	public List<Object> downloadFiles(int id,File folder, String zipName) {
-		int count=0;
-		List<Object>lr=new ArrayList<Object>();
+	public List<Object> downloadFiles(int id, File folder, String zipName) {
+		int count = 0;
+		List<Object> lr = new ArrayList<Object>();
 		ResultSet rs = null;
 		List<File> l = new ArrayList<File>();
-		//get from database all the change request files
+		// get from database all the change request files
 		String selectSQL = "SELECT fileName,file FROM files where CrID=?";
 		PreparedStatement pstmt = null;
 		try {
@@ -598,38 +636,36 @@ public class DBConnection {
 			pstmt = sqlConnection.prepareStatement(selectSQL);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
-			//convert from blobs to files
-				while (rs.next()) {
-					count++;
-					Blob blob = rs.getBlob("file");
-					InputStream in = blob.getBinaryStream();
-					File someFile = new File(rs.getString("fileName"));
-					OutputStream out = new FileOutputStream(someFile);
-					byte[] buff = new byte[4096]; // how much of the blob to read/write at a time
-					int len = 0;
+			// convert from blobs to files
+			while (rs.next()) {
+				count++;
+				Blob blob = rs.getBlob("file");
+				InputStream in = blob.getBinaryStream();
+				File someFile = new File(rs.getString("fileName"));
+				OutputStream out = new FileOutputStream(someFile);
+				byte[] buff = new byte[4096]; // how much of the blob to read/write at a time
+				int len = 0;
 
-					while ((len = in.read(buff)) != -1) {
+				while ((len = in.read(buff)) != -1) {
 
-						out.write(buff, 0, len);
-					}
-
-					l.add(someFile);
+					out.write(buff, 0, len);
 				}
-				if(count==0)
-				{
-				
-					lr.add("noFiles");
-					return lr;
-				}
-			
-				File zipFile = new File(folder.getPath()+"/" + zipName + ".zip");
-				return createZipFromMultipleFiles(zipFile, l);
-			
+
+				l.add(someFile);
+			}
+			if (count == 0) {
+
+				lr.add("noFiles");
+				return lr;
+			}
+
+			File zipFile = new File(folder.getPath() + "/" + zipName + ".zip");
+			return createZipFromMultipleFiles(zipFile, l);
 
 		} catch (Exception e1) {
 
 			e1.printStackTrace();
-			
+
 			lr.add("exception");
 			lr.add(e1);
 			return lr;
@@ -642,8 +678,8 @@ public class DBConnection {
 	 * @param zipName
 	 * @param srcFiles
 	 */
-	private List<Object> createZipFromMultipleFiles(File zipName, List<File> srcFiles)  {
-		List<Object>l=new ArrayList<Object>();
+	private List<Object> createZipFromMultipleFiles(File zipName, List<File> srcFiles) {
+		List<Object> l = new ArrayList<Object>();
 		try {
 			// create byte buffer
 			byte[] buffer = new byte[259000];
@@ -678,85 +714,86 @@ public class DBConnection {
 			// close the ZipOutputStream
 			zos.close();
 			System.out.println("Succeed");
-			
+
 			l.add("success");
 
 		} catch (IOException ioe) {
 			System.out.println("Error creating zip file: " + ioe);
-			
+
 			l.add("exception");
 			l.add(ioe);
 		}
 		return l;
-		
+
 	}
 
-    public List<ChangeInitiator> getInfoEngineers() throws SQLException {
-        System.out.println("database handle getInfoEngineers");
-        List<ChangeInitiator> infoEngineersList = new ArrayList<>();
+	public List<ChangeInitiator> getInfoEngineers() throws SQLException {
+		System.out.println("database handle getInfoEngineers");
+		List<ChangeInitiator> infoEngineersList = new ArrayList<>();
 
-        ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE title = 'INFOENGINEER'");
-        ResultSet rs = ps.executeQuery();
+		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE title = 'INFOENGINEER'");
+		ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            ChangeInitiator infoEngineer = new ChangeInitiator();
-            infoEngineer.setId(rs.getInt("IDuser"));
-            infoEngineer.setFirstName(rs.getString("firstName"));
-            infoEngineer.setLastName(rs.getString("lastName"));
-            infoEngineer.setPhoneNumber(rs.getString("phone"));
-            infoEngineer.setEmail(rs.getString("email"));
-            infoEngineer.setTitle(ChangeInitiator.Title.INFOENGINEER);
-            infoEngineer.setDepartment(CiDepartment.IT);
-            infoEngineer.setPosition(Position.valueOf(rs.getString("position")));
+		while (rs.next()) {
+			ChangeInitiator infoEngineer = new ChangeInitiator();
+			infoEngineer.setId(rs.getInt("IDuser"));
+			infoEngineer.setFirstName(rs.getString("firstName"));
+			infoEngineer.setLastName(rs.getString("lastName"));
+			infoEngineer.setPhoneNumber(rs.getString("phone"));
+			infoEngineer.setEmail(rs.getString("email"));
+			infoEngineer.setTitle(ChangeInitiator.Title.INFOENGINEER);
+			infoEngineer.setDepartment(CiDepartment.IT);
+			infoEngineer.setPosition(Position.valueOf(rs.getString("position")));
 
-            infoEngineersList.add(infoEngineer);
-        }
-        ps.close();
-        return infoEngineersList;
-    }
+			infoEngineersList.add(infoEngineer);
+		}
+		ps.close();
+		return infoEngineersList;
+	}
 
-    public void itdUpdatePermissions(List<List<ChangeInitiator>> params) throws SQLException {
-        System.out.println("database handle itdUpdatePermissions");
-        List<Position> positionList = new ArrayList<>();
-        positionList.add(Position.SUPERVISOR);
-        positionList.add(Position.CCC);
-        positionList.add(Position.CCC);
-        positionList.add(Position.CHAIRMAN);
-        System.out.println(params);
+	public void itdUpdatePermissions(List<List<ChangeInitiator>> params) throws SQLException {
+		System.out.println("database handle itdUpdatePermissions");
+		List<Position> positionList = new ArrayList<>();
+		positionList.add(Position.SUPERVISOR);
+		positionList.add(Position.CCC);
+		positionList.add(Position.CCC);
+		positionList.add(Position.CHAIRMAN);
+		System.out.println(params);
 
-        List<ChangeInitiator> oldSelection = params.get(0);
-        List<ChangeInitiator> newSelection = params.get(1);
+		List<ChangeInitiator> oldSelection = params.get(0);
+		List<ChangeInitiator> newSelection = params.get(1);
 
-        for (int i = 0; i < 4; i++) {
-            ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
-            ps.setString(1, Position.REGULAR.toString());
-            ps.setInt(2 ,oldSelection.get(i).getId());
-            ps.executeUpdate();
-            ps.close();
-        }
+		for (int i = 0; i < 4; i++) {
+			ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
+			ps.setString(1, Position.REGULAR.toString());
+			ps.setInt(2, oldSelection.get(i).getId());
+			ps.executeUpdate();
+			ps.close();
+		}
 
-        for (int i = 0; i < 4; i++) {
-            ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
-            ps.setString(1, positionList.get(i).toString());
-            ps.setInt(2 ,newSelection.get(i).getId());
-            ps.executeUpdate();
-            ps.close();
-        }
-        System.out.println("database finish itdUpdatePermissions");
-    }
-    
-	public List<Boolean> setDecision(List<String> params){
+		for (int i = 0; i < 4; i++) {
+			ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
+			ps.setString(1, positionList.get(i).toString());
+			ps.setInt(2, newSelection.get(i).getId());
+			ps.executeUpdate();
+			ps.close();
+		}
+		System.out.println("database finish itdUpdatePermissions");
+	}
+
+	public List<Boolean> setDecision(List<String> params) {
 		boolean flag = false;
 		List<Boolean> list = new ArrayList<Boolean>();
 		PreparedStatement ps;
 		String decision = new String();
 		int crId = Integer.parseInt(params.get(2));
-		
-		//update decision in the db - set to null at first
+
+		// update decision in the db - set to null at first
 		try {
 			System.out.println("insert the decision to datebase");
-			ps = sqlConnection.prepareStatement("UPDATE phase SET phSetDecisionDescription = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
-			decision = params.get(0) +":"+ params.get(1);
+			ps = sqlConnection.prepareStatement(
+					"UPDATE phase SET phSetDecisionDescription = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+			decision = params.get(0) + ":" + params.get(1);
 			ps.setString(1, decision);
 			ps.setInt(2, crId);
 			ps.setString(3, params.get(3));
@@ -764,12 +801,12 @@ public class DBConnection {
 			flag = true;
 			list.add(flag);
 		} catch (SQLException e) {
-			flag=false;
+			flag = false;
 			list.add(flag);
 			e.printStackTrace();
 		}
-	
-		//update the current phase to done
+
+		// update the current phase to done
 		try {
 			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ?");
 			ps.setInt(1, crId);
@@ -777,40 +814,43 @@ public class DBConnection {
 			flag = true;
 			list.add(flag);
 		} catch (SQLException e) {
-			flag=false;
+			flag = false;
 			list.add(flag);
 			e.printStackTrace();
 		}
-		
-		//update phase and status of specific request according to the decision.
+
+		// update phase and status of specific request according to the decision.
 		decision = params.get(0);
-		switch(decision) {
+		switch (decision) {
 		case "Decline The Change":
 			try {
-				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
+				ps = sqlConnection
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
-				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DECLINED' WHERE phIDChangeRequest = ?");
+				ps = sqlConnection
+						.prepareStatement("UPDATE phase SET phStatus = 'DECLINED' WHERE phIDChangeRequest = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
 				list.add(flag);
-			}catch (SQLException e) {
-				flag=false;
+			} catch (SQLException e) {
+				flag = false;
 				list.add(flag);
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "Commite The Change":
 			try {
-				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
+				ps = sqlConnection
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
 				list.add(flag);
-			}catch (SQLException e) {
-				flag=false;
+			} catch (SQLException e) {
+				flag = false;
 				list.add(flag);
 				e.printStackTrace();
 			}
@@ -818,17 +858,20 @@ public class DBConnection {
 
 		case "Ask For Additional Data":
 			try {
-				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ?");
+				ps = sqlConnection
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
-				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_EXEC_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
+				ps = sqlConnection.prepareStatement(
+						"UPDATE phase SET phStatus = 'PHASE_EXEC_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
-				ps = sqlConnection.prepareStatement("UPDATE phase SET phSetDecisionDescription = 'Ask For Additional Data' WHERE phIDChangeRequest = ? and phPhaseName='EVALUATION'");
+				ps = sqlConnection.prepareStatement(
+						"UPDATE phase SET phSetDecisionDescription = 'Ask For Additional Data' WHERE phIDChangeRequest = ? and phPhaseName='EVALUATION'");
 				flag = true;
 				list.add(flag);
-			}catch (SQLException e) {
-				flag=false;
+			} catch (SQLException e) {
+				flag = false;
 				list.add(flag);
 				e.printStackTrace();
 			}
@@ -836,16 +879,18 @@ public class DBConnection {
 
 		case "Approve The Change":
 			try {
-				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
+				ps = sqlConnection
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
-				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ?");
+				ps = sqlConnection
+						.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
 				list.add(flag);
-			}catch (SQLException e) {
-				flag=false;
+			} catch (SQLException e) {
+				flag = false;
 				list.add(flag);
 				e.printStackTrace();
 			}
@@ -853,88 +898,91 @@ public class DBConnection {
 
 		case "Report Test Failure":
 			try {
-				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
+				ps = sqlConnection
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
-				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
+				ps = sqlConnection.prepareStatement(
+						"UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
 				list.add(flag);
-			}catch (SQLException e) {
-				flag=false;
+			} catch (SQLException e) {
+				flag = false;
 				list.add(flag);
 				e.printStackTrace();
 			}
 			break;
-			
-		}	
-		
+
+		}
+
 		return list;
 	}
-	
-    public List<ChangeInitiator> getphaseLeadersDetails (List <ChangeInitiator> ChangeInitiatorList){
-    	
-    	List<ChangeInitiator> phaseLeadersList = new ArrayList<>();
-    	ChangeInitiator crInitiator = new ChangeInitiator();
-    	crInitiator=ChangeInitiatorList.get(0);
-        System.out.println(crInitiator);
-        
-        try {	
-        	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
-            ps.setInt(1, crInitiator.getId());
-            ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
-            ps.setString(3, Position.REGULAR.toString());
-            
-            ResultSet rs = ps.executeQuery();
-            rs.beforeFirst();
-            while (rs.next()) {
-            	ChangeInitiator row = new ChangeInitiator();
-                row.setId(rs.getInt("IDuser"));
-                row.setFirstName(rs.getString("firstName"));
-                row.setLastName(rs.getString("lastName"));
-                row.setEmail(rs.getString("email"));
-                row.setPassword(rs.getString("password"));
-                row.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
-                row.setPhoneNumber(rs.getString("phone"));
-                row.setDepartment(CiDepartment.valueOf(rs.getString("department")));
-                row.setPosition(Position.valueOf(rs.getString("position")));
-                phaseLeadersList.add(row);
-                System.out.println(row);
-            }
-            ps.close();
-            System.out.println("DB get phase leaders");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return phaseLeadersList;
-    	
-    	
-    }
+	public List<ChangeInitiator> getphaseLeadersDetails(List<ChangeInitiator> ChangeInitiatorList) {
+
+		List<ChangeInitiator> phaseLeadersList = new ArrayList<>();
+		ChangeInitiator crInitiator = new ChangeInitiator();
+		crInitiator = ChangeInitiatorList.get(0);
+		System.out.println(crInitiator);
+
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
+			ps.setInt(1, crInitiator.getId());
+			ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
+			ps.setString(3, Position.REGULAR.toString());
+
+			ResultSet rs = ps.executeQuery();
+			rs.beforeFirst();
+			while (rs.next()) {
+				ChangeInitiator row = new ChangeInitiator();
+				row.setId(rs.getInt("IDuser"));
+				row.setFirstName(rs.getString("firstName"));
+				row.setLastName(rs.getString("lastName"));
+				row.setEmail(rs.getString("email"));
+				row.setPassword(rs.getString("password"));
+				row.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
+				row.setPhoneNumber(rs.getString("phone"));
+				row.setDepartment(CiDepartment.valueOf(rs.getString("department")));
+				row.setPosition(Position.valueOf(rs.getString("position")));
+				phaseLeadersList.add(row);
+				System.out.println(row);
+			}
+			ps.close();
+			System.out.println("DB get phase leaders");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return phaseLeadersList;
+
+	}
 
 	public boolean checkReturnRequest(int id) {
 		try {
-			PreparedStatement ps=sqlConnection.prepareStatement("select phSetDecisionDescription from phase where phIDChangeRequest=? and phPhaseName='EVALUATION'");
+			PreparedStatement ps = sqlConnection.prepareStatement(
+					"select phSetDecisionDescription from phase where phIDChangeRequest=? and phPhaseName='EVALUATION'");
 			ps.setInt(1, id);
-			ResultSet rs=ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			rs.next();
-			if(rs.getString("phSetDecisionDescription")!=null&&rs.getString("phSetDecisionDescription").equals("Ask For Additional Data")) {
-				ps=sqlConnection.prepareStatement("delete from evaluationReport where cRequestID=?");
+			if (rs.getString("phSetDecisionDescription") != null
+					&& rs.getString("phSetDecisionDescription").equals("Ask For Additional Data")) {
+				ps = sqlConnection.prepareStatement("delete from evaluationReport where cRequestID=?");
 				ps.setInt(1, id);
 				ps.executeUpdate();
 				System.out.println("true");
 				return true;
-				
-			}
-			else
+
+			} else
 				return false;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-	
+
 	}
 }
