@@ -824,6 +824,7 @@ public class DBConnection {
 				ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_EXEC_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
+				ps = sqlConnection.prepareStatement("UPDATE phase SET phSetDecisionDescription = 'Ask For Additional Data' WHERE phIDChangeRequest = ? and phPhaseName='EVALUATION'");
 				flag = true;
 				list.add(flag);
 			}catch (SQLException e) {
@@ -911,4 +912,29 @@ public class DBConnection {
     	
     	
     }
+
+	public boolean checkReturnRequest(int id) {
+		try {
+			PreparedStatement ps=sqlConnection.prepareStatement("select phSetDecisionDescription from phase where phIDChangeRequest=? and phPhaseName='EVALUATION'");
+			ps.setInt(1, id);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			if(rs.getString("phSetDecisionDescription")!=null&&rs.getString("phSetDecisionDescription").equals("Ask For Additional Data")) {
+				ps=sqlConnection.prepareStatement("delete from evaluationReport where cRequestID=?");
+				ps.setInt(1, id);
+				ps.executeUpdate();
+				System.out.println("true");
+				return true;
+				
+			}
+			else
+				return false;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	
+	}
 }

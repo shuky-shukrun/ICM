@@ -262,6 +262,14 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
 				    break;
+                case Return_Request:
+                	System.out.println("server handle check if request return");
+                	int id=(Integer)serverService.getParams().get(0);
+                	boolean flagR=dbConnection.checkReturnRequest(id);
+                	System.out.println(flagR);
+                	List<Boolean>ld=new ArrayList<Boolean>();
+                	ld.add(flagR);
+                	client.sendToClient(new ServerService(DatabaseService.Return_Request, ld));
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

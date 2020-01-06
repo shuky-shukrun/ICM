@@ -26,6 +26,9 @@ public class EvaluatorButtons implements ClientUI {
 	private Button moreInformation1;
 	@FXML
 	private Button moreInformation2;
+	@FXML
+	private Button importantInfo;
+	private boolean flag;
 	private String info;
 
 	private ClientController clientController;
@@ -42,6 +45,8 @@ public class EvaluatorButtons implements ClientUI {
 		}
 		moreInformation1.setVisible(false);
 		moreInformation2.setVisible(false);
+		importantInfo.setVisible(false);
+		checkIsReturnRequest(CrDetails.getCurrRequest().getId());
 		if (CrDetails.getCurrRequest().isSuspended()) {
 			info = "request is frozen";
 			requestPhaseTimeButton.setDisable(true);
@@ -81,7 +86,17 @@ public class EvaluatorButtons implements ClientUI {
 		}
 
 	}
-
+	@FXML
+	public void importantInfoEvent() {
+		if(info.equals("return request")) {
+			IcmUtils.displayInformationMsg("information message","pay attention!!this request returns from examination for more details");
+		}
+	}
+	public void checkIsReturnRequest(int id) {
+		List<Integer>l=new ArrayList<Integer>();
+		l.add(id);
+		clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Return_Request,l));
+	}
 	@FXML
 	/**
 	 * load the request time dialog when the appropriate button pressed
@@ -140,7 +155,8 @@ public class EvaluatorButtons implements ClientUI {
 
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
-		if (serverService.getDatabaseService().equals(DatabaseService.Is_Exists_Eva_Report)) {
+		switch(serverService.getDatabaseService()) {
+		case Is_Exists_Eva_Report:
 			if ((Boolean) serverService.getParams().get(0) == true) {
 				info = "have Report";
 				createEvaluationReportButton.setDisable(true);
@@ -148,6 +164,15 @@ public class EvaluatorButtons implements ClientUI {
 				// moreInformation2.setDisable(false);
 			} else
 				moreInformation2.setVisible(false);
-		}
+			break;
+		
+		case Return_Request:
+			System.out.println("was here!!!");
+			if ((Boolean) serverService.getParams().get(0) == true) {
+				info="return request";
+				importantInfo.setVisible(true);
+				break;
+			}
+	}
 	}
 }
