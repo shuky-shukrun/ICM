@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -270,6 +271,22 @@ public class EchoServer extends AbstractServer {
                 	List<Boolean>ld=new ArrayList<Boolean>();
                 	ld.add(flagR);
                 	client.sendToClient(new ServerService(DatabaseService.Return_Request, ld));
+                	break;
+                case Attach_Files:
+                	System.out.println("server handle attach files");
+                	File[]fil=null;
+                	
+                	int id1=(Integer)serverService.getParams().get(0);
+                	fil = (File[])serverService.getParams().get(1);
+                		
+               
+                	boolean flagAttach=dbConnection.uploadFiles(id1, fil);
+                	List<Boolean>flagss=new ArrayList<Boolean>();
+                	flagss.add(flagAttach);
+                	client.sendToClient(new ServerService(DatabaseService.Attach_Files, flagss));
+                	break;
+                	
+                	
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

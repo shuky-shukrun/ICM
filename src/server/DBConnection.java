@@ -534,7 +534,7 @@ public class DBConnection {
 		}
 	}
 
-	public void uploadFiles(int id, File[] listParams) {
+	public	boolean uploadFiles(int id, File[] listParams) {
 		System.out.println("server upload given files");
 		int i;
 
@@ -542,9 +542,10 @@ public class DBConnection {
 			uploadFile(id, listParams[i].getName(), listParams[i].getPath());
 		}
 		System.out.println("success upload");
+		return true;
 	}
 
-	private void uploadFile(int id, String fileName, String filePath) {
+	private boolean uploadFile(int id, String fileName, String filePath) {
 		String sql = "INSERT INTO files values (?,?,?,?)";
 		try {
 			PreparedStatement statement = sqlConnection.prepareStatement(sql);
@@ -555,12 +556,16 @@ public class DBConnection {
 			FileInputStream input = new FileInputStream(file);
 			statement.setBinaryStream(4, input);
 			statement.executeUpdate();
+			return true;
 		} catch (SQLException e) { // TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
+		
 	}
 
 	public List<EvaluationReport> getEvaluationReportDetails(List<Integer> params) {
