@@ -10,6 +10,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import common.IcmUtils.Scenes;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -113,6 +114,11 @@ public class CreateEvaluationReport implements ClientUI {
 		l.add(EvaluatedTimeDatePicker.getValue().toString());
 		ServerService serverService = new ServerService(DatabaseService.Create_Evaluation_Report, l);
 		clientController.handleMessageFromClientUI(serverService);
+		try {
+			IcmUtils.loadScene(this, Scenes.Change_Request_Summary);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
 	}
 
@@ -159,6 +165,7 @@ public class CreateEvaluationReport implements ClientUI {
 			IcmUtils.displayConfirmationMsg("creating evaluation report success");
 		else
 			IcmUtils.displayErrorMsg("creating evaluation report failed!!");
+		
 
 	}
 
