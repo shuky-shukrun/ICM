@@ -345,13 +345,13 @@ public class DBConnection {
 			l.add(flag);
 			e.printStackTrace();
 		}
-		// insert examination phase to specific request with status phase leader
+		// update examination phase to specific request with status phase leader
 		// assigned
 		try {
-			PreparedStatement ps=sqlConnection.prepareStatement("UPDATE phase SET phStatus='IN_PROCESS' where phIDChangeRequest=? AND phDeadline=?");
-			ps.setInt(1, Integer.parseInt(requirementList1.get(0)));// id
+			PreparedStatement ps=sqlConnection.prepareStatement("UPDATE phase SET phStatus='IN_PROCESS',phDeadline=? where phIDChangeRequest=? AND phPhaseName='EXAMINATION'");
+			ps.setInt(2, Integer.parseInt(requirementList1.get(0)));// id
 			PreparedStatement ps1 = sqlConnection
-					.prepareStatement("SELECT phDeadline FROM phase where phIDChangeRequest=?");
+					.prepareStatement("SELECT phDeadline FROM phase where phIDChangeRequest=? AND phPhaseName='EVALUATION'");
 			ps1.setInt(1, Integer.parseInt(requirementList1.get(0)));
 			ResultSet rs = ps1.executeQuery();
 			rs.next();
@@ -360,7 +360,7 @@ public class DBConnection {
 			c.setTime(d);
 			c.add(Calendar.DATE, 7);
 			d = new Date(c.getTimeInMillis());
-			ps.setDate(2, d);
+			ps.setDate(1, d);
 			ps.executeUpdate();
 			flag = true;
 			l.add(flag);
