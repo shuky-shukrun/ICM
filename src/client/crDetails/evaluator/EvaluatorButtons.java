@@ -80,7 +80,7 @@ public class EvaluatorButtons implements ClientUI {
 	public void showCreateEvaluationReportDialog(ActionEvent event) {
 
 		try {
-			IcmUtils.loadScene(this, IcmUtils.Scenes.Create_Evaluation_Report);
+			IcmUtils.popUpScene(this, "ICM Create Evaluation Report", "/client/crDetails/evaluator/createEvaluationReport.fxml", 600, 632);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

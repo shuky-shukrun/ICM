@@ -232,6 +232,7 @@ public class DBConnection {
 			currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
 			currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
 			currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
+			currPhase.setSetDecisionDescription(rs.getString("phSetDecisionDescription"));//tom add
 			// TODO: handle phExtensionRequestDecision
 //            Date date = rs.getDate("phExceptionTime");
 //            if(date != null) {
@@ -834,7 +835,7 @@ public class DBConnection {
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection
-						.prepareStatement("UPDATE phase SET phStatus = 'DECLINED' WHERE phIDChangeRequest = ?");
+						.prepareStatement("UPDATE phase SET phStatus = 'DECLINED' WHERE phIDChangeRequest = ? AND phPhaseName='CLOSING'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
@@ -990,4 +991,21 @@ public class DBConnection {
 		}
 
 	}
+
+	public boolean freezeRequest(int id1) {
+		PreparedStatement ps;
+		try {
+			ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crSuspended=1 WHERE crID=?");
+			ps.setInt(1, id1);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	
+	}
+
+
 }

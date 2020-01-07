@@ -285,7 +285,15 @@ public class EchoServer extends AbstractServer {
                 	flagss.add(flagAttach);
                 	client.sendToClient(new ServerService(DatabaseService.Attach_Files, flagss));
                 	break;
-                	
+                case Freeze_Request:
+                	System.out.println("server handle freeze request");
+                	id1=(Integer)serverService.getParams().get(0);
+                	boolean flagFreeze=dbConnection.freezeRequest(id1);
+                	flagss=new ArrayList<Boolean>();
+                	flagss.add(flagFreeze);
+                	client.sendToClient(new ServerService(DatabaseService.Freeze_Request, flagss));
+                	break;
+              
                 	
             }
         } catch (IOException | SQLException e) {

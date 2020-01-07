@@ -51,6 +51,7 @@ public class ServerService implements Serializable {
         download_files,
         Get_Phase_Leaders,
         Return_Request,
-        Attach_Files        
+        Attach_Files, 
+        Freeze_Request      
     }
 }
