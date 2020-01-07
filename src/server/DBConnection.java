@@ -1007,5 +1007,20 @@ public class DBConnection {
 	
 	}
 
+	public boolean thawRequest(int id1) {
+		PreparedStatement ps;
+		try {
+			ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crSuspended=0 where crID=?");
+			ps.setInt(1, id1);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+
 
 }

@@ -293,6 +293,13 @@ public class EchoServer extends AbstractServer {
                 	flagss.add(flagFreeze);
                 	client.sendToClient(new ServerService(DatabaseService.Freeze_Request, flagss));
                 	break;
+                case Thaw_Request:
+                	System.out.println("server handle thaw request");
+                	id1=(Integer)serverService.getParams().get(0);
+                	boolean flagThaw=dbConnection.thawRequest(id1);
+                	flagss=new ArrayList<Boolean>();
+                	flagss.add(flagThaw);
+                	client.sendToClient(new ServerService(DatabaseService.Thaw_Request, flagss));
               
                 	
             }

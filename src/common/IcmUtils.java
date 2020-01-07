@@ -105,13 +105,7 @@ public class IcmUtils {
                 width = 500;
                 height = 410;
                 break;
-            case Forgot_Password:
-            	 sceneTitle = "ICM - Forgot password";
-                 fxmlPath = "/client/login/ForgotPassword.fxml";
-                 width = 500;
-                 height = 410;
-                 break;
-            case Main_Window:
+           case Main_Window:
                 sceneTitle = "ICM Main Window";
                 fxmlPath = "/client/mainWindow/MainWindowUI.fxml";
                 width = 590;
