@@ -26,7 +26,6 @@ public class PhaseLeaderButtons implements ClientUI {
 
 	private ChangeRequest currRequest;
 	private static Phase currPhase;
-	private ClientController clientController;
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private long  days;
 	private String helpType;
@@ -37,25 +36,26 @@ public class PhaseLeaderButtons implements ClientUI {
 		requestPhaseTimeButton2.setDisable(true);
 		moreInformation.setVisible(false);
 
-		try {
-			clientController = ClientController.getInstance(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		if(flag==0) {
 			currPhase= CrDetails.getCurrRequest().getPhases().get(0);
-			System.out.println(currPhase.getName().toString() + currPhase.getDeadLine().format(formatter));
+			//System.out.println(currPhase.getName().toString() + currPhase.getDeadLine().format(formatter));
+			System.out.println("1");
 			flag=1;
 		}
 
-		LocalDate currDate = LocalDate.now();     // Create a date object
-		LocalDate deadLine = currPhase.getDeadLine();
-		days = (ChronoUnit.DAYS.between(currDate, deadLine))+1;
-		System.out.println("Days between: " + days);
-
 		if(CrDetails.getCurrRequest().isSuspended()!=true) {
 
+			if(currPhase.getPhaseStatus()!=PhaseStatus.TIME_APPROVED) {
+				System.out.println(currPhase.getPhaseStatus().toString());
+				helpType="No deadline";
+				moreInformation.setVisible(true);
+			}
+			else {
+				LocalDate currDate = LocalDate.now();     // Create a date object
+				LocalDate deadLine = currPhase.getDeadLine();
+				days = (ChronoUnit.DAYS.between(currDate, deadLine))+1;
+				System.out.println("Days between: " + days);
+				
 			if(currPhase.isExtensionRequest()== true) {
 				helpType="Time extension already exists";
 				moreInformation.setVisible(true);
@@ -70,6 +70,7 @@ public class PhaseLeaderButtons implements ClientUI {
 			}
 			else
 				requestPhaseTimeButton2.setDisable(false);
+			}
 		}
 		else {
 			helpType="isSuspended";
@@ -115,7 +116,11 @@ public class PhaseLeaderButtons implements ClientUI {
 				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " +currPhase.getChangeRequestId() + "\n" + "Current phase: " + currPhase.getName().toString() + "\n" +
 						"Phase status: " + currPhase.getPhaseStatus(),"Time extension request for this phase has been forwarded to the supervisor's approval.");
 				break;
-
+			case "No deadline":
+				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " +currPhase.getChangeRequestId() + "\n" + "Current phase: " + currPhase.getName().toString() + "\n"
+						,"The deadline for this phase has not been set yet.");
+				break;
+				
 
 		}
 	}

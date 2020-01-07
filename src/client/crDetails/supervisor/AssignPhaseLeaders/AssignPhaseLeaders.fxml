@@ -38,12 +38,12 @@
                </font>
             </Label>
             <ChoiceBox fx:id="validationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="499.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
-            <Button fx:id="submitButton" layoutX="374.0" layoutY="600.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-background-color: #65a1ea;" text="Submit">
+            <Button fx:id="submitButton" layoutX="374.0" layoutY="600.0" mnemonicParsing="false" onAction="#submitAssignPhaseLeaders" style="-fx-background-radius: 10; -fx-background-color: #65a1ea;" text="Submit">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="cancelButton" cancelButton="true" layoutX="258.0" layoutY="600.0" mnemonicParsing="false" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="cancelButton" cancelButton="true" layoutX="258.0" layoutY="600.0" mnemonicParsing="false" onAction="#cancelAssignPhaseLeaders" style="-fx-background-radius: 10;" text="Cancel">
                <font>
                   <Font size="14.0" />
                </font>

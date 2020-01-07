@@ -70,7 +70,6 @@ public class RequestExtensionTime implements ClientUI{
 
 	@FXML
 	void submitRequestTime(ActionEvent event) {
-		System.out.println("1");
 		newCurrPhase=PhaseLeaderButtons.getPhase();
 		datePickerChoice = RequestedtimeDatePicker.getValue();
 		description = DescriptionTextArea.getText();

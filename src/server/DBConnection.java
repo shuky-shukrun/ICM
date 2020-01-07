@@ -18,6 +18,8 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 public class DBConnection {
 	private static final int BUFFER_SIZE = 4096;
 	private Connection sqlConnection;
@@ -228,7 +230,7 @@ public class DBConnection {
 
 			currPhase.setChangeRequestId(cr.getId());
 			currPhase.setName(cr.getCurrPhaseName());
-			currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
+			//currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
 			currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
 			currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
 			// TODO: handle phExtensionRequestDecision
@@ -908,7 +910,40 @@ public class DBConnection {
             e.printStackTrace();
         }
         return phaseLeadersList;
-    	
-    	
     }
+    
+        public List<Boolean> supervisorUpdatePhaseLeaders (List <IEPhasePosition> phaseLeadersList){
+      
+        	List<Boolean> isUpdate =new ArrayList<>();
+        	boolean update= false;
+        	List<IEPhasePosition> newPhaseLeadersList=phaseLeadersList;
+        	
+        	 try {	
+        		 for(IEPhasePosition phaseLeader:newPhaseLeadersList ) {
+        			 
+    	   PreparedStatement ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase (IDieInPhase, crID, iePhaseName,iePhasePosition) VALUE (?,?,?,?)");
+    	   ps.setInt(1, phaseLeader.getInformationEngineer().getId());
+    	   ps.setInt(2, phaseLeader.getCrID());
+    	   ps.setString(3, phaseLeader.getPhaseName().toString());
+    	   ps.setString(4, phaseLeader.getPhasePosition().toString());
+    	   ps.executeUpdate();
+        		 }	 
+        			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
+     				ps.setInt(1,newPhaseLeadersList.get(0).getCrID());
+     				ps.executeUpdate();
+     				
+     				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ? ");
+     				ps.setInt(1,newPhaseLeadersList.get(0).getCrID());
+     				ps.executeUpdate();
+        	    
+    	   ps.close();
+    	   update=true;
+    	   isUpdate.add(update);
+           System.out.println("DB update phase leaders");
+
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
+             return isUpdate;
+         } 
 }

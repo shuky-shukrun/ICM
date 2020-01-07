@@ -6,7 +6,7 @@ import java.util.Objects;
 public class IEPhasePosition implements Serializable {
 
 	private Integer crID;
-	private InformationEngineer informationEngineer;
+	private ChangeInitiator informationEngineer;
 	private Phase.PhaseName phaseName;
 	private PhasePosition phasePosition;
 
@@ -26,7 +26,7 @@ public class IEPhasePosition implements Serializable {
 		this.crID = crID;
 	}
 
-	public InformationEngineer getInformationEngineer() {
+	public ChangeInitiator getInformationEngineer() {
 		return this.informationEngineer;
 	}
 
@@ -34,7 +34,7 @@ public class IEPhasePosition implements Serializable {
 	 * 
 	 * @param informationEngineer
 	 */
-	public void setInformationEngineer(InformationEngineer informationEngineer) {
+	public void setInformationEngineer(ChangeInitiator informationEngineer) {
 		this.informationEngineer = informationEngineer;
 	}
 
