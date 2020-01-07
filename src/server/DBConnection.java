@@ -1022,5 +1022,18 @@ public class DBConnection {
 		
 	}
 
+	public boolean closeRequest(int id1) {
+		try {
+			PreparedStatement ps=sqlConnection.prepareStatement("UPDATE phase SET phStatus='DONE' WHERE phIDChangeRequest=? AND phPhaseName='CLOSING'");
+			ps.setInt(1, id1);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+
 
 }

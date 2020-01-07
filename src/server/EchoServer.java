@@ -300,7 +300,33 @@ public class EchoServer extends AbstractServer {
                 	flagss=new ArrayList<Boolean>();
                 	flagss.add(flagThaw);
                 	client.sendToClient(new ServerService(DatabaseService.Thaw_Request, flagss));
-              
+                	break;
+                case Close_Request:
+                	System.out.println("server handle close request");
+                	id1=Integer.parseInt((String)serverService.getParams().get(0));
+                	boolean flagw=dbConnection.closeRequest(id1);
+                	if(flagw==true) {
+                		String line3="";
+                		String line1 = "Hey  "+(String)serverService.getParams().get(2);
+                        String line2="your request no."+id1+" closed";
+                        if(((String)serverService.getParams().get(1)).equals("DECLINE"))
+                        	line3="status of request:DECLINE";
+                        else if(((String)serverService.getParams().get(1)).equals("IN_PROCESS"))
+                        	line3="status of request:APPROVED";
+                        String text = line1 + "\n" + line2+"\n"+line3;
+                        JavaEmail emailer=new JavaEmail();
+                        emailer.setMailServerProperties();
+
+                        try {
+                            emailer.sendEmail(((String)serverService.getParams().get(3)), "Request Decision", text);
+                        } catch (MessagingException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                	}
+                	flagss=new ArrayList<Boolean>();
+                	flagss.add(flagw);
+                	client.sendToClient(new ServerService(DatabaseService.Close_Request, flagss));
                 	
             }
         } catch (IOException | SQLException e) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -19,5 +20,13 @@
             <FontAwesomeIconView glyphName="PAPERCLIP" size="17" />
          </graphic>
       </Button>
+      <JFXButton fx:id="moreInfo" alignment="TOP_LEFT" onAction="#moreInfoAction" prefHeight="26.0" prefWidth="215.0" text="important info" textFill="#1b0eae" underline="true">
+         <graphic>
+            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </VBox>

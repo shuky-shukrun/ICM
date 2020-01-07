@@ -49,6 +49,12 @@ public class SupervisorButtons implements ClientUI {
 				moreInformation2.setVisible(true);
 				closeChangeRequestButton.setDisable(true);
 			}
+			if(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().equals("DONE"))
+			{
+				info="finished";
+				moreInformation2.setVisible(true);
+				closeChangeRequestButton.setDisable(true);
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -57,7 +63,12 @@ public class SupervisorButtons implements ClientUI {
     
     @FXML
     void closeChangeRequest(ActionEvent event) {
-      
+      List<String>params=new ArrayList<String>();
+      params.add(CrDetails.getCurrRequest().getId().toString());
+      params.add(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().toString());
+      params.add(CrDetails.getCurrRequest().getInitiator().getFirstName()+" "+CrDetails.getCurrRequest().getInitiator().getLastName());
+      params.add(CrDetails.getCurrRequest().getInitiator().getEmail());
+      clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Close_Request, params));
     }
 
     @FXML
@@ -99,6 +110,9 @@ public class SupervisorButtons implements ClientUI {
     					"Change request " + CrDetails.getCurrRequest().getId() + " is frozen." + "\n\n"
     							+ "closing request can't be done when the change request is frozen!");
     			break;
+    		case "finished":
+    			IcmUtils.displayInformationMsg("Information message","This request closed");
+    			break;
     	}
     }
 
@@ -111,6 +125,11 @@ public class SupervisorButtons implements ClientUI {
     			else
     				IcmUtils.displayErrorMsg("Error", "Freeze Request Failed");
     			break;
+    		case Close_Request:
+    			if((Boolean)serverService.getParams().get(0)==true)
+    				IcmUtils.displayConfirmationMsg("Success", "Close Request Successfully");
+    			else
+    				IcmUtils.displayErrorMsg("Error", "Close Request Failed");
     
     		
     	}

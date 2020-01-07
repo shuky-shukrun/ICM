@@ -33,6 +33,7 @@ public class Phase implements Serializable {
 		TIME_REQUESTED,
 		TIME_APPROVED,
 		IN_PROCESS,
+		DECLINE,
 		DONE,
 		EXTENSION_TIME_REQUESTED
 	}

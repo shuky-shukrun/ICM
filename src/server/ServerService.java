@@ -53,6 +53,7 @@ public class ServerService implements Serializable {
         Return_Request,
         Attach_Files, 
         Freeze_Request, 
-        Thaw_Request      
+        Thaw_Request,
+        Close_Request      
     }
 }
