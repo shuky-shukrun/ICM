@@ -31,9 +31,6 @@ public class InitiatorButtons implements ClientUI {
 			if(CrDetails.getCurrRequest().getPhases().get(0).getName() == Phase.PhaseName.CLOSING &&
 								CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus() == Phase.PhaseStatus.DONE)
 			{
-				System.out.println("IN!");
-				System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getName() == Phase.PhaseName.CLOSING);
-				System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus() == Phase.PhaseStatus.DONE);
 				attachFilesButton.setDisable(true);
 				moreInfo.setVisible(true);
 			}
@@ -44,7 +41,6 @@ public class InitiatorButtons implements ClientUI {
     @FXML
     public void attachFiles(ActionEvent event) {
     	List<Object>tempL=new ArrayList<>();
-    	
     	FileChooser fileCh=new FileChooser();
     	List<File> filesToAttach=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
     	if(filesToAttach == null)
@@ -58,8 +54,8 @@ public class InitiatorButtons implements ClientUI {
     	}
     	tempL.add(CrDetails.getCurrRequest().getId());
     	tempL.add(arr);
-    	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Attach_Files,tempL ));
-    	
+       	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Attach_Files,tempL ));
+    	IcmUtils.displayInformationMsg("attaching files in process...");
     }
     @FXML
     public void moreInfoAction() {
