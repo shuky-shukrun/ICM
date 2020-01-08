@@ -228,7 +228,11 @@ public class DBConnection {
 
 			currPhase.setChangeRequestId(cr.getId());
 			currPhase.setName(cr.getCurrPhaseName());
-			currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
+			Date deadLine = rs.getDate("phDeadLine");
+			if(deadLine != null) {
+				currPhase.setDeadLine(deadLine.toLocalDate());
+			}
+//			currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
 			currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
 			currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
 			// TODO: handle phExtensionRequestDecision

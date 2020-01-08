@@ -23,6 +23,7 @@ import server.ServerService.DatabaseService;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +123,9 @@ public class CrDetails implements ClientUI {
                 reasonForChangeTextArea.textProperty().setValue(currRequest.getReasonForChange());
                 requestedChangeTextField.textProperty().setValue(currRequest.getRequestedChange());
                 commentsTextArea.textProperty().setValue(currRequest.getComment());
-                phaseDeadLineTextField.setText(currRequest.getPhases().get(0).getDeadLine().toString());
+                LocalDate deadLine = currRequest.getPhases().get(0).getDeadLine();
+                if(deadLine != null)
+                    phaseDeadLineTextField.setText(deadLine.toString());
 
                 try {
                     initButtons();
