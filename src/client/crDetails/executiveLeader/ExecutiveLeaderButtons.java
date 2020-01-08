@@ -82,6 +82,11 @@ public class ExecutiveLeaderButtons implements ClientUI {
         }
     }
 
+    @FXML
+    public void showRequestTimeDialog(ActionEvent event) {
+
+    }
+
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
         switch (serverService.getDatabaseService()) {

@@ -84,15 +84,10 @@ public class RequestTimeEvaluation implements ClientUI {
 		l.add(date);
 		Phase.PhaseName phase= crDetails.getCurrRequest().getCurrPhaseName();
 		switch(phase) {
-		case EVALUATION:
-			ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
-			clientController.handleMessageFromClientUI(serverService);
-			break;
-		case EXAMINATION:
-			ServerService serverService1=new ServerService(DatabaseService.Request_Time_EXAMINATION, l);
-			clientController.handleMessageFromClientUI(serverService1);
-			break;
-			
+			case EVALUATION:
+				ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
+				clientController.handleMessageFromClientUI(serverService);
+				break;
 		}
 
 	}
