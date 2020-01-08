@@ -9,6 +9,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,9 +27,13 @@ public class InitiatorButtons implements ClientUI {
     public void initialize() {
     	try {
 			clientController = ClientController.getInstance(this);
-			if(CrDetails.getCurrRequest().getPhases().get(0).getName().equals("CLOSING")&&
-								CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().equals("DONE"));
+			moreInfo.setVisible(false);
+			if(CrDetails.getCurrRequest().getPhases().get(0).getName() == Phase.PhaseName.CLOSING &&
+								CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus() == Phase.PhaseStatus.DONE)
 			{
+				System.out.println("IN!");
+				System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getName() == Phase.PhaseName.CLOSING);
+				System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus() == Phase.PhaseStatus.DONE);
 				attachFilesButton.setDisable(true);
 				moreInfo.setVisible(true);
 			}
@@ -42,6 +47,9 @@ public class InitiatorButtons implements ClientUI {
     	
     	FileChooser fileCh=new FileChooser();
     	List<File> filesToAttach=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+    	if(filesToAttach == null)
+    		return;
+
     	File[]arr=new File[filesToAttach.size()];
     	int i=0;
     	for(File f:filesToAttach) {
