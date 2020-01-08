@@ -57,7 +57,7 @@ public class Login implements ClientUI {
     @FXML
     void forgotPass(ActionEvent event) {
     	try {
-			IcmUtils.loadScene(this, IcmUtils.Scenes.Forgot_Password);
+			IcmUtils.popUpScene(this,  "ICM - Forgot password", "/client/login/ForgotPassword.fxml", 500, 410);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

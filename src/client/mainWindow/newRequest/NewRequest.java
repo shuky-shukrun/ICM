@@ -47,7 +47,7 @@ public class NewRequest implements ClientUI {
     private Button cancelButton;
     @FXML
     private ListView<File> filesListView;
-
+    private File[] filesToAttach;
     public ChoiceBox<InfoSystem> getInfoSystemChoiceBox() {
         return infoSystemChoiceBox;
     }
@@ -96,12 +96,16 @@ public class NewRequest implements ClientUI {
     @FXML
     void addFiles(ActionEvent event) {
     	
-    
+    	
     	FileChooser fileCh=new FileChooser();
-    	List<File> filesToAttach=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+    	List<File> files=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+    	filesToAttach=new File[files.size()];
 		ObservableList<File> listTemp = FXCollections.observableArrayList();
-		for (File f : filesToAttach) {
+		int i=0;
+		for (File f : files) {
 			listTemp.add(f);
+			filesToAttach[i]=f;
+			i++;
 		}
 		filesListView.setItems(listTemp);// show the files on the screen
     }
@@ -119,6 +123,7 @@ public class NewRequest implements ClientUI {
         newRequest.setReasonForChange(reasonForChangeTextArea.textProperty().getValue());
         newRequest.setComment(commentsTextArea.textProperty().getValue());
         newRequest.setCurrPhaseName(Phase.PhaseName.SUBMITTED);
+        newRequest.setFiles(filesToAttach);
         // TODO: add implementation to files
 
         Phase evaluation = new Phase();

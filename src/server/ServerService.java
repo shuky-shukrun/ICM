@@ -50,6 +50,11 @@ public class ServerService implements Serializable {
         Is_Exists_Eva_Report, 
         download_files,
         Get_Phase_Leaders,
-        Execution_Confirmation
+        Execution_Confirmation,
+        Return_Request,
+        Attach_Files, 
+        Freeze_Request, 
+        Thaw_Request,
+        Close_Request      
     }
 }

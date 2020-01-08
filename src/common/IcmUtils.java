@@ -105,13 +105,7 @@ public class IcmUtils {
                 width = 500;
                 height = 410;
                 break;
-            case Forgot_Password:
-            	 sceneTitle = "ICM - Forgot password";
-                 fxmlPath = "/client/login/ForgotPassword.fxml";
-                 width = 500;
-                 height = 410;
-                 break;
-            case Main_Window:
+           case Main_Window:
                 sceneTitle = "ICM Main Window";
                 fxmlPath = "/client/mainWindow/MainWindowUI.fxml";
                 width = 590;
@@ -130,13 +124,7 @@ public class IcmUtils {
                 width = 1000;
                 height = 650;
                 break;
-                
-            case Create_Evaluation_Report:
-                sceneTitle = "ICM Create Evaluation Report";
-                fxmlPath = "/client/crDetails/evaluator/createEvaluationReport.fxml";
-                width = 600;
-                height = 632;
-                break;
+       
             case show_Request_Time_Dialog:
             	sceneTitle = "ICM request time dialog";
                 fxmlPath = "/client/crDetails/evaluator/TimeRequest.fxml";

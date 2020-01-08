@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -268,6 +269,71 @@ public class EchoServer extends AbstractServer {
                     dbConnection.executionConfirmation(requestList.get(0));
                     System.out.println("Server finish Execution_Confirmation");
                     break;
+                case Return_Request:
+                	System.out.println("server handle check if request return");
+                	int id=(Integer)serverService.getParams().get(0);
+                	boolean flagR=dbConnection.checkReturnRequest(id);
+                	System.out.println(flagR);
+                	List<Boolean>ld=new ArrayList<Boolean>();
+                	ld.add(flagR);
+                	client.sendToClient(new ServerService(DatabaseService.Return_Request, ld));
+                	break;
+                case Attach_Files:
+                	System.out.println("server handle attach files");
+                	File[]fil=null;
+                	
+                	int id1=(Integer)serverService.getParams().get(0);
+                	fil = (File[])serverService.getParams().get(1);
+                		
+               
+                	boolean flagAttach=dbConnection.uploadFiles(id1, fil);
+                	List<Boolean>flagss=new ArrayList<Boolean>();
+                	flagss.add(flagAttach);
+                	client.sendToClient(new ServerService(DatabaseService.Attach_Files, flagss));
+                	break;
+                case Freeze_Request:
+                	System.out.println("server handle freeze request");
+                	id1=(Integer)serverService.getParams().get(0);
+                	boolean flagFreeze=dbConnection.freezeRequest(id1);
+                	flagss=new ArrayList<Boolean>();
+                	flagss.add(flagFreeze);
+                	client.sendToClient(new ServerService(DatabaseService.Freeze_Request, flagss));
+                	break;
+                case Thaw_Request:
+                	System.out.println("server handle thaw request");
+                	id1=(Integer)serverService.getParams().get(0);
+                	boolean flagThaw=dbConnection.thawRequest(id1);
+                	flagss=new ArrayList<Boolean>();
+                	flagss.add(flagThaw);
+                	client.sendToClient(new ServerService(DatabaseService.Thaw_Request, flagss));
+                	break;
+                case Close_Request:
+                	System.out.println("server handle close request");
+                	id1=Integer.parseInt((String)serverService.getParams().get(0));
+                	boolean flagw=dbConnection.closeRequest(id1);
+                	if(flagw==true) {
+                		String line3="";
+                		String line1 = "Hey  "+(String)serverService.getParams().get(2);
+                        String line2="your request no."+id1+" closed";
+                        if(((String)serverService.getParams().get(1)).equals("DECLINE"))
+                        	line3="status of request:DECLINE";
+                        else if(((String)serverService.getParams().get(1)).equals("IN_PROCESS"))
+                        	line3="status of request:APPROVED";
+                        String text = line1 + "\n" + line2+"\n"+line3;
+                        JavaEmail emailer=new JavaEmail();
+                        emailer.setMailServerProperties();
+
+                        try {
+                            emailer.sendEmail(((String)serverService.getParams().get(3)), "Request Decision", text);
+                        } catch (MessagingException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                	}
+                	flagss=new ArrayList<Boolean>();
+                	flagss.add(flagw);
+                	client.sendToClient(new ServerService(DatabaseService.Close_Request, flagss));
+                	break;
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

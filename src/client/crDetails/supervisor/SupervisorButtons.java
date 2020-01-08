@@ -1,6 +1,8 @@
 package client.crDetails.supervisor;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import client.ClientController;
 import client.ClientUI;
@@ -13,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import server.ServerService;
+import server.ServerService.DatabaseService;
 
 public class SupervisorButtons implements ClientUI {
 
@@ -31,17 +34,48 @@ public class SupervisorButtons implements ClientUI {
 
     @FXML
     private Button closeChangeRequestButton;
+    @FXML
+    private Button moreInformation2;
+    private String info;
+    private ClientController clientController;
 
-    
+    public void initialize() {
+    	try {
+			clientController=ClientController.getInstance(this);
+			moreInformation2.setVisible(false);
+			if(CrDetails.getCurrRequest().isSuspended())
+			{
+				info="frozen";
+				moreInformation2.setVisible(true);
+				closeChangeRequestButton.setDisable(true);
+			}
+			if(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().equals("DONE"))
+			{
+				info="finished";
+				moreInformation2.setVisible(true);
+				closeChangeRequestButton.setDisable(true);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
     
     @FXML
     void closeChangeRequest(ActionEvent event) {
-        System.out.println("closed!");
+      List<String>params=new ArrayList<String>();
+      params.add(CrDetails.getCurrRequest().getId().toString());
+      params.add(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().toString());
+      params.add(CrDetails.getCurrRequest().getInitiator().getFirstName()+" "+CrDetails.getCurrRequest().getInitiator().getLastName());
+      params.add(CrDetails.getCurrRequest().getInitiator().getEmail());
+      clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Close_Request, params));
     }
 
     @FXML
     void freezeRequest(ActionEvent event) {
-
+    	List<Integer>list=new ArrayList<Integer>();
+    	list.add(CrDetails.getCurrRequest().getId());
+    	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Freeze_Request, list));
     }
 
     @FXML
@@ -66,19 +100,38 @@ public class SupervisorButtons implements ClientUI {
     void showAssignPhaseWorkersDialog(ActionEvent event) {
 
     }
-
-
-
-
-
-
-
-
-
-
+    @FXML
+    public void moreInformation2Event() {
+    	switch(info) {
+    		case "frozen":
+    			IcmUtils.displayInformationMsg("Information message",
+    					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+    							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+    					"Change request " + CrDetails.getCurrRequest().getId() + " is frozen." + "\n\n"
+    							+ "closing request can't be done when the change request is frozen!");
+    			break;
+    		case "finished":
+    			IcmUtils.displayInformationMsg("Information message","This request closed");
+    			break;
+    	}
+    }
 
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
-
+    	switch(serverService.getDatabaseService()) {
+    		case Freeze_Request:
+    			if((Boolean)serverService.getParams().get(0)==true)
+    				IcmUtils.displayConfirmationMsg("Success", "Freeze Request Successfully");
+    			else
+    				IcmUtils.displayErrorMsg("Error", "Freeze Request Failed");
+    			break;
+    		case Close_Request:
+    			if((Boolean)serverService.getParams().get(0)==true)
+    				IcmUtils.displayConfirmationMsg("Success", "Close Request Successfully");
+    			else
+    				IcmUtils.displayErrorMsg("Error", "Close Request Failed");
+    
+    		
+    	}
     }
 }
