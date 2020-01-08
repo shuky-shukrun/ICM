@@ -512,7 +512,7 @@ public class DBConnection {
 		// insert all other phases
 		try {
 			ps = sqlConnection.prepareStatement("INSERT INTO phase " + "(phIDChangeRequest, phPhaseName, phStatus) "
-					+ "VALUES (?,?,?), (?,?,?), (?,?,?), (?,?,?)");
+					+ "VALUES (?,?,?), (?,?,?), (?,?,?), (?,?,?), (?,?,?)");
 
 			ps.setInt(1, newRequest.getId());
 			ps.setString(2, Phase.PhaseName.EXAMINATION.toString());
@@ -529,6 +529,10 @@ public class DBConnection {
 			ps.setInt(10, newRequest.getId());
 			ps.setString(11, Phase.PhaseName.CLOSING.toString());
 			ps.setString(12, Phase.PhaseStatus.SUBMITTED.toString());
+
+			ps.setInt(13, newRequest.getId());
+			ps.setString(14, Phase.PhaseName.EVALUATION.toString());
+			ps.setString(15, Phase.PhaseStatus.SUBMITTED.toString());
 
 			ps.executeUpdate();
 			ps.close();
