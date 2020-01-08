@@ -234,16 +234,13 @@ public class DBConnection {
 			if(deadLine != null) {
 				currPhase.setDeadLine(deadLine.toLocalDate());
 			}
-//			currPhase.setDeadLine(rs.getDate("phDeadLine").toLocalDate());
 			currPhase.setPhaseStatus(Phase.PhaseStatus.valueOf(rs.getString("phStatus")));
 			currPhase.setExtensionRequest(rs.getBoolean("phExtensionRequestDecision"));
 			currPhase.setSetDecisionDescription(rs.getString("phSetDecisionDescription"));//tom add
-			// TODO: handle phExtensionRequestDecision
-//            Date date = rs.getDate("phExceptionTime");
-//            if(date != null) {
-//                LocalDate exceptionDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//                currPhase.setExceptionTime(exceptionDate);
-//           }
+            Date date = rs.getDate("phExceptionTime");
+            if(date != null) {
+                currPhase.setExceptionTime(date.toLocalDate());
+           }
 
 			crPhaseList.add(currPhase);
 			ps.close();
