@@ -2,6 +2,7 @@ package server;
 
 import client.crDetails.CrDetails;
 import entities.*;
+import entities.Phase.PhaseStatus;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -417,7 +418,25 @@ public class DBConnection {
 		List<Boolean> list = new ArrayList<Boolean>();
 		try {
 			PreparedStatement ps = sqlConnection.prepareStatement(
-					"UPDATE cbaricmy_ICM.phase SET phDeadline = ? ,phStatus='TIME_REQUESTED' WHERE phIDChangeRequest =?");
+					"UPDATE cbaricmy_ICM.phase SET phDeadline = ? ,phStatus='TIME_REQUESTED' WHERE phIDChangeRequest =? and phPhaseName='EVALUATION");
+			ps.setInt(2, (int) requestTimeDetails.get(0));
+			ps.setDate(1, Date.valueOf((LocalDate) requestTimeDetails.get(1)));
+			ps.executeUpdate();
+			list.add(true);
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			list.add(false);
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<Boolean> requestTimeExamination(List<Object> requestTimeDetails){
+		List<Boolean> list = new ArrayList<Boolean>();
+		try {
+			PreparedStatement ps = sqlConnection.prepareStatement(
+					"UPDATE cbaricmy_ICM.phase SET phDeadline = ? ,phStatus='TIME_REQUESTED' WHERE phIDChangeRequest =? and phPhaseName='EXAMINATION");
 			ps.setInt(2, (int) requestTimeDetails.get(0));
 			ps.setDate(1, Date.valueOf((LocalDate) requestTimeDetails.get(1)));
 			ps.executeUpdate();
@@ -1065,4 +1084,67 @@ public class DBConnection {
 	}
 
 
+	public List<ChangeInitiator> getCCC() throws SQLException {
+		System.out.println("database handle getCCC");
+		List<ChangeInitiator> cccList = new ArrayList<>();
+
+		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE position = 'ccc'");
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			ChangeInitiator ccc = new ChangeInitiator();
+			ccc.setId(rs.getInt("IDuser"));
+			ccc.setFirstName(rs.getString("firstName"));
+			ccc.setLastName(rs.getString("lastName"));
+			ccc.setEmail(rs.getString("email"));
+			ccc.setPassword(rs.getString("password"));
+			ccc.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
+			ccc.setPhoneNumber(rs.getString("phone"));
+			ccc.setDepartment(CiDepartment.valueOf(rs.getString("Department")));
+			ccc.setPosition(Position.CCC);
+
+			cccList.add(ccc);
+		}
+		ps.close();
+		System.out.println(cccList);
+		return cccList;
+
+	}
+
+	public void replaceTester(ChangeInitiator a, ChangeInitiator b, Integer id) throws SQLException {
+		System.out.println("database handle replaceTester");
+		System.out.println(a);
+		System.out.println(b);
+
+		ps = sqlConnection
+				.prepareStatement("SELECT COUNT(*) As count FROM ieInPhase where crID=? and iePhaseName='VALIDATION' ");
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		int count = rs.getInt("count");
+		if (count==0) {
+			System.out.println("1");
+			ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase "
+					+ "(IDieInPhase, crID, iePhaseName, iePhasePosition, evaluationReportId) " + "VALUE (?,?,?,?,?)");
+			ps.setInt(1, b.getId());
+			ps.setInt(2, id);
+			ps.setString(3, Phase.PhaseName.VALIDATION.toString());
+			ps.setString(4, IEPhasePosition.PhasePosition.TESTER.toString());
+			ps.setString(5, id.toString());
+			ps.executeUpdate();
+			ps.close();
+			System.out.println(a);
+			System.out.println(b);
+
+		} else {
+			ps = sqlConnection
+					.prepareStatement("UPDATE cbaricmy_ICM.ieInPhase set IDieInPhase=? where crID=? and iePhaseName=?");
+			ps.setInt(1, b.getId());
+			ps.setInt(2, id);
+			ps.setString(3, Phase.PhaseName.VALIDATION.toString());
+			ps.executeUpdate();
+			ps.close();
+		}
+
+	}
 }

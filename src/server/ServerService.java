@@ -55,6 +55,8 @@ public class ServerService implements Serializable {
         Attach_Files, 
         Freeze_Request, 
         Thaw_Request,
-        Close_Request      
+        Close_Request,      
+        Assign_Tester,
+        Replace_Tester
     }
 }

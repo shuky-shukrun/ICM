@@ -195,6 +195,17 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
                     break;
+                case Request_Time_EXAMINATION:
+                    System.out.println("server handle request time for evaluation phase");
+                    List<Object> requestTimeDetails1 = serverService.getParams();
+                    List<Boolean> list3 = dbConnection.requestTimeExamination(requestTimeDetails1);
+                    ServerService s2 = new ServerService(DatabaseService.Request_Time_EXAMINATION, list3);
+                    try {
+                        client.sendToClient(s2);
+                        System.out.println("request time examination status sent to client");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                 case Update_Phase_Extension:
                     System.out.println("server handle Update_Phase_Extension");
@@ -334,6 +345,20 @@ public class EchoServer extends AbstractServer {
                 	flagss.add(flagw);
                 	client.sendToClient(new ServerService(DatabaseService.Close_Request, flagss));
                 	break;
+                case Assign_Tester:
+
+                    System.out.println("server handle Get CCC");
+                    serverService.setParams(dbConnection.getCCC());
+                    client.sendToClient(serverService);
+                    System.out.println("server finish Get CCC");
+                    break;
+                case Replace_Tester:
+                    System.out.println("server handle Replace Tester");
+                    dbConnection.replaceTester((ChangeInitiator)serverService.getParams().get(0),
+                    							(ChangeInitiator)serverService.getParams().get(1),
+                    							(Integer)serverService.getParams().get(2));
+                    client.sendToClient(serverService);
+                    System.out.println("server finish replace tester");
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

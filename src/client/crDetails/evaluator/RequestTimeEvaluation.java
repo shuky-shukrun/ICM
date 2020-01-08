@@ -9,6 +9,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import entities.Phase;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +32,7 @@ public class RequestTimeEvaluation implements ClientUI {
 	
 	private String info;
 	private int flagHelp;
+	private CrDetails crDetails;
 	
 	/**
 	 * initialize the request time dialog
@@ -80,8 +82,19 @@ public class RequestTimeEvaluation implements ClientUI {
 		LocalDate date=datePickid.getValue();
 		l.add(CrDetails.getCurrRequest().getId());
 		l.add(date);
-		ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
-		clientController.handleMessageFromClientUI(serverService);
+		Phase.PhaseName phase= crDetails.getCurrRequest().getCurrPhaseName();
+		switch(phase) {
+		case EVALUATION:
+			ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
+			clientController.handleMessageFromClientUI(serverService);
+			break;
+		case EXAMINATION:
+			ServerService serverService1=new ServerService(DatabaseService.Request_Time_EXAMINATION, l);
+			clientController.handleMessageFromClientUI(serverService1);
+			break;
+			
+		}
+
 	}
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
@@ -104,11 +117,7 @@ public class RequestTimeEvaluation implements ClientUI {
 	 * @param e- cancel button pressed event
 	 */
 	public void cancelTimeRequest(ActionEvent e) {
-		try {
-			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		IcmUtils.getPopUp().close();
 	}
 	
 

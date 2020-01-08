@@ -92,11 +92,6 @@ public class ViewEvaluationReport implements ClientUI {
 	 
 	 public void backAction(ActionEvent e) {
 		 
-			try {
-				IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		 
+		 IcmUtils.getPopUp().close();
 	 }
 }

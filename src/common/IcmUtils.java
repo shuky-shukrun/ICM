@@ -25,7 +25,8 @@ public class IcmUtils {
         show_Request_Time_Dialog,
         Itd_Create_Report,
         Extension_Time_Request,
-        View_Evaluation_Report
+        View_Evaluation_Report,
+        Assign_Tester
         }
 
     public static void displayConfirmationMsg(String title, String headerText, String contentText) {
@@ -139,12 +140,19 @@ public class IcmUtils {
                 height = 650;
                 break;
 
-            case View_Evaluation_Report:
+           /* case View_Evaluation_Report:
                 sceneTitle = "ICM View Evaluation Report";
                 fxmlPath = "/client/crDetails/ccc/viewEvaluationReport.fxml";
                 width = 600;
                 height = 632;
                 break;
+            case Assign_Tester:
+            	   sceneTitle = "Assign Tester";
+                   fxmlPath = "/client/crDetails/ccc/AssignTester.fxml";
+                   width = 400;
+                   height = 300;
+                   break;*/
+            	
 
 
             default:
