@@ -915,4 +915,28 @@ public class DBConnection {
     	
     	
     }
+
+	public void executionConfirmation(ChangeRequest changeRequest) throws SQLException {
+		System.out.println("database handle executionConfirmation");
+
+		// update phase status to DONE
+		ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = ? " +
+				"WHERE (phIDChangeRequest = ? AND phPhaseName = ?)");
+		ps.setString(1, Phase.PhaseStatus.DONE.toString());
+		ps.setInt(2, changeRequest.getId());
+		ps.setString(3, Phase.PhaseName.EXECUTION.toString());
+		ps.executeUpdate();
+		ps.close();
+
+		// update current phase in change request table
+		ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = ? " +
+				"WHERE crID = ?");
+		ps.setString(1, Phase.PhaseName.VALIDATION.toString());
+		ps.setInt(2, changeRequest.getId());
+		ps.executeUpdate();
+		ps.close();
+
+		System.out.println("database finish executionConfirmation");
+
+	}
 }
