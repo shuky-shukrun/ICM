@@ -262,6 +262,20 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
 				    break;
+                case Assign_Tester:
+
+                    System.out.println("server handle Get CCC");
+                    serverService.setParams(dbConnection.getCCC());
+                    client.sendToClient(serverService);
+                    System.out.println("server finish Get CCC");
+                    break;
+                case Replace_Tester:
+                    System.out.println("server handle Replace Tester");
+                    dbConnection.replaceTester((ChangeInitiator)serverService.getParams().get(0),
+                    							(ChangeInitiator)serverService.getParams().get(1),
+                    							(Integer)serverService.getParams().get(2));
+                    client.sendToClient(serverService);
+                    System.out.println("server finish replace tester");
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

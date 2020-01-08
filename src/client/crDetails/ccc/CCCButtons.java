@@ -39,14 +39,16 @@ public class CCCButtons implements ClientUI {
 
 
     @FXML
-    void showAssignTesterDialog(ActionEvent event) {
+    void showAssignTesterDialog(ActionEvent event) throws IOException {
+    	
+    	 IcmUtils.popUpScene(this, "Assign Tester","/client/crDetails/ccc/AssignTester.fxml", 400, 300);
 
     }
 
     @FXML
     void showEvaluationReport(ActionEvent event) throws IOException {
 
-        IcmUtils.loadScene(this, IcmUtils.Scenes.View_Evaluation_Report);
+        IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/viewEvaluationReport.fxml", 600, 632);
 
     }
 

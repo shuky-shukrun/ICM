@@ -49,6 +49,8 @@ public class ServerService implements Serializable {
         Itd_Update_Permissions,
         Is_Exists_Eva_Report, 
         download_files,
-        Get_Phase_Leaders        
+        Get_Phase_Leaders, 
+        Assign_Tester,
+        Replace_Tester
     }
 }
