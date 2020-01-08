@@ -155,6 +155,12 @@ public class CrDetails implements ClientUI {
         ChangeInitiator currUser = ClientController.getUser();
         Parent root = null;
 
+        if(currRequest.isSuspended()) {
+            System.out.println("freeze");
+            IcmUtils.displayInformationMsg("This request is suspended");
+            return;
+        }
+
         if (currUser.getTitle() != ChangeInitiator.Title.INFOENGINEER) {
             root = FXMLLoader.load(getClass().getResource("initiator/InitiatorButtons.fxml"));
             buttonsPane.getChildren().setAll(root);
