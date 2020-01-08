@@ -51,6 +51,7 @@ public class ServerService implements Serializable {
         download_files,
         Get_Phase_Leaders, 
         Assign_Tester,
-        Replace_Tester
+        Replace_Tester,
+        Request_Time_EXAMINATION
     }
 }

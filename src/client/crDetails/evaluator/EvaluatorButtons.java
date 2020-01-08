@@ -86,13 +86,9 @@ public class EvaluatorButtons implements ClientUI {
 	 * load the request time dialog when the appropriate button pressed
 	 * @param event-"showRequestTime" button pressed event
 	 */
-	public void showRequestTimeDialog(ActionEvent event) {
-	
-			try {
-				IcmUtils.loadScene(this, IcmUtils.Scenes.show_Request_Time_Dialog);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public void showRequestTimeDialog(ActionEvent event) throws IOException {
+	   	 IcmUtils.popUpScene(this, "Request Phase Time","/client/crDetails/evaluator/TimeRequest.fxml", 400, 300);
+
 		}
 	
 	@FXML

@@ -30,13 +30,10 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	}
 
 	@FXML
-	void showRequestTimeDialog(ActionEvent event) {
+	void showRequestTimeDialog(ActionEvent event) throws IOException {
 		
-		try {
-			IcmUtils.loadScene(this, IcmUtils.Scenes.show_Request_Time_Dialog);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+   	 IcmUtils.popUpScene(this, "Request Phase Time","/client/crDetails/evaluator/TimeRequest.fxml", 400, 300);
+
 	}
 
 	
