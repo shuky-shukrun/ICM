@@ -11,6 +11,8 @@ import common.IcmUtils;
 import entities.ChangeInitiator;
 import entities.IEPhasePosition;
 import entities.IEPhasePosition.PhasePosition;
+import entities.InfoSystem;
+import entities.InformationEngineer;
 import entities.Phase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,9 +30,13 @@ public class AssignPhaseLeaders implements ClientUI {
 	@FXML
 	private ChoiceBox<ChangeInitiator> evaluationPhaseLeaderChoiceBox;
 	@FXML
+	private ChoiceBox<ChangeInitiator> evaluatorChoiceBox;
+	@FXML
 	private ChoiceBox<ChangeInitiator> examinationPhaseLeaderChoiceBox;
 	@FXML
 	private ChoiceBox<ChangeInitiator> executionPhaseLeaderChoiceBox;
+	@FXML
+	private ChoiceBox<ChangeInitiator> executiveLeaderChoiceBox;
 	@FXML
 	private ChoiceBox<ChangeInitiator> validationPhaseLeaderChoiceBox;
 	@FXML
@@ -39,13 +45,12 @@ public class AssignPhaseLeaders implements ClientUI {
 	private Button cancelButton;
 	@FXML
 	private Label helpLabel;
-	
-	
-	
+
 	private ChangeInitiator currInitiator;
 	private ClientController clientController;
-	private List<ChangeInitiator> optionalPhaseLeadersList = new ArrayList<>();
-	private ObservableList<ChangeInitiator> phaseLeaderDetailsList = FXCollections.observableArrayList();
+	private List<List<ChangeInitiator>> optionalWorkersList = new ArrayList<>();
+	private ObservableList<ChangeInitiator> phaseLeaderAndExLeaderDetailsList = FXCollections.observableArrayList();
+	private ObservableList<ChangeInitiator> evaluatorDetailsList = FXCollections.observableArrayList();
 	private List<IEPhasePosition> newPhaseLeadersList = new ArrayList<>();
     private IEPhasePosition evaluationPhaseLeader= new IEPhasePosition(); 
     private IEPhasePosition examinationPhaseLeader= new IEPhasePosition(); 
@@ -56,14 +61,18 @@ public class AssignPhaseLeaders implements ClientUI {
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
-			crId=CrDetails.getCurrRequest().getId();
 			
+			crId=CrDetails.getCurrRequest().getId();
+			InfoSystem infoSystem =CrDetails.getCurrRequest().getInfoSystem();
 			currInitiator= CrDetails.getCurrRequest().getInitiator();
+			InformationEngineer informationEngineer=new InformationEngineer(currInitiator);		
+			informationEngineer.setManagedSystem(infoSystem); // add infoSystem of CurrRequest to the ChangeInitiator of the request
+			
 			helpLabel.setText("please assign phase leaders for change request " +CrDetails.getCurrRequest().getId().toString());
-			List<ChangeInitiator> ChangeInitiatorList = new ArrayList<>();
-			ChangeInitiatorList.add(currInitiator);
+			List<InformationEngineer> ChangeInitiatorList = new ArrayList<>();
+			ChangeInitiatorList.add(informationEngineer);
 			System.out.printf("%s\n",ChangeInitiatorList);
-			ServerService getPhaseLeaders = new ServerService(ServerService.DatabaseService.Get_Phase_Leaders, ChangeInitiatorList);
+			ServerService getPhaseLeaders = new ServerService(ServerService.DatabaseService.Get_Phase_Leaders_And_Workers, ChangeInitiatorList);
 			//System.out.println(updatePhaseExtension);
 			clientController.handleMessageFromClientUI(getPhaseLeaders);
 			
@@ -100,7 +109,7 @@ public class AssignPhaseLeaders implements ClientUI {
 		newPhaseLeadersList.add(executionPhaseLeader);
 		newPhaseLeadersList.add(validationPhaseLeader);
 		
-		ServerService updatePhaseLeaders = new ServerService(ServerService.DatabaseService.Supervisor_Update_Phase_Leaders, newPhaseLeadersList);
+		ServerService updatePhaseLeaders = new ServerService(ServerService.DatabaseService.Supervisor_Update_Phase_Leaders_And_Workers, newPhaseLeadersList);
 		clientController.handleMessageFromClientUI(updatePhaseLeaders);
 	}
 
@@ -113,17 +122,21 @@ public class AssignPhaseLeaders implements ClientUI {
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		switch (serverService.getDatabaseService()) {
-		case Get_Phase_Leaders:
-		optionalPhaseLeadersList= serverService.getParams();
-		phaseLeaderDetailsList.setAll(optionalPhaseLeadersList);
-	
-		evaluationPhaseLeaderChoiceBox.setItems(phaseLeaderDetailsList);
-		examinationPhaseLeaderChoiceBox.setItems(phaseLeaderDetailsList);
-		executionPhaseLeaderChoiceBox.setItems(phaseLeaderDetailsList);
-		validationPhaseLeaderChoiceBox.setItems(phaseLeaderDetailsList);
+		case Get_Phase_Leaders_And_Workers:
+			optionalWorkersList= serverService.getParams();
+			phaseLeaderAndExLeaderDetailsList.setAll(optionalWorkersList.get(0));
+			evaluatorDetailsList.setAll(optionalWorkersList.get(1));
+			
+		evaluationPhaseLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
+		examinationPhaseLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
+		executionPhaseLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
+		validationPhaseLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
+		executiveLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
+		
+		evaluatorChoiceBox.setItems(evaluatorDetailsList);
 			break;
 
-		case Supervisor_Update_Phase_Leaders:
+		case Supervisor_Update_Phase_Leaders_And_Workers:
 			List<Boolean> update=serverService.getParams();
 			boolean checkUpdate= update.get(0);
 			if(checkUpdate== true) {

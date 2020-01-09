@@ -8,6 +8,7 @@ import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.EvaluationReport;
 import entities.IEPhasePosition;
+import entities.InformationEngineer;
 import entities.Phase;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -249,21 +250,21 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(srvrService);
                     System.out.println("set decision status sent to client");
                     break;
-                case Get_Phase_Leaders:
-                    System.out.println("server handle Get_Phase_Leaders");
-                    List<ChangeInitiator> ChangeInitiatorParams = serverService.getParams();
-                    List<ChangeInitiator> phaseLeadersList = dbConnection.getphaseLeadersDetails(ChangeInitiatorParams);
-                    System.out.println("Get_Phase_Leaders server got data");
-                    serverService.setParams(phaseLeadersList);
+                case Get_Phase_Leaders_And_Workers:
+                    System.out.println("server handle Get_Phase_Leaders_And_Workers");
+                    List<InformationEngineer> ChangeInitiatorParams = serverService.getParams();
+                    List<List<ChangeInitiator>> workersList = dbConnection.getphaseLeadersDetails(ChangeInitiatorParams);
+                    System.out.println("Get_Phase_Leaders_And_Workers server got data");
+                    serverService.setParams(workersList);
                     try {
                         client.sendToClient(serverService);
-                        System.out.println("sent phase leaders details to client");
+                        System.out.println("sent phase leaders and workers details to client");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 				    break;
-                case Supervisor_Update_Phase_Leaders:
-                    System.out.println("server handle Supervisor_Update_Phase_Leaders");
+                case Supervisor_Update_Phase_Leaders_And_Workers:
+                    System.out.println("server handle Supervisor_Update_Phase_Leaders_And_Workers");
                     List<IEPhasePosition> newPhaseLeadersList = serverService.getParams();
                     List<Boolean> isUpdate1 = dbConnection.supervisorUpdatePhaseLeaders(newPhaseLeadersList);
                     System.out.println("Supervisor_Update_Phase_Leaders server got data");

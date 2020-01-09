@@ -39,21 +39,14 @@ public class PhaseLeaderButtons implements ClientUI {
 		if(flag==0) {
 			currPhase= CrDetails.getCurrRequest().getPhases().get(0);
 			//System.out.println(currPhase.getName().toString() + currPhase.getDeadLine().format(formatter));
-			System.out.println("1");
 			flag=1;
 		}
-
-		if(CrDetails.getCurrRequest().isSuspended()!=true) {
-
-			if(currPhase.getPhaseStatus()!=PhaseStatus.TIME_APPROVED) {
-				System.out.println(currPhase.getPhaseStatus().toString());
-				helpType="No deadline";
-				moreInformation.setVisible(true);
-			}
-			else {
+		
+		
+			if(currPhase.getPhaseStatus()==PhaseStatus.TIME_APPROVED || currPhase.getPhaseStatus()==PhaseStatus.IN_PROCESS ) {
 				LocalDate currDate = LocalDate.now();     // Create a date object
 				LocalDate deadLine = currPhase.getDeadLine();
-				days = (ChronoUnit.DAYS.between(currDate, deadLine))+1;
+				days = (ChronoUnit.DAYS.between(currDate, deadLine))+2;
 				System.out.println("Days between: " + days);
 				
 			if(currPhase.isExtensionRequest()== true) {
@@ -63,17 +56,19 @@ public class PhaseLeaderButtons implements ClientUI {
 			else  if (!(days< 4 && days > 0)|| days>3) {
 				helpType="Time Exception";
 				moreInformation.setVisible(true);
-			}
-			else if(currPhase.getPhaseStatus()==PhaseStatus.EXTENSION_TIME_REQUESTED) {
-				helpType="time extension requested";
-				moreInformation.setVisible(true);
-			}
+			}		
 			else
 				requestPhaseTimeButton2.setDisable(false);
 			}
-		}
+			
+			else if(currPhase.getPhaseStatus()==PhaseStatus.EXTENSION_TIME_REQUESTED) {   /// add time_extension_approved enum
+				helpType="time extension requested";
+				moreInformation.setVisible(true);
+			}
+		
 		else {
-			helpType="isSuspended";
+			System.out.println(currPhase.getPhaseStatus().toString());
+			helpType="No deadline";
 			moreInformation.setVisible(true);
 		}
 	}
@@ -83,7 +78,7 @@ public class PhaseLeaderButtons implements ClientUI {
 
 		try {
 			IcmUtils.popUpScene(this, "Time Extention Request", "/client/crDetails/phaseLeader/RequestExtensionTime/RequestExtensionTime.fxml",407 ,381 );
-			initialize();
+		    initialize();
 		} catch (IOException e) {
 			e.printStackTrace(); }
 	}
@@ -120,8 +115,6 @@ public class PhaseLeaderButtons implements ClientUI {
 				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " +currPhase.getChangeRequestId() + "\n" + "Current phase: " + currPhase.getName().toString() + "\n"
 						,"The deadline for this phase has not been set yet.");
 				break;
-				
-
 		}
 	}
 

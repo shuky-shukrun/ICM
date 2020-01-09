@@ -64,8 +64,8 @@ public class SupervisorButtons implements ClientUI {
     void showAssignPhaseLeadersDialog(ActionEvent event) {
 
 		try {
-			IcmUtils.popUpScene(this, "Assign Phase Leaders", "/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml",600 ,655 );
-			assignPhaseLeadersButton.setDisable(true);
+			IcmUtils.popUpScene(this, "Assign Phase Leaders", "/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml",600 ,632 );
+			initialize();
 		} catch (IOException e) {
 			e.printStackTrace(); }
     	
