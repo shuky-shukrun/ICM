@@ -265,8 +265,8 @@ public class EchoServer extends AbstractServer {
 				    break;
                 case Supervisor_Update_Phase_Leaders_And_Workers:
                     System.out.println("server handle Supervisor_Update_Phase_Leaders_And_Workers");
-                    List<IEPhasePosition> newPhaseLeadersList = serverService.getParams();
-                    List<Boolean> isUpdate1 = dbConnection.supervisorUpdatePhaseLeaders(newPhaseLeadersList);
+                    List<IEPhasePosition> newPhaseLeadersAndWorkersList = serverService.getParams();
+                    List<Boolean> isUpdate1 = dbConnection.supervisorUpdatePhaseLeaders(newPhaseLeadersAndWorkersList);
                     System.out.println("Supervisor_Update_Phase_Leaders server got data");
                     serverService.setParams(isUpdate1);
                     try {

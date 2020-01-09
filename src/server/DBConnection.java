@@ -878,18 +878,16 @@ public class DBConnection {
     	List<List<ChangeInitiator>> workersList = new ArrayList<>();
     	List<ChangeInitiator> phaseLeadersAndExecutiveLeaderList = new ArrayList<>();
     	List<ChangeInitiator> evaluatorList = new ArrayList<>();
-    	InformationEngineer crInitiator=(InformationEngineer)(ChangeInitiatorList.get(0));
-    	PreparedStatement ps;
-    	ResultSet rs;
+    	InformationEngineer crInitiator=ChangeInitiatorList.get(0);  	
         System.out.println(crInitiator);
         
         try {	
-        	ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
+        	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
             ps.setInt(1, crInitiator.getId());
             ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
             ps.setString(3, Position.REGULAR.toString());
             
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             rs.beforeFirst();
             while (rs.next()) {
             	ChangeInitiator row = new ChangeInitiator();
@@ -905,32 +903,33 @@ public class DBConnection {
                 phaseLeadersAndExecutiveLeaderList.add(row);
                 System.out.println(row);
             }
-            ps.close();
             workersList.add(phaseLeadersAndExecutiveLeaderList);
+            ps.close();
+           
             
-            ps = sqlConnection.prepareStatement("SELECT * FROM ManageInfoSystem WHERE misnfoSystem = ?");
-            ps.setString(1, crInitiator.getManagedSystem().toString());
-            rs = ps.executeQuery();
-			rs.beforeFirst();
-			rs.next();
-			int evaluatorId= rs.getInt("misIDUser");
-			ps.close();
+            PreparedStatement ps1 = sqlConnection.prepareStatement("SELECT misIDUser FROM ManageInfoSystem WHERE misnfoSystem = ?");
+            ps1.setString(1, crInitiator.getManagedSystem().toString());
+            ResultSet rs1 = ps1.executeQuery();
+			rs1.beforeFirst();
+			rs1.next();
+			int evaluatorId= rs1.getInt("misIDUser");
+			ps1.close();
 			
-			ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser = ?");
-            ps.setInt(1, evaluatorId);
-            rs = ps.executeQuery();
-            rs.beforeFirst();
-			rs.next();
+			PreparedStatement ps2 = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser = ?");
+            ps2.setInt(1, evaluatorId);
+            ResultSet rs2 = ps2.executeQuery();
+            rs2.beforeFirst();
+			rs2.next();
            	ChangeInitiator evaluator = new ChangeInitiator();
-           	evaluator.setId(rs.getInt("IDuser"));
-           	evaluator.setFirstName(rs.getString("firstName"));
-           	evaluator.setLastName(rs.getString("lastName"));
-           	evaluator.setEmail(rs.getString("email"));
-           	evaluator.setPassword(rs.getString("password"));
-           	evaluator.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
-           	evaluator.setPhoneNumber(rs.getString("phone"));
-           	evaluator.setDepartment(CiDepartment.valueOf(rs.getString("department")));
-           	evaluator.setPosition(Position.valueOf(rs.getString("position")));
+           	evaluator.setId(rs2.getInt("IDuser"));
+           	evaluator.setFirstName(rs2.getString("firstName"));
+           	evaluator.setLastName(rs2.getString("lastName"));
+           	evaluator.setEmail(rs2.getString("email"));
+           	evaluator.setPassword(rs2.getString("password"));
+           	evaluator.setTitle(ChangeInitiator.Title.valueOf(rs2.getString("title")));
+           	evaluator.setPhoneNumber(rs2.getString("phone"));
+           	evaluator.setDepartment(CiDepartment.valueOf(rs2.getString("department")));
+           	evaluator.setPosition(Position.valueOf(rs2.getString("position")));
            	evaluatorList.add(evaluator);
             
            	workersList.add(evaluatorList);
@@ -943,28 +942,28 @@ public class DBConnection {
         return workersList;
     }
     
-        public List<Boolean> supervisorUpdatePhaseLeaders (List <IEPhasePosition> phaseLeadersList){
+        public List<Boolean> supervisorUpdatePhaseLeaders (List <IEPhasePosition> newList){
       
         	List<Boolean> isUpdate =new ArrayList<>();
         	boolean update= false;
-        	List<IEPhasePosition> newPhaseLeadersList=phaseLeadersList;
+        	List<IEPhasePosition> newPhaseLeadersAndWorkersList= newList;
         	
         	 try {	
-        		 for(IEPhasePosition phaseLeader:newPhaseLeadersList ) {
+        		 for(IEPhasePosition worker:newPhaseLeadersAndWorkersList ) {
         			 
     	   PreparedStatement ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase (IDieInPhase, crID, iePhaseName,iePhasePosition) VALUE (?,?,?,?)");
-    	   ps.setInt(1, phaseLeader.getInformationEngineer().getId());
-    	   ps.setInt(2, phaseLeader.getCrID());
-    	   ps.setString(3, phaseLeader.getPhaseName().toString());
-    	   ps.setString(4, phaseLeader.getPhasePosition().toString());
+    	   ps.setInt(1, worker.getInformationEngineer().getId());
+    	   ps.setInt(2, worker.getCrID());
+    	   ps.setString(3, worker.getPhaseName().toString());
+    	   ps.setString(4, worker.getPhasePosition().toString());
     	   ps.executeUpdate();
         		 }	 
-        			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
-     				ps.setInt(1,newPhaseLeadersList.get(0).getCrID());
+        		  ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
+     				ps.setInt(1,newPhaseLeadersAndWorkersList.get(0).getCrID());
      				ps.executeUpdate();
      				
      				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ? ");
-     				ps.setInt(1,newPhaseLeadersList.get(0).getCrID());
+     				ps.setInt(1,newPhaseLeadersAndWorkersList.get(0).getCrID());
      				ps.executeUpdate();
         	    
     	   ps.close();

@@ -122,7 +122,7 @@ public class CrDetails implements ClientUI {
                 reasonForChangeTextArea.textProperty().setValue(currRequest.getReasonForChange());
                 requestedChangeTextField.textProperty().setValue(currRequest.getRequestedChange());
                 commentsTextArea.textProperty().setValue(currRequest.getComment());
-              //  phaseDeadLineTextField.setText(currRequest.getPhases().get(0).getDeadLine().toString());
+                phaseDeadLineTextField.setText(currRequest.getPhases().get(0).getDeadLine().toString());
 
                 try {
                     initButtons();

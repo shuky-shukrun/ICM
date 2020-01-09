@@ -6,7 +6,7 @@ import java.util.Objects;
 public class IEPhasePosition implements Serializable {
 
 	private Integer crID;
-	private InformationEngineer informationEngineer;
+	private ChangeInitiator informationEngineer;
 	private Phase.PhaseName phaseName;
 	private PhasePosition phasePosition;
 

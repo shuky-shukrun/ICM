@@ -51,10 +51,12 @@ public class AssignPhaseLeaders implements ClientUI {
 	private List<List<ChangeInitiator>> optionalWorkersList = new ArrayList<>();
 	private ObservableList<ChangeInitiator> phaseLeaderAndExLeaderDetailsList = FXCollections.observableArrayList();
 	private ObservableList<ChangeInitiator> evaluatorDetailsList = FXCollections.observableArrayList();
-	private List<IEPhasePosition> newPhaseLeadersList = new ArrayList<>();
+	private List<IEPhasePosition> newPhaseLeadersAndWorkersList = new ArrayList<>();
     private IEPhasePosition evaluationPhaseLeader= new IEPhasePosition(); 
+    private IEPhasePosition evaluator= new IEPhasePosition(); 
     private IEPhasePosition examinationPhaseLeader= new IEPhasePosition(); 
-    private IEPhasePosition executionPhaseLeader= new IEPhasePosition(); 
+    private IEPhasePosition executionPhaseLeader= new IEPhasePosition();
+    private IEPhasePosition executiveLeader= new IEPhasePosition();
     private IEPhasePosition validationPhaseLeader= new IEPhasePosition(); 
     private int crId;
     
@@ -65,7 +67,17 @@ public class AssignPhaseLeaders implements ClientUI {
 			crId=CrDetails.getCurrRequest().getId();
 			InfoSystem infoSystem =CrDetails.getCurrRequest().getInfoSystem();
 			currInitiator= CrDetails.getCurrRequest().getInitiator();
-			InformationEngineer informationEngineer=new InformationEngineer(currInitiator);		
+			InformationEngineer informationEngineer=new InformationEngineer();	
+			
+			informationEngineer.setDepartment(currInitiator.getDepartment());
+			informationEngineer.setEmail(currInitiator.getEmail());
+			informationEngineer.setFirstName(currInitiator.getFirstName());
+			informationEngineer.setId(currInitiator.getId());
+			informationEngineer.setLastName(currInitiator.getLastName());
+			informationEngineer.setPassword(currInitiator.getPassword());
+			informationEngineer.setPhoneNumber(currInitiator.getPhoneNumber());
+			informationEngineer.setPosition(currInitiator.getPosition());
+			informationEngineer.setTitle(currInitiator.getTitle());	
 			informationEngineer.setManagedSystem(infoSystem); // add infoSystem of CurrRequest to the ChangeInitiator of the request
 			
 			helpLabel.setText("please assign phase leaders for change request " +CrDetails.getCurrRequest().getId().toString());
@@ -89,6 +101,11 @@ public class AssignPhaseLeaders implements ClientUI {
 		evaluationPhaseLeader.setPhaseName(Phase.PhaseName.EVALUATION);
 		evaluationPhaseLeader.setPhasePosition(PhasePosition.PHASE_LEADER);
 		
+		evaluator.setCrID(crId);
+		evaluator.setInformationEngineer(evaluatorChoiceBox.getSelectionModel().getSelectedItem());
+		evaluator.setPhaseName(Phase.PhaseName.EVALUATION);
+		evaluator.setPhasePosition(PhasePosition.EVALUATOR);
+		
 		examinationPhaseLeader.setCrID(crId);
 		examinationPhaseLeader.setInformationEngineer(examinationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem());
 		examinationPhaseLeader.setPhaseName(Phase.PhaseName.EXAMINATION);
@@ -99,17 +116,24 @@ public class AssignPhaseLeaders implements ClientUI {
 		executionPhaseLeader.setPhaseName(Phase.PhaseName.EXECUTION);
 		executionPhaseLeader.setPhasePosition(PhasePosition.PHASE_LEADER);
 		
+		executiveLeader.setCrID(crId);
+		executiveLeader.setInformationEngineer(executiveLeaderChoiceBox.getSelectionModel().getSelectedItem());
+		executiveLeader.setPhaseName(Phase.PhaseName.EXECUTION);
+		executiveLeader.setPhasePosition(PhasePosition.EXECUTIVE_LEADER);
+		
 		validationPhaseLeader.setCrID(crId);
 		validationPhaseLeader.setInformationEngineer(validationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem());
 		validationPhaseLeader.setPhaseName(Phase.PhaseName.VALIDATION);
 		validationPhaseLeader.setPhasePosition(PhasePosition.PHASE_LEADER);
 		
-		newPhaseLeadersList.add(evaluationPhaseLeader);
-		newPhaseLeadersList.add(examinationPhaseLeader);
-		newPhaseLeadersList.add(executionPhaseLeader);
-		newPhaseLeadersList.add(validationPhaseLeader);
+		newPhaseLeadersAndWorkersList.add(evaluationPhaseLeader);
+		newPhaseLeadersAndWorkersList.add(examinationPhaseLeader);
+		newPhaseLeadersAndWorkersList.add(executionPhaseLeader);
+		newPhaseLeadersAndWorkersList.add(validationPhaseLeader);
+		newPhaseLeadersAndWorkersList.add(evaluator);
+		newPhaseLeadersAndWorkersList.add(executiveLeader);
 		
-		ServerService updatePhaseLeaders = new ServerService(ServerService.DatabaseService.Supervisor_Update_Phase_Leaders_And_Workers, newPhaseLeadersList);
+		ServerService updatePhaseLeaders = new ServerService(ServerService.DatabaseService.Supervisor_Update_Phase_Leaders_And_Workers, newPhaseLeadersAndWorkersList);
 		clientController.handleMessageFromClientUI(updatePhaseLeaders);
 	}
 
@@ -132,7 +156,6 @@ public class AssignPhaseLeaders implements ClientUI {
 		executionPhaseLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
 		validationPhaseLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
 		executiveLeaderChoiceBox.setItems(phaseLeaderAndExLeaderDetailsList);
-		
 		evaluatorChoiceBox.setItems(evaluatorDetailsList);
 			break;
 
