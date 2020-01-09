@@ -106,7 +106,7 @@ public class EvaluatorButtons implements ClientUI {
 	public void showRequestTimeDialog(ActionEvent event) {
 
 		try {
-			IcmUtils.loadScene(this, IcmUtils.Scenes.show_Request_Time_Dialog);
+			IcmUtils.popUpScene(this, "ICM request time dialog","/client/crDetails/evaluator/TimeRequest.fxml",600, 632);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
