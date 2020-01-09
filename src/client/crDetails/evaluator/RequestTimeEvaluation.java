@@ -9,6 +9,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import common.IcmUtils.Scenes;
 import entities.Phase;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import server.ServerService;
 import server.ServerService.DatabaseService;
+import sun.awt.image.BufImgSurfaceData.ICMColorData;
 
 public class RequestTimeEvaluation implements ClientUI {
 	
@@ -89,6 +91,7 @@ public class RequestTimeEvaluation implements ClientUI {
 				clientController.handleMessageFromClientUI(serverService);
 				break;
 		}
+		
 
 	}
 	@FXML
@@ -123,8 +126,9 @@ public class RequestTimeEvaluation implements ClientUI {
 	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean>list=serverService.getParams();
-		if(list.get(0)==true)
+		if(list.get(0)==true) {
 			IcmUtils.displayConfirmationMsg("request time success");
+		}
 		else
 			IcmUtils.displayErrorMsg("request time failed");
 		

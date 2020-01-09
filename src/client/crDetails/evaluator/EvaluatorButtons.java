@@ -53,16 +53,27 @@ public class EvaluatorButtons implements ClientUI {
 			moreInformation1.setVisible(true);
 			createEvaluationReportButton.setDisable(true);
 			moreInformation1.setVisible(true);
-		} else if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() != entities.Phase.PhaseStatus.TIME_APPROVED) {
-			info = "time of phase yet not approved";
+		} 
+		//time request not submitted yet
+		else if (CrDetails.getCurrRequest().getPhases().get(0)
+				.getPhaseStatus().compareTo( entities.Phase.PhaseStatus.TIME_REQUESTED)<0) {
+			info = "time of phase yet not submitted";
 			createEvaluationReportButton.setDisable(true);
+			moreInformation2.setVisible(true);
+		}
+		//time request submitted but not approved yet
+		else if (CrDetails.getCurrRequest().getPhases().get(0)
+				.getPhaseStatus()== entities.Phase.PhaseStatus.TIME_REQUESTED) {
+			info = "time of phase yet not approved";
+			requestPhaseTimeButton.setDisable(true);
+			createEvaluationReportButton.setDisable(true);
+			moreInformation1.setVisible(true);
 			moreInformation2.setVisible(true);
 		} else if (CrDetails.getCurrRequest().getPhases().get(0)
 				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
 			info = "time of phase approved";
 			requestPhaseTimeButton.setDisable(true);
-			moreInformation1.setVisible(true);
+			IcmUtils.displayInformationMsg("time of phase approved,please create report");
 
 		} else {
 			List<Integer> l = new ArrayList<>();
@@ -122,6 +133,13 @@ public class EvaluatorButtons implements ClientUI {
 					"Change request " + CrDetails.getCurrRequest().getId() + " is frozen." + "\n\n"
 							+ "A time  request can't be submited when the change request is frozen!");
 			break;
+		case "time of phase yet not approved":
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+					"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
+							+ "evaluation report can't be submited when the phase time not yet approved!");
+			break;
 		}
 
 	}
@@ -135,6 +153,14 @@ public class EvaluatorButtons implements ClientUI {
 							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
 					"Change request " + CrDetails.getCurrRequest().getId() + " is frozen." + "\n\n"
 							+ "evaluation report can't be submited when the change request is frozen!");
+			break;
+	
+		case "time of phase yet not submitted":
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+					"Change request " + CrDetails.getCurrRequest().getId() + " -time request not submitted yet." + "\n\n"
+							+ "evaluation report can't be submited when the phase time not yet submitted!");
 			break;
 		case "time of phase yet not approved":
 			IcmUtils.displayInformationMsg("Information message",

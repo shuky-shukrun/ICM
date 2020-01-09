@@ -415,7 +415,7 @@ public class DBConnection {
 		List<Boolean> list = new ArrayList<Boolean>();
 		try {
 			PreparedStatement ps = sqlConnection.prepareStatement(
-					"UPDATE cbaricmy_ICM.phase SET phDeadline = ? ,phStatus='TIME_REQUESTED' WHERE phIDChangeRequest =? and phPhaseName='EVALUATION");
+					"UPDATE cbaricmy_ICM.phase SET phDeadline = ? ,phStatus='TIME_REQUESTED' WHERE phIDChangeRequest =? and phPhaseName='EVALUATION'");
 			ps.setInt(2, (int) requestTimeDetails.get(0));
 			ps.setDate(1, Date.valueOf((LocalDate) requestTimeDetails.get(1)));
 			ps.executeUpdate();
@@ -1099,6 +1099,7 @@ public class DBConnection {
 		System.out.println("database handle replaceTester");
 		System.out.println(a);
 		System.out.println(b);
+		
 
 		ps = sqlConnection
 				.prepareStatement("SELECT COUNT(*) As count FROM ieInPhase where crID=? and iePhaseName='VALIDATION' ");
