@@ -89,6 +89,8 @@ public class CrDetails implements ClientUI {
     public void downloadFiles(ActionEvent event) {
     	DirectoryChooser dirChooser = new DirectoryChooser();
     	File chosenDir = dirChooser.showDialog(client.ClientMain.getPrimaryStage());
+    	if(chosenDir==null)
+    		return;
     	List<Object>param=new ArrayList<Object>();
     	param.add(Integer.parseInt(changeRequestIDTextField.getText()));
     	param.add(chosenDir);

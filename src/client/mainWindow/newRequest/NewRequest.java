@@ -99,8 +99,10 @@ public class NewRequest implements ClientUI {
     	
     	FileChooser fileCh=new FileChooser();
     	List<File> files=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+    	if(files==null)
+    		return;
     	filesToAttach=new File[files.size()];
-		ObservableList<File> listTemp = FXCollections.observableArrayList();
+    	ObservableList<File> listTemp = FXCollections.observableArrayList();
 		int i=0;
 		for (File f : files) {
 			listTemp.add(f);
