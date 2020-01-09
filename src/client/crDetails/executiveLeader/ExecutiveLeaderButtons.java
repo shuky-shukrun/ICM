@@ -20,6 +20,8 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	private Button confirmExecutionButton;
 	@FXML
 	private Button moreInformationButton;
+	@FXML
+	private Button moreInformationButton2;
 
 	private ClientController clientController;
 	private String info;
@@ -31,12 +33,10 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 	@FXML
 	void showRequestTimeDialog(ActionEvent event) throws IOException {
-		
-   	 IcmUtils.popUpScene(this, "Request Phase Time","/client/crDetails/evaluator/TimeRequest.fxml", 400, 300);
+
+		IcmUtils.popUpScene(this, "Request Phase Time", "/client/crDetails/evaluator/TimeRequest.fxml", 400, 300);
 
 	}
-
-	
 
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
@@ -50,17 +50,59 @@ public class ExecutiveLeaderButtons implements ClientUI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		moreInformationButton.setVisible(false);
+		//moreInformationButton.setVisible(false);
+		moreInformationButton2.setVisible(false);
 		if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() != entities.Phase.PhaseStatus.TIME_APPROVED) {
+				.getPhaseStatus() == entities.Phase.PhaseStatus.SUBMITTED) {
 			info = "time of phase yet not approved";
 			confirmExecutionButton.setDisable(true);
+			moreInformationButton.setDisable(true);
+			moreInformationButton2.setVisible(true);
+		}
+		if (CrDetails.getCurrRequest().getPhases().get(0)
+				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_REQUESTED) {
+			info = "Phase time has been submitted";
+			confirmExecutionButton.setDisable(true);
+			requestPhaseTimeButton1.setDisable(true);
+			moreInformationButton2.setVisible(true);
+
+		}
+
+		if (CrDetails.getCurrRequest().getPhases().get(0)
+				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
+			confirmExecutionButton.setVisible(true);
+			requestPhaseTimeButton1.setDisable(true);
 			moreInformationButton.setVisible(true);
+
 		}
 	}
 
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
+		if (CrDetails.getCurrRequest().getPhases().get(0)
+				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_REQUESTED) {
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+					"Change request " + CrDetails.getCurrRequest().getId()
+							+ " -time request submitted but not approved yet." + "\n\n"
+							+ "Waiting for supervisor's approval");
+		}
+		else
+		if (CrDetails.getCurrRequest().getPhases().get(0)
+				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
+			
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+					"Change request " + CrDetails.getCurrRequest().getId()
+							+ " -Time request approved.");
+			
+		}
+	}
+
+	@FXML
+	public void moreInformationEvent1(ActionEvent e) {
 
 		IcmUtils.displayInformationMsg("Information message",
 				"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
