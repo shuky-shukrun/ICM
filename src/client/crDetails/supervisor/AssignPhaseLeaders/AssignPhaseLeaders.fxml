@@ -12,43 +12,43 @@
 
 <DialogPane prefHeight="632.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.supervisor.AssignPhaseLeaders.AssignPhaseLeaders">
    <content>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
+      <AnchorPane prefHeight="680.0" prefWidth="600.0" style="-fx-background-color: white;">
          <children>
-            <Label layoutX="150.0" layoutY="210.0" text="Evaluation Phase Leader:">
+            <Label layoutX="150.0" layoutY="128.0" text="Evaluation Phase Leader:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="evaluationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="237.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
-            <Label layoutX="150.0" layoutY="298.0" text="Examination Phase Leader:">
+            <ChoiceBox fx:id="evaluationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="155.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <Label layoutX="150.0" layoutY="277.0" text="Examination Phase Leader:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="examinationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="325.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
-            <Label layoutX="150.0" layoutY="384.0" text="Execution Phase Leader:">
+            <ChoiceBox fx:id="examinationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="304.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <Label layoutX="150.0" layoutY="356.0" text="Execution Phase Leader:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="executionPhaseLeaderChoiceBox" layoutX="150.0" layoutY="411.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
-            <Label layoutX="150.0" layoutY="472.0" text="Validation Phase Leader:">
+            <ChoiceBox fx:id="executionPhaseLeaderChoiceBox" layoutX="150.0" layoutY="383.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <Label layoutX="150.0" layoutY="508.0" text="Validation Phase Leader:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="validationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="499.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
-            <Button fx:id="submitButton" layoutX="374.0" layoutY="600.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-background-color: #65a1ea;" text="Submit">
+            <ChoiceBox fx:id="validationPhaseLeaderChoiceBox" layoutX="150.0" layoutY="535.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <Button fx:id="submitButton" layoutX="374.0" layoutY="600.0" mnemonicParsing="false" onAction="#submitAssignPhaseLeaders" style="-fx-background-radius: 10; -fx-background-color: #65a1ea;" text="Submit">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="cancelButton" cancelButton="true" layoutX="258.0" layoutY="600.0" mnemonicParsing="false" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="cancelButton" cancelButton="true" layoutX="258.0" layoutY="600.0" mnemonicParsing="false" onAction="#cancelAssignPhaseLeaders" style="-fx-background-radius: 10;" text="Cancel">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutX="148.0" layoutY="94.0" text="Assign Phase Leaders">
+            <Label alignment="CENTER" layoutX="150.0" layoutY="49.0" text="Assign Phase Leaders">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
@@ -58,12 +58,24 @@
                   <Image url="@../logo6.PNG" />
                </image>
             </ImageView>
-            <MaterialDesignIconView fill="#216dcc" glyphName="ACCOUNT_MULTIPLE_PLUS" layoutX="438.0" layoutY="125.0" size="30" />
-            <Label fx:id="helpLabel" layoutX="150.0" layoutY="160.0" text="Label" textFill="#0f7ab9">
+            <MaterialDesignIconView fill="#216dcc" glyphName="ACCOUNT_MULTIPLE_PLUS" layoutX="441.0" layoutY="82.0" size="30" />
+            <Label fx:id="helpLabel" layoutX="150.0" layoutY="96.0" text="Label" textFill="#0f7ab9">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
+            <Label layoutX="149.0" layoutY="199.0" text="Evaluator:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="evaluatorChoiceBox" layoutX="150.0" layoutY="226.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
+            <Label layoutX="150.0" layoutY="433.0" text="Executive Leader:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="executiveLeaderChoiceBox" layoutX="150.0" layoutY="464.0" prefHeight="30.0" prefWidth="277.0" style="-fx-background-radius: 10;" />
          </children>
       </AnchorPane>
    </content>

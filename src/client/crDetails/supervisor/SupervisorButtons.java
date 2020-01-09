@@ -11,6 +11,7 @@ import common.IcmUtils;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.Phase;
+import entities.Phase.PhaseStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -55,11 +56,16 @@ public class SupervisorButtons implements ClientUI {
 				moreInformation2.setVisible(true);
 				closeChangeRequestButton.setDisable(true);
 			}
-			
+
+			assignPhaseLeadersButton.setDisable(false);
+    		if(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()!=PhaseStatus.SUBMITTED)
+    			assignPhaseLeadersButton.setDisable(true);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     }
+
     
     @FXML
     void closeChangeRequest(ActionEvent event) {
@@ -87,7 +93,8 @@ public class SupervisorButtons implements ClientUI {
     void showAssignPhaseLeadersDialog(ActionEvent event) {
 
 		try {
-			IcmUtils.popUpScene(this, "Assign Phase Leaders", "/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml",600 ,655 );
+			IcmUtils.popUpScene(this, "Assign Phase Leaders", "/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml",600 ,680 );
+			initialize();
 		} catch (IOException e) {
 			e.printStackTrace(); }
     	

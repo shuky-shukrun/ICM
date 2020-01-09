@@ -42,12 +42,14 @@ public class RequestExtensionTime implements ClientUI{
 
 	public void initialize() {
 		try {
+		newCurrPhase=PhaseLeaderButtons.getPhase();
+		
 		RequestedtimeDatePicker.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
 				super.updateItem(date, empty);
-				LocalDate today = LocalDate.now();
-
-				setDisable(empty || date.compareTo(today) < 0 );
+				LocalDate deadLine = newCurrPhase.getDeadLine().plusDays(1);
+				
+				setDisable(empty || date.compareTo(deadLine) <= 0 );
 			}
 		});
 
@@ -70,14 +72,11 @@ public class RequestExtensionTime implements ClientUI{
 
 	@FXML
 	void submitRequestTime(ActionEvent event) {
-		System.out.println("1");
-		newCurrPhase=PhaseLeaderButtons.getPhase();
 		datePickerChoice = RequestedtimeDatePicker.getValue();
 		description = DescriptionTextArea.getText();
-		System.out.println(description+datePickerChoice.format(formatter));
+		//System.out.println(description+datePickerChoice.format(formatter));
 
 		newCurrPhase.setTimeExtensionRequest(datePickerChoice);
-		//newCurrPhase.setExtensionRequest(true);
 		newCurrPhase.setPhaseStatus(PhaseStatus.EXTENSION_TIME_REQUESTED);
 		newCurrPhase.setDescription(description);
 		PhaseLeaderButtons.setPhase(newCurrPhase);
@@ -86,7 +85,6 @@ public class RequestExtensionTime implements ClientUI{
 		phaseList.add(newCurrPhase);
 		System.out.printf("%s\n",phaseList);
 		ServerService updatePhaseExtension = new ServerService(ServerService.DatabaseService.Update_Phase_Extension, phaseList);
-		//System.out.println(updatePhaseExtension);
 		clientController.handleMessageFromClientUI(updatePhaseExtension);
 	}
 
@@ -99,16 +97,12 @@ public class RequestExtensionTime implements ClientUI{
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		
-	switch (serverService.getDatabaseService()) {
-
-			case Update_Phase_Extension:
+	
 				List<Boolean> update=serverService.getParams();
 				boolean checkUpdate= update.get(0);
 				if(checkUpdate== true) {
 					IcmUtils.displayInformationMsg("Time Extension Request Submited", "Time extension request has been successfully submited","Current deadline: " + newCurrPhase.getDeadLine().format(formatter) + "\n"+ "Time extension request: " + newCurrPhase.getTimeExtensionRequest().format(formatter));
 					IcmUtils.getPopUp().close();
-				}
-
-				break; }
+				}	
 	}
 }

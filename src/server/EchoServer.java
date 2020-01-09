@@ -7,6 +7,8 @@ import common.JavaEmail;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.EvaluationReport;
+import entities.IEPhasePosition;
+import entities.InformationEngineer;
 import entities.Phase;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -201,12 +203,11 @@ public class EchoServer extends AbstractServer {
                     List<Phase> phaseList2 = serverService.getParams();
                     System.out.println(phaseList2.get(0));
                     List<Boolean> isUpdate = dbConnection.updatePhaseExtensionTime(phaseList2);
-                    // System.out.println(isUpdate);
                     System.out.println("Update_Phase_Extension server got data");
                     serverService.setParams(isUpdate);
                     try {
                         client.sendToClient(serverService);
-                        System.out.println("sent request details to client");
+                        System.out.println("server finish Update_Phase_Extension");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -250,15 +251,28 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(srvrService);
                     System.out.println("set decision status sent to client");
                     break;
-                case Get_Phase_Leaders:
-                    System.out.println("server handle Get_Phase_Leaders");
-                    List<ChangeInitiator> ChangeInitiatorParams = serverService.getParams();
-                    List<ChangeInitiator> phaseLeadersList = dbConnection.getphaseLeadersDetails(ChangeInitiatorParams);
-                    System.out.println("Get_Phase_Leaders server got data");
-                    serverService.setParams(phaseLeadersList);
+                case Get_Phase_Leaders_And_Workers:
+                    System.out.println("server handle Get_Phase_Leaders_And_Workers");
+                    List<InformationEngineer> ChangeInitiatorParams = serverService.getParams();
+                    List<List<ChangeInitiator>> workersList = dbConnection.getphaseLeadersDetails(ChangeInitiatorParams);
+                    System.out.println("Get_Phase_Leaders_And_Workers server got data");
+                    serverService.setParams(workersList);
                     try {
                         client.sendToClient(serverService);
-                        System.out.println("sent phase leaders details to client");
+                        System.out.println("sent phase leaders and workers details to client");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+				    break;
+                case Supervisor_Update_Phase_Leaders_And_Workers:
+                    System.out.println("server handle Supervisor_Update_Phase_Leaders_And_Workers");
+                    List<IEPhasePosition> newPhaseLeadersAndWorkersList = serverService.getParams();
+                    List<Boolean> isUpdate1 = dbConnection.supervisorUpdatePhaseLeaders(newPhaseLeadersAndWorkersList);
+                    System.out.println("Supervisor_Update_Phase_Leaders server got data");
+                    serverService.setParams(isUpdate1);
+                    try {
+                        client.sendToClient(serverService);
+                        System.out.println("server finish Supervisor_Update_Phase_Leaders");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

@@ -20,6 +20,8 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 public class DBConnection {
 	private static final int BUFFER_SIZE = 4096;
 	private Connection sqlConnection;
@@ -292,43 +294,39 @@ public class DBConnection {
 		return crList;
 	}
 
-	public List<Boolean> updatePhaseExtensionTime(List<Phase> pList) {
 
-		List<Boolean> updateList = new ArrayList<>();
-		boolean update = false;
-		Phase currPhase = new Phase();
-		currPhase = pList.get(0);
-		System.out.println(currPhase);
-		java.util.Date date = Date
-				.from(currPhase.getTimeExtensionRequest().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+    public List<Boolean> updatePhaseExtensionTime (List<Phase> pList) {
 
-		try {
-			PreparedStatement ps = sqlConnection.prepareStatement(
-					"UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
-			ps.setDate(1, sqlDate);
-			ps.setString(2, currPhase.getPhaseStatus().toString());
-			ps.setString(3, currPhase.getDescription());
-			ps.setInt(4, currPhase.getChangeRequestId());
-			ps.setString(5, currPhase.getName().toString());
+        List<Boolean> updateList = new ArrayList<>();
+        boolean update= false;
+        Phase currPhase=pList.get(0);
+        System.out.println(currPhase);
+        java.util.Date date = Date.from(currPhase.getTimeExtensionRequest().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-			// System.out.println(sqlDate+ " " +currPhase.getPhaseStatus().toString()+ "
-			// "+currPhase.isExtensionRequest());
-			// System.out.println(currPhase.getChangeRequestId()+" "+
-			// currPhase.getName().toString());
+        try {
+            PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phTimeExtensionRequest=?,phStatus=?,phTimeExtensionDescription=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+            ps.setDate(1,sqlDate);
+            ps.setString(2, currPhase.getPhaseStatus().toString());
+            ps.setString(3, currPhase.getDescription());
+            ps.setInt(4, currPhase.getChangeRequestId());
+            ps.setString(5, currPhase.getName().toString());
 
-			ps.executeUpdate();
-			ps.close();
-			System.out.println("phase extension updated");
-			update = true;
-			updateList.add(update);
+            //System.out.println(sqlDate+ " " +currPhase.getPhaseStatus().toString()+ " "+currPhase.isExtensionRequest());
+            // System.out.println(currPhase.getChangeRequestId()+" "+ currPhase.getName().toString());
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return updateList;
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("phase extension updated");
+            update= true;
+            updateList.add(update);
 
-	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updateList;
+
+    }
 
 	public List<Boolean> createEvaluationReport(List<String> requirementList1) {
 		boolean flag = false;
@@ -933,45 +931,6 @@ public class DBConnection {
 		return list;
 	}
 
-	public List<ChangeInitiator> getphaseLeadersDetails(List<ChangeInitiator> ChangeInitiatorList) {
-
-		List<ChangeInitiator> phaseLeadersList = new ArrayList<>();
-		ChangeInitiator crInitiator = new ChangeInitiator();
-		crInitiator = ChangeInitiatorList.get(0);
-		System.out.println(crInitiator);
-
-		try {
-			PreparedStatement ps = sqlConnection
-					.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
-			ps.setInt(1, crInitiator.getId());
-			ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
-			ps.setString(3, Position.REGULAR.toString());
-
-			ResultSet rs = ps.executeQuery();
-			rs.beforeFirst();
-			while (rs.next()) {
-				ChangeInitiator row = new ChangeInitiator();
-				row.setId(rs.getInt("IDuser"));
-				row.setFirstName(rs.getString("firstName"));
-				row.setLastName(rs.getString("lastName"));
-				row.setEmail(rs.getString("email"));
-				row.setPassword(rs.getString("password"));
-				row.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
-				row.setPhoneNumber(rs.getString("phone"));
-				row.setDepartment(CiDepartment.valueOf(rs.getString("department")));
-				row.setPosition(Position.valueOf(rs.getString("position")));
-				phaseLeadersList.add(row);
-				System.out.println(row);
-			}
-			ps.close();
-			System.out.println("DB get phase leaders");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return phaseLeadersList;
-
-	}
 
 	public boolean checkReturnRequest(int id) {
 		try {
@@ -1132,4 +1091,107 @@ public class DBConnection {
 		}
 
 	}
+    public List<List<ChangeInitiator>> getphaseLeadersDetails (List <InformationEngineer> ChangeInitiatorList){
+    	
+    	List<List<ChangeInitiator>> workersList = new ArrayList<>();
+    	List<ChangeInitiator> phaseLeadersAndExecutiveLeaderList = new ArrayList<>();
+    	List<ChangeInitiator> evaluatorList = new ArrayList<>();
+    	InformationEngineer crInitiator=ChangeInitiatorList.get(0);  	
+        System.out.println(crInitiator);
+        
+        try {	
+        	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
+            ps.setInt(1, crInitiator.getId());
+            ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
+            ps.setString(3, Position.REGULAR.toString());
+            
+            ResultSet rs = ps.executeQuery();
+            rs.beforeFirst();
+            while (rs.next()) {
+            	ChangeInitiator row = new ChangeInitiator();
+                row.setId(rs.getInt("IDuser"));
+                row.setFirstName(rs.getString("firstName"));
+                row.setLastName(rs.getString("lastName"));
+                row.setEmail(rs.getString("email"));
+                row.setPassword(rs.getString("password"));
+                row.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
+                row.setPhoneNumber(rs.getString("phone"));
+                row.setDepartment(CiDepartment.valueOf(rs.getString("department")));
+                row.setPosition(Position.valueOf(rs.getString("position")));
+                phaseLeadersAndExecutiveLeaderList.add(row);
+                System.out.println(row);
+            }
+            workersList.add(phaseLeadersAndExecutiveLeaderList);
+            ps.close();
+           
+            
+            PreparedStatement ps1 = sqlConnection.prepareStatement("SELECT misIDUser FROM ManageInfoSystem WHERE misnfoSystem = ?");
+            ps1.setString(1, crInitiator.getManagedSystem().toString());
+            ResultSet rs1 = ps1.executeQuery();
+			rs1.beforeFirst();
+			rs1.next();
+			int evaluatorId= rs1.getInt("misIDUser");
+			ps1.close();
+			
+			PreparedStatement ps2 = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser = ?");
+            ps2.setInt(1, evaluatorId);
+            ResultSet rs2 = ps2.executeQuery();
+            rs2.beforeFirst();
+			rs2.next();
+           	ChangeInitiator evaluator = new ChangeInitiator();
+           	evaluator.setId(rs2.getInt("IDuser"));
+           	evaluator.setFirstName(rs2.getString("firstName"));
+           	evaluator.setLastName(rs2.getString("lastName"));
+           	evaluator.setEmail(rs2.getString("email"));
+           	evaluator.setPassword(rs2.getString("password"));
+           	evaluator.setTitle(ChangeInitiator.Title.valueOf(rs2.getString("title")));
+           	evaluator.setPhoneNumber(rs2.getString("phone"));
+           	evaluator.setDepartment(CiDepartment.valueOf(rs2.getString("department")));
+           	evaluator.setPosition(Position.valueOf(rs2.getString("position")));
+           	evaluatorList.add(evaluator);
+            
+           	workersList.add(evaluatorList);
+			ps.close();
+            System.out.println("DB get phase leaders");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return workersList;
+    }
+    
+        public List<Boolean> supervisorUpdatePhaseLeaders (List <IEPhasePosition> newList){
+      
+        	List<Boolean> isUpdate =new ArrayList<>();
+        	boolean update= false;
+        	List<IEPhasePosition> newPhaseLeadersAndWorkersList= newList;
+        	
+        	 try {	
+        		 for(IEPhasePosition worker:newPhaseLeadersAndWorkersList ) {
+        			 
+    	   PreparedStatement ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase (IDieInPhase, crID, iePhaseName,iePhasePosition) VALUE (?,?,?,?)");
+    	   ps.setInt(1, worker.getInformationEngineer().getId());
+    	   ps.setInt(2, worker.getCrID());
+    	   ps.setString(3, worker.getPhaseName().toString());
+    	   ps.setString(4, worker.getPhasePosition().toString());
+    	   ps.executeUpdate();
+        		 }	 
+        		  ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
+     				ps.setInt(1,newPhaseLeadersAndWorkersList.get(0).getCrID());
+     				ps.executeUpdate();
+     				
+     				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ? ");
+     				ps.setInt(1,newPhaseLeadersAndWorkersList.get(0).getCrID());
+     				ps.executeUpdate();
+        	    
+    	   ps.close();
+    	   update=true;
+    	   isUpdate.add(update);
+           System.out.println("DB update phase leaders");
+
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
+             return isUpdate;
+         } 
 }
