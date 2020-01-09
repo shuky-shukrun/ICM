@@ -232,7 +232,7 @@ public class DBConnection {
 
 			currPhase.setChangeRequestId(cr.getId());
 			currPhase.setName(cr.getCurrPhaseName());
-			Date deadLine = rs.getDate("phDeadLine");
+			Date deadLine = rs.getDate("phDeadline");
 			if(deadLine != null) {
 				currPhase.setDeadLine(deadLine.toLocalDate());
 			}
