@@ -427,6 +427,23 @@ public class DBConnection {
 		return list;
 	}
 
+	public List<Boolean> requestTimeExamination(List<Object> requestTimeDetails){
+		List<Boolean> list = new ArrayList<Boolean>();
+		try {
+			PreparedStatement ps = sqlConnection.prepareStatement(
+					"UPDATE cbaricmy_ICM.phase SET phDeadline = ? ,phStatus='TIME_REQUESTED' WHERE phIDChangeRequest =? and phPhaseName='EXECUTION'");
+			ps.setInt(2, (int) requestTimeDetails.get(0));
+			ps.setDate(1, Date.valueOf((LocalDate) requestTimeDetails.get(1)));
+			ps.executeUpdate();
+			list.add(true);
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			list.add(false);
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	public List<Object> forgotPasswordRequest(List<String> params) {
 		List<Object> l = new ArrayList<Object>();
