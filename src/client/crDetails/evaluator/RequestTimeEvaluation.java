@@ -98,6 +98,7 @@ public class RequestTimeEvaluation implements ClientUI {
 				System.out.println("2");
 				ServerService serverService1=new ServerService(DatabaseService.Request_Time_EXAMINATION, l);
 				clientController.handleMessageFromClientUI(serverService1);
+				IcmUtils.getPopUp().close();
 				break;
 		}
 		
