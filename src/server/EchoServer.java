@@ -197,7 +197,17 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
                     break;
-
+                case Request_Time_EXAMINATION:
+                    System.out.println("server handle request time for evaluation phase");
+                    List<Object> requestTimeDetails1 = serverService.getParams();
+                    List<Boolean> list3 = dbConnection.requestTimeExamination(requestTimeDetails1);
+                    ServerService s2 = new ServerService(DatabaseService.Request_Time_EXAMINATION, list3);
+                    try {
+                        client.sendToClient(s2);
+                        System.out.println("request time examination status sent to client");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 case Update_Phase_Extension:
                     System.out.println("server handle Update_Phase_Extension");
                     List<Phase> phaseList2 = serverService.getParams();
