@@ -84,8 +84,8 @@ public class CCCButtons implements ClientUI {
     }
 
     public void enableChairmanButtons() {
-        //setDecisionButton.setDisable(false);
-        //assignTesterButton.setDisable(false);
+        setDecisionButton.setDisable(false);
+        assignTesterButton.setDisable(false);
     }
 
     public void initialize() {
@@ -112,10 +112,10 @@ public class CCCButtons implements ClientUI {
 				break;
 			case IN_PROCESS:
 				System.out.println(phaseStatus);
-				//setDecisionButton.setVisible(false);
-				//assignTesterButton.setVisible(true);
-				//assignTesterButton.setDisable(true);
-				//moreInformationButton.setVisible(true);
+				setDecisionButton.setVisible(false);
+				assignTesterButton.setVisible(true);
+				assignTesterButton.setDisable(true);
+				moreInformationButton.setVisible(true);
 				break;
 			}
 			break;
