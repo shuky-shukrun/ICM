@@ -80,15 +80,24 @@ public class RequestTimeEvaluation implements ClientUI {
 	public void applyTimeRequest(ActionEvent e) {
 		//create ServerService object with the picked date and the id of the request ,in order to send it to the 
 		//client controller 
+		System.out.println("1");
 		List<Object> l=new ArrayList<Object>();
+		System.out.println("2");
 		LocalDate date=datePickid.getValue();
+		System.out.println("3");
 		l.add(CrDetails.getCurrRequest().getId());
 		l.add(date);
 		Phase.PhaseName phase= crDetails.getCurrRequest().getCurrPhaseName();
+		System.out.println(phase);
 		switch(phase) {
 			case EVALUATION:
 				ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
 				clientController.handleMessageFromClientUI(serverService);
+				break;
+			case EXECUTION:
+				System.out.println("2");
+				ServerService serverService1=new ServerService(DatabaseService.Request_Time_EXAMINATION, l);
+				clientController.handleMessageFromClientUI(serverService1);
 				break;
 		}
 		
@@ -126,9 +135,8 @@ public class RequestTimeEvaluation implements ClientUI {
 	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean>list=serverService.getParams();
-		if(list.get(0)==true) {
-			IcmUtils.displayConfirmationMsg("request time success");
-		}
+		if(list.get(0)==true)
+			IcmUtils.displayInformationMsg("request time has been submitted");
 		else
 			IcmUtils.displayErrorMsg("request time failed");
 		

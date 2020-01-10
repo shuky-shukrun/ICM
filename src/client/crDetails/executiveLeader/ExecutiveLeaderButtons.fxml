@@ -20,6 +20,14 @@
             <MaterialDesignIconView glyphName="ALARM" size="20" />
          </graphic>
       </Button>
+      <JFXButton fx:id="moreInformationButton" alignment="TOP_LEFT" onAction="#moreInformationEvent" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+         <graphic>
+            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
       <Button fx:id="confirmExecutionButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#confirmExecution" prefHeight="35.0" style="-fx-background-radius: 10;" text="Confirm Execution">
          <font>
             <Font size="14.0" />
@@ -28,5 +36,13 @@
             <FontAwesomeIconView glyphName="CHECK" size="20" />
          </graphic>
       </Button>
+      <JFXButton fx:id="moreInformationButton2" alignment="TOP_LEFT" onAction="#moreInformationEvent1" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+         <graphic>
+            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </VBox>

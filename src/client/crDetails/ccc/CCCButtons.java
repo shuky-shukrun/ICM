@@ -11,6 +11,7 @@ import common.IcmUtils;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.EvaluationReport;
+import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,6 +33,8 @@ public class CCCButtons implements ClientUI {
 
     @FXML
     private Button assignTesterButton;
+    @FXML
+    private Button moreInformationButton;
 
     private ClientController clientController;
     private CrDetails crDetails; 
@@ -62,6 +65,16 @@ public class CCCButtons implements ClientUI {
             e.printStackTrace();
         }
     }
+    @FXML
+    void moreInformationEvent(ActionEvent event) {
+		IcmUtils.displayInformationMsg("Information message",
+				"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+						+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+				"Change request " + CrDetails.getCurrRequest().getId()
+						+ " -Tester was allready assignd");
+		
+	}
+    
 
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
@@ -71,8 +84,8 @@ public class CCCButtons implements ClientUI {
     }
 
     public void enableChairmanButtons() {
-        setDecisionButton.setDisable(false);
-        assignTesterButton.setDisable(false);
+        //setDecisionButton.setDisable(false);
+        //assignTesterButton.setDisable(false);
     }
 
     public void initialize() {
@@ -81,5 +94,31 @@ public class CCCButtons implements ClientUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Phase.PhaseStatus phaseStatus = crDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
+        Phase.PhaseName phase= crDetails.getCurrRequest().getCurrPhaseName();
+		switch (phase) {
+		case EXAMINATION:
+			setDecisionButton.setDisable(false);
+			assignTesterButton.setVisible(false);
+			moreInformationButton.setVisible(false);
+			break;
+		case VALIDATION:
+			switch (phaseStatus) {
+			case SUBMITTED:
+				setDecisionButton.setVisible(false);
+				assignTesterButton.setVisible(true);
+				assignTesterButton.setDisable(false);
+				moreInformationButton.setVisible(false);
+				break;
+			case IN_PROCESS:
+				System.out.println(phaseStatus);
+				//setDecisionButton.setVisible(false);
+				//assignTesterButton.setVisible(true);
+				//assignTesterButton.setDisable(true);
+				//moreInformationButton.setVisible(true);
+				break;
+			}
+			break;
+		}
     }
 }

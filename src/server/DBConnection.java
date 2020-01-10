@@ -1031,7 +1031,7 @@ public class DBConnection {
 		System.out.println("database handle getCCC");
 		List<ChangeInitiator> cccList = new ArrayList<>();
 
-		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE position = 'ccc'");
+		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE position = 'ccc' or position='CHAIRMAN'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -1060,14 +1060,13 @@ public class DBConnection {
 		System.out.println(b);
 		
 
-		ps = sqlConnection
-				.prepareStatement("SELECT COUNT(*) As count FROM ieInPhase where crID=? and iePhaseName='VALIDATION' ");
-		ps.setInt(1, id);
-		ResultSet rs = ps.executeQuery();
-		rs.next();
-		int count = rs.getInt("count");
-		if (count==0) {
-			System.out.println("1");
+		//ps = sqlConnection.prepareStatement("SELECT COUNT(*) As count FROM ieInPhase where crID=? and iePhaseName='VALIDATION' ");
+		//ps.setInt(1, id);
+		//ResultSet rs = ps.executeQuery();
+		//rs.next();
+		//int count = rs.getInt("count");
+		//if (count==0) {
+
 			ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase "
 					+ "(IDieInPhase, crID, iePhaseName, iePhasePosition, evaluationReportId) " + "VALUE (?,?,?,?,?)");
 			ps.setInt(1, b.getId());
@@ -1077,18 +1076,22 @@ public class DBConnection {
 			ps.setString(5, id.toString());
 			ps.executeUpdate();
 			ps.close();
-			System.out.println(a);
-			System.out.println(b);
-
-		} else {
-			ps = sqlConnection
+			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase set phStatus='IN_PROCESS' where phIDChangeRequest=? and phPhaseName=?");
+			System.out.println("ronit");
+			ps.setInt(1, id);
+			ps.setString(2, Phase.PhaseName.VALIDATION.toString());
+			ps.executeUpdate();
+			System.out.println("ronit1");
+			ps.close();
+		//} else {
+			/*ps = sqlConnection
 					.prepareStatement("UPDATE cbaricmy_ICM.ieInPhase set IDieInPhase=? where crID=? and iePhaseName=?");
 			ps.setInt(1, b.getId());
 			ps.setInt(2, id);
 			ps.setString(3, Phase.PhaseName.VALIDATION.toString());
 			ps.executeUpdate();
 			ps.close();
-		}
+		}*/
 
 	}
     public List<List<ChangeInitiator>> getphaseLeadersDetails (List <InformationEngineer> ChangeInitiatorList){
