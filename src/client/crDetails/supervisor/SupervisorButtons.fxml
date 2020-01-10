@@ -29,14 +29,6 @@
             <MaterialDesignIconView glyphName="ACCOUNT_MULTIPLE_PLUS" size="20" />
          </graphic>
       </Button>
-      <Button fx:id="assignPhaseWorkersButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAssignPhaseWorkersDialog" prefHeight="35.0" style="-fx-background-radius: 10;" text="Assign Phase workers">
-         <font>
-            <Font size="14.0" />
-         </font>
-         <graphic>
-            <MaterialDesignIconView glyphName="ACCOUNT_PLUS" size="20" />
-         </graphic>
-      </Button>
       <Button fx:id="freezeRequestButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#freezeRequest" prefHeight="35.0" style="-fx-background-radius: 10;" text="Freeze Request">
          <font>
             <Font size="14.0" />
@@ -54,6 +46,14 @@
          </graphic>
       </Button>
       <JFXButton fx:id="moreInformation2" alignment="TOP_LEFT" onAction="#moreInformation2Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+         <graphic>
+            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="moreInformation3" alignment="TOP_LEFT" onAction="#moreInformation3Event" prefHeight="31.0" prefWidth="223.0" text="mor's button do not touch " textFill="#1b0eae" underline="true">
          <graphic>
             <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
          </graphic>

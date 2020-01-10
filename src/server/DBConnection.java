@@ -1095,36 +1095,11 @@ public class DBConnection {
     	
     	List<List<ChangeInitiator>> workersList = new ArrayList<>();
     	List<ChangeInitiator> phaseLeadersAndExecutiveLeaderList = new ArrayList<>();
-    	List<ChangeInitiator> evaluatorList = new ArrayList<>();
+    	List<ChangeInitiator> phaseLeadersAndEvaluatorList = new ArrayList<>();
     	InformationEngineer crInitiator=ChangeInitiatorList.get(0);  	
         System.out.println(crInitiator);
         
-        try {	
-        	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
-            ps.setInt(1, crInitiator.getId());
-            ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
-            ps.setString(3, Position.REGULAR.toString());
-            
-            ResultSet rs = ps.executeQuery();
-            rs.beforeFirst();
-            while (rs.next()) {
-            	ChangeInitiator row = new ChangeInitiator();
-                row.setId(rs.getInt("IDuser"));
-                row.setFirstName(rs.getString("firstName"));
-                row.setLastName(rs.getString("lastName"));
-                row.setEmail(rs.getString("email"));
-                row.setPassword(rs.getString("password"));
-                row.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
-                row.setPhoneNumber(rs.getString("phone"));
-                row.setDepartment(CiDepartment.valueOf(rs.getString("department")));
-                row.setPosition(Position.valueOf(rs.getString("position")));
-                phaseLeadersAndExecutiveLeaderList.add(row);
-                System.out.println(row);
-            }
-            workersList.add(phaseLeadersAndExecutiveLeaderList);
-            ps.close();
-           
-            
+        try {		
             PreparedStatement ps1 = sqlConnection.prepareStatement("SELECT misIDUser FROM ManageInfoSystem WHERE misnfoSystem = ?");
             ps1.setString(1, crInitiator.getManagedSystem().toString());
             ResultSet rs1 = ps1.executeQuery();
@@ -1148,9 +1123,32 @@ public class DBConnection {
            	evaluator.setPhoneNumber(rs2.getString("phone"));
            	evaluator.setDepartment(CiDepartment.valueOf(rs2.getString("department")));
            	evaluator.setPosition(Position.valueOf(rs2.getString("position")));
-           	evaluatorList.add(evaluator);
+           	phaseLeadersAndEvaluatorList.add(evaluator);
+           	
+           	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
+            ps.setInt(1, crInitiator.getId());
+            ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
+            ps.setString(3, Position.REGULAR.toString());
             
-           	workersList.add(evaluatorList);
+            ResultSet rs = ps.executeQuery();
+            rs.beforeFirst();
+            while (rs.next()) {
+            	ChangeInitiator row = new ChangeInitiator();
+                row.setId(rs.getInt("IDuser"));
+                row.setFirstName(rs.getString("firstName"));
+                row.setLastName(rs.getString("lastName"));
+                row.setEmail(rs.getString("email"));
+                row.setPassword(rs.getString("password"));
+                row.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
+                row.setPhoneNumber(rs.getString("phone"));
+                row.setDepartment(CiDepartment.valueOf(rs.getString("department")));
+                row.setPosition(Position.valueOf(rs.getString("position")));
+                phaseLeadersAndExecutiveLeaderList.add(row);
+                phaseLeadersAndEvaluatorList.add(row);
+                System.out.println(row);
+            }
+            workersList.add(phaseLeadersAndExecutiveLeaderList);
+            workersList.add(phaseLeadersAndEvaluatorList);
 			ps.close();
             System.out.println("DB get phase leaders");
 
@@ -1176,7 +1174,8 @@ public class DBConnection {
     	   ps.setString(4, worker.getPhasePosition().toString());
     	   ps.executeUpdate();
         		 }	 
-        		  ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
+        		 
+        		    ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
      				ps.setInt(1,newPhaseLeadersAndWorkersList.get(0).getCrID());
      				ps.executeUpdate();
      				
