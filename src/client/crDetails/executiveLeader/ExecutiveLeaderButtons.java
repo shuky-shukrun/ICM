@@ -129,17 +129,9 @@ public class ExecutiveLeaderButtons implements ClientUI {
             requestList.add(CrDetails.getCurrRequest());
             ServerService serverService = new ServerService(ServerService.DatabaseService.Execution_Confirmation, requestList);
 
-            try {
-                clientController.handleMessageFromClientUI(serverService);
-                confirmExecutionButton.setDisable(true);
-            } catch (IOException e) {
-                List<Exception> errorMessageList = new ArrayList<>();
-                errorMessageList.add(e);
-                ServerService error = new ServerService(ServerService.DatabaseService.Error, errorMessageList);
-                handleMessageFromClientController(error);
-                e.printStackTrace();
-            }
-        }
+			clientController.handleMessageFromClientUI(serverService);
+			confirmExecutionButton.setDisable(true);
+		}
     }
 
 
@@ -165,6 +157,17 @@ public class ExecutiveLeaderButtons implements ClientUI {
 							+ " -Time request approved.");
 			
 		}
+	}
+
+	@FXML
+	public void moreInformationEvent1(ActionEvent e) {
+
+		IcmUtils.displayInformationMsg("Information message",
+				"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+						+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+				"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
+						+ "Execution can't be confirmed when the phase time not yet approved!");
+
 	}
 
     @Override
