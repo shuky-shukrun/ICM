@@ -84,7 +84,7 @@ public class CCCButtons implements ClientUI {
     }
 
     public void enableChairmanButtons() {
-        setDecisionButton.setDisable(false);
+        //setDecisionButton.setDisable(false);
         //assignTesterButton.setDisable(false);
     }
 
@@ -94,26 +94,31 @@ public class CCCButtons implements ClientUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        moreInformationButton.setVisible(false);
         Phase.PhaseStatus phaseStatus = crDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
-        System.out.println(phaseStatus);
-        System.out.println("2");
         Phase.PhaseName phase= crDetails.getCurrRequest().getCurrPhaseName();
-        switch(phase) {
+		switch (phase) {
 		case EXAMINATION:
-			assignTesterButton.setDisable(false);
+			setDecisionButton.setDisable(false);
+			assignTesterButton.setVisible(false);
+			moreInformationButton.setVisible(false);
 			break;
 		case VALIDATION:
-			setDecisionButton.setVisible(false);
-			assignTesterButton.setDisable(false);
 			switch (phaseStatus) {
-			case PHASE_EXEC_LEADER_ASSIGNED:
-				System.out.println("3");
-				assignTesterButton.setDisable(true);
-				moreInformationButton.setVisible(true);
+			case SUBMITTED:
+				setDecisionButton.setVisible(false);
+				assignTesterButton.setVisible(true);
+				assignTesterButton.setDisable(false);
+				moreInformationButton.setVisible(false);
+				break;
+			case IN_PROCESS:
+				System.out.println(phaseStatus);
+				//setDecisionButton.setVisible(false);
+				//assignTesterButton.setVisible(true);
+				//assignTesterButton.setDisable(true);
+				//moreInformationButton.setVisible(true);
 				break;
 			}
-        		break;
-        }
+			break;
+		}
     }
 }

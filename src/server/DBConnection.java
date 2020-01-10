@@ -947,7 +947,7 @@ public class DBConnection {
 		System.out.println("database handle getCCC");
 		List<ChangeInitiator> cccList = new ArrayList<>();
 
-		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE position = 'ccc'");
+		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE position = 'ccc' or position='CHAIRMAN'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -991,10 +991,12 @@ public class DBConnection {
 			ps.setString(5, id.toString());
 			ps.executeUpdate();
 			ps.close();
-			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase set phStatus='PHASE_EXEC_LEADER_ASSIGNED' where crID=? and phPhaseName=?");
-			ps.setInt(1, b.getId());
+			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase set phStatus='IN_PROCESS' where phIDChangeRequest=? and phPhaseName=?");
+			System.out.println("ronit");
+			ps.setInt(1, id);
 			ps.setString(2, Phase.PhaseName.VALIDATION.toString());
 			ps.executeUpdate();
+			System.out.println("ronit1");
 			ps.close();
 		//} else {
 			/*ps = sqlConnection
