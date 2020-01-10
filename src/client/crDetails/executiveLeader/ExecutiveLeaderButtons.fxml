@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
@@ -7,12 +8,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="482.0" prefWidth="235.0" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.executiveLeader.ExecutiveLeaderButtons">
+<VBox alignment="TOP_CENTER" prefHeight="482.0" prefWidth="235.0" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.executiveLeader.ExecutiveLeaderButtons">
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <children>
-      <Button fx:id="requestPhaseTimeButton" alignment="CENTER" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showRequestTimeDialog" prefHeight="35.0" style="-fx-background-radius: 10;" text="Request Phase Time" textAlignment="CENTER">
+      <Button fx:id="requestPhaseTimeButton1" alignment="CENTER" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showRequestTimeDialog" prefHeight="35.0" style="-fx-background-radius: 10;" text="Request Phase Time" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
