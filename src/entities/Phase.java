@@ -32,6 +32,7 @@ public class Phase implements Serializable {
 		PHASE_EXEC_LEADER_ASSIGNED,
 		TIME_REQUESTED,
 		TIME_APPROVED,
+		TIME_DECLINED,
 		IN_PROCESS,
 		DECLINE,
 		DONE,

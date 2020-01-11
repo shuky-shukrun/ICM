@@ -59,6 +59,8 @@ public class ServerService implements Serializable {
         Replace_Tester,
         Get_Phase_Leaders_And_Workers,
         Supervisor_Update_Phase_Leaders_And_Workers,
-        Request_Time_EXAMINATION
+        Request_Time_EXAMINATION,
+        Get_Employee,
+        Register_IT
     }
 }

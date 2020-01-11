@@ -1214,4 +1214,43 @@ public class DBConnection {
              }
              return isUpdate;
          } 
+        
+    	public List<ChangeInitiator> getEmployee() throws SQLException {
+    		System.out.println("database handle getEmployee");
+    		List<ChangeInitiator> employeeList = new ArrayList<>();
+
+    		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE title = 'ADMINISTRATION' or title='LECTURER'");
+    		ResultSet rs = ps.executeQuery();
+
+    		while (rs.next()) {
+    			ChangeInitiator employee = new ChangeInitiator();
+    			employee.setId(rs.getInt("IDuser"));
+    			employee.setFirstName(rs.getString("firstName"));
+    			employee.setLastName(rs.getString("lastName"));
+    			employee.setEmail(rs.getString("email"));
+    			employee.setPassword(rs.getString("password"));
+    			employee.setTitle(ChangeInitiator.Title.valueOf(rs.getString("title")));
+    			employee.setPhoneNumber(rs.getString("phone"));
+    			employee.setDepartment(CiDepartment.valueOf(rs.getString("Department")));
+    			employee.setPosition(Position.CCC);
+
+    			employeeList.add(employee);
+    		}
+    		ps.close();
+    		System.out.println(employeeList);
+    		return employeeList;
+
+    	}
+    	
+    	public void registerIT(ChangeInitiator a, Integer id) throws SQLException {
+    		System.out.println("database handle replaceTester");
+    		System.out.println(a);
+    		System.out.println(id);
+
+    			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.users set department='IT' where idUser=?");
+    			ps.setInt(1, id);
+    			ps.executeUpdate();
+    			ps.close();
+
+    	}
 }
