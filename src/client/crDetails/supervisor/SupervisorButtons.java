@@ -31,6 +31,8 @@ public class SupervisorButtons implements ClientUI {
 
     @FXML
     private Button closeChangeRequestButton;
+    
+    private String CurrStatus = new String();
 
     
     
@@ -47,7 +49,31 @@ public class SupervisorButtons implements ClientUI {
     @FXML
     void setTimeDecision(ActionEvent event) {
 
-    }
+    		CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().toString();
+    		System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus());
+    		System.out.println(CurrStatus);
+    		switch (CurrStatus) {
+    		case "TIME_REQUESTED":
+    			try {
+    				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/TimeRequestDecision.fxml", 420, 350);
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			break;
+
+    		case "EXTENSION_TIME_REQUESTED":
+    			try {
+    				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/ExtensionTimeDecision.fxml", 420, 350);
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			break;
+
+    		default:
+    			IcmUtils.displayInformationMsg("There are no time requests.");
+
+    		}
+    	}
 
     @FXML
     void showAssignPhaseLeadersDialog(ActionEvent event) {

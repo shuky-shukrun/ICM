@@ -911,4 +911,95 @@ public class DBConnection {
     	
     	
     }
+    
+    public List<String> getExtensionTime(List<String> params){
+    	List<String> extensionTime = new ArrayList<String>();
+    	
+    	try {
+    		PreparedStatement ps = sqlConnection.prepareStatement("SELECT phTimeExtensionRequest,phTimeExtensionDescription FROM cbaricmy_ICM.phase WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    		ps.setInt(1,Integer.parseInt(params.get(0)));
+    		ps.setString(2, params.get(1));
+    		ResultSet rslt = ps.executeQuery();
+    		rslt.next();
+    		
+    		extensionTime.add(rslt.getDate("phTimeExtensionRequest").toString());
+    		extensionTime.add(rslt.getString("phTimeExtensionDescription"));
+    		ps.close();    		
+    	}catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return extensionTime;
+    }
+    
+    public List<Boolean> timeApproved(List<String> params){
+    	String currStatus = new String();
+    	currStatus = params.get(1);
+    	List<Boolean> list = new ArrayList<>();
+    	
+    	switch(currStatus) {
+    	case "TIME_REQUESTED":
+    		try {
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+				ps.setInt(1, Integer.parseInt(params.get(0)));
+				ps.setString(2, params.get(2));
+				ps.executeUpdate();
+				list.add(true);
+    		}catch (SQLException e) {
+    			e.printStackTrace();
+    			list.add(false);
+    		}
+    		break;
+    		
+    	case "EXTENSION_TIME_REQUESTED":
+    		try {
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'TIME_APPROVED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+				ps.setInt(1, Integer.parseInt(params.get(0)));
+				ps.setString(2, params.get(2));
+				ps.executeUpdate();
+				list.add(true);
+    		}catch (SQLException e) {
+    			e.printStackTrace();
+    			list.add(false);
+    		}
+    		break;
+    	}
+    	
+		return list;
+    }
+    
+    public List<Boolean> timeRejected(List<String> params){
+    	String currStatus = new String();
+    	currStatus = params.get(1);
+    	List<Boolean> list = new ArrayList<>();
+    	
+    	switch(currStatus) {
+    	case "TIME_REQUESTED":
+    		try {
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'TIME_DECLINED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+				ps.setInt(1, Integer.parseInt(params.get(0)));
+				ps.setString(2, params.get(2));
+				ps.executeUpdate();
+				list.add(true);
+    		}catch (SQLException e) {
+    			e.printStackTrace();
+    			list.add(false);
+    		}
+    		break;
+    		
+    	case "EXTENSION_TIME_REQUESTED":
+    		try {
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+				ps.setInt(1, Integer.parseInt(params.get(0)));
+				ps.setString(2, params.get(2));
+				ps.executeUpdate();
+				list.add(true);
+    		}catch (SQLException e) {
+    			e.printStackTrace();
+    			list.add(false);
+    		}
+    		break;
+    	}
+		return list;
+    }
 }
