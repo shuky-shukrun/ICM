@@ -8,6 +8,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -46,31 +47,40 @@ public class EvaluatorButtons implements ClientUI {
 		importantInfo.setVisible(false);
 		checkIsReturnRequest(CrDetails.getCurrRequest().getId());
 		// time request not submitted yet
-		if (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()
-				.compareTo(entities.Phase.PhaseStatus.TIME_REQUESTED) < 0) {
+		switch (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()) {
+		case SUBMITTED:
+		case PHASE_LEADER_ASSIGNED:
 			info = "time of phase yet not submitted";
 			createEvaluationReportButton.setDisable(true);
 			moreInformation2.setVisible(true);
-		}
+			break;
 		// time request submitted but not approved yet
-		else if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_REQUESTED) {
+		case TIME_REQUESTED:
 			info = "time of phase yet not approved";
 			requestPhaseTimeButton.setDisable(true);
 			createEvaluationReportButton.setDisable(true);
 			moreInformation1.setVisible(true);
 			moreInformation2.setVisible(true);
-		} else if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() == entities.Phase.PhaseStatus.EXTENSION_TIME_APPROVED) {
+			break;
+		case IN_PROCESS:
+		case EXTENSION_TIME_REQUESTED:
+		case EXTENSION_TIME_APPROVED:
 			info = "time of phase approved";
 			requestPhaseTimeButton.setDisable(true);
+			moreInformation1.setVisible(true);
 			IcmUtils.displayInformationMsg("time of phase approved,please create report");
-
-		} else {
-			List<Integer> l = new ArrayList<>();
-			l.add(CrDetails.getCurrRequest().getId());
-			clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Is_Exists_Eva_Report, l));
+			break;
+		case TIME_DECLINED:
+			info = "time declined";
+			createEvaluationReportButton.setDisable(true);
+			requestPhaseTimeButton.setDisable(false);
+			moreInformation2.setVisible(true);
+			importantInfo.setVisible(true);
+			break;
 		}
+		List<Integer> l = new ArrayList<>();
+		l.add(CrDetails.getCurrRequest().getId());
+		clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Is_Exists_Eva_Report, l));
 	}
 
 	@FXML
@@ -89,18 +99,10 @@ public class EvaluatorButtons implements ClientUI {
 		}
 
 	}
-	/**
-	 * Show specific message when this button appeared on the screen
-	 */
-	@FXML
-	public void importantInfoEvent() {
-		if (info.equals("return request")) {
-			IcmUtils.displayInformationMsg("information message",
-					"pay attention!!this request returns from examination for more details");
-		}
-	}
+
 	/**
 	 * function that check if specific request return from examination phase
+	 * 
 	 * @param id-the id of the wanted request
 	 */
 	public void checkIsReturnRequest(int id) {
@@ -125,9 +127,29 @@ public class EvaluatorButtons implements ClientUI {
 		}
 	}
 
+	/**
+	 * Show specific message when this button appeared on the screen
+	 */
+	@FXML
+	public void importantInfoEvent() {
+		switch (info) {
+		case "return request":
+			IcmUtils.displayInformationMsg("information message",
+					"pay attention!!this request returns from examination for more details");
+			break;
+		case "time declined":
+			IcmUtils.displayInformationMsg("information message",
+					"pay attention!!this request phase time did not approved");
+		}
+		if (info.equals("return request")) {
+
+		}
+	}
+
 	@FXML
 	/**
 	 * Show specific message when this button appeared on the screen
+	 * 
 	 * @param e
 	 */
 	public void moreInformation1Event(ActionEvent e) {
@@ -137,19 +159,29 @@ public class EvaluatorButtons implements ClientUI {
 					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
 							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
 					"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
-							+ "evaluation report can't be submited when the phase time not yet approved!");
+							+ "request phase time can't be submitted when there is already phase time request!");
+			break;
+		case "time of phase approved":
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+					"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
+							+ "request phase time can't be submitted when there is already phase time!");
 			break;
 		}
 
 	}
+
 	/**
 	 * Show specific message when this button appeared on the screen
+	 * 
 	 * @param e
 	 */
 	@FXML
 	public void moreInformation2Event(ActionEvent e) {
 		switch (info) {
 		case "time of phase yet not submitted":
+		case "return request":
 			IcmUtils.displayInformationMsg("Information message",
 					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
 							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
@@ -157,6 +189,7 @@ public class EvaluatorButtons implements ClientUI {
 							+ "\n\n" + "evaluation report can't be submited when the phase time not yet submitted!");
 			break;
 		case "time of phase yet not approved":
+		case "time declined":
 			IcmUtils.displayInformationMsg("Information message",
 					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
 							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
@@ -169,6 +202,7 @@ public class EvaluatorButtons implements ClientUI {
 		case "time of phase approved":
 			IcmUtils.displayInformationMsg("Information message", "there is already deadline");
 			break;
+
 		}
 
 	}
@@ -183,8 +217,8 @@ public class EvaluatorButtons implements ClientUI {
 				moreInformation2.setVisible(true);
 				// moreInformation2.setDisable(false);
 			} else
-				moreInformation2.setVisible(false);
-			break;
+				// moreInformation2.setVisible(false);
+				break;
 
 		case Return_Request:
 			if ((Boolean) serverService.getParams().get(0) == true) {
