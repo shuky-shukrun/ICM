@@ -64,7 +64,7 @@ public class RequestExtensionTime implements ClientUI{
     	submitButton.disableProperty().bind(test);
 		
 		
-			clientController = ClientController.getInstance(this);
+		clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,7 +74,6 @@ public class RequestExtensionTime implements ClientUI{
 	void submitRequestTime(ActionEvent event) {
 		datePickerChoice = RequestedtimeDatePicker.getValue();
 		description = DescriptionTextArea.getText();
-		//System.out.println(description+datePickerChoice.format(formatter));
 
 		newCurrPhase.setTimeExtensionRequest(datePickerChoice);
 		newCurrPhase.setPhaseStatus(PhaseStatus.EXTENSION_TIME_REQUESTED);
@@ -83,7 +82,6 @@ public class RequestExtensionTime implements ClientUI{
 
 		List<Phase> phaseList = new ArrayList<>();
 		phaseList.add(newCurrPhase);
-		System.out.printf("%s\n",phaseList);
 		ServerService updatePhaseExtension = new ServerService(ServerService.DatabaseService.Update_Phase_Extension, phaseList);
 		clientController.handleMessageFromClientUI(updatePhaseExtension);
 	}
@@ -97,10 +95,9 @@ public class RequestExtensionTime implements ClientUI{
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		
-	
 				List<Boolean> update=serverService.getParams();
 				boolean checkUpdate= update.get(0);
-				if(checkUpdate== true) {
+				if(checkUpdate == true) {
 					IcmUtils.displayInformationMsg("Time Extension Request Submited", "Time extension request has been successfully submited","Current deadline: " + newCurrPhase.getDeadLine().format(formatter) + "\n"+ "Time extension request: " + newCurrPhase.getTimeExtensionRequest().format(formatter));
 					IcmUtils.getPopUp().close();
 				}	
