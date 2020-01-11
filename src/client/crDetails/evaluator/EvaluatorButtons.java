@@ -1,7 +1,6 @@
 package client.crDetails.evaluator;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
-import common.IcmUtils.Scenes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -71,7 +69,7 @@ public class EvaluatorButtons implements ClientUI {
 			moreInformation1.setVisible(true);
 			moreInformation2.setVisible(true);
 		} else if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
+				.getPhaseStatus() == entities.Phase.PhaseStatus.EXTENSION_TIME_APPROVED) {
 			info = "time of phase approved";
 			requestPhaseTimeButton.setDisable(true);
 			IcmUtils.displayInformationMsg("time of phase approved,please create report");

@@ -16,7 +16,6 @@ public class IcmUtils {
 	private static Stage popUp;
 	
     public enum Scenes {
-        Main_Window,
         Login,
         Forgot_Password,
         Main_Window_New,
@@ -106,12 +105,6 @@ public class IcmUtils {
                 width = 500;
                 height = 410;
                 break;
-           case Main_Window:
-                sceneTitle = "ICM Main Window";
-                fxmlPath = "/client/mainWindow/MainWindowUI.fxml";
-                width = 590;
-                height = 565;
-                break;
             case Main_Window_New:
                 sceneTitle = "ICM Main Window";
                 fxmlPath = "/client/mainWindow/MainWindow.fxml";
@@ -139,22 +132,7 @@ public class IcmUtils {
                 width = 1000;
                 height = 650;
                 break;
-
-           /* case View_Evaluation_Report:
-                sceneTitle = "ICM View Evaluation Report";
-                fxmlPath = "/client/crDetails/ccc/viewEvaluationReport.fxml";
-                width = 600;
-                height = 632;
-                break;
-            case Assign_Tester:
-            	   sceneTitle = "Assign Tester";
-                   fxmlPath = "/client/crDetails/ccc/AssignTester.fxml";
-                   width = 400;
-                   height = 300;
-                   break;*/
-            	
-
-
+                
             default:
                 throw new IOException();
         }

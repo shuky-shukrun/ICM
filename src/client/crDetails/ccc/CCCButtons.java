@@ -110,7 +110,7 @@ public class CCCButtons implements ClientUI {
 				assignTesterButton.setDisable(false);
 				moreInformationButton.setVisible(false);
 				break;
-			case IN_PROCESS:
+                case IN_PROCESS: case EXTENSION_TIME_REQUESTED:case EXTENSION_TIME_APPROVED:
 				System.out.println(phaseStatus);
 				setDecisionButton.setVisible(false);
 				assignTesterButton.setVisible(true);
