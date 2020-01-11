@@ -372,6 +372,34 @@ public class EchoServer extends AbstractServer {
                     							(Integer)serverService.getParams().get(2));
                     client.sendToClient(serverService);
                     System.out.println("server finish replace tester");
+				    
+                case Load_Extension_Time:
+                	System.out.println("server handle load extension time request details");
+                	List<String> timeExtension = dbConnection.getExtensionTime(serverService.getParams());
+                	System.out.println("Extension time details server got data");
+                	ServerService srvr = new ServerService(DatabaseService.Load_Extension_Time, timeExtension);
+                	//serverService.setParams(timeExtension);
+                	client.sendToClient(srvr);
+                    System.out.println("sent extension time request details to client");                	
+                	break;
+				    
+                case Approve_Phase_Time:
+                	System.out.println("server handle approve requested phase time by supervisor");
+                	List<String> params = serverService.getParams();
+                    List<Boolean> timeApprove =dbConnection.timeApproved(params);
+                    ServerService serversrvc= new ServerService(DatabaseService.Approve_Phase_Time, timeApprove);
+                    client.sendToClient(serversrvc);
+                    System.out.println("approve time status sent to client");
+                    break;
+                    
+                case Reject_Phase_Time:
+                	System.out.println("server handle reject requested phase time by supervisor");
+                	List<String> params2 = serverService.getParams();
+                    List<Boolean> timeReject =dbConnection.timeRejected(params2);
+                    ServerService serversrvc2= new ServerService(DatabaseService.Reject_Phase_Time, timeReject);
+                    client.sendToClient(serversrvc2);
+                    System.out.println("reject time status sent to client");
+                    break;
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();
