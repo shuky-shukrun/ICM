@@ -52,7 +52,7 @@ public class AssignPhaseLeaders implements ClientUI {
 	@FXML
 	private Label helpLabel;
 
-	private ChangeInitiator currInitiator;
+	private ChangeInitiator initiatorOfCr;
 	private ClientController clientController;
 	private List<List<ChangeInitiator>> optionalWorkersList = new ArrayList<>();
 	private ObservableList<ChangeInitiator> phaseLeaderAndExLeaderDetailsList = FXCollections.observableArrayList();
@@ -71,6 +71,7 @@ public class AssignPhaseLeaders implements ClientUI {
 		try {
 			clientController = ClientController.getInstance(this);
 			
+			//unable submit until all employees are selected
 			BooleanBinding test = Bindings.createBooleanBinding(() -> {
 				ChangeInitiator evPhaseLeader = evaluationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
 				ChangeInitiator ev = evaluatorChoiceBox.getSelectionModel().getSelectedItem();
@@ -90,20 +91,21 @@ public class AssignPhaseLeaders implements ClientUI {
 	        );
 			submitButton.disableProperty().bind(test);
 			
+			// Get phase leaders and workers details from DB
 			crId=CrDetails.getCurrRequest().getId();
 			InfoSystem infoSystem =CrDetails.getCurrRequest().getInfoSystem();
-			currInitiator= CrDetails.getCurrRequest().getInitiator();
+			initiatorOfCr= CrDetails.getCurrRequest().getInitiator();
 			InformationEngineer informationEngineer=new InformationEngineer();	
 			
-			informationEngineer.setDepartment(currInitiator.getDepartment());
-			informationEngineer.setEmail(currInitiator.getEmail());
-			informationEngineer.setFirstName(currInitiator.getFirstName());
-			informationEngineer.setId(currInitiator.getId());
-			informationEngineer.setLastName(currInitiator.getLastName());
-			informationEngineer.setPassword(currInitiator.getPassword());
-			informationEngineer.setPhoneNumber(currInitiator.getPhoneNumber());
-			informationEngineer.setPosition(currInitiator.getPosition());
-			informationEngineer.setTitle(currInitiator.getTitle());	
+			informationEngineer.setDepartment(initiatorOfCr.getDepartment());
+			informationEngineer.setEmail(initiatorOfCr.getEmail());
+			informationEngineer.setFirstName(initiatorOfCr.getFirstName());
+			informationEngineer.setId(initiatorOfCr.getId());
+			informationEngineer.setLastName(initiatorOfCr.getLastName());
+			informationEngineer.setPassword(initiatorOfCr.getPassword());
+			informationEngineer.setPhoneNumber(initiatorOfCr.getPhoneNumber());
+			informationEngineer.setPosition(initiatorOfCr.getPosition());
+			informationEngineer.setTitle(initiatorOfCr.getTitle());	
 			informationEngineer.setManagedSystem(infoSystem); // add infoSystem of CurrRequest to the ChangeInitiator of the request
 			
 			helpLabel.setText("please assign phase leaders for change request " +CrDetails.getCurrRequest().getId().toString());
@@ -113,6 +115,7 @@ public class AssignPhaseLeaders implements ClientUI {
 			ServerService getPhaseLeaders = new ServerService(ServerService.DatabaseService.Get_Phase_Leaders_And_Workers, ChangeInitiatorList);
 			clientController.handleMessageFromClientUI(getPhaseLeaders);
 			
+			// add Change listeners to Choice Box
 			addChangeListener(executionPhaseLeaderChoiceBox, executiveLeaderChoiceBox);
 			addChangeListener(executiveLeaderChoiceBox, executionPhaseLeaderChoiceBox );
 			addChangeListener(evaluationPhaseLeaderChoiceBox, evaluatorChoiceBox);
@@ -181,7 +184,7 @@ public class AssignPhaseLeaders implements ClientUI {
 					    validationPhaseLeader.getInformationEngineer().toString() + "\n");
 				newCurrPhase=SupervisorButtons.getPhase();
 				newCurrPhase.setName(PhaseName.EVALUATION);
-				newCurrPhase.setPhaseStatus(PhaseStatus.PHASE_EXEC_LEADER_ASSIGNED);
+				newCurrPhase.setPhaseStatus(PhaseStatus.PHASE_LEADER_ASSIGNED);
 				SupervisorButtons.setCurrPhase(newCurrPhase);
 				IcmUtils.getPopUp().close();
 			break;

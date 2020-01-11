@@ -71,7 +71,7 @@ public class SupervisorButtons implements ClientUI {
 				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
  			    flag=true; 
 			}
-    		if(currPhase.getName()==PhaseName.SUBMITTED && currPhase.getPhaseStatus()==Phase.PhaseStatus.PHASE_EXEC_LEADER_ASSIGNED ) {
+    		if(currPhase.getName()==PhaseName.SUBMITTED) {
     		    assignPhaseLeadersButton.setDisable(false);
     		    moreInformation3.setVisible(false);
     		    System.out.printf("2");
@@ -106,7 +106,6 @@ public class SupervisorButtons implements ClientUI {
 
     @FXML
     void showAssignPhaseLeadersDialog(ActionEvent event) {
-
 		try {
 			IcmUtils.popUpScene(this, "Assign Phase Leaders", "/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml",600 ,680 );
 			initialize();
