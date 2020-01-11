@@ -63,7 +63,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 				moreInformationButton2.setVisible(true);
 				break;
 
-            case IN_PROCESS: case TIME_APPROVED:
+			case IN_PROCESS: case EXTENSION_TIME_REQUESTED: case EXTENSION_TIME_APPROVED:
 				confirmExecutionButton.setVisible(true);
 				requestPhaseTimeButton1.setDisable(true);
 				moreInformationButton.setVisible(true);
@@ -148,7 +148,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 		}
 		else
 		if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
+				.getPhaseStatus() == entities.Phase.PhaseStatus.EXTENSION_TIME_APPROVED) {
 			
 			IcmUtils.displayInformationMsg("Information message",
 					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"

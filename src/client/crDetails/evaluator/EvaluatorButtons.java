@@ -61,7 +61,7 @@ public class EvaluatorButtons implements ClientUI {
 			moreInformation1.setVisible(true);
 			moreInformation2.setVisible(true);
 		} else if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
+				.getPhaseStatus() == entities.Phase.PhaseStatus.EXTENSION_TIME_APPROVED) {
 			info = "time of phase approved";
 			requestPhaseTimeButton.setDisable(true);
 			IcmUtils.displayInformationMsg("time of phase approved,please create report");

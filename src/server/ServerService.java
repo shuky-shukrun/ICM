@@ -9,7 +9,7 @@ public class ServerService implements Serializable {
     private List params;
 
     public ServerService(DatabaseService databaseService, List params) {
-        this.databaseService = databaseService;
+    	this.databaseService = databaseService;
         this.params = params;
     }
 
@@ -59,6 +59,9 @@ public class ServerService implements Serializable {
         Replace_Tester,
         Get_Phase_Leaders_And_Workers,
         Supervisor_Update_Phase_Leaders_And_Workers,
-        Request_Time_EXAMINATION
+        Request_Time_EXAMINATION,
+        Load_Extension_Time,
+        Approve_Phase_Time,
+        Reject_Phase_Time
     }
 }

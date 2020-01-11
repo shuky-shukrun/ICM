@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.supervisor.timeDecision.TimeRequestDecision">
+   <content>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="76.0" layoutY="166.0" text="Time:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="phaseTimeDatePicker" disable="true" layoutX="165.0" layoutY="167.0" />
+            <Button fx:id="applyButton" layoutX="295.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitRequestTime" style="-fx-background-radius: 10; -fx-background-color: #4b92e8;" text="Confirm">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="refuseButton"  layoutX="191.0" layoutY="250.0" mnemonicParsing="false" style="-fx-background-radius: 10;" text="Refuse" onAction="#rejectRequestTime" >
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Label alignment="CENTER" layoutX="60.0" layoutY="68.0" text="Phase Time Decision">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="69.0" fitWidth="151.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../logo6.PNG" />
+               </image>
+            </ImageView>
+            <MaterialDesignIconView fill="#216dcc" glyphName="ALARM" layoutX="324.0" layoutY="100.0" size="30" text="" />
+            <Label layoutX="19.0" layoutY="108.0" text="According to the requested time choose your decision">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </content>
+</DialogPane>

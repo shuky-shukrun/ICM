@@ -1,5 +1,4 @@
 package client.crDetails.phaseLeader;
-import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
@@ -43,7 +42,9 @@ public class PhaseLeaderButtons implements ClientUI {
 		}
 		
 		
-			if(currPhase.getPhaseStatus()==PhaseStatus.TIME_APPROVED || currPhase.getPhaseStatus()==PhaseStatus.IN_PROCESS ) {
+			if(currPhase.getPhaseStatus()==PhaseStatus.EXTENSION_TIME_APPROVED ||
+				currPhase.getPhaseStatus()==PhaseStatus.IN_PROCESS ||
+				currRequest.getCurrPhaseStatus() == PhaseStatus.EXTENSION_TIME_REQUESTED) {
 				LocalDate currDate = LocalDate.now();     // Create a date object
 				LocalDate deadLine = currPhase.getDeadLine();
 				days = (ChronoUnit.DAYS.between(currDate, deadLine))+2;
