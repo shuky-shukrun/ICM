@@ -14,8 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import server.ServerService;
@@ -24,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class NewRequest implements ClientUI {
@@ -48,6 +52,7 @@ public class NewRequest implements ClientUI {
     @FXML
     private ListView<File> filesListView;
     private File[] filesToAttach;
+    private List<File> files=new ArrayList<>();
     public ChoiceBox<InfoSystem> getInfoSystemChoiceBox() {
         return infoSystemChoiceBox;
     }
@@ -72,7 +77,15 @@ public class NewRequest implements ClientUI {
         }
 
         infoSystemChoiceBox.setItems(InfoSystem.getAll());
+    	ContextMenu contextMenu = new ContextMenu();
+        MenuItem menuItem1 = new MenuItem("remove");
+     
+        menuItem1.setOnAction((event) -> {
+            removeFiles(event);
+        });
+        contextMenu.getItems().addAll(menuItem1);
 
+         filesListView.setContextMenu(contextMenu);
         // disable Create button any field is invalid
         BooleanBinding bb = Bindings.createBooleanBinding(() -> {
                     InfoSystem infoSystem = infoSystemChoiceBox.getSelectionModel().getSelectedItem();
@@ -98,7 +111,7 @@ public class NewRequest implements ClientUI {
     	
     	
     	FileChooser fileCh=new FileChooser();
-    	List<File> files=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+    	files=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
     	if(files==null)
     		return;
     	filesToAttach=new File[files.size()];
@@ -110,6 +123,42 @@ public class NewRequest implements ClientUI {
 			i++;
 		}
 		filesListView.setItems(listTemp);// show the files on the screen
+    }
+
+    @FXML
+    void removeFiles(ActionEvent event) {
+    	boolean flag=false;
+    	List<File>listFiles=new ArrayList<File>(Arrays.asList(filesToAttach));
+       	 int selectedIdx = filesListView.getSelectionModel().getSelectedIndex();
+         if (selectedIdx != -1) {
+             File itemToRemove = filesListView.getSelectionModel().getSelectedItem();
+
+             int newSelectedIdx =
+                     (selectedIdx == filesListView.getItems().size() - 1)
+                             ? selectedIdx - 1
+                             : selectedIdx;
+             System.out.println(selectedIdx+" "+newSelectedIdx);
+             filesListView.getItems().remove(selectedIdx);
+             filesListView.getSelectionModel().select(newSelectedIdx);
+             //removes the file from the array
+              for(File f:files) {
+            	 if(f.equals(itemToRemove)) {
+            		 flag = listFiles.remove(f);
+            		 System.out.println(flag);
+            	 }
+             }
+            filesToAttach=new File[files.size()];
+         	ObservableList<File> listTemp = FXCollections.observableArrayList();
+     		int i=0;
+     		for (File f : listFiles) {
+     			listTemp.add(f);
+     			filesToAttach[i]=f;
+     			i++;
+     		}
+     		filesListView.setItems(listTemp);// show the files on the screen*/
+
+         }
+    
     }
 
     @FXML
