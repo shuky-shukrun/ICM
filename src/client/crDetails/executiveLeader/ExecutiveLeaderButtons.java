@@ -49,7 +49,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 		Phase.PhaseStatus currPhaseStatus = currRequest.getPhases().get(0).getPhaseStatus();
         switch (currPhaseStatus) {
-            case PHASE_EXEC_LEADER_ASSIGNED:
+			case PHASE_LEADER_ASSIGNED: case PHASE_EXEC_LEADER_ASSIGNED:
 				info = "time of phase yet not approved";
 				confirmExecutionButton.setDisable(true);
 				moreInformationButton.setDisable(true);

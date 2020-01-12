@@ -127,6 +127,10 @@ public class DBConnection {
 						"SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName " + "FROM changeRequest CR");
 				break;
 			case CHAIRMAN:
+				ps = sqlConnection.prepareStatement("SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName "
+						+ "FROM changeRequest CR,  ieInPhase IE " + "WHERE (CR.crCurrPhaseName = 'EXAMINATION' OR CR.crCurrPhaseName = 'VALIDATION')"
+						+ "OR (CR.crCurrPhaseName = IE.iePhaseName AND " + "IE.iePhasePosition = 'TESTER')");
+				break;
 			case CCC:
 				ps = sqlConnection.prepareStatement("SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName "
 						+ "FROM changeRequest CR,  ieInPhase IE " + "WHERE CR.crCurrPhaseName = 'EXAMINATION' "
@@ -836,8 +840,9 @@ public class DBConnection {
 
 		// update the current phase to done
 		try {
-			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ?");
+			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 			ps.setInt(1, crId);
+			ps.setString(2, params.get(3));
 			ps.executeUpdate();
 			flag = true;
 			list.add(flag);
@@ -869,7 +874,7 @@ public class DBConnection {
 			}
 			break;
 
-		case "Commite The Change":
+		case "Commit The Change":
 			try {
 				ps = sqlConnection
 						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
@@ -891,11 +896,13 @@ public class DBConnection {
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection.prepareStatement(
-						"UPDATE phase SET phStatus = 'PHASE_EXEC_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
+						"UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? AND phPhaseName = 'EVALUATION'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection.prepareStatement(
 						"UPDATE phase SET phSetDecisionDescription = 'Ask For Additional Data' WHERE phIDChangeRequest = ? and phPhaseName='EVALUATION'");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
 				flag = true;
 				list.add(flag);
 			} catch (SQLException e) {
@@ -912,7 +919,7 @@ public class DBConnection {
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection
-						.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ?");
+						.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? and phPhaseName='CLOSING'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
@@ -931,7 +938,7 @@ public class DBConnection {
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection.prepareStatement(
-						"UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ?");
+						"UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? AND phPhaseName = 'EXECUTION'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;

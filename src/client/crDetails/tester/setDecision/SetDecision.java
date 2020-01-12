@@ -51,7 +51,7 @@ public class SetDecision implements ClientUI {
 			break;
 
 		case "EXAMINATION":
-			decisionChoiceBox.getItems().addAll("Commite The Change", "Ask For Additional Data", "Decline The Change");
+			decisionChoiceBox.getItems().addAll("Commit The Change", "Ask For Additional Data", "Decline The Change");
 			break;
 		}
 	}
@@ -64,7 +64,7 @@ public class SetDecision implements ClientUI {
 				|| decision.equals("Decline The Change")) {
 			if (!descriptionTextArea.getText().isEmpty() && !descriptionTextArea.getText().trim().isEmpty())
 				isDisabled = false;
-		} else if (decision.equals("Approve The Change") || decision.equals("Commite The Change"))
+		} else if (decision.equals("Approve The Change") || decision.equals("Commit The Change"))
 			isDisabled = false;
 
 		// boolean isDisabled =(decision.equals("Report test

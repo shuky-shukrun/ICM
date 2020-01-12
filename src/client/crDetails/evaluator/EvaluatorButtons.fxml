@@ -21,7 +21,7 @@
             <MaterialDesignIconView glyphName="ALARM" size="20" />
          </graphic>
       </Button>
-      <JFXButton fx:id="moreInformation1" alignment="TOP_LEFT" onAction="#moreInformation1Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+      <JFXButton fx:id="phaseTimeRequestInfo" alignment="TOP_LEFT" onAction="#moreInformation1Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
          <graphic>
             <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
          </graphic>
@@ -37,7 +37,7 @@
             <MaterialDesignIconView glyphName="CONTENT_PASTE" size="17" />
          </graphic>
       </Button>
-      <JFXButton fx:id="moreInformation2" alignment="TOP_LEFT" onAction="#moreInformation2Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+      <JFXButton fx:id="createReportInfo" alignment="TOP_LEFT" onAction="#moreInformation2Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
          <graphic>
             <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
          </graphic>
@@ -45,7 +45,7 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="importantInfo" alignment="TOP_LEFT" onAction="#importantInfoEvent" prefHeight="26.0" prefWidth="215.0" text="important info" textFill="#1b0eae" underline="true">
+      <JFXButton fx:id="returnRequestInfo" alignment="TOP_LEFT" onAction="#importantInfoEvent" prefHeight="26.0" prefWidth="215.0" text="important info" textFill="#1b0eae" underline="true">
          <graphic>
             <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
          </graphic>

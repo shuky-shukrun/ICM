@@ -104,7 +104,7 @@ public class CCCButtons implements ClientUI {
 			break;
 		case VALIDATION:
 			switch (phaseStatus) {
-			case SUBMITTED:
+                case PHASE_LEADER_ASSIGNED:
 				setDecisionButton.setVisible(false);
 				assignTesterButton.setVisible(true);
 				assignTesterButton.setDisable(false);

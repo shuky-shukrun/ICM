@@ -8,7 +8,6 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
-import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,11 +22,11 @@ public class EvaluatorButtons implements ClientUI {
 	@FXML
 	private Button createEvaluationReportButton;
 	@FXML
-	private Button moreInformation1;
+	private Button phaseTimeRequestInfo;
 	@FXML
-	private Button moreInformation2;
+	private Button createReportInfo;
 	@FXML
-	private Button importantInfo;
+	private Button returnRequestInfo;
 	private String info;
 
 	private ClientController clientController;
@@ -42,9 +41,9 @@ public class EvaluatorButtons implements ClientUI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		moreInformation1.setVisible(false);
-		moreInformation2.setVisible(false);
-		importantInfo.setVisible(false);
+		phaseTimeRequestInfo.setVisible(false);
+		createReportInfo.setVisible(false);
+		returnRequestInfo.setVisible(false);
 		checkIsReturnRequest(CrDetails.getCurrRequest().getId());
 		// time request not submitted yet
 		switch (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()) {
@@ -52,30 +51,31 @@ public class EvaluatorButtons implements ClientUI {
 			case PHASE_LEADER_ASSIGNED:
 				info = "time of phase yet not submitted";
 				createEvaluationReportButton.setDisable(true);
-				moreInformation2.setVisible(true);
+				createReportInfo.setVisible(true);
 				break;
 			// time request submitted but not approved yet
 			case TIME_REQUESTED:
 				info = "time of phase yet not approved";
 				requestPhaseTimeButton.setDisable(true);
 				createEvaluationReportButton.setDisable(true);
-				moreInformation1.setVisible(true);
-				moreInformation2.setVisible(true);
+				phaseTimeRequestInfo.setVisible(true);
+				createReportInfo.setVisible(true);
 				break;
 			case IN_PROCESS:
 			case EXTENSION_TIME_REQUESTED:
 			case EXTENSION_TIME_APPROVED:
 				info = "time of phase approved";
 				requestPhaseTimeButton.setDisable(true);
-				moreInformation1.setVisible(true);
-				IcmUtils.displayInformationMsg("time of phase approved,please create report");
+				createEvaluationReportButton.setDisable(false);
+				phaseTimeRequestInfo.setVisible(true);
+				IcmUtils.displayInformationMsg("Time of phase approved, please create report");
 				break;
 			case TIME_DECLINED:
 				info = "time declined";
 				createEvaluationReportButton.setDisable(true);
 				requestPhaseTimeButton.setDisable(false);
-				moreInformation2.setVisible(true);
-				importantInfo.setVisible(true);
+				createReportInfo.setVisible(true);
+				returnRequestInfo.setVisible(true);
 				break;
 		}
 		List<Integer> l = new ArrayList<>();
@@ -214,16 +214,29 @@ public class EvaluatorButtons implements ClientUI {
 				if ((Boolean) serverService.getParams().get(0) == true) {
 					info = "have Report";
 					createEvaluationReportButton.setDisable(true);
-					moreInformation2.setVisible(true);
+					createReportInfo.setVisible(true);
 					// moreInformation2.setDisable(false);
-				} else
-					// moreInformation2.setVisible(false);
+				}
 					break;
 
 			case Return_Request:
 				if ((Boolean) serverService.getParams().get(0) == true) {
+					switch (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()) {
+						case PHASE_LEADER_ASSIGNED: case PHASE_EXEC_LEADER_ASSIGNED: case TIME_DECLINED:
+							requestPhaseTimeButton.setDisable(false);
+							createEvaluationReportButton.setDisable(true);
+							createReportInfo.setVisible(true);
+							createReportInfo.setDisable(false);
+							break;
+						case EXTENSION_TIME_APPROVED: case EXTENSION_TIME_REQUESTED: case IN_PROCESS:
+							requestPhaseTimeButton.setDisable(true);
+							createEvaluationReportButton.setDisable(false);
+							phaseTimeRequestInfo.setVisible(true);
+							phaseTimeRequestInfo.setDisable(false);
+							break;
+					}
 					info = "return request";
-					importantInfo.setVisible(true);
+					returnRequestInfo.setVisible(true);
 					break;
 				}
 		}
