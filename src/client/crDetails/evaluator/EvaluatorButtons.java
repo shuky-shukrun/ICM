@@ -68,7 +68,7 @@ public class EvaluatorButtons implements ClientUI {
 				requestPhaseTimeButton.setDisable(true);
 				createEvaluationReportButton.setDisable(false);
 				phaseTimeRequestInfo.setVisible(true);
-				IcmUtils.displayInformationMsg("Time of phase approved, please create report");
+				returnRequestInfo.setVisible(true);
 				break;
 			case TIME_DECLINED:
 				info = "time declined";
@@ -133,17 +133,18 @@ public class EvaluatorButtons implements ClientUI {
 	@FXML
 	public void importantInfoEvent() {
 		switch (info) {
-			case "return request":
+			case "time of phase approved":
 				IcmUtils.displayInformationMsg("information message",
-						"pay attention!!this request returns from examination for more details");
+						"pay attention!!this request phase time approved");
 				break;
 			case "time declined":
 				IcmUtils.displayInformationMsg("information message",
 						"pay attention!!this request phase time did not approved");
+				break;
 		}
-		if (info.equals("return request")) {
-
-		}
+	if(info.equals("return request"))
+		IcmUtils.displayInformationMsg("information message",
+				"pay attention!!this request returns from examination for more details");
 	}
 
 	@FXML
@@ -165,7 +166,7 @@ public class EvaluatorButtons implements ClientUI {
 				IcmUtils.displayInformationMsg("Information message",
 						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
 								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-						"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
+						"Change request " + CrDetails.getCurrRequest().getId() + " -time request approved." + "\n\n"
 								+ "request phase time can't be submitted when there is already phase time!");
 				break;
 		}
@@ -218,7 +219,7 @@ public class EvaluatorButtons implements ClientUI {
 					// moreInformation2.setDisable(false);
 				}
 					break;
-
+		
 			case Return_Request:
 				if ((Boolean) serverService.getParams().get(0) == true) {
 					switch (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()) {
@@ -241,4 +242,6 @@ public class EvaluatorButtons implements ClientUI {
 				}
 		}
 	}
+
+
 }

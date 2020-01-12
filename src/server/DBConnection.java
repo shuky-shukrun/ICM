@@ -361,17 +361,8 @@ public class DBConnection {
 			PreparedStatement ps = sqlConnection.prepareStatement(
 					"UPDATE phase SET phStatus='IN_PROCESS',phDeadline=? where phIDChangeRequest=? AND phPhaseName='EXAMINATION'");
 			ps.setInt(2, Integer.parseInt(requirementList1.get(0)));// id
-			PreparedStatement ps1 = sqlConnection.prepareStatement(
-					"SELECT phDeadline FROM phase where phIDChangeRequest=? AND phPhaseName='EVALUATION'");
-			ps1.setInt(1, Integer.parseInt(requirementList1.get(0)));
-			ResultSet rs = ps1.executeQuery();
-			rs.next();
-			Date d = rs.getDate(1);
-			Calendar c = Calendar.getInstance();
-			c.setTime(d);
-			c.add(Calendar.DATE, 7);
-			d = new Date(c.getTimeInMillis());
-			ps.setDate(1, d);
+			LocalDate d = LocalDate.now().plusDays(7);
+			ps.setDate(1,Date.valueOf(d));
 			ps.executeUpdate();
 			flag = true;
 			l.add(flag);

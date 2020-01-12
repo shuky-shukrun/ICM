@@ -140,6 +140,7 @@ public class RequestTimeEvaluation implements ClientUI {
 			IcmUtils.displayInformationMsg("request time has been submitted");
 		else
 			IcmUtils.displayErrorMsg("request time failed");
+		IcmUtils.getPopUp().close();
 		
 
 	}

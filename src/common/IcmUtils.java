@@ -6,10 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class IcmUtils {
 
@@ -28,25 +30,25 @@ public class IcmUtils {
         Assign_Tester
         }
 
-    public static void displayConfirmationMsg(String title, String headerText, String contentText) {
+    public static  Optional<ButtonType> displayConfirmationMsg(String title, String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
-        alert.showAndWait();
+        return alert.showAndWait();
     }
 
-    public static void displayConfirmationMsg(String title, String contentText) {
+    public static  Optional<ButtonType> displayConfirmationMsg(String title, String contentText) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(contentText);
-        alert.showAndWait();
+        return alert.showAndWait();
     }
 
-    public static void displayConfirmationMsg(String contentText) {
+    public static Optional<ButtonType> displayConfirmationMsg(String contentText) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText(contentText);
-        alert.showAndWait();
+        return alert.showAndWait();
     }
 
     public static void displayInformationMsg(String title, String headerText, String contentText) {
