@@ -46,23 +46,16 @@ public class EvaluatorButtons implements ClientUI {
 		moreInformation2.setVisible(false);
 		importantInfo.setVisible(false);
 		checkIsReturnRequest(CrDetails.getCurrRequest().getId());
-		if (CrDetails.getCurrRequest().isSuspended()) {
-			info = "request is frozen";
-			requestPhaseTimeButton.setDisable(true);
-			moreInformation1.setVisible(true);
-			createEvaluationReportButton.setDisable(true);
-			moreInformation1.setVisible(true);
-		} 
-		//time request not submitted yet
-		else if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus().compareTo( entities.Phase.PhaseStatus.TIME_REQUESTED)<0) {
+		// time request not submitted yet
+		if (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()
+				.compareTo(entities.Phase.PhaseStatus.TIME_REQUESTED) < 0) {
 			info = "time of phase yet not submitted";
 			createEvaluationReportButton.setDisable(true);
 			moreInformation2.setVisible(true);
 		}
-		//time request submitted but not approved yet
+		// time request submitted but not approved yet
 		else if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus()== entities.Phase.PhaseStatus.TIME_REQUESTED) {
+				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_REQUESTED) {
 			info = "time of phase yet not approved";
 			requestPhaseTimeButton.setDisable(true);
 			createEvaluationReportButton.setDisable(true);
@@ -74,8 +67,7 @@ public class EvaluatorButtons implements ClientUI {
 			requestPhaseTimeButton.setDisable(true);
 			IcmUtils.displayInformationMsg("time of phase approved,please create report");
 
-		} 
-		else {
+		} else {
 			List<Integer> l = new ArrayList<>();
 			l.add(CrDetails.getCurrRequest().getId());
 			clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Is_Exists_Eva_Report, l));
@@ -97,12 +89,20 @@ public class EvaluatorButtons implements ClientUI {
 		}
 
 	}
+	/**
+	 * Show specific message when this button appeared on the screen
+	 */
 	@FXML
 	public void importantInfoEvent() {
-		if(info.equals("return request")) {
-			IcmUtils.displayInformationMsg("information message","pay attention!!this request returns from examination for more details");
+		if (info.equals("return request")) {
+			IcmUtils.displayInformationMsg("information message",
+					"pay attention!!this request returns from examination for more details");
 		}
 	}
+	/**
+	 * function that check if specific request return from examination phase
+	 * @param id-the id of the wanted request
+	 */
 	public void checkIsReturnRequest(int id) {
 		List<Integer>l=new ArrayList<Integer>();
 		l.add(id);
@@ -124,16 +124,13 @@ public class EvaluatorButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Show specific message when this button appeared on the screen
+	 * @param e
+	 */
 	public void moreInformation1Event(ActionEvent e) {
 		switch (info) {
 		case "request is frozen":
-			IcmUtils.displayInformationMsg("Information message",
-					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-					"Change request " + CrDetails.getCurrRequest().getId() + " is frozen." + "\n\n"
-							+ "A time  request can't be submited when the change request is frozen!");
-			break;
-		case "time of phase yet not approved":
 			IcmUtils.displayInformationMsg("Information message",
 					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
 							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
@@ -143,7 +140,10 @@ public class EvaluatorButtons implements ClientUI {
 		}
 
 	}
-
+	/**
+	 * Show specific message when this button appeared on the screen
+	 * @param e
+	 */
 	@FXML
 	public void moreInformation2Event(ActionEvent e) {
 		switch (info) {
@@ -191,7 +191,6 @@ public class EvaluatorButtons implements ClientUI {
 			} else
 				moreInformation2.setVisible(false);
 			break;
-		
 		case Return_Request:
 			System.out.println("was here!!!");
 			if ((Boolean) serverService.getParams().get(0) == true) {

@@ -400,7 +400,6 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(serversrvc2);
                     System.out.println("reject time status sent to client");
                     break;
-                    break;
                 case Get_Employee:
                     System.out.println("server handle Get Employee");
                     serverService.setParams(dbConnection.getEmployee());
