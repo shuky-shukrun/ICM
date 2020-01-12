@@ -1,4 +1,5 @@
 package client.crDetails.phaseLeader;
+
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
@@ -15,7 +16,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-
 public class PhaseLeaderButtons implements ClientUI {
 
 	@FXML
@@ -23,53 +23,50 @@ public class PhaseLeaderButtons implements ClientUI {
 	@FXML
 	private Button moreInformation;
 
-	private ChangeRequest currRequest;
 	private static Phase currPhase;
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	private long  days;
+	private long days;
 	private String helpType;
-	private int flag=0;
-
+	private int flag = 0;
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public void initialize() {
 		requestPhaseTimeButton2.setDisable(true);
 		moreInformation.setVisible(false);
 
-		if(flag==0) {
-			currPhase= CrDetails.getCurrRequest().getPhases().get(0);
-			//System.out.println(currPhase.getName().toString() + currPhase.getDeadLine().format(formatter));
-			flag=1;
+		if (flag == 0) {
+			currPhase = CrDetails.getCurrRequest().getPhases().get(0);
+			flag = 1;
 		}
-		
-		
-			if(currPhase.getPhaseStatus()==PhaseStatus.EXTENSION_TIME_APPROVED ||
-				currPhase.getPhaseStatus()==PhaseStatus.IN_PROCESS ||
-				currRequest.getCurrPhaseStatus() == PhaseStatus.EXTENSION_TIME_REQUESTED) {
-				LocalDate currDate = LocalDate.now();     // Create a date object
+
+		if (currPhase.isExtensionRequest() == false) {
+
+			if (currPhase.getPhaseStatus() == PhaseStatus.IN_PROCESS) {
+				LocalDate currDate = LocalDate.now(); // Create a date object
 				LocalDate deadLine = currPhase.getDeadLine();
-				days = (ChronoUnit.DAYS.between(currDate, deadLine))+2;
+				days = (ChronoUnit.DAYS.between(currDate, deadLine)) + 2;
 				System.out.println("Days between: " + days);
-				
-			if(currPhase.isExtensionRequest()== true) {
-				helpType="Time extension already exists";
+
+				if (!(days < 4 && days > 0) || days > 3) {
+					helpType = "Time Exception";
+					moreInformation.setVisible(true);
+				} else
+					requestPhaseTimeButton2.setDisable(false);
+			}
+
+			else if (currPhase.getPhaseStatus() == PhaseStatus.EXTENSION_TIME_REQUESTED) {
+				helpType = "time extension requested";
 				moreInformation.setVisible(true);
 			}
-			else  if (!(days< 4 && days > 0)|| days>3) {
-				helpType="Time Exception";
-				moreInformation.setVisible(true);
-			}		
-			else
-				requestPhaseTimeButton2.setDisable(false);
-			}
-			
-			else if(currPhase.getPhaseStatus()==PhaseStatus.EXTENSION_TIME_REQUESTED) {   /// add time_extension_approved enum
-				helpType="time extension requested";
+
+			else {
+				System.out.println(currPhase.getPhaseStatus().toString());
+				helpType = "No deadline";
 				moreInformation.setVisible(true);
 			}
-		
+		}
+
 		else {
-			System.out.println(currPhase.getPhaseStatus().toString());
-			helpType="No deadline";
+			helpType = "Time extension already exists";
 			moreInformation.setVisible(true);
 		}
 	}
@@ -78,55 +75,60 @@ public class PhaseLeaderButtons implements ClientUI {
 	void showExtensionTimeDialog(ActionEvent event) {
 
 		try {
-			IcmUtils.popUpScene(this, "Time Extention Request", "/client/crDetails/phaseLeader/RequestExtensionTime/RequestExtensionTime.fxml",407 ,381 );
-		    initialize();
+			IcmUtils.popUpScene(this, "Time Extension Request",
+					"/client/crDetails/phaseLeader/RequestExtensionTime/RequestExtensionTime.fxml", 407, 381);
+			initialize();
 		} catch (IOException e) {
-			e.printStackTrace(); }
+			e.printStackTrace();
+		}
 	}
-
-
-	@Override
-	public void handleMessageFromClientController(ServerService serverService) {
-
-	}
-
 
 	@FXML
 	void moreInformationEvent(ActionEvent event) {
 
 		switch (helpType) {
-			case "Time Exception":
-				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " + currPhase.getChangeRequestId()+ "\n" + "Current phase: " + currPhase.getName().toString() + "\n" +
-						"Deadline: " + currPhase.getDeadLine().format(formatter) + "\n" + "Time left: " + days +" days" + "\n","This request can only be submitted if 3 or less days are left to complete this phase!" );
-				break;
+		case "Time Exception":
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
+							+ "Current phase: " + currPhase.getName().toString() + "\n" + "Deadline: "
+							+ currPhase.getDeadLine().format(formatter) + "\n" + "Time left: " + days + " days" + "\n",
+					"This request can only be submitted if 3 or less days are left to complete this phase!");
+			break;
 
-			case "Time extension already exists":
-				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " + currPhase.getChangeRequestId()+ "\n"+ "Current phase: " + currPhase.getName().toString()
-						,"A time extension request for this phase has already been submitted and aproved." +"\n" + "Time extension request can only be submitted once!" );
-				break;
-			case "isSuspended":
-				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " + currPhase.getChangeRequestId()+ "\n" + "Current phase: " + currPhase.getName().toString()
-						,"Change request " +currPhase.getChangeRequestId()+ " is frozen." +"\n\n" + "A time extension request can't be submited when the change request is frozen!" );
-				break;
-			case "time extension requested":
-				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " +currPhase.getChangeRequestId() + "\n" + "Current phase: " + currPhase.getName().toString() + "\n" +
-						"Phase status: " + currPhase.getPhaseStatus(),"Time extension request for this phase has been forwarded to the supervisor's approval.");
-				break;
-			case "No deadline":
-				IcmUtils.displayInformationMsg("Information message","Phase Details-" + "\n" +"Change request ID: " +currPhase.getChangeRequestId() + "\n" + "Current phase: " + currPhase.getName().toString() + "\n"
-						,"The deadline for this phase has not been set yet.");
-				break;
+		case "Time extension already exists":
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
+							+ "Current phase: " + currPhase.getName().toString(),
+					"A time extension request for this phase has already been submitted and aproved." + "\n"
+							+ "Time extension request can only be aproved once!");
+			break;
+		case "time extension requested":
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
+							+ "Current phase: " + currPhase.getName().toString() + "\n" + "Phase status: "
+							+ currPhase.getPhaseStatus(),
+					"Time extension request for this phase has been forwarded to the supervisor's approval.");
+			break;
+		case "No deadline":
+			IcmUtils.displayInformationMsg("Information message",
+					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
+							+ "Current phase: " + currPhase.getName().toString() + "\n",
+					"The deadline for this phase has not been set yet.");
+			break;
 		}
 	}
 
-
-	public static void setPhase (Phase NewPhase) {
-		currPhase=NewPhase;
+	public static void setPhase(Phase NewPhase) {
+		currPhase = NewPhase;
 	}
 
-
-	public static Phase getPhase () {
+	public static Phase getPhase() {
 		return currPhase;
+	}
+
+	@Override
+	public void handleMessageFromClientController(ServerService serverService) {
+
 	}
 
 }

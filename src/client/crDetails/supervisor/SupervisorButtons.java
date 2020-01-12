@@ -7,10 +7,12 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import client.crDetails.supervisor.AssignPhaseLeaders.AssignPhaseLeaders;
 import common.IcmUtils;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.Phase;
+import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +21,6 @@ import server.ServerService;
 import server.ServerService.DatabaseService;
 
 public class SupervisorButtons implements ClientUI {
-
 
     @FXML
     private Button phaseTimeDecisionButton;
@@ -35,17 +36,24 @@ public class SupervisorButtons implements ClientUI {
 
     @FXML
 	private Button closeChangeRequestButton;	
-    @FXML
-	private Button moreInformation2;
 	
+	@FXML
+	private Button moreInformation2;
+    @FXML
+    private Button moreInformation3;
+
 	private String CurrStatus = new String();
     private String info;
     private ClientController clientController;
-
+    private static Phase currPhase;
+    private boolean flag=false;
+    
     public void initialize() {
     	try {
 			clientController=ClientController.getInstance(this);
-			moreInformation2.setVisible(false);
+			moreInformation2.setVisible(false);	
+			moreInformation3.setVisible(true);
+			
 			if(CrDetails.getCurrRequest().isSuspended())
 			{
 				info="frozen";
@@ -58,11 +66,18 @@ public class SupervisorButtons implements ClientUI {
 				moreInformation2.setVisible(true);
 				closeChangeRequestButton.setDisable(true);
 			}
-
-			assignPhaseLeadersButton.setDisable(false);
-    		if(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()!=PhaseStatus.SUBMITTED)
-    			assignPhaseLeadersButton.setDisable(true);
-
+			
+			assignPhaseLeadersButton.setDisable(true);
+			if(flag==false) {
+				System.out.printf("1");
+				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
+ 			    flag=true; 
+			}
+    		if(currPhase.getName()==PhaseName.SUBMITTED) {
+    		    assignPhaseLeadersButton.setDisable(false);
+    		    moreInformation3.setVisible(false);
+    		    System.out.printf("2");
+    		}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -117,22 +132,13 @@ public class SupervisorButtons implements ClientUI {
 
     @FXML
     void showAssignPhaseLeadersDialog(ActionEvent event) {
-
 		try {
 			IcmUtils.popUpScene(this, "Assign Phase Leaders", "/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml",600 ,680 );
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace(); }
-    	
-    	
-    	
-    	
     }
 
-    @FXML
-    void showAssignPhaseWorkersDialog(ActionEvent event) {
-
-    }
     @FXML
     public void moreInformation2Event() {
     	switch(info) {
@@ -148,6 +154,13 @@ public class SupervisorButtons implements ClientUI {
     			break;
     	}
     }
+    
+    @FXML
+    public void moreInformation3Event() {
+	  System.out.printf("4");
+	  IcmUtils.displayInformationMsg("Information message", "Phase leaders for this change request have already been assigned.");
+  
+  }
 
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
@@ -162,9 +175,18 @@ public class SupervisorButtons implements ClientUI {
     			if((Boolean)serverService.getParams().get(0)==true)
     				IcmUtils.displayConfirmationMsg("Success", "Close Request Successfully");
     			else
-    				IcmUtils.displayErrorMsg("Error", "Close Request Failed");
-    
-    		
+    				IcmUtils.displayErrorMsg("Error", "Close Request Failed");   		
     	}
     }
+    
+    
+    public static void setCurrPhase (Phase phase) {
+    	SupervisorButtons.currPhase=phase;
+    }
+    
+    public static Phase getPhase() {
+    	return currPhase;
+    	
+    }
+    
 }
