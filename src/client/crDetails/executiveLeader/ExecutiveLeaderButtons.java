@@ -22,7 +22,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 	@FXML
 	private Button requestPhaseTimeButton1;
-    @FXML
+	@FXML
 	private Button confirmExecutionButton;
 	@FXML
 	private Button moreInformationButton;
@@ -32,8 +32,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	private ClientController clientController;
 	private String info;
 
-
-    public void initialize() {
+	public void initialize() {
 
 		try {
 			clientController = ClientController.getInstance(this);
@@ -42,68 +41,70 @@ public class ExecutiveLeaderButtons implements ClientUI {
 			e.printStackTrace();
 		}
 
-        ChangeRequest currRequest = CrDetails.getCurrRequest();
-
+		ChangeRequest currRequest = CrDetails.getCurrRequest();
 
 		moreInformationButton2.setVisible(false);
 
 		Phase.PhaseStatus currPhaseStatus = currRequest.getPhases().get(0).getPhaseStatus();
-        switch (currPhaseStatus) {
-			case PHASE_LEADER_ASSIGNED: case PHASE_EXEC_LEADER_ASSIGNED:
-				info = "time of phase yet not approved";
-				confirmExecutionButton.setDisable(true);
-				moreInformationButton.setDisable(true);
-				moreInformationButton2.setVisible(true);
-				break;
+		switch (currPhaseStatus) {
+		case PHASE_LEADER_ASSIGNED:
+		case PHASE_EXEC_LEADER_ASSIGNED:
+			info = "time of phase yet not approved";
+			confirmExecutionButton.setDisable(true);
+			moreInformationButton.setDisable(true);
+			moreInformationButton2.setVisible(true);
+			break;
 
-			case TIME_REQUESTED:
-				info = "Phase time has been submitted";
-				confirmExecutionButton.setDisable(true);
-				requestPhaseTimeButton1.setDisable(true);
-				moreInformationButton2.setVisible(true);
-				break;
+		case TIME_REQUESTED:
+			info = "Phase time has been submitted";
+			confirmExecutionButton.setDisable(true);
+			requestPhaseTimeButton1.setDisable(true);
+			moreInformationButton2.setVisible(true);
+			break;
 
-			case IN_PROCESS: case EXTENSION_TIME_REQUESTED: case EXTENSION_TIME_APPROVED:
-				confirmExecutionButton.setVisible(true);
-				requestPhaseTimeButton1.setDisable(true);
-				moreInformationButton.setVisible(true);
-				break;
-				
-            default:
-                IcmUtils.displayErrorMsg("Request status can't be " +
-                        currPhaseStatus + ". Please contact system administrator.");
-                try {
-                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+		case IN_PROCESS:
+		case EXTENSION_TIME_REQUESTED:
+		case EXTENSION_TIME_APPROVED:
+			confirmExecutionButton.setVisible(true);
+			requestPhaseTimeButton1.setDisable(true);
+			moreInformationButton.setVisible(true);
+			break;
+
+		default:
+			IcmUtils.displayErrorMsg(
+					"Request status can't be " + currPhaseStatus + ". Please contact system administrator.");
+			try {
+				IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
+
 		// if (CrDetails.getCurrRequest().getPhases().get(0)
-		// 		.getPhaseStatus() == entities.Phase.PhaseStatus.SUBMITTED) {
-		// 	info = "time of phase yet not approved";
-		// 	confirmExecutionButton.setDisable(true);
-		// 	moreInformationButton.setDisable(true);
-		// 	moreInformationButton2.setVisible(true);
+		// .getPhaseStatus() == entities.Phase.PhaseStatus.SUBMITTED) {
+		// info = "time of phase yet not approved";
+		// confirmExecutionButton.setDisable(true);
+		// moreInformationButton.setDisable(true);
+		// moreInformationButton2.setVisible(true);
 		// }
 		// if (CrDetails.getCurrRequest().getPhases().get(0)
-		// 		.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_REQUESTED) {
-		// 	info = "Phase time has been submitted";
-		// 	confirmExecutionButton.setDisable(true);
-		// 	requestPhaseTimeButton1.setDisable(true);
-		// 	moreInformationButton2.setVisible(true);
+		// .getPhaseStatus() == entities.Phase.PhaseStatus.TIME_REQUESTED) {
+		// info = "Phase time has been submitted";
+		// confirmExecutionButton.setDisable(true);
+		// requestPhaseTimeButton1.setDisable(true);
+		// moreInformationButton2.setVisible(true);
 
 		// }
 
 		// if (CrDetails.getCurrRequest().getPhases().get(0)
-		// 		.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
-		// 	confirmExecutionButton.setVisible(true);
-		// 	requestPhaseTimeButton1.setDisable(true);
-		// 	moreInformationButton.setVisible(true);
+		// .getPhaseStatus() == entities.Phase.PhaseStatus.TIME_APPROVED) {
+		// confirmExecutionButton.setVisible(true);
+		// requestPhaseTimeButton1.setDisable(true);
+		// moreInformationButton.setVisible(true);
 
 		// }
 	}
-	
+
 	@FXML
 	void showRequestTimeDialog(ActionEvent event) throws IOException {
 
@@ -111,52 +112,53 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 	}
 
-    @FXML
-    void confirmExecution(ActionEvent event) {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Execution Confirmation");
-        confirmAlert.setHeaderText("Execution Confirmation");
-        confirmAlert.setContentText("Press 'Confirm' to confirm that all required changes are done." +
-                "The request will then move to Validation phase.");
+	@FXML
+	void confirmExecution(ActionEvent event) {
+		Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+		confirmAlert.setTitle("Execution Confirmation");
+		confirmAlert.setHeaderText("Execution Confirmation");
+		confirmAlert.setContentText("Press 'Confirm' to confirm that all required changes are done."
+				+ "The request will then move to Validation phase.");
 
-        ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
-        confirmAlert.getButtonTypes().setAll(confirmButton, ButtonType.CANCEL);
+		ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+		confirmAlert.getButtonTypes().setAll(confirmButton, ButtonType.CANCEL);
 
-        Optional<ButtonType> result = confirmAlert.showAndWait();
+		Optional<ButtonType> result = confirmAlert.showAndWait();
 
-        if(result.isPresent() && result.get() == confirmButton) {
-            List<ChangeRequest> requestList = new ArrayList<>();
-            requestList.add(CrDetails.getCurrRequest());
-            ServerService serverService = new ServerService(ServerService.DatabaseService.Execution_Confirmation, requestList);
+		if (result.isPresent() && result.get() == confirmButton) {
+			List<ChangeRequest> requestList = new ArrayList<>();
+			requestList.add(CrDetails.getCurrRequest());
+			ServerService serverService = new ServerService(ServerService.DatabaseService.Execution_Confirmation,
+					requestList);
 
 			clientController.handleMessageFromClientUI(serverService);
 			confirmExecutionButton.setDisable(true);
 		}
-    }
-
+	}
 
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
-		if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() == entities.Phase.PhaseStatus.TIME_REQUESTED) {
-			IcmUtils.displayInformationMsg("Information message",
-					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-					"Change request " + CrDetails.getCurrRequest().getId()
-							+ " -time request submitted but not approved yet." + "\n\n"
-							+ "Waiting for supervisor's approval");
-		}
-		else
-		if (CrDetails.getCurrRequest().getPhases().get(0)
-				.getPhaseStatus() == entities.Phase.PhaseStatus.EXTENSION_TIME_APPROVED) {
+		 entities.Phase.PhaseStatus temp=CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
+		 switch(temp) {
+		 case IN_PROCESS:
+		 
+				IcmUtils.displayInformationMsg("Information message",
+						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+						"Change request " + CrDetails.getCurrRequest().getId()
+								+ " -time request approved allready." );
 			
-			IcmUtils.displayInformationMsg("Information message",
-					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-					"Change request " + CrDetails.getCurrRequest().getId()
-							+ " -Time request approved.");
-			
-		}
+		 break;
+		 case TIME_REQUESTED:
+			 
+				IcmUtils.displayInformationMsg("Information message",
+						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
+								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
+						"Change request " + CrDetails.getCurrRequest().getId()
+								+ " -time request is waiting for supervisor's approval." );
+				break;
+		 }
+
 	}
 
 	@FXML
@@ -170,7 +172,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 	}
 
-    @Override
+	@Override
     public void handleMessageFromClientController(ServerService serverService) {
         switch (serverService.getDatabaseService()) {
             case Execution_Confirmation:
