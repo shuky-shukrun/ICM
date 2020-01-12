@@ -63,5 +63,7 @@ public class ServerService implements Serializable {
         Load_Extension_Time,
         Approve_Phase_Time,
         Reject_Phase_Time
+        Get_Employee,
+        Register_IT
     }
 }

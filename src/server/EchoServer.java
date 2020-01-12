@@ -400,6 +400,21 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(serversrvc2);
                     System.out.println("reject time status sent to client");
                     break;
+                    break;
+                case Get_Employee:
+                    System.out.println("server handle Get Employee");
+                    serverService.setParams(dbConnection.getEmployee());
+                    client.sendToClient(serverService);
+                    System.out.println("server finish Get Employee");
+                    break;
+                case Register_IT:
+                    System.out.println("server handle Register IT");
+                    dbConnection.registerIT((ChangeInitiator)serverService.getParams().get(0),
+                    							(Integer)serverService.getParams().get(1));
+                    client.sendToClient(serverService);
+                    System.out.println("server finish register IT");
+                    break;
+                	
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

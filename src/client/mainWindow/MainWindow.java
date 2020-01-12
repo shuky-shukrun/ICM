@@ -103,7 +103,8 @@ public class MainWindow implements ClientUI {
     private Button itdManagerAssignPermissionsButton;
     @FXML
     private Button createReportButton;
-
+    @FXML
+    private Button registerButton;
     @FXML
     private AnchorPane mainAnchorPane;
 
@@ -125,6 +126,7 @@ public class MainWindow implements ClientUI {
         if (currUser.getPosition() != Position.ITD_MANAGER) {
             itdManagerAssignPermissionsButton.setVisible(false);
             createReportButton.setVisible(false);
+            registerButton.setVisible(false);
         }
 
         // init request lists
@@ -276,6 +278,13 @@ public class MainWindow implements ClientUI {
     void showItdManagerAssignPermissionsDialog(ActionEvent event) throws IOException {
         IcmUtils.popUpScene(this, "ITD Assign Permissions", "/client/mainWindow/ITDAssignPermissions/ITDAssignPermissions.fxml", 472, 452);
 
+    }
+    @FXML
+    void registerEvent(ActionEvent event) throws IOException {
+        	
+       	 IcmUtils.popUpScene(this, "Register IT", "/client/mainWindow/ITRegistration.fxml", 400, 300);
+
+       
     }
 
     @FXML

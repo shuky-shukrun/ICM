@@ -1,7 +1,6 @@
-package client.crDetails.ccc;
+package client.mainWindow;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,68 +20,64 @@ import javafx.scene.control.ChoiceBox;
 import server.DBConnection;
 import server.ServerService;
 
-public class AssignTester implements ClientUI {
-
+public class ITRegistration implements ClientUI {
 	@FXML
-	private Button okButton;
+	private Button submitButton;
 	@FXML
 	private Button cancelButton;
 	@FXML
-	private ChoiceBox<ChangeInitiator> testerChoiceBox;
+	private ChoiceBox<ChangeInitiator> employeeChoiceBox;
 
 	private ClientController clientController;
 	private CrDetails crDetails;
 	private DBConnection dbConnection;
-	ObservableList<ChangeInitiator> cccList = FXCollections.observableArrayList();
-	ChangeInitiator selectedTester;
+	ChangeInitiator selectedEmployee;
 	ChangeInitiator oldSelection = new ChangeInitiator();
-
+	ObservableList<ChangeInitiator> employeeList = FXCollections.observableArrayList();
+	
 	public void initialize() {
-		// okButton.setDisable(true);
+		
 		try {
 			clientController = ClientController.getInstance(this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		List<ChangeInitiator> cccList = new ArrayList<>();
-		ServerService getCCC = new ServerService(ServerService.DatabaseService.Assign_Tester, cccList);
-		clientController.handleMessageFromClientUI(getCCC);
+		
+		List<ChangeInitiator> employeeList = new ArrayList<>();
+		ServerService getEmployee = new ServerService(ServerService.DatabaseService.Get_Employee, employeeList);
+		clientController.handleMessageFromClientUI(getEmployee);
 		BooleanBinding bb = Bindings.createBooleanBinding(() -> {
-			ChangeInitiator tester = testerChoiceBox.getSelectionModel().getSelectedItem();
+			ChangeInitiator employee = employeeChoiceBox.getSelectionModel().getSelectedItem();
 
 			// disable, if one selection is missing or from is not smaller than to
-			return (tester == null);
-		}, testerChoiceBox.valueProperty());
-		okButton.disableProperty().bind(bb);
-
+			return (employee == null);
+		}, employeeChoiceBox.valueProperty());
+		submitButton.disableProperty().bind(bb);
 	}
-
-
+	
 	public void handleMessageFromClientController(ServerService serverService) {
 
 		List<ChangeInitiator> params = serverService.getParams();
-		cccList.setAll(params);
-		testerChoiceBox.setItems(cccList);
-
-
+		employeeList.setAll(params);
+		employeeChoiceBox.setItems(employeeList);
 	}
-
-	public void submitTester(ActionEvent e) {
-		selectedTester = testerChoiceBox.getSelectionModel().getSelectedItem();
+	
+	public void submitAction(ActionEvent e) {
+		
+		selectedEmployee = employeeChoiceBox.getSelectionModel().getSelectedItem();
 		ChangeInitiator selected = new ChangeInitiator();
-		selected= (selectedTester);
-
-		List<Object> oldAndNewSelection = new ArrayList<>();
-		oldAndNewSelection.add(oldSelection);
-		oldAndNewSelection.add(selected);
-		oldAndNewSelection.add((crDetails.getCurrRequest().getId()));
-		ServerService serverService = new ServerService(ServerService.DatabaseService.Replace_Tester,oldAndNewSelection);
+		selected= (selectedEmployee);
+		List<Object> Selection = new ArrayList<>();
+		Selection.add(selected);
+		Selection.add(selected.getId());
+		System.out.println(selected.getId());
+		ServerService serverService = new ServerService(ServerService.DatabaseService.Register_IT,Selection);
 		clientController.handleMessageFromClientUI(serverService);
 		IcmUtils.displayInformationMsg("Updated!");
 		IcmUtils.getPopUp().close();
 	}
-
+	
 	public void cancelAction(ActionEvent e) {
 		IcmUtils.getPopUp().close();
 
