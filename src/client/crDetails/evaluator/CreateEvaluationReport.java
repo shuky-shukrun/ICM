@@ -2,7 +2,6 @@ package client.crDetails.evaluator;
 
 import javafx.event.ActionEvent;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
@@ -44,7 +42,6 @@ public class CreateEvaluationReport implements ClientUI {
 	private Button moreInformation;
 
 	private String info;
-	private int flagHelp;
 
 	/**
 	 * Initialize the create evaluation report dialog
@@ -56,7 +53,7 @@ public class CreateEvaluationReport implements ClientUI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// initialize the combobox of info systems
+		// initialize the combo box of info systems
 		List<String> list = new ArrayList<String>();
 		list.add(CrDetails.getCurrRequest().getInfoSystem().toString());
 		ObservableList<String> obList = FXCollections.observableList(list);
@@ -101,9 +98,7 @@ public class CreateEvaluationReport implements ClientUI {
 	 * @param e-create button pressed event
 	 */
 	public void createEvaluationReport(ActionEvent e) {
-		boolean flag = true;
 		String temp = "";
-
 		List<Object> l = new ArrayList<Object>();
 		temp += "" + CrDetails.getCurrRequest().getId();
 		l.add(temp);
@@ -135,7 +130,10 @@ public class CreateEvaluationReport implements ClientUI {
 			e1.printStackTrace();
 		}
 	}
-
+	/**
+	 * Show specific message when this button appeared on the screen
+	 * @param e
+	 */
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
 		

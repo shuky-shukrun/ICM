@@ -46,12 +46,7 @@ public class SupervisorButtons implements ClientUI {
     	try {
 			clientController=ClientController.getInstance(this);
 			moreInformation2.setVisible(false);
-			if(CrDetails.getCurrRequest().isSuspended())
-			{
-				info="frozen";
-				moreInformation2.setVisible(true);
-				closeChangeRequestButton.setDisable(true);
-			}
+		
 			if(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().equals("DONE"))
 			{
 				info="finished";
