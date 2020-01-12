@@ -11,10 +11,12 @@ import client.crDetails.CrDetails;
 import common.IcmUtils;
 import common.IcmUtils.Scenes;
 import entities.Phase;
+import entities.Phase.PhaseStatus;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import server.ServerService;
 import server.ServerService.DatabaseService;
@@ -35,6 +37,7 @@ public class RequestTimeEvaluation implements ClientUI {
 	private String info;
 	private int flagHelp;
 	private CrDetails crDetails;
+	private Phase newCurrPhase;
 	
 	/**
 	 * initialize the request time dialog
@@ -43,9 +46,18 @@ public class RequestTimeEvaluation implements ClientUI {
 	{
 		try {
 			clientController = ClientController.getInstance(this);
+			newCurrPhase=EvaluatorButtons.getPhase1();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		datePickid.setDayCellFactory(picker -> new DateCell() {
+			public void updateItem(LocalDate date, boolean empty) {
+				super.updateItem(date, empty);
+				LocalDate deadLine = LocalDate.now().minusDays(1);
+				
+				setDisable(empty || date.compareTo(deadLine) <= 0 );
+			}
+		});
 		// disable request time button any field is invalid
 		BooleanBinding bb = new BooleanBinding() {
 			{
@@ -80,11 +92,11 @@ public class RequestTimeEvaluation implements ClientUI {
 	public void applyTimeRequest(ActionEvent e) {
 		//create ServerService object with the picked date and the id of the request ,in order to send it to the 
 		//client controller 
-		System.out.println("1");
+		newCurrPhase.setPhaseStatus(PhaseStatus.TIME_REQUESTED);
 		List<Object> l=new ArrayList<Object>();
-		System.out.println("2");
+		
 		LocalDate date=datePickid.getValue();
-		System.out.println("3");
+		
 		l.add(CrDetails.getCurrRequest().getId());
 		l.add(date);
 		Phase.PhaseName phase= crDetails.getCurrRequest().getCurrPhaseName();

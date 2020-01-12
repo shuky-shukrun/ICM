@@ -183,8 +183,12 @@ public class SupervisorButtons implements ClientUI {
 				IcmUtils.displayErrorMsg("Error", "Freeze Request Failed");
 			break;
 		case Close_Request:
-			if ((Boolean) serverService.getParams().get(0) == true)
+			if ((Boolean) serverService.getParams().get(0) == true) {
 				IcmUtils.displayConfirmationMsg("Success", "Close Request Successfully");
+				closeChangeRequestButton.setDisable(true);
+				moreInformation2.setVisible(true);
+				info="finished";
+			}
 			else
 				IcmUtils.displayErrorMsg("Error", "Close Request Failed");
 		}

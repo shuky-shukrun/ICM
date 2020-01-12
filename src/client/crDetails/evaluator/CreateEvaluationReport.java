@@ -9,8 +9,11 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import client.crDetails.phaseLeader.PhaseLeaderButtons;
 import common.IcmUtils;
 import common.IcmUtils.Scenes;
+import entities.Phase;
+import entities.Phase.PhaseStatus;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,7 +47,7 @@ public class CreateEvaluationReport implements ClientUI {
 	@FXML
 	private Button moreInformation;
 	
-
+	private Phase newCurrPhase;
 	private String info;
 	public static int flagHelp;
 
@@ -54,6 +57,7 @@ public class CreateEvaluationReport implements ClientUI {
 	 */
 	public void initialize() {
 		info = "empty fields";
+		newCurrPhase=EvaluatorButtons.getPhase1();
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
@@ -110,7 +114,8 @@ public class CreateEvaluationReport implements ClientUI {
 	public void createEvaluationReport(ActionEvent e) {
 		boolean flag = true;
 		String temp = "";
-
+		newCurrPhase.setPhaseStatus(PhaseStatus.DONE);
+		EvaluatorButtons.setPhase1(newCurrPhase);
 		List<Object> l = new ArrayList<Object>();
 		temp += "" + CrDetails.getCurrRequest().getId();
 		l.add(temp);
@@ -121,7 +126,7 @@ public class CreateEvaluationReport implements ClientUI {
 		l.add(EvaluatedTimeDatePicker.getValue().toString());
 		ServerService serverService = new ServerService(DatabaseService.Create_Evaluation_Report, l);
 		clientController.handleMessageFromClientUI(serverService);
-		IcmUtils.getPopUp().close();
+		
 		
 		
 	
@@ -176,7 +181,7 @@ public class CreateEvaluationReport implements ClientUI {
 			IcmUtils.displayErrorMsg("creating evaluation report failed!!");
 		IcmUtils.getPopUp().close();
 		
-		flagHelp=1;
+		
 			//IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
 		
 		

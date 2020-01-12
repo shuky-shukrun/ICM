@@ -8,6 +8,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,7 +29,8 @@ public class EvaluatorButtons implements ClientUI {
 	@FXML
 	private Button returnRequestInfo;
 	private String info;
-
+	private static Phase currPhase;
+	private int flag = 0;
 	private ClientController clientController;
 
 	/**
@@ -44,9 +46,13 @@ public class EvaluatorButtons implements ClientUI {
 		phaseTimeRequestInfo.setVisible(false);
 		createReportInfo.setVisible(false);
 		returnRequestInfo.setVisible(false);
+		if (flag == 0) {
+			currPhase = CrDetails.getCurrRequest().getPhases().get(0);
+			flag = 1;
+		}
 		checkIsReturnRequest(CrDetails.getCurrRequest().getId());
 		// time request not submitted yet
-		switch (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()) {
+		switch (currPhase.getPhaseStatus()) {
 			case SUBMITTED:
 			case PHASE_LEADER_ASSIGNED:
 				info = "time of phase yet not submitted";
@@ -77,6 +83,13 @@ public class EvaluatorButtons implements ClientUI {
 				createReportInfo.setVisible(true);
 				returnRequestInfo.setVisible(true);
 				break;
+			case DONE:
+				info="have Report";
+				requestPhaseTimeButton.setDisable(true);
+				createEvaluationReportButton.setDisable(true);
+				phaseTimeRequestInfo.setVisible(true);
+				createReportInfo.setVisible(true);
+				
 		}
 		List<Integer> l = new ArrayList<>();
 		l.add(CrDetails.getCurrRequest().getId());
@@ -94,6 +107,7 @@ public class EvaluatorButtons implements ClientUI {
 		try {
 			IcmUtils.popUpScene(this, "ICM Create Evaluation Report",
 					"/client/crDetails/evaluator/createEvaluationReport.fxml", 600, 632);
+			initialize();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -122,6 +136,7 @@ public class EvaluatorButtons implements ClientUI {
 		try {
 			IcmUtils.popUpScene(this, "ICM request time dialog", "/client/crDetails/evaluator/TimeRequest.fxml", 600,
 					632);
+			initialize();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -169,6 +184,9 @@ public class EvaluatorButtons implements ClientUI {
 						"Change request " + CrDetails.getCurrRequest().getId() + " -time request approved." + "\n\n"
 								+ "request phase time can't be submitted when there is already phase time!");
 				break;
+			case "have Report":
+				IcmUtils.displayInformationMsg("Information message", "there is already evaluation report");
+				break;
 		}
 
 	}
@@ -207,7 +225,13 @@ public class EvaluatorButtons implements ClientUI {
 		}
 
 	}
+	public static void setPhase1(Phase NewPhase) {
+		currPhase = NewPhase;
+	}
 
+	public static Phase getPhase1() {
+		return currPhase;
+	}
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		switch (serverService.getDatabaseService()) {
