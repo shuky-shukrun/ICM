@@ -86,12 +86,7 @@ public class CrDetails implements ClientUI {
     }
 
     @FXML
-    /**
-     * Download files when specific button pressed in the change request summary
-     * @param event-the button of download files pressed
-     */
     public void downloadFiles(ActionEvent event) {
-    	//the user can select directory where to download his files
     	DirectoryChooser dirChooser = new DirectoryChooser();
     	File chosenDir = dirChooser.showDialog(client.ClientMain.getPrimaryStage());
     	if(chosenDir==null)

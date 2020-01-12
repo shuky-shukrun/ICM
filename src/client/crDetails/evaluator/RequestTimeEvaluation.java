@@ -9,6 +9,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
+import common.IcmUtils.Scenes;
 import entities.Phase;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -17,7 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import server.ServerService;
 import server.ServerService.DatabaseService;
-
+import sun.awt.image.BufImgSurfaceData.ICMColorData;
 
 public class RequestTimeEvaluation implements ClientUI {
 	
@@ -58,7 +59,7 @@ public class RequestTimeEvaluation implements ClientUI {
 			
 				if( datePickid.valueProperty().get() == null)
 					flagHelp=0;
-				else if(datePickid.valueProperty().get().compareTo(LocalDate.now())<= 0)
+				else if(datePickid.valueProperty().get().compareTo(LocalDate.now())<= 0)//check with team
 					flagHelp=1;
 				else
 					flagHelp=2;
@@ -79,17 +80,22 @@ public class RequestTimeEvaluation implements ClientUI {
 	public void applyTimeRequest(ActionEvent e) {
 		//create ServerService object with the picked date and the id of the request ,in order to send it to the 
 		//client controller 
+		System.out.println("1");
 		List<Object> l=new ArrayList<Object>();
+		System.out.println("2");
 		LocalDate date=datePickid.getValue();
+		System.out.println("3");
 		l.add(CrDetails.getCurrRequest().getId());
 		l.add(date);
 		Phase.PhaseName phase= crDetails.getCurrRequest().getCurrPhaseName();
+		System.out.println(phase);
 		switch(phase) {
 			case EVALUATION:
 				ServerService serverService=new ServerService(DatabaseService.Request_Time_Evaluation, l);
 				clientController.handleMessageFromClientUI(serverService);
 				break;
 			case EXECUTION:
+				System.out.println("2");
 				ServerService serverService1=new ServerService(DatabaseService.Request_Time_EXAMINATION, l);
 				clientController.handleMessageFromClientUI(serverService1);
 				IcmUtils.getPopUp().close();
@@ -98,10 +104,6 @@ public class RequestTimeEvaluation implements ClientUI {
 		
 
 	}
-	/**
-	 * Show specific message when this button appeared on the screen
-	 * @param e
-	 */
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
 		if(flagHelp==0)
@@ -138,7 +140,7 @@ public class RequestTimeEvaluation implements ClientUI {
 			IcmUtils.displayInformationMsg("request time has been submitted");
 		else
 			IcmUtils.displayErrorMsg("request time failed");
-			
+		
 
 	}
 

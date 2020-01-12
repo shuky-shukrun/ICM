@@ -94,12 +94,10 @@ public class NewRequest implements ClientUI {
 
 
     @FXML
-    /**
-     * Add files (optionally) when the user add new request
-     * @param event
-     */
     void addFiles(ActionEvent event) {
-    	 	FileChooser fileCh=new FileChooser();
+    	
+    	
+    	FileChooser fileCh=new FileChooser();
     	List<File> files=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
     	if(files==null)
     		return;

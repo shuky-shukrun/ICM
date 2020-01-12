@@ -351,7 +351,7 @@ public class DBConnection {
 			l.add(flag);
 			e.printStackTrace();
 		}
-		// update examination phase to specific request with status in process
+		// update examination phase to specific request with status phase leader
 		// assigned
 		try {
 			PreparedStatement ps = sqlConnection.prepareStatement(

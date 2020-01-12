@@ -38,18 +38,15 @@ public class InitiatorButtons implements ClientUI {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * attach files to specific request when this specific button pressed on initiator change request summary
-	 * @param event-attach files button pressed on initiator change request summary
-	 */
+
 	@FXML
 	public void attachFiles(ActionEvent event) {
 		List<Object> tempL = new ArrayList<>();
-		//the user choose the files
 		FileChooser fileCh = new FileChooser();
 		List<File> filesToAttach = fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
 		if (filesToAttach == null)
 			return;
+
 		File[] arr = new File[filesToAttach.size()];
 		int i = 0;
 		for (File f : filesToAttach) {
@@ -61,10 +58,7 @@ public class InitiatorButtons implements ClientUI {
 		clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Attach_Files, tempL));
 		IcmUtils.displayInformationMsg("attaching files in process...");
 	}
-	/**
-	 * Show specific message when this button appeared on the screen
-	 * @param e
-	 */
+
 	@FXML
 	public void moreInfoAction() {
 		IcmUtils.displayInformationMsg("Information message", "this request closed",
