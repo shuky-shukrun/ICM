@@ -16,13 +16,10 @@ import server.ServerService.DatabaseService;
 
 import javax.mail.MessagingException;
 
-import client.crDetails.CrDetails;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -264,7 +261,7 @@ public class EchoServer extends AbstractServer {
                 case Get_Phase_Leaders_And_Workers:
                     System.out.println("server handle Get_Phase_Leaders_And_Workers");
                     List<InformationEngineer> ChangeInitiatorParams = serverService.getParams();
-                    List<List<ChangeInitiator>> workersList = dbConnection.getphaseLeadersDetails(ChangeInitiatorParams);
+                    List<List<ChangeInitiator>> workersList = dbConnection.getPhaseLeadersDetails(ChangeInitiatorParams);
                     System.out.println("Get_Phase_Leaders_And_Workers server got data");
                     serverService.setParams(workersList);
                     try {

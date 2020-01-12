@@ -1111,7 +1111,7 @@ public class DBConnection {
 		}*/
 
 	}
-    public List<List<ChangeInitiator>> getphaseLeadersDetails (List <InformationEngineer> ChangeInitiatorList){
+    public List<List<ChangeInitiator>> getPhaseLeadersDetails(List <InformationEngineer> ChangeInitiatorList){
     	
     	List<List<ChangeInitiator>> workersList = new ArrayList<>();
     	List<ChangeInitiator> phaseLeadersAndExecutiveLeaderList = new ArrayList<>();
