@@ -284,6 +284,20 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
 				    break;
+                case Get_Selected_Phase_Leaders_And_Workers:
+                    System.out.println("server handle Get_Selected_Phase_Leaders_And_Workers");
+                    List<ChangeRequest> changeRequestsList = serverService.getParams();
+                    List<ChangeInitiator> selectedPhaseLeadersAndWorkers = dbConnection.getselectedPhaseLeadersAndWorkers(changeRequestsList);
+                    System.out.println("Get_Selected_Phase_Leaders_And_Workers server got data");
+                    serverService.setParams(selectedPhaseLeadersAndWorkers);
+                    try {
+                        client.sendToClient(serverService);
+                        System.out.println("sent selected phase leaders and workers details to client");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+				    break;
+				    
                 case Execution_Confirmation:
                     System.out.println("Server handle Execution_Confirmation");
                     List<ChangeRequest> requestList = serverService.getParams();

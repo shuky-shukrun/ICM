@@ -49,7 +49,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutX="150.0" layoutY="49.0" text="Assign Phase Leaders">
+            <Label fx:id="titleLabel" alignment="CENTER" layoutX="150.0" layoutY="49.0" text="Assign Phase Leaders">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>

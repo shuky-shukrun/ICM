@@ -27,10 +27,7 @@ public class SupervisorButtons implements ClientUI {
 
     @FXML
     private Button assignPhaseLeadersButton;
-
-    @FXML
-    private Button assignPhaseWorkersButton;
-
+    
     @FXML
     private Button freezeRequestButton;
 
@@ -39,9 +36,7 @@ public class SupervisorButtons implements ClientUI {
 	
 	@FXML
 	private Button moreInformation2;
-    @FXML
-    private Button moreInformation3;
-
+    
 	private String CurrStatus = new String();
     private String info;
     private ClientController clientController;
@@ -52,7 +47,7 @@ public class SupervisorButtons implements ClientUI {
     	try {
 			clientController=ClientController.getInstance(this);
 			moreInformation2.setVisible(false);	
-			moreInformation3.setVisible(true);
+			//moreInformation3.setVisible(true);
 			
 			if(CrDetails.getCurrRequest().isSuspended())
 			{
@@ -67,17 +62,15 @@ public class SupervisorButtons implements ClientUI {
 				closeChangeRequestButton.setDisable(true);
 			}
 			
-			assignPhaseLeadersButton.setDisable(true);
 			if(flag==false) {
-				System.out.printf("1");
 				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
  			    flag=true; 
 			}
-    		if(currPhase.getName()==PhaseName.SUBMITTED) {
-    		    assignPhaseLeadersButton.setDisable(false);
-    		    moreInformation3.setVisible(false);
-    		    System.out.printf("2");
+    		if(currPhase.getName()!=PhaseName.SUBMITTED) {
+    			assignPhaseLeadersButton.setText("View phase leaders");
+    		   
     		}
+    		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -155,13 +148,6 @@ public class SupervisorButtons implements ClientUI {
     	}
     }
     
-    @FXML
-    public void moreInformation3Event() {
-	  System.out.printf("4");
-	  IcmUtils.displayInformationMsg("Information message", "Phase leaders for this change request have already been assigned.");
-  
-  }
-
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
     	switch(serverService.getDatabaseService()) {

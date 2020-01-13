@@ -53,13 +53,5 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="moreInformation3" alignment="TOP_LEFT" onAction="#moreInformation3Event" prefHeight="31.0" prefWidth="223.0" text="mor's button do not touch " textFill="#1b0eae" underline="true">
-         <graphic>
-            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
-         </graphic>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </JFXButton>
    </children>
 </VBox>

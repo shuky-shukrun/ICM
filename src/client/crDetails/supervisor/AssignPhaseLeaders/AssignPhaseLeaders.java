@@ -10,6 +10,7 @@ import client.crDetails.CrDetails;
 import client.crDetails.supervisor.SupervisorButtons;
 import common.IcmUtils;
 import entities.ChangeInitiator;
+import entities.ChangeRequest;
 import entities.IEPhasePosition;
 import entities.IEPhasePosition.PhasePosition;
 import entities.InfoSystem;
@@ -51,7 +52,13 @@ public class AssignPhaseLeaders implements ClientUI {
 	private Button cancelButton;
 	@FXML
 	private Label helpLabel;
-
+	@FXML
+	private Label titleLabel;
+	@FXML
+	private Label label1;
+	@FXML
+	private Label label2;
+	
 	private ChangeInitiator initiatorOfCr;
 	private ClientController clientController;
 	private List<List<ChangeInitiator>> optionalWorkersList = new ArrayList<>();
@@ -71,56 +78,77 @@ public class AssignPhaseLeaders implements ClientUI {
 		try {
 			clientController = ClientController.getInstance(this);
 			
-			//unable submit until all employees are selected
-			BooleanBinding test = Bindings.createBooleanBinding(() -> {
-				ChangeInitiator evPhaseLeader = evaluationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
-				ChangeInitiator ev = evaluatorChoiceBox.getSelectionModel().getSelectedItem();
-				ChangeInitiator examPhaseLeader = examinationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
-				ChangeInitiator exePhaseLeader = executionPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
-				ChangeInitiator exe = executiveLeaderChoiceBox.getSelectionModel().getSelectedItem();
-				ChangeInitiator valPhaseLeader = validationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
-	 
-	            return (evPhaseLeader == null || examPhaseLeader==null ||exePhaseLeader==null ||exe==null ||valPhaseLeader==null );
-	        }, 	evaluationPhaseLeaderChoiceBox.valueProperty(),
-					evaluatorChoiceBox.valueProperty(),
-					examinationPhaseLeaderChoiceBox.valueProperty(),
-					examinationPhaseLeaderChoiceBox.valueProperty(),
-					executionPhaseLeaderChoiceBox.valueProperty(),
-					executiveLeaderChoiceBox.valueProperty(),
-					validationPhaseLeaderChoiceBox.valueProperty()			
-	        );
-			submitButton.disableProperty().bind(test);
+			switch (CrDetails.getCurrRequest().getPhases().get(0).getName()) {
 			
-			// Get phase leaders and workers details from DB
-			crId=CrDetails.getCurrRequest().getId();
-			InfoSystem infoSystem =CrDetails.getCurrRequest().getInfoSystem();
-			initiatorOfCr= CrDetails.getCurrRequest().getInitiator();
-			InformationEngineer informationEngineer=new InformationEngineer();	
-			
-			informationEngineer.setDepartment(initiatorOfCr.getDepartment());
-			informationEngineer.setEmail(initiatorOfCr.getEmail());
-			informationEngineer.setFirstName(initiatorOfCr.getFirstName());
-			informationEngineer.setId(initiatorOfCr.getId());
-			informationEngineer.setLastName(initiatorOfCr.getLastName());
-			informationEngineer.setPassword(initiatorOfCr.getPassword());
-			informationEngineer.setPhoneNumber(initiatorOfCr.getPhoneNumber());
-			informationEngineer.setPosition(initiatorOfCr.getPosition());
-			informationEngineer.setTitle(initiatorOfCr.getTitle());	
-			informationEngineer.setManagedSystem(infoSystem); // add infoSystem of CurrRequest to the ChangeInitiator of the request
-			
-			helpLabel.setText("please assign phase leaders for change request " +CrDetails.getCurrRequest().getId().toString());
-			List<InformationEngineer> ChangeInitiatorList = new ArrayList<>();
-			ChangeInitiatorList.add(informationEngineer);
-			System.out.printf("%s\n",ChangeInitiatorList);
-			ServerService getPhaseLeaders = new ServerService(ServerService.DatabaseService.Get_Phase_Leaders_And_Workers, ChangeInitiatorList);
-			clientController.handleMessageFromClientUI(getPhaseLeaders);
-			
-			// add Change listeners to Choice Box
-			addChangeListener(executionPhaseLeaderChoiceBox, executiveLeaderChoiceBox);
-			addChangeListener(executiveLeaderChoiceBox, executionPhaseLeaderChoiceBox );
-			addChangeListener(evaluationPhaseLeaderChoiceBox, evaluatorChoiceBox);
-			addChangeListener(evaluatorChoiceBox, evaluationPhaseLeaderChoiceBox );
-			
+			case SUBMITTED:
+
+				//unable submit until all employees are selected
+				BooleanBinding test = Bindings.createBooleanBinding(() -> {
+					ChangeInitiator evPhaseLeader = evaluationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
+					ChangeInitiator ev = evaluatorChoiceBox.getSelectionModel().getSelectedItem();
+					ChangeInitiator examPhaseLeader = examinationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
+					ChangeInitiator exePhaseLeader = executionPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
+					ChangeInitiator exe = executiveLeaderChoiceBox.getSelectionModel().getSelectedItem();
+					ChangeInitiator valPhaseLeader = validationPhaseLeaderChoiceBox.getSelectionModel().getSelectedItem();
+		 
+		            return (evPhaseLeader == null || examPhaseLeader==null ||exePhaseLeader==null ||exe==null ||valPhaseLeader==null );
+		        }, 	evaluationPhaseLeaderChoiceBox.valueProperty(),
+						evaluatorChoiceBox.valueProperty(),
+						examinationPhaseLeaderChoiceBox.valueProperty(),
+						examinationPhaseLeaderChoiceBox.valueProperty(),
+						executionPhaseLeaderChoiceBox.valueProperty(),
+						executiveLeaderChoiceBox.valueProperty(),
+						validationPhaseLeaderChoiceBox.valueProperty()			
+		        );
+				submitButton.disableProperty().bind(test);
+				
+				// Get phase leaders and workers details from DB
+				crId=CrDetails.getCurrRequest().getId();
+				InfoSystem infoSystem =CrDetails.getCurrRequest().getInfoSystem();
+				initiatorOfCr= CrDetails.getCurrRequest().getInitiator();
+				InformationEngineer informationEngineer=new InformationEngineer();	
+				
+				informationEngineer.setDepartment(initiatorOfCr.getDepartment());
+				informationEngineer.setEmail(initiatorOfCr.getEmail());
+				informationEngineer.setFirstName(initiatorOfCr.getFirstName());
+				informationEngineer.setId(initiatorOfCr.getId());
+				informationEngineer.setLastName(initiatorOfCr.getLastName());
+				informationEngineer.setPassword(initiatorOfCr.getPassword());
+				informationEngineer.setPhoneNumber(initiatorOfCr.getPhoneNumber());
+				informationEngineer.setPosition(initiatorOfCr.getPosition());
+				informationEngineer.setTitle(initiatorOfCr.getTitle());	
+				informationEngineer.setManagedSystem(infoSystem); // add infoSystem of CurrRequest to the ChangeInitiator of the request
+				
+				helpLabel.setText("please assign phase leaders for change request " +CrDetails.getCurrRequest().getId().toString());
+				List<InformationEngineer> ChangeInitiatorList = new ArrayList<>();
+				ChangeInitiatorList.add(informationEngineer);
+				System.out.printf("%s\n",ChangeInitiatorList);
+				ServerService getPhaseLeaders = new ServerService(ServerService.DatabaseService.Get_Phase_Leaders_And_Workers, ChangeInitiatorList);
+				clientController.handleMessageFromClientUI(getPhaseLeaders);
+				
+				// add Change listeners to Choice Box
+				addChangeListener(executionPhaseLeaderChoiceBox, executiveLeaderChoiceBox);
+				addChangeListener(executiveLeaderChoiceBox, executionPhaseLeaderChoiceBox );
+				addChangeListener(evaluationPhaseLeaderChoiceBox, evaluatorChoiceBox);
+				addChangeListener(evaluatorChoiceBox, evaluationPhaseLeaderChoiceBox );
+				
+				break;
+
+			default:	
+				helpLabel.setVisible(false);
+				submitButton.setVisible(false);
+				label1.setVisible(false);
+				label2.setVisible(false);
+	            titleLabel.setText("View phase leaders");
+				cancelButton.setText("Close");
+				List<ChangeRequest> changeRequestsList =new ArrayList<>();
+				changeRequestsList.add(CrDetails.getCurrRequest());
+				ServerService getIEPhasePosition = new ServerService(ServerService.DatabaseService.Get_Selected_Phase_Leaders_And_Workers, changeRequestsList);
+				clientController.handleMessageFromClientUI(getIEPhasePosition);
+				
+				break;
+			}		
+		
 			} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -146,7 +174,6 @@ public class AssignPhaseLeaders implements ClientUI {
 		ServerService updatePhaseLeaders = new ServerService(ServerService.DatabaseService.Supervisor_Update_Phase_Leaders_And_Workers, newPhaseLeadersAndWorkersList);
 		clientController.handleMessageFromClientUI(updatePhaseLeaders);
 	}
-
 
 	@FXML
 	void cancelAssignPhaseLeaders(ActionEvent event) {
@@ -187,8 +214,31 @@ public class AssignPhaseLeaders implements ClientUI {
 				newCurrPhase.setPhaseStatus(PhaseStatus.PHASE_LEADER_ASSIGNED);
 				SupervisorButtons.setCurrPhase(newCurrPhase);
 				IcmUtils.getPopUp().close();
-			break;
 		}
+		break;	
+		
+		case Get_Selected_Phase_Leaders_And_Workers:
+			List<ChangeInitiator> L1 =serverService.getParams();
+			
+			evaluationPhaseLeaderChoiceBox.setItems(FXCollections.observableArrayList(L1.get(0)));
+			evaluationPhaseLeaderChoiceBox.getSelectionModel().select(0);
+			
+			evaluatorChoiceBox.setItems(FXCollections.observableArrayList(L1.get(1)));
+			evaluatorChoiceBox.getSelectionModel().select(0);
+			
+			examinationPhaseLeaderChoiceBox.setItems(FXCollections.observableArrayList(L1.get(2)));
+			examinationPhaseLeaderChoiceBox.getSelectionModel().select(0);
+			
+			executionPhaseLeaderChoiceBox.setItems(FXCollections.observableArrayList(L1.get(3)));
+			executionPhaseLeaderChoiceBox.getSelectionModel().select(0);
+			
+			executiveLeaderChoiceBox.setItems(FXCollections.observableArrayList(L1.get(4)));
+			executiveLeaderChoiceBox.getSelectionModel().select(L1.get(4));
+			
+			validationPhaseLeaderChoiceBox.setItems(FXCollections.observableArrayList(L1.get(5)));
+			validationPhaseLeaderChoiceBox.getSelectionModel().select(0);	
+			
+			break;	
 	}
 	}	
 	

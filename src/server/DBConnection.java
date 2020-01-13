@@ -2,6 +2,8 @@ package server;
 
 import client.crDetails.CrDetails;
 import entities.*;
+import entities.IEPhasePosition.PhasePosition;
+import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
 
 import java.io.IOException;
@@ -1349,4 +1351,125 @@ public class DBConnection {
     			ps.close();
 
     	}
+    	
+    	public List<ChangeInitiator> getselectedPhaseLeadersAndWorkers (List <ChangeRequest> changeRequestsList){
+    		
+        	List<ChangeInitiator> phaseLeadersAndWorkersList = new ArrayList<>();
+        	List<IEPhasePosition> iEPhasePositionList = new ArrayList<>();
+        	int ChangeRequestID = changeRequestsList.get(0).getId();
+        	ChangeInitiator evPhaseLeader = new ChangeInitiator();
+        	ChangeInitiator ev = new ChangeInitiator();
+        	ChangeInitiator examPhaseLeader = new ChangeInitiator();
+        	ChangeInitiator exePhaseLeader = new ChangeInitiator();
+        	ChangeInitiator exe = new ChangeInitiator();
+        	ChangeInitiator valPhaseLeader = new ChangeInitiator();
+        	
+            try {		
+                PreparedStatement ps = sqlConnection.prepareStatement("SELECT IDieInPhase,iePhaseName,iePhasePosition FROM ieInPhase WHERE crID =? AND iePhasePosition != 'TESTER'");
+                ps.setInt(1, ChangeRequestID);
+                ResultSet rs= ps.executeQuery();
+    			rs.beforeFirst();
+                while (rs.next()) {
+                	IEPhasePosition iEPhasePosition = new IEPhasePosition();
+                	iEPhasePosition.setCrID(rs.getInt("IDieInPhase"));
+                	iEPhasePosition.setPhaseName(Phase.PhaseName.valueOf(rs.getString("iePhaseName")));
+                	iEPhasePosition.setPhasePosition(PhasePosition.valueOf(rs.getString("iePhasePosition")));
+                	iEPhasePositionList.add(iEPhasePosition);
+                } 
+
+    			for(IEPhasePosition e :iEPhasePositionList) { 
+    		
+    			Phase.PhaseName phName= e.getPhaseName();
+    			PhasePosition phPosition=e.getPhasePosition();
+    			int ID= e.getCrID();
+    			PreparedStatement ps1;
+
+    			switch (phName) {
+    			case EVALUATION:
+    				if(phPosition==PhasePosition.PHASE_LEADER) { 
+    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
+    	                ps1.setInt(1,ID);
+    	                ResultSet rs1= ps1.executeQuery();
+    	    			rs1.beforeFirst();
+    	    			rs1.next();
+    	    			evPhaseLeader.setId(rs1.getInt("IDuser"));
+    	    			evPhaseLeader.setFirstName(rs1.getString("firstName"));
+    	    			evPhaseLeader.setLastName(rs1.getString("lastName"));
+    			}
+    				else if(phPosition==PhasePosition.EVALUATOR) {
+    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
+    	                ps1.setInt(1,ID);
+    	                ResultSet rs2= ps1.executeQuery();
+    	    			rs2.beforeFirst();
+    	    			rs2.next();
+    	    			ev.setId(rs2.getInt("IDuser"));
+    	    			ev.setFirstName(rs2.getString("firstName"));
+    	    			ev.setLastName(rs2.getString("lastName"));
+					    }
+    				break;
+
+    			case EXAMINATION:
+    				ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
+	                ps1.setInt(1,ID);
+	                ResultSet rs3= ps1.executeQuery();
+	    			rs3.beforeFirst();
+	    			rs3.next();
+	    			examPhaseLeader.setId(rs3.getInt("IDuser"));
+	    			examPhaseLeader.setFirstName(rs3.getString("firstName"));
+	    			examPhaseLeader.setLastName(rs3.getString("lastName"));		
+    				break;
+    			case EXECUTION:
+    				if(phPosition==PhasePosition.PHASE_LEADER) 
+    				 {
+    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
+    	                ps1.setInt(1,ID);
+    	                ResultSet rs4= ps1.executeQuery();
+    	    			rs4.beforeFirst();
+    	    			rs4.next();
+    	    			exePhaseLeader.setId(rs4.getInt("IDuser"));
+    	    			exePhaseLeader.setFirstName(rs4.getString("firstName"));
+    	    			exePhaseLeader.setLastName(rs4.getString("lastName"));
+    				 }
+    					else if(phPosition==PhasePosition.EXECUTIVE_LEADER)
+    					 {
+    						ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
+        	                ps1.setInt(1,ID);
+        	                ResultSet rs5= ps1.executeQuery();
+        	    			rs5.beforeFirst();
+        	    			rs5.next();
+        	    			exe.setId(rs5.getInt("IDuser"));
+        	    			exe.setFirstName(rs5.getString("firstName"));
+        	    			exe.setLastName(rs5.getString("lastName"));	
+    					 }
+    				break;
+    			case VALIDATION:
+    				ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
+	                ps1.setInt(1,ID);
+	                ResultSet rs6= ps1.executeQuery();
+	    			rs6.beforeFirst();
+	    			rs6.next();
+	    			valPhaseLeader.setId(rs6.getInt("IDuser"));
+	    			valPhaseLeader.setFirstName(rs6.getString("firstName"));
+	    			valPhaseLeader.setLastName(rs6.getString("lastName"));				
+    				break;
+    			}	
+    			
+    			}		
+
+    			phaseLeadersAndWorkersList.add(evPhaseLeader);
+    			phaseLeadersAndWorkersList.add(ev);
+    			phaseLeadersAndWorkersList.add(examPhaseLeader);
+    			phaseLeadersAndWorkersList.add(exePhaseLeader);
+    			phaseLeadersAndWorkersList.add(exe);
+    			phaseLeadersAndWorkersList.add(valPhaseLeader);
+    			
+    			System.out.println(phaseLeadersAndWorkersList.toString());	
+                System.out.println("DB get selected phase leaders and workers");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return phaseLeadersAndWorkersList;
+        }
+ 
 }
