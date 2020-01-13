@@ -7,6 +7,8 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import client.crDetails.phaseLeader.PhaseLeaderButtons;
+import client.crDetails.tester.TesterButtons;
 import common.IcmUtils;
 import entities.Phase;
 import entities.Phase.PhaseName;
@@ -34,8 +36,10 @@ public class SetDecision implements ClientUI {
 
 	private ClientController clientController;
 	private String currPhase = new String();
+	private Phase newCurrPhase;
 
 	public void initialize() {
+		newCurrPhase = TesterButtons.getPhase();
 		currPhase = CrDetails.getCurrRequest().getCurrPhaseName().toString();
 		okButton.setDisable(true);
 
@@ -89,7 +93,8 @@ public class SetDecision implements ClientUI {
 
 		ServerService serverService = new ServerService(DatabaseService.Set_Decision, list);
 		clientController.handleMessageFromClientUI(serverService);
-
+		newCurrPhase.setName(Phase.PhaseName.CLOSING);
+		TesterButtons.setPhase(newCurrPhase);
 		System.out.println(decision);
 	}
 	
@@ -102,9 +107,9 @@ public class SetDecision implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true && list.get(2) == true) {
-			IcmUtils.displayInformationMsg("update the tester decision- success");
+			IcmUtils.displayInformationMsg("update the decision- success");
 		} else {
-			IcmUtils.displayErrorMsg("update the tester decision- failed");
+			IcmUtils.displayErrorMsg("update the decision- failed");
 		}
 		IcmUtils.getPopUp().close();
 	}

@@ -38,8 +38,8 @@ public class SupervisorButtons implements ClientUI {
 
 	@FXML
 	private Button moreInformation2;
-    
-	private String CurrStatus = new String();
+
+	private static Phase.PhaseStatus CurrStatus;
     private String info;
     private ClientController clientController;
     private static Phase currPhase;
@@ -57,6 +57,7 @@ public class SupervisorButtons implements ClientUI {
 				closeChangeRequestButton.setDisable(true);
 				moreInformation2.setVisible(true);
 				
+				phaseTimeDecisionButton.setDisable(true);
 			}
 			if(CrDetails.getCurrRequest().getPhases().get(0).getName()!=PhaseName.CLOSING)
 			{
@@ -73,13 +74,16 @@ public class SupervisorButtons implements ClientUI {
 			
 			if(flag==false) {
 				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
+				CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
  			    flag=true; 
 			}
     		if(currPhase.getName()!=PhaseName.SUBMITTED) {
     			assignPhaseLeadersButton.setText("View phase leaders");
 
     		}
-    		
+    		if(!(CurrStatus.equals(Phase.PhaseStatus.TIME_REQUESTED)||CurrStatus.equals(Phase.PhaseStatus.EXTENSION_TIME_REQUESTED))){
+    			phaseTimeDecisionButton.setDisable(true);
+    		}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -110,30 +114,30 @@ public class SupervisorButtons implements ClientUI {
 		
 	}
 
-	@FXML
-	void setTimeDecision(ActionEvent event) {
+    @FXML
+    void setTimeDecision(ActionEvent event) {
 
-		CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().toString();
-		System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus());
-		System.out.println(CurrStatus);
-		switch (CurrStatus) {
-		case "TIME_REQUESTED":
-			try {
-				IcmUtils.popUpScene(this, "Time Request Decision",
-						"/client/crDetails/supervisor/timeDecision/TimeRequestDecision.fxml", 420, 350);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
+    		CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
+    		System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus());
+    		System.out.println(CurrStatus);
+    		switch (CurrStatus) {
+    		case TIME_REQUESTED:
+    			try {
+    				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/TimeRequestDecision.fxml", 420, 350);
+    				initialize();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			break;
 
-		case "EXTENSION_TIME_REQUESTED":
-			try {
-				IcmUtils.popUpScene(this, "Time Request Decision",
-						"/client/crDetails/supervisor/timeDecision/ExtensionTimeDecision.fxml", 420, 350);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
+    		case EXTENSION_TIME_REQUESTED:
+    			try {
+    				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/ExtensionTimeDecision.fxml", 420, 350);
+    				initialize();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			break;
 
 		default:
 			IcmUtils.displayInformationMsg("There are no time requests.");
@@ -194,7 +198,13 @@ public class SupervisorButtons implements ClientUI {
     
     public static Phase getPhase() {
     	return currPhase;
-    	
     }
     
+    public static void setCurrPhaseStatus (PhaseStatus status) {
+    	SupervisorButtons.CurrStatus = status;
+    }
+    
+    public static PhaseStatus getPhaseStatus() {
+    	return CurrStatus;
+    }
 }
