@@ -121,9 +121,6 @@ public class DBConnection {
 			tempSet = new HashSet<>();
 			switch (currUser.getPosition()) {
 			case ITD_MANAGER:
-				ps = sqlConnection.prepareStatement("SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName "
-						+ "FROM changeRequest CR " + "WHERE CR.crSuspended = 1");
-				break;
 			case SUPERVISOR:
 				ps = sqlConnection.prepareStatement(
 						"SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName " + "FROM changeRequest CR");

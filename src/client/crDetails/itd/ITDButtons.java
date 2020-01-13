@@ -33,8 +33,16 @@ public class ITDButtons implements ClientUI {
     		e.printStackTrace();
     	}
 
-    	if(CrDetails.getCurrRequest().isSuspended())
+    	if(CrDetails.getCurrRequest().isSuspended()) {
+    		thawButton.setDisable(false);
 			thawMessage.setVisible(true);
+		}
+    	else {
+			thawButton.setDisable(true);
+			thawMessage.setVisible(true);
+			thawMessage.setText("Why this button is disable?");
+		}
+
     }
     @FXML
     void thawChangeRequest(ActionEvent event) {
@@ -55,7 +63,6 @@ public class ITDButtons implements ClientUI {
     				IcmUtils.displayInformationMsg("Success", "Request Thawed");
     				thawButton.setDisable(true);
     				thawMessage.setVisible(false);
-    				
     			}
     			else
     				IcmUtils.displayErrorMsg("Error", "Thaw Request Failed");
@@ -65,7 +72,14 @@ public class ITDButtons implements ClientUI {
 
 	@FXML
 	public void importantInfoEvent() {
-    	String frozenRequest = "This request is suspended.\nTo thaw it, Click 'Thaw Change Request' button.";
-		IcmUtils.displayInformationMsg("Frozen request", "Frozen request", frozenRequest);
+    	if(CrDetails.getCurrRequest().isSuspended()) {
+			String frozenRequest = "This request is suspended.\nTo thaw it, Click 'Thaw Change Request' button.";
+			IcmUtils.displayInformationMsg("Frozen request", "Frozen request", frozenRequest);
+		}
+    	else {
+			String activeRequest = "This request is active.\nOnly frozen requests can be thaw.";
+			IcmUtils.displayInformationMsg("Active request", "Active request", activeRequest);
+		}
+
 	}
 }
