@@ -5,10 +5,7 @@ import client.ClientController;
 import client.ClientUI;
 import client.crDetails.ccc.CCCButtons;
 import common.IcmUtils;
-import entities.ChangeInitiator;
-import entities.ChangeRequest;
-import entities.IEPhasePosition;
-import entities.InformationEngineer;
+import entities.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -158,9 +155,10 @@ public class CrDetails implements ClientUI {
         Parent root = null;
 
         if(currRequest.isSuspended()) {
-            System.out.println("freeze");
-            IcmUtils.displayInformationMsg("This request is suspended");
-            return;
+            IcmUtils.displayInformationMsg("Frozen Request", "Frozen Request", "This request is suspended");
+            if(currUser.getPosition() != Position.ITD_MANAGER) {
+                return;
+            }
         }
 
         if (currUser.getTitle() != ChangeInitiator.Title.INFOENGINEER) {
