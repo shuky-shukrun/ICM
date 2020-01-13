@@ -9,8 +9,11 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import client.crDetails.phaseLeader.PhaseLeaderButtons;
 import common.IcmUtils;
 import common.IcmUtils.Scenes;
+import entities.Phase;
+import entities.Phase.PhaseStatus;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +21,7 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -42,20 +46,31 @@ public class CreateEvaluationReport implements ClientUI {
 	private Button createButton;
 	@FXML
 	private Button moreInformation;
-
+	
+	private Phase newCurrPhase;
 	private String info;
-	private int flagHelp;
+	public static int flagHelp;
+
 
 	/**
 	 * Initialize the create evaluation report dialog
 	 */
 	public void initialize() {
 		info = "empty fields";
+		newCurrPhase=EvaluatorButtons.getPhase1();
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		EvaluatedTimeDatePicker.setDayCellFactory(picker -> new DateCell() {
+			public void updateItem(LocalDate date, boolean empty) {
+				super.updateItem(date, empty);
+				LocalDate deadLine = LocalDate.now().minusDays(1);
+				
+				setDisable(empty || date.compareTo(deadLine) <= 0 );
+			}
+		});
 		// initialize the combobox of info systems
 		List<String> list = new ArrayList<String>();
 		list.add(CrDetails.getCurrRequest().getInfoSystem().toString());
@@ -76,15 +91,11 @@ public class CreateEvaluationReport implements ClientUI {
 			protected boolean computeValue() {
 				if( EvaluatedTimeDatePicker.valueProperty().get() == null)
 						info="empty fields";
-			
-				else if(EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine()) >= 0)
-						info="later date";
 				else if(EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getDate())<0)
 					info="earlier date";
-				return (requiredChangeTextArea.getText().isEmpty() || expectedResultTextArea.getText().isEmpty()
-						|| risksAndConstraintsTextArea.getText().isEmpty() || EvaluatedTimeDatePicker.getValue() == null
-						|| EvaluatedTimeDatePicker.getValue()
-								.compareTo(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine()) >= 0||EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getDate())<0);
+				return (requiredChangeTextArea.getText().isEmpty() ||requiredChangeTextArea.getText().trim().equals("")|| expectedResultTextArea.getText().isEmpty()||expectedResultTextArea.getText().trim().equals("")
+						|| risksAndConstraintsTextArea.getText().isEmpty() ||risksAndConstraintsTextArea.getText().trim().equals("")|| EvaluatedTimeDatePicker.getValue() == null
+						|| EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getDate())<0);
 			}
 		};
 
@@ -103,7 +114,8 @@ public class CreateEvaluationReport implements ClientUI {
 	public void createEvaluationReport(ActionEvent e) {
 		boolean flag = true;
 		String temp = "";
-
+		newCurrPhase.setPhaseStatus(PhaseStatus.DONE);
+		EvaluatorButtons.setPhase1(newCurrPhase);
 		List<Object> l = new ArrayList<Object>();
 		temp += "" + CrDetails.getCurrRequest().getId();
 		l.add(temp);
@@ -114,11 +126,10 @@ public class CreateEvaluationReport implements ClientUI {
 		l.add(EvaluatedTimeDatePicker.getValue().toString());
 		ServerService serverService = new ServerService(DatabaseService.Create_Evaluation_Report, l);
 		clientController.handleMessageFromClientUI(serverService);
-		try {
-			IcmUtils.loadScene(this, Scenes.Change_Request_Summary);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		
+		
+		
+	
 
 	}
 
@@ -130,6 +141,7 @@ public class CreateEvaluationReport implements ClientUI {
 	 */
 	public void cancelEvaluationReport(ActionEvent e) {
 		try {
+			IcmUtils.getPopUp().close();
 			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -161,12 +173,20 @@ public class CreateEvaluationReport implements ClientUI {
 	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
-		if (list.get(0) == true && list.get(1) == true)
-			IcmUtils.displayConfirmationMsg("creating evaluation report success");
+		if (list.get(0) == true && list.get(1) == true) {
+			IcmUtils.displayInformationMsg("creating evaluation report success");
+			
+		}
 		else
 			IcmUtils.displayErrorMsg("creating evaluation report failed!!");
+		IcmUtils.getPopUp().close();
 		
-
+		
+			//IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
+		
+		
+	
+	
 	}
 
 }

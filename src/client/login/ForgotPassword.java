@@ -79,6 +79,7 @@ public class ForgotPassword implements ClientUI {
 		{
 		email.add(loginEmailTextField.getText());
 		clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Forgot_Password, email));
+		IcmUtils.getPopUp().close();
 		}
 		
 	}
@@ -99,11 +100,8 @@ public class ForgotPassword implements ClientUI {
 	 * @param e-"back" button pressed
 	 */
 	public void backToLogin(ActionEvent e) {
-		try {
-			IcmUtils.loadScene(this, Scenes.Login);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		IcmUtils.getPopUp().close();
+	
 	}
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {

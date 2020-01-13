@@ -28,19 +28,19 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="requiredChangeTextArea" layoutX="275.0" layoutY="235.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the required change" />
+            <TextArea fx:id="requiredChangeTextArea" layoutX="275.0" layoutY="235.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the required change" wrapText="true" />
             <Label layoutX="65.0" layoutY="330.0" text="Expected Result:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="expectedResultTextArea" layoutX="275.0" layoutY="320.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the expected result" />
+            <TextArea fx:id="expectedResultTextArea" layoutX="275.0" layoutY="320.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the expected result" wrapText="true" />
             <Label layoutX="65.0" layoutY="410.0" text="Risks And Constraints:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="risksAndConstraintsTextArea" layoutX="275.0" layoutY="405.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the risks and constraints that may accure due to the change" />
+            <TextArea fx:id="risksAndConstraintsTextArea" layoutX="275.0" layoutY="405.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the risks and constraints that may accure due to the change" wrapText="true" />
             <Label layoutX="65.0" layoutY="490.0" text="Evaluated Time:">
                <font>
                   <Font size="18.0" />

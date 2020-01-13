@@ -3,6 +3,7 @@ package client.crDetails.itd;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import client.ClientController;
 import client.ClientUI;
@@ -12,7 +13,7 @@ import common.IcmUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ButtonType;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
@@ -35,10 +36,13 @@ public class ITDButtons implements ClientUI {
     }
     @FXML
     void thawChangeRequest(ActionEvent event) {
+    	Optional<ButtonType>result=IcmUtils.displayConfirmationMsg("Are you sure you want to thaw this request?");
+    	if(result.get()==ButtonType.OK) {
     	int id=CrDetails.getCurrRequest().getId();
-    	List<Integer>l=new ArrayList();
+    	List<Integer>l=new ArrayList<>();
     	l.add(id);
     	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Thaw_Request, l));
+    	}
     }
 
     @Override
