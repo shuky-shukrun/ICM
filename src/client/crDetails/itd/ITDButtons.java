@@ -21,6 +21,8 @@ public class ITDButtons implements ClientUI {
 
     @FXML
     private JFXButton thawMessage;
+    @FXML
+    private Button thawButton;
 
     private ClientController clientController;
     public void initialize() {
@@ -49,8 +51,12 @@ public class ITDButtons implements ClientUI {
     public void handleMessageFromClientController(ServerService serverService) {
     	switch(serverService.getDatabaseService()) {
     		case Thaw_Request:
-    			if((Boolean)serverService.getParams().get(0)==true)
-    				IcmUtils.displayConfirmationMsg("Success", "Request Thawed");
+    			if((Boolean)serverService.getParams().get(0)==true) {
+    				IcmUtils.displayInformationMsg("Success", "Request Thawed");
+    				thawButton.setDisable(true);
+    				thawMessage.setVisible(false);
+    				
+    			}
     			else
     				IcmUtils.displayErrorMsg("Error", "Thaw Request Failed");
     			break;
