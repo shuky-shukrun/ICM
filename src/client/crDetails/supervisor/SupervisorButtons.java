@@ -58,6 +58,13 @@ public class SupervisorButtons implements ClientUI {
 				moreInformation2.setVisible(true);
 				
 			}
+			if(CrDetails.getCurrRequest().getPhases().get(0).getName()!=PhaseName.CLOSING)
+			{
+				info="not in closing";
+				closeChangeRequestButton.setDisable(true);
+				moreInformation2.setVisible(true);
+
+			}
 			if (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().equals("DONE")) {
 				info = "finished";
 				moreInformation2.setVisible(true);
@@ -70,7 +77,7 @@ public class SupervisorButtons implements ClientUI {
 			}
     		if(currPhase.getName()!=PhaseName.SUBMITTED) {
     			assignPhaseLeadersButton.setText("View phase leaders");
-    		   
+
     		}
     		
 		} catch (IOException e) {
@@ -170,10 +177,13 @@ public class SupervisorButtons implements ClientUI {
     				IcmUtils.displayErrorMsg("Error", "Freeze Request Failed");
     			break;
     		case Close_Request:
-    			if((Boolean)serverService.getParams().get(0)==true)
-    				IcmUtils.displayConfirmationMsg("Success", "Close Request Successfully");
-    			else
-    				IcmUtils.displayErrorMsg("Error", "Close Request Failed");   		
+				if ((Boolean) serverService.getParams().get(0) == true) {
+					IcmUtils.displayConfirmationMsg("Success", "Close Request Successfully");
+					closeChangeRequestButton.setDisable(true);
+					moreInformation2.setVisible(true);
+					info="finished";
+				}
+				break;
     	}
     }
     
