@@ -31,13 +31,18 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 	private ClientController clientController;
 	private String info;
-
+	private static Phase currPhase;
+	private int flag = 0;
 
     public void initialize() {
 
 		try {
 			clientController = ClientController.getInstance(this);
 			System.out.println(CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus());
+			if (flag == 0) {
+				currPhase = CrDetails.getCurrRequest().getPhases().get(0);
+				flag = 1;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,8 +52,8 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 		moreInformationButton2.setVisible(false);
 
-		Phase.PhaseStatus currPhaseStatus = currRequest.getPhases().get(0).getPhaseStatus();
-        switch (currPhaseStatus) {
+		
+        switch (currPhase.getPhaseStatus()) {
 			case PHASE_LEADER_ASSIGNED: case PHASE_EXEC_LEADER_ASSIGNED:
 				info = "time of phase yet not approved";
 				confirmExecutionButton.setDisable(true);
@@ -61,6 +66,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 				confirmExecutionButton.setDisable(true);
 				requestPhaseTimeButton1.setDisable(true);
 				moreInformationButton2.setVisible(true);
+				moreInformationButton2.setDisable(false);
 				break;
 
 			case IN_PROCESS: case EXTENSION_TIME_REQUESTED: case EXTENSION_TIME_APPROVED:
@@ -71,7 +77,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 				
             default:
                 IcmUtils.displayErrorMsg("Request status can't be " +
-                        currPhaseStatus + ". Please contact system administrator.");
+                        currPhase.getPhaseStatus() + ". Please contact system administrator.");
                 try {
                     IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
                 } catch (IOException e) {
@@ -108,7 +114,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	void showRequestTimeDialog(ActionEvent event) throws IOException {
 
 		IcmUtils.popUpScene(this, "Request Phase Time", "/client/crDetails/evaluator/TimeRequest.fxml", 400, 300);
-
+		initialize();
 	}
 
     @FXML
@@ -168,6 +174,13 @@ public class ExecutiveLeaderButtons implements ClientUI {
 				"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
 						+ "Execution can't be confirmed when the phase time not yet approved!");
 
+	}
+	public static void setPhase1(Phase NewPhase) {
+		currPhase = NewPhase;
+	}
+
+	public static Phase getPhase1() {
+		return currPhase;
 	}
 
     @Override

@@ -8,9 +8,11 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import client.crDetails.executiveLeader.ExecutiveLeaderButtons;
 import common.IcmUtils;
 import common.IcmUtils.Scenes;
 import entities.Phase;
+import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -46,7 +48,10 @@ public class RequestTimeEvaluation implements ClientUI {
 	{
 		try {
 			clientController = ClientController.getInstance(this);
-			newCurrPhase=EvaluatorButtons.getPhase1();
+			if(CrDetails.getCurrRequest().getCurrPhaseName()==PhaseName.EVALUATION)
+				newCurrPhase=EvaluatorButtons.getPhase1();
+			else if(CrDetails.getCurrRequest().getCurrPhaseName()==PhaseName.EXECUTION)
+				newCurrPhase=ExecutiveLeaderButtons.getPhase1();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
