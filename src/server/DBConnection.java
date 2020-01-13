@@ -1261,7 +1261,7 @@ public class DBConnection {
     		
     	case "EXTENSION_TIME_REQUESTED":
     		try {
-    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'TIME_APPROVED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'EXTENSION_TIME_APPROVED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 				ps.setInt(1, Integer.parseInt(params.get(0)));
 				ps.setString(2, params.get(2));
 				ps.executeUpdate();

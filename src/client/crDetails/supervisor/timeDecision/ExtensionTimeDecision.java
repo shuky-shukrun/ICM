@@ -9,7 +9,11 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import client.crDetails.supervisor.SupervisorButtons;
+import client.crDetails.tester.TesterButtons;
 import entities.EvaluationReport;
+import entities.Phase;
+import entities.Phase.PhaseStatus;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,8 +40,10 @@ public class ExtensionTimeDecision implements ClientUI  {
     private ClientController clientController;
 	private LocalDate requestedTime;
 	private String CurrStatus = new String();
+	private PhaseStatus newCurrPhase;
 	
 	public void initialize() {
+		newCurrPhase = SupervisorButtons.getPhaseStatus();
 		CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().toString();
 		try {
 			clientController = ClientController.getInstance(this);
@@ -61,6 +67,8 @@ public class ExtensionTimeDecision implements ClientUI  {
 		list.add(CrDetails.getCurrRequest().getCurrPhaseName().toString());
 		ServerService serverService = new ServerService(DatabaseService.Approve_Phase_Time, list);
 		clientController.handleMessageFromClientUI(serverService);
+		newCurrPhase= Phase.PhaseStatus.IN_PROCESS;
+		SupervisorButtons.setCurrPhaseStatus(newCurrPhase);
     }
 
     
@@ -75,6 +83,8 @@ public class ExtensionTimeDecision implements ClientUI  {
 
 		ServerService serverService = new ServerService(DatabaseService.Reject_Phase_Time, list);
 		clientController.handleMessageFromClientUI(serverService);
+		newCurrPhase= Phase.PhaseStatus.IN_PROCESS;
+		SupervisorButtons.setCurrPhaseStatus(newCurrPhase);
     }
 
 	@Override
