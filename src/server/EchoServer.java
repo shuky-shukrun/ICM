@@ -3,6 +3,8 @@ package server;// This file contains material supporting section 3.7 of the text
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
+import client.ClientController;
+import client.ClientUI;
 import common.JavaEmail;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
@@ -21,6 +23,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class overrides some of the methods in the abstract superclass in order
@@ -33,6 +37,19 @@ import java.util.List;
  * @version July 2000
  */
 public class EchoServer extends AbstractServer {
+
+    private class ServerTimer extends TimerTask {
+
+        @Override
+        public void run() {
+            try {
+                dbConnection.sendNotifications();
+            } catch (SQLException | MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     // Class variables *************************************************
 
@@ -48,6 +65,13 @@ public class EchoServer extends AbstractServer {
     public EchoServer(int port, String url, String username, String password) {
         super(port);
         dbConnection = new DBConnection(url, username, password);
+
+        Timer timer = new Timer("Server Timer");
+        ServerTimer serverTimer = new ServerTimer();
+        long delay = 1000L;
+        long period = 1000L * 60L * 60L * 24L;
+
+        timer.scheduleAtFixedRate(serverTimer, delay, period);
     }
 
     // Instance methods ************************************************
