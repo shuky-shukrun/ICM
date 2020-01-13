@@ -151,28 +151,28 @@ public class SupervisorButtons implements ClientUI {
 			e.printStackTrace(); }
     }
 
-    @FXML
-    public void moreInformation2Event() {
-    	switch(info) {
-    		case "frozen":
-    			IcmUtils.displayInformationMsg("Information message",
-    					"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-    							+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-    					"Change request " + CrDetails.getCurrRequest().getId() + " is frozen." + "\n\n"
-    							+ "closing request can't be done when the change request is frozen!");
-    			break;
-    		case "finished":
-    			IcmUtils.displayInformationMsg("Information message","This request closed");
-    			break;
-    	}
-    }
+	@FXML
+	public void moreInformation2Event() {
+		switch (info) {
+
+			case "finished":
+				IcmUtils.displayInformationMsg("Information message", "This request closed");
+				break;
+			case "not in closing":
+				IcmUtils.displayInformationMsg("Information message", "This request is still not on closing phase");
+				break;
+		}
+	}
     
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
     	switch(serverService.getDatabaseService()) {
     		case Freeze_Request:
-    			if((Boolean)serverService.getParams().get(0)==true)
-    				IcmUtils.displayConfirmationMsg("Success", "Freeze Request Successfully");
+    			if((Boolean)serverService.getParams().get(0)==true){
+					IcmUtils.displayInformationMsg("Success", "Freeze Request Successfully");
+					freezeRequestButton.setDisable(true);
+				}
+
     			else
     				IcmUtils.displayErrorMsg("Error", "Freeze Request Failed");
     			break;
