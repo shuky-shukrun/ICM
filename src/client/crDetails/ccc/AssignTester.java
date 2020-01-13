@@ -16,6 +16,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import server.DBConnection;
@@ -38,7 +40,6 @@ public class AssignTester implements ClientUI {
 	ChangeInitiator oldSelection = new ChangeInitiator();
 
 	public void initialize() {
-		// okButton.setDisable(true);
 		try {
 			clientController = ClientController.getInstance(this);
 
@@ -68,7 +69,7 @@ public class AssignTester implements ClientUI {
 
 	}
 
-	public void submitTester(ActionEvent e) {
+	public void submitTester(ActionEvent e) throws IOException {
 		selectedTester = testerChoiceBox.getSelectionModel().getSelectedItem();
 		ChangeInitiator selected = new ChangeInitiator();
 		selected= (selectedTester);
@@ -85,6 +86,7 @@ public class AssignTester implements ClientUI {
 
 	public void cancelAction(ActionEvent e) {
 		IcmUtils.getPopUp().close();
+		
 
 	}
 

@@ -19,6 +19,8 @@ public class TesterButtons implements ClientUI {
 
     @FXML
     private Button setDecisionButton1;
+    @FXML
+    private Button viewEvaluationReport;
 
     
     public void initialize() {
@@ -36,6 +38,12 @@ public class TesterButtons implements ClientUI {
    		 } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+    
+    @FXML
+    void viewAction(ActionEvent event) throws IOException {
+		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/viewEvaluationReport.fxml", 600, 632);
 
     }
 
