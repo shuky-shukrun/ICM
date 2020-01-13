@@ -7,17 +7,20 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import com.jfoenix.controls.JFXButton;
 import common.IcmUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
 public class ITDButtons implements ClientUI {
 
     @FXML
-    private Button thawButton;
+    private JFXButton thawMessage;
+
     private ClientController clientController;
     public void initialize() {
     	try {
@@ -26,6 +29,9 @@ public class ITDButtons implements ClientUI {
     	catch(Exception e) {
     		e.printStackTrace();
     	}
+
+    	if(CrDetails.getCurrRequest().isSuspended())
+			thawMessage.setVisible(true);
     }
     @FXML
     void thawChangeRequest(ActionEvent event) {
@@ -43,8 +49,13 @@ public class ITDButtons implements ClientUI {
     				IcmUtils.displayConfirmationMsg("Success", "Request Thawed");
     			else
     				IcmUtils.displayErrorMsg("Error", "Thaw Request Failed");
+    			break;
     	}
     }
-    
 
+	@FXML
+	public void importantInfoEvent() {
+    	String frozenRequest = "This request is suspended.\nTo thaw it, Click 'Thaw Change Request' button.";
+		IcmUtils.displayInformationMsg("Frozen request", "Frozen request", frozenRequest);
+	}
 }
