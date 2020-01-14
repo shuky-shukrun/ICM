@@ -42,6 +42,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 	private LocalDate requestedTime;
 	private String CurrStatus = new String();
 	private PhaseStatus newCurrPhase;
+	private LocalDate localDate;
 	
 	public void initialize() {
 		newCurrPhase = SupervisorButtons.getPhaseStatus();
@@ -66,6 +67,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 		list.add(crId);
 		list.add(CurrStatus);
 		list.add(CrDetails.getCurrRequest().getCurrPhaseName().toString());
+		list.add(localDate.toString());
 		ServerService serverService = new ServerService(DatabaseService.Approve_Phase_Time, list);
 		clientController.handleMessageFromClientUI(serverService);
 		newCurrPhase= Phase.PhaseStatus.IN_PROCESS;
@@ -102,7 +104,7 @@ public class ExtensionTimeDecision implements ClientUI  {
         
         String date = extensionDetails.get(0);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(date, formatter);
+        localDate = LocalDate.parse(date, formatter);
         extensionTimeDatePicker.setValue(localDate);
         extensionTimeDatePicker.setDisable(false);
         extensionTimeDatePicker.setEditable(false);
@@ -112,12 +114,24 @@ public class ExtensionTimeDecision implements ClientUI  {
 	        });
         break;
         
+		case Approve_Phase_Time:
+			if(CurrStatus.equals("EXTENSION_TIME_REQUESTED")) {
+				List<Boolean> list = serverService.getParams();
+				if (list.get(0) == true &&list.get(1) == true) {
+					IcmUtils.displayInformationMsg("Update time extension decision- success");
+				} else {
+					IcmUtils.displayErrorMsg("Update time extension decision- failed");
+				}
+			}
+			IcmUtils.getPopUp().close();
+			break;
+        
 		default:
 			List<Boolean> list = serverService.getParams();
 			if (list.get(0) == true) {
-				IcmUtils.displayInformationMsg("update time extension decision- success");
+				IcmUtils.displayInformationMsg("Update time extension decision- success");
 			} else {
-				IcmUtils.displayErrorMsg("update time extension decision- failed");
+				IcmUtils.displayErrorMsg("Update time extension decision- failed");
 			}
 			IcmUtils.getPopUp().close();
 			break;
