@@ -11,6 +11,7 @@ import client.ClientUI;
 import client.crDetails.CrDetails;
 import client.crDetails.supervisor.SupervisorButtons;
 import client.crDetails.tester.TesterButtons;
+import common.IcmUtils;
 import entities.EvaluationReport;
 import entities.Phase;
 import entities.Phase.PhaseStatus;
@@ -80,7 +81,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 		List<String> list = new ArrayList<String>();
 		list.add(crId);
 		list.add(CurrStatus);
-
+		list.add(CrDetails.getCurrRequest().getCurrPhaseName().toString());
 		ServerService serverService = new ServerService(DatabaseService.Reject_Phase_Time, list);
 		clientController.handleMessageFromClientUI(serverService);
 		newCurrPhase= Phase.PhaseStatus.IN_PROCESS;
@@ -89,6 +90,9 @@ public class ExtensionTimeDecision implements ClientUI  {
 
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
+		switch(serverService.getDatabaseService()) {
+		
+		case Load_Extension_Time:
 		System.out.println("adding extension time request details to screen");
 
         List<String> extensionDetails = serverService.getParams();
@@ -106,6 +110,20 @@ public class ExtensionTimeDecision implements ClientUI  {
 	        if(!extensionTimeDatePicker.isEditable())
 	        	extensionTimeDatePicker.hide(); 
 	        });
+        break;
         
+		default:
+			List<Boolean> list = serverService.getParams();
+			if (list.get(0) == true) {
+				IcmUtils.displayInformationMsg("update time extension decision- success");
+			} else {
+				IcmUtils.displayErrorMsg("update time extension decision- failed");
+			}
+			IcmUtils.getPopUp().close();
+			break;
+        
+        
+		}
+		  
 	}
 }
