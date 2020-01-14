@@ -7,6 +7,7 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import com.jfoenix.controls.JFXButton;
 import common.IcmUtils;
 import entities.Phase;
 import javafx.event.ActionEvent;
@@ -27,7 +28,7 @@ public class EvaluatorButtons implements ClientUI {
 	@FXML
 	private Button createReportInfo;
 	@FXML
-	private Button returnRequestInfo;
+	private JFXButton returnRequestInfo;
 	private String info;
 	private static Phase currPhase;
 	private int flag = 0;
@@ -149,17 +150,18 @@ public class EvaluatorButtons implements ClientUI {
 	public void importantInfoEvent() {
 		switch (info) {
 			case "time of phase approved":
-				IcmUtils.displayInformationMsg("information message",
-						"pay attention!!this request phase time approved");
+				IcmUtils.displayInformationMsg("Information message", "Attention",
+						"This request phase time approved.\nPlease create evaluation report.");
 				break;
 			case "time declined":
-				IcmUtils.displayInformationMsg("information message",
-						"pay attention!!this request phase time did not approved");
+				IcmUtils.displayInformationMsg("Information message", "Attention",
+						"The requested phase duration was rejected.\nPlease submit new phase duration.");
+				break;
+			case "return request":
+				IcmUtils.displayInformationMsg("Information message", "Attention",
+						"This request returns from examination for more details.\nPlease create new evaluation report.");
 				break;
 		}
-	if(info.equals("return request"))
-		IcmUtils.displayInformationMsg("information message",
-				"pay attention!!this request returns from examination for more details");
 	}
 
 	@FXML
