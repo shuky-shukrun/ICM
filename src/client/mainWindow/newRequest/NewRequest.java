@@ -109,60 +109,57 @@ public class NewRequest implements ClientUI {
      */
     @FXML
     void addFiles(ActionEvent event) {
-    	
-    	
-    	FileChooser fileCh=new FileChooser();
-    	files=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
-    	if(files==null)
-    		return;
-    	filesToAttach=new File[files.size()];
-    	ObservableList<File> listTemp = FXCollections.observableArrayList();
-		int i=0;
-		for (File f : files) {
-			listTemp.add(f);
-			filesToAttach[i]=f;
-			i++;
-		}
-		filesListView.setItems(listTemp);// show the files on the screen
+        FileChooser fileCh=new FileChooser();
+        files=fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+        if(files==null)
+            return;
+        filesToAttach=new File[files.size()];
+        ObservableList<File> listTemp = FXCollections.observableArrayList();
+        int i=0;
+        for (File f : files) {
+            listTemp.add(f);
+            filesToAttach[i]=f;
+            i++;
+        }
+        filesListView.setItems(listTemp);// show the files on the screen
     }
+
     /**
      * remove file from list to attach
      * @param event-remove file option selected
      */
     @FXML
     void removeFiles(ActionEvent event) {
-    	boolean flag=false;
-    	List<File>listFiles=new ArrayList<File>(Arrays.asList(filesToAttach));
-       	 int selectedIdx = filesListView.getSelectionModel().getSelectedIndex();
-         if (selectedIdx != -1) {
-             File itemToRemove = filesListView.getSelectionModel().getSelectedItem();
+        boolean flag=false;
+        List<File>listFiles=new ArrayList<File>(Arrays.asList(filesToAttach));
+        int selectedIdx = filesListView.getSelectionModel().getSelectedIndex();
+        if (selectedIdx != -1) {
+            File itemToRemove = filesListView.getSelectionModel().getSelectedItem();
 
-             int newSelectedIdx =
-                     (selectedIdx == filesListView.getItems().size() - 1)
-                             ? selectedIdx - 1
-                             : selectedIdx;
-             System.out.println(selectedIdx+" "+newSelectedIdx);
-             filesListView.getItems().remove(selectedIdx);
-             filesListView.getSelectionModel().select(newSelectedIdx);
-             //removes the file from the array
-              for(File f:files) {
-            	 if(f.equals(itemToRemove)) {
-            		 flag = listFiles.remove(f);
-            		 System.out.println(flag);
-            	 }
-             }
+            int newSelectedIdx =
+                    (selectedIdx == filesListView.getItems().size() - 1)
+                            ? selectedIdx - 1
+                            : selectedIdx;
+            System.out.println(selectedIdx+" "+newSelectedIdx);
+            filesListView.getItems().remove(selectedIdx);
+            filesListView.getSelectionModel().select(newSelectedIdx);
+            //removes the file from the array
+            for(File f:files) {
+                if(f.equals(itemToRemove)) {
+                    flag = listFiles.remove(f);
+                    System.out.println(flag);
+                }
+            }
             filesToAttach=new File[files.size()];
-         	ObservableList<File> listTemp = FXCollections.observableArrayList();
-     		int i=0;
-     		for (File f : listFiles) {
-     			listTemp.add(f);
-     			filesToAttach[i]=f;
-     			i++;
-     		}
-     		filesListView.setItems(listTemp);// show the files on the screen*/
-
-         }
-    
+            ObservableList<File> listTemp = FXCollections.observableArrayList();
+            int i=0;
+            for (File f : listFiles) {
+                listTemp.add(f);
+                filesToAttach[i]=f;
+                i++;
+            }
+            filesListView.setItems(listTemp);// show the files on the screen*/
+        }
     }
 
     @FXML
@@ -179,7 +176,6 @@ public class NewRequest implements ClientUI {
         newRequest.setComment(commentsTextArea.textProperty().getValue());
         newRequest.setCurrPhaseName(Phase.PhaseName.SUBMITTED);
         newRequest.setFiles(filesToAttach);
-        // TODO: add implementation to files
 
         Phase evaluation = new Phase();
         evaluation.setName(newRequest.getCurrPhaseName());
