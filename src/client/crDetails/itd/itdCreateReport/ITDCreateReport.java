@@ -20,18 +20,36 @@ public class ITDCreateReport implements ClientUI {
     @FXML
     private DialogPane createReportDialogPane;
     @FXML
-    private static DatePicker startDateDatePicker;
+    private  DatePicker startDateDatePicker;
     @FXML
-    private static DatePicker endDateDatePicker;
+    private  DatePicker endDateDatePicker;
     @FXML
     private ChoiceBox<Report.ReportType> reportTypeChoiceBox;
 
+    public static LocalDate startDate;
+    public static LocalDate endDate;
+    
+    public static LocalDate getStartDate() {
+		return startDate;
+	}
 
-    public DatePicker getStartDateDatePicker() {
+	public static void setStartDate(LocalDate startDate) {
+		ITDCreateReport.startDate = startDate;
+	}
+
+	public static LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public static void setEndDate(LocalDate endDate) {
+		ITDCreateReport.endDate = endDate;
+	}
+
+    public  DatePicker getStartDateDatePicker() {
         return startDateDatePicker;
     }
 
-    public DatePicker getEndDateDatePicker() {
+    public  DatePicker getEndDateDatePicker() {
         return endDateDatePicker;
     }
 
@@ -57,13 +75,14 @@ public class ITDCreateReport implements ClientUI {
 
     }
 
-    public void createReport() throws IOException {
+    public void createReport(LocalDate from, LocalDate to) throws IOException {
         System.out.println("createReportFunc");
+        ITDCreateReport.setStartDate(from);
+        ITDCreateReport.setEndDate(to);
         switch (reportTypeChoiceBox.getSelectionModel().getSelectedItem()) {
             case A:
                 System.out.println("A report created");
                 IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/activityReportScreen.fxml", 751, 612);
-            
                 break;
             case B:
                 System.out.println("B report created");
@@ -82,12 +101,5 @@ public class ITDCreateReport implements ClientUI {
     public void handleMessageFromClientController(ServerService serverService) {
 
     }
-    
-    public static LocalDate getStartDate() {
-    	return startDateDatePicker.getValue();
-    }
-    
-    public static LocalDate getEndDate() {
-    	return startDateDatePicker.getValue();
-    }
+
 }

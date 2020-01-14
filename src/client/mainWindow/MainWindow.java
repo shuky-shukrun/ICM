@@ -270,7 +270,9 @@ public class MainWindow implements ClientUI {
         // if create button is pressed, create report
         Optional<ButtonType> result = createReportDialog.showAndWait();
         if (result.isPresent() && result.get() == createButton) {
-            ITDCreateReport.createReport();
+       	 LocalDate from = ITDCreateReport.getStartDateDatePicker().getValue();
+         LocalDate to = ITDCreateReport.getEndDateDatePicker().getValue();
+        ITDCreateReport.createReport(from,to);
         }
     }
 

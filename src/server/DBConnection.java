@@ -1474,16 +1474,67 @@ public class DBConnection {
 		return phaseLeadersAndWorkersList;
 	}
 
-	public int getReportDetails(List<LocalDate> date) {
+	public int getFReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count=0;
 		try {
 			PreparedStatement ps = sqlConnection
-					.prepareStatement("SELECT COUNT(*) As count FROM changeRequest CR, phase PH "  
-										+"WHERE CR.crDate >= ? AND CR.crDate <= ? AND CR.crSuspended=1 ");
-			ps.setDate(1, Date.valueOf((LocalDate) date.get(0)));
-			ps.setDate(1, Date.valueOf((LocalDate) date.get(1)));
+					.prepareStatement("SELECT COUNT(*) As count FROM changeRequest WHERE crDate >= ? AND crDate <= ? AND crSuspended=? ");
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setInt(3, 1);
 			ResultSet rs = ps.executeQuery();
-			count = rs.getInt("count");
+			while (rs.next()) 
+				count = rs.getInt("count");
+			System.out.println(count);
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+
+	public int getAReportDetails(LocalDate startDate, LocalDate endDate) {
+		int count=0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("SELECT COUNT(*) As count from changeRequest WHERE"
+									+ " crDate >= ? AND crDate <= ? AND crSuspended=? "
+									+ "And crCurrPhaseName!='CLOSING'");
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setInt(3, 0);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) 
+				count = rs.getInt("count");
+			System.out.println(count);
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+
+	public int getCReportDetails(LocalDate startDate, LocalDate endDate) {
+		int count=0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("SELECT COUNT(*) As count from phase P, changeRequest C WHERE"
+							+ " C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? "
+							+ "And C.crCurrPhaseName='CLOSING' AND"
+							+ " P.phPhaseName=C.crCurrPhaseName and "
+							+ "P.phStatus='DONE' and P.phIDChangeRequest=C.crID ");
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setInt(3, 0);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) 
+				count = rs.getInt("count");
 			System.out.println(count);
 			ps.close();
 		}
