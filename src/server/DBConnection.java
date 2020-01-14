@@ -1482,5 +1482,26 @@ public class DBConnection {
             }
             return phaseLeadersAndWorkersList;
         }
+    	
+    	public List<Object> getITDInfo() {
+    		List<Object> l = new ArrayList<Object>();
+    		try {
+    			PreparedStatement ps = sqlConnection.prepareStatement("SELECT email, firstName, lastName FROM cbaricmy_ICM.users where position = 'ITD_MANAGER'");
+    			ResultSet rs = ps.executeQuery();
+    			if (rs.next()) {
+    				l.add(true);
+    				l.add(rs.getString("email"));
+    				l.add(rs.getString("firstName"));
+    				l.add(rs.getString("lastName"));
+    			} else
+    				l.add(false);
+
+    		} catch (SQLException e) {
+
+    			System.out.println(e.getMessage());
+    			e.printStackTrace();
+    		}
+    		return l;
+    	}
  
 }

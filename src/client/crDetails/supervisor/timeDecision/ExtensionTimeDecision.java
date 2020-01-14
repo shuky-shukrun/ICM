@@ -119,6 +119,12 @@ public class ExtensionTimeDecision implements ClientUI  {
 				List<Boolean> list = serverService.getParams();
 				if (list.get(0) == true &&list.get(1) == true) {
 					IcmUtils.displayInformationMsg("Update time extension decision- success");
+					
+					List<String> dtls = new ArrayList<String>();
+					dtls.add(CrDetails.getCurrRequest().getId().toString());
+					dtls.add(localDate.toString());
+					ServerService service = new ServerService(DatabaseService.Email_ITD_Extension_Time_Approved, dtls);
+					clientController.handleMessageFromClientUI(service);
 				} else {
 					IcmUtils.displayErrorMsg("Update time extension decision- failed");
 				}
