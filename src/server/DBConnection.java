@@ -147,19 +147,6 @@ public class DBConnection {
 		return allRequests;
 	}
 
-	public void updateRequestDetails(List<String> requirementList) {
-		try {
-			// create and execute the query
-			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE Requirement SET rStatus=? WHERE id=?");
-			ps.setString(1, requirementList.get(0));
-			ps.setInt(2, Integer.parseInt(requirementList.get(1)));
-			ps.executeUpdate();
-			System.out.println("status updated");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	// helper function for getAllRequests()
 	private Set<ChangeRequest> insertRequestsIntoList(int userId) throws SQLException {
 		ResultSet rs = ps.executeQuery();
@@ -257,12 +244,28 @@ public class DBConnection {
 				iePhasePosition.getInformationEngineer().setId(rs.getInt("IDieInPhase"));
 				iePhasePosition.setCrID(params.get(1));
 				iePhasePosition.setPhaseName(currPhase.getName());
-				iePhasePosition
-						.setPhasePosition(IEPhasePosition.PhasePosition.valueOf(rs.getString("iePhasePosition")));
-
+				iePhasePosition.setPhasePosition(IEPhasePosition.PhasePosition.valueOf(rs.getString("iePhasePosition")));
 				iePhasePositionMap.put(iePhasePosition.getPhasePosition(), iePhasePosition);
+				PreparedStatement phaseLeaderPs = sqlConnection.prepareStatement("SELECT firstName, lastName FROM users WHERE IDuser = ?");
+				phaseLeaderPs.setInt(1, iePhasePosition.getInformationEngineer().getId());
+				ResultSet phaseLeaderRs = phaseLeaderPs.executeQuery();
+				while (phaseLeaderRs.next()) {
+					iePhasePosition.getInformationEngineer().setFirstName(phaseLeaderRs.getString("firstName"));
+					iePhasePosition.getInformationEngineer().setLastName(phaseLeaderRs.getString("lastName"));
+				}
+				phaseLeaderRs.close();
 			}
 
+			// get files
+			List<String> filesNames = new ArrayList<>();
+			ps = sqlConnection.prepareStatement("SELECT fileName FROM files WHERE CrID = ?");
+			ps.setInt(1, cr.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				filesNames.add(rs.getString("fileName"));
+			}
+			rs.close();
+			cr.setFilesNames(filesNames);
 			currPhase.setIePhasePosition(iePhasePositionMap);
 			cr.setPhases(crPhaseList);
 			crList.add(cr);

@@ -16,11 +16,11 @@ public class ChangeRequest implements Serializable {
 	private String reasonForChange;
 	private String comment;
 	private File[] files;
+	private List<String> filesNames;
 	private LocalDate date;
 	private List<Phase> phases;
 	private Phase.PhaseName currPhaseName;
 	private Phase.PhaseStatus currPhaseStatus;
-	private String currPhasePhaseLeaderName;
 	private boolean suspended;
 
 
@@ -173,14 +173,13 @@ public class ChangeRequest implements Serializable {
 		this.currPhaseStatus = currPhaseStatus;
 	}
 
-	public String getCurrPhasePhaseLeaderName() {
-		return currPhasePhaseLeaderName;
+	public List<String> getFilesNames() {
+		return filesNames;
 	}
 
-	public void setCurrPhasePhaseLeaderName(String currPhasePhaseLeaderName) {
-		this.currPhasePhaseLeaderName = currPhasePhaseLeaderName;
+	public void setFilesNames(List<String> filesNames) {
+		this.filesNames = filesNames;
 	}
-
 
 	@Override
 	public boolean equals(Object o) {

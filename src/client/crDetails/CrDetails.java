@@ -7,14 +7,13 @@ import client.crDetails.ccc.CCCButtons;
 import com.jfoenix.controls.JFXTabPane;
 import common.IcmUtils;
 import entities.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import server.ServerService;
@@ -50,10 +49,17 @@ public class CrDetails implements ClientUI {
     @FXML
     private TextField phaseDeadLineTextField;
     @FXML
+    private TextField currPhaseStatus;
+    @FXML
+    private TextField phaseLeaderTextField;
+    @FXML
     private Pane buttonsPane;
     @FXML
     private Label userNameLabel;
-
+    @FXML
+    private ProgressBar processBar;
+    @FXML
+    private ListView<String> filesListView;
 
     @FXML
     private Button downloadFilesButton;
@@ -135,22 +141,60 @@ public class CrDetails implements ClientUI {
                 reasonForChangeTextArea.textProperty().setValue(currRequest.getReasonForChange());
                 requestedChangeTextField.textProperty().setValue(currRequest.getRequestedChange());
                 commentsTextArea.textProperty().setValue(currRequest.getComment());
+                currPhaseStatus.setText(currRequest.getPhases().get(0).getPhaseStatus().toString());
+
+                if(currRequest.getCurrPhaseName() != Phase.PhaseName.SUBMITTED) {
+                    IEPhasePosition phaseLeader = currRequest.getPhases().get(0).getIePhasePosition().get(IEPhasePosition.PhasePosition.PHASE_LEADER);
+                    String phaseLeaderFn = phaseLeader.getInformationEngineer().getFirstName();
+                    String phaseLeaderLn = phaseLeader.getInformationEngineer().getLastName();
+                    phaseLeaderTextField.setText(phaseLeaderFn + " " + phaseLeaderLn);
+                }
+
                 LocalDate deadLine = currRequest.getPhases().get(0).getDeadLine();
                 if(deadLine != null)
                     phaseDeadLineTextField.setText(deadLine.toString());
+
+                ObservableList<String> filesList = FXCollections.observableArrayList();
+
+                if(currRequest.getFilesNames().isEmpty()) {
+                    downloadFilesButton.setDisable(true);
+                }
+                else {
+                    filesList.setAll(currRequest.getFilesNames());
+                    filesListView.setItems(filesList);
+                }
 
                 try {
                     initButtons();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                switch (currRequest.getCurrPhaseName()) {
+                    case SUBMITTED:
+                        processBar.setProgress(0.0);
+                        break;
+                    case EVALUATION:
+                        processBar.setProgress(0.2);
+                        break;
+                    case EXAMINATION:
+                        processBar.setProgress(0.4);
+                        break;
+                    case EXECUTION:
+                        processBar.setProgress(0.6);
+                        break;
+                    case VALIDATION:
+                        processBar.setProgress(0.8);
+                        break;
+                    case CLOSING:
+                        processBar.setProgress(1.0);
+                        break;
+                }
                 break;
                //display speific message about download files
             case download_files:
             	switch((String)serverService.getParams().get(0)) {
             case "success":
-            		IcmUtils.displayInformationMsg("Information message","check your chosen folder");
+            		IcmUtils.displayInformationMsg("success","Download finished", "Check your chosen folder.");
             		break;
             case "noFiles":
             	IcmUtils.displayInformationMsg("Information message","no files to download");

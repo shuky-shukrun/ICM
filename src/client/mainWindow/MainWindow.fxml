@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.mainWindow.MainWindow">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.mainWindow.MainWindow">
    <children>
       <BorderPane prefHeight="843.0" prefWidth="1330.0">
          <top>
@@ -34,19 +34,19 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <ImageView fitHeight="253.0" fitWidth="1020.0" layoutX="300.0" layoutY="-2.0" nodeOrientation="INHERIT" opacity="0.5" pickOnBounds="true">
+                  <ImageView fitHeight="253.0" fitWidth="800.0" layoutX="300.0" layoutY="-2.0" nodeOrientation="INHERIT" opacity="0.5" pickOnBounds="true">
                      <image>
                         <Image url="@../../css/background.PNG" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="300.0" prefHeight="88.0" prefWidth="1020.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
+                  <Pane layoutX="300.0" prefHeight="88.0" prefWidth="800.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
                      <children>
                         <Label layoutX="14.0" layoutY="22.0" text="ICM- Home Page" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="906.0" layoutY="6.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
+                        <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="688.0" layoutY="7.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -66,22 +66,20 @@
             </Pane>
          </top>
          <center>
-            <Pane prefHeight="638.0" prefWidth="1029.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="638.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXTabPane fx:id="tabPane" layoutY="89.0" prefHeight="595.0" prefWidth="1020.0" stylesheets="@../../css/fullpackstyling.css">
+                  <JFXTabPane fx:id="tabPane" layoutY="89.0" prefHeight="595.0" prefWidth="800.0" stylesheets="@../../css/fullpackstyling.css">
                      <tabs>
                         <Tab fx:id="myRequestsTab" text="My Change Request">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1087.0">
                                  <children>
-                                    <TableView fx:id="myTableView" layoutX="6.0" layoutY="-1.0" prefHeight="547.0" prefWidth="1009.0" stylesheets="@../../css/fullpackstyling.css">
+                                    <TableView fx:id="myTableView" layoutX="6.0" prefHeight="547.0" prefWidth="785.0" stylesheets="@../../css/fullpackstyling.css">
                                        <columns>
                                           <TableColumn fx:id="idColumn" minWidth="-1.0" prefWidth="120.0" text="          ID" />
-                                          <TableColumn fx:id="infoSystemColumn" prefWidth="199.0" text="     Info System" />
-                                          <TableColumn fx:id="dateColumn" prefWidth="136.0" text="   Opening Date" />
-                                          <TableColumn fx:id="currPhaseColumn" prefWidth="145.0" text="        Phase" />
-                                          <TableColumn fx:id="phaseStatusColumn" prefWidth="175.0" text="   Phase Status" />
-                                          <TableColumn fx:id="phaseLeaderColumn" prefWidth="184.0" text="Phase Leader" />
+                                          <TableColumn fx:id="infoSystemColumn" prefWidth="253.0" text="     Info System" />
+                                          <TableColumn fx:id="dateColumn" prefWidth="184.0" text="   Opening Date" />
+                                          <TableColumn fx:id="currPhaseColumn" prefWidth="189.0" text="Current Phase" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -98,14 +96,12 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="974.0">
                                  <children>
-                                    <TableView fx:id="workTableView" layoutX="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="545.0" prefWidth="1007.0">
+                                    <TableView fx:id="workTableView" layoutX="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="545.0" prefWidth="785.0">
                                        <columns>
                                           <TableColumn fx:id="idColumn1" minWidth="-1.0" prefWidth="120.0" text="          ID" />
-                                          <TableColumn fx:id="infoSystemColumn1" prefWidth="207.0" text="Info System" />
-                                          <TableColumn fx:id="dateColumn1" prefWidth="147.0" text="Opening Date" />
-                                          <TableColumn fx:id="currPhaseColumn1" prefWidth="130.0" text="Phase" />
-                                          <TableColumn fx:id="phaseStatusColumn1" prefWidth="156.0" text="Phase Status" />
-                                          <TableColumn fx:id="phaseLeaderColumn1" prefWidth="195.0" text="Phase Leader" />
+                                          <TableColumn fx:id="infoSystemColumn1" prefWidth="244.0" text="Info System" />
+                                          <TableColumn fx:id="dateColumn1" prefWidth="185.0" text="Opening Date" />
+                                          <TableColumn fx:id="currPhaseColumn1" prefWidth="199.0" text="Current Phase" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -122,14 +118,12 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView fx:id="searchTableView" layoutX="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="544.0" prefWidth="1007.0">
+                                    <TableView fx:id="searchTableView" layoutX="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="544.0" prefWidth="785.0">
                                        <columns>
                                           <TableColumn fx:id="idColumn2" minWidth="-1.0" prefWidth="120.0" text="          ID" />
-                                          <TableColumn fx:id="infoSystemColumn2" prefWidth="221.0" text="Info System" />
-                                          <TableColumn fx:id="dateColumn2" prefWidth="145.0" text="Opening Date" />
-                                          <TableColumn fx:id="currPhaseColumn2" prefWidth="147.0" text="Phase" />
-                                          <TableColumn fx:id="phaseStatusColumn2" prefWidth="150.0" text="Phase Status" />
-                                          <TableColumn fx:id="phaseLeaderColumn2" prefWidth="169.0" text="Phase Leader" />
+                                          <TableColumn fx:id="infoSystemColumn2" prefWidth="263.0" text="Info System" />
+                                          <TableColumn fx:id="dateColumn2" prefWidth="183.0" text="Opening Date" />
+                                          <TableColumn fx:id="currPhaseColumn2" prefWidth="180.0" text="Current Phase" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

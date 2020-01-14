@@ -49,10 +49,6 @@ public class MainWindow implements ClientUI {
     private TableColumn<ChangeRequest, LocalDate> dateColumn;
     @FXML
     private TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn;
-    @FXML
-    private TableColumn<ChangeRequest, Phase.PhaseStatus> phaseStatusColumn;
-    @FXML
-    private TableColumn<ChangeRequest, String> phaseLeaderColumn;
 
     // in my treatment tab
     @FXML
@@ -65,10 +61,6 @@ public class MainWindow implements ClientUI {
     private TableColumn<ChangeRequest, LocalDate> dateColumn1;
     @FXML
     private TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn1;
-    @FXML
-    private TableColumn<ChangeRequest, Phase.PhaseStatus> phaseStatusColumn1;
-    @FXML
-    private TableColumn<ChangeRequest, String> phaseLeaderColumn1;
 
     // search results tab
     @FXML
@@ -83,10 +75,6 @@ public class MainWindow implements ClientUI {
     private TableColumn<ChangeRequest, LocalDate> dateColumn2;
     @FXML
     private TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn2;
-    @FXML
-    private TableColumn<ChangeRequest, Phase.PhaseStatus> phaseStatusColumn2;
-    @FXML
-    private TableColumn<ChangeRequest, String> phaseLeaderColumn2;
 
     @FXML
     private Button itdManagerAssignPermissionsButton;
@@ -127,9 +115,9 @@ public class MainWindow implements ClientUI {
         inMyTreatmentRequests = FXCollections.observableArrayList();
 
         // init tables columns
-        initTableValueFactory(idColumn, infoSystemColumn, dateColumn, currPhaseColumn, phaseStatusColumn, phaseLeaderColumn);
-        initTableValueFactory(idColumn1, infoSystemColumn1, dateColumn1, currPhaseColumn1, phaseStatusColumn1, phaseLeaderColumn1);
-        initTableValueFactory(idColumn2, infoSystemColumn2, dateColumn2, currPhaseColumn2, phaseStatusColumn2, phaseLeaderColumn2);
+        initTableValueFactory(idColumn, infoSystemColumn, dateColumn, currPhaseColumn);
+        initTableValueFactory(idColumn1, infoSystemColumn1, dateColumn1, currPhaseColumn1);
+        initTableValueFactory(idColumn2, infoSystemColumn2, dateColumn2, currPhaseColumn2);
 
         // init tables double clicks to open change request
         initRowDoubleClick(myTableView);
@@ -194,15 +182,11 @@ public class MainWindow implements ClientUI {
     private void initTableValueFactory(TableColumn<ChangeRequest, Integer> idColumn,
                                        TableColumn<ChangeRequest, InfoSystem> infoSystemColumn,
                                        TableColumn<ChangeRequest, LocalDate> dateColumn,
-                                       TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn,
-                                       TableColumn<ChangeRequest, Phase.PhaseStatus> phaseStatusColumn,
-                                       TableColumn<ChangeRequest, String> phaseLeaderColumn) {
+                                       TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         infoSystemColumn.setCellValueFactory(new PropertyValueFactory<>("infoSystem"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         currPhaseColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseName"));
-        phaseStatusColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseStatus"));
-        phaseLeaderColumn.setCellValueFactory(new PropertyValueFactory<>("currPhasePhaseLeaderName"));
     }
 
     private void showRequestDialog() {

@@ -198,13 +198,6 @@ public class EchoServer extends AbstractServer {
                     }
                     break;
 
-                case Update_Request_Status:
-                    System.out.println("server handle Update_Request_Status");
-                    List<String> requirementList = serverService.getParams();
-                    System.out.println(requirementList);
-                    // pass the request to the database
-                    dbConnection.updateRequestDetails(requirementList);
-                    break;
 
                 case Request_Time_Evaluation:
                     System.out.println("server handle request time for evaluation phase");
