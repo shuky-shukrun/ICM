@@ -50,7 +50,7 @@ public class CreateEvaluationReport implements ClientUI {
 	private Phase newCurrPhase;
 	private String info;
 	public static int flagHelp;
-
+   // private Phase oldCurrPhase;
 
 	/**
 	 * Initialize the create evaluation report dialog
@@ -58,6 +58,7 @@ public class CreateEvaluationReport implements ClientUI {
 	public void initialize() {
 		info = "empty fields";
 		newCurrPhase=EvaluatorButtons.getPhase1();
+		//oldCurrPhase=EvaluatorButtons.getPhase1();
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
@@ -179,6 +180,11 @@ public class CreateEvaluationReport implements ClientUI {
 		}
 		else
 			IcmUtils.displayErrorMsg("creating evaluation report failed!!");
+		
+		//List<Phase> phList = new ArrayList<>();
+		//phList.add(oldCurrPhase);
+		//ServerService updateExceptionTime = new ServerService(ServerService.DatabaseService.Update_Exception_Time, phList);
+		//clientController.handleMessageFromClientUI(updateExceptionTime);	
 		IcmUtils.getPopUp().close();
 		
 		

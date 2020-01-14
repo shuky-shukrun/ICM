@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -1460,4 +1461,41 @@ public class DBConnection {
             return phaseLeadersAndWorkersList;
         }
  
+    	
+    	public void updateExceptionTime(List<Phase> phList) {
+    		
+    		Phase currPhase = phList.get(0);
+    		LocalDate currDate = LocalDate.now(); // Create a date object
+			LocalDate deadLine = currPhase.getDeadLine();
+			int days = (int)((ChronoUnit.DAYS.between(deadLine,currDate)) - 1);
+			System.out.println("Days between: " + days);
+			
+			if(days>0) {
+    		
+				try {
+					
+					PreparedStatement ps = sqlConnection.prepareStatement("SELECT phExceptionTime FROM phase WHERE phIDChangeRequest=? AND phPhaseName=?");
+					ps.setInt(1 ,currPhase.getChangeRequestId());
+		            ps.setString(2, currPhase.getName().toString());
+		            ResultSet rs= ps.executeQuery();
+	    			rs.beforeFirst();
+	    			rs.next();
+	    			int exceptionTime =rs.getInt("phExceptionTime");
+	    			if(exceptionTime>0)
+					days= days+exceptionTime;
+	    			
+		            PreparedStatement ps1 = sqlConnection.prepareStatement("UPDATE phase SET phExceptionTime=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+		            ps1.setInt(1, days);
+		            ps1.setInt(2 ,currPhase.getChangeRequestId());
+		            ps1.setString(3, currPhase.getName().toString());
+		            ps1.executeUpdate();
+		            ps1.close();
+		            System.out.println("phase exception Time updated");
+		            
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }    		
+			}
+
+    	}
 }
