@@ -35,7 +35,7 @@ public class ForgotPassword implements ClientUI {
 	 * Initialize the forgot password screen
 	 */
 	public void initialize() {
-		//moreInformation.setVisible(false);
+	
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {

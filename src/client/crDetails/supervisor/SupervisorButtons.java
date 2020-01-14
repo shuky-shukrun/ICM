@@ -88,7 +88,10 @@ public class SupervisorButtons implements ClientUI {
 			e.printStackTrace();
 		}
 	}
-
+    /**
+     * Closes change request
+     * @param event-close request button pressed
+     */
 	@FXML
 	void closeChangeRequest(ActionEvent event) {
 		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("are you sure you want to close this request?");
@@ -102,7 +105,10 @@ public class SupervisorButtons implements ClientUI {
 			clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Close_Request, params));
 		}
 	}
-
+	/**
+	 * Freezes specific request
+	 * @param event-freeze button pressed
+	 */
 	@FXML
 	void freezeRequest(ActionEvent event) {
 		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("are you sure you want to freeze this request?");
@@ -154,7 +160,9 @@ public class SupervisorButtons implements ClientUI {
 		} catch (IOException e) {
 			e.printStackTrace(); }
     }
-
+	/**
+	 * Displays information why close button disabled
+	 */
 	@FXML
 	public void moreInformation2Event() {
 		switch (info) {

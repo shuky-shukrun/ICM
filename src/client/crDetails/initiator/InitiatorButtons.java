@@ -38,12 +38,17 @@ public class InitiatorButtons implements ClientUI {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Attach files for specific request
+	 * @param event-attach files button pressed
+	 */
 	@FXML
 	public void attachFiles(ActionEvent event) {
+		//select files to attach
 		List<Object> tempL = new ArrayList<>();
 		FileChooser fileCh = new FileChooser();
 		List<File> filesToAttach = fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+		//checks if there are no files to attach
 		if (filesToAttach == null)
 			return;
 

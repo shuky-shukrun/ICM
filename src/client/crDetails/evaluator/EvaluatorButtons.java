@@ -52,8 +52,9 @@ public class EvaluatorButtons implements ClientUI {
 			flag = 1;
 		}
 		checkIsReturnRequest(CrDetails.getCurrRequest().getId());
-		// time request not submitted yet
+	
 		switch (currPhase.getPhaseStatus()) {
+		// time request not submitted yet
 			case SUBMITTED:
 			case PHASE_LEADER_ASSIGNED:
 				info = "time of phase yet not submitted";
@@ -68,6 +69,7 @@ public class EvaluatorButtons implements ClientUI {
 				phaseTimeRequestInfo.setVisible(true);
 				createReportInfo.setVisible(true);
 				break;
+			//time of phase approved or extension time requested or approved
 			case IN_PROCESS:
 			case EXTENSION_TIME_REQUESTED:
 			case EXTENSION_TIME_APPROVED:
@@ -77,6 +79,7 @@ public class EvaluatorButtons implements ClientUI {
 				phaseTimeRequestInfo.setVisible(true);
 				returnRequestInfo.setVisible(true);
 				break;
+			//time of phase declined
 			case TIME_DECLINED:
 				info = "time declined";
 				createEvaluationReportButton.setDisable(true);
@@ -84,6 +87,7 @@ public class EvaluatorButtons implements ClientUI {
 				createReportInfo.setVisible(true);
 				returnRequestInfo.setVisible(true);
 				break;
+			//phase done
 			case DONE:
 				info="have Report";
 				requestPhaseTimeButton.setDisable(true);
@@ -227,13 +231,23 @@ public class EvaluatorButtons implements ClientUI {
 		}
 
 	}
+	/**
+	 * Sets the attribute of current phase with phase object
+	 * @param NewPhase-the new phase object
+	 */
 	public static void setPhase1(Phase NewPhase) {
 		currPhase = NewPhase;
 	}
+	/**
+	 * gets the attribute of current phase
+	 */
 
 	public static Phase getPhase1() {
 		return currPhase;
 	}
+	/**
+	 * handle message that came from the client controller
+	 */
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		switch (serverService.getDatabaseService()) {

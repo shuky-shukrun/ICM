@@ -44,6 +44,10 @@ public class ITDButtons implements ClientUI {
 		}
 
     }
+    /**
+     * Thaw change request
+     * @param event-thaw button pressed
+     */
     @FXML
     void thawChangeRequest(ActionEvent event) {
     	Optional<ButtonType>result=IcmUtils.displayConfirmationMsg("Are you sure you want to thaw this request?");
@@ -69,7 +73,9 @@ public class ITDButtons implements ClientUI {
     			break;
     	}
     }
-
+    /**
+     * Displays information why thaw button disabled
+     */
 	@FXML
 	public void importantInfoEvent() {
     	if(CrDetails.getCurrRequest().isSuspended()) {

@@ -322,7 +322,11 @@ public class DBConnection {
         return updateList;
 
     }
-
+    /**
+     * Updates the database after create evaluation report 
+     * @param requirementList1-id of the request and the details for the evaluation report
+     * @return true-create report success false-else
+     */
 	public List<Boolean> createEvaluationReport(List<String> requirementList1) {
 		boolean flag = false;
 		List<Boolean> l = new ArrayList<Boolean>();
@@ -394,7 +398,7 @@ public class DBConnection {
 		return l;
 
 	}
-
+	
 	public List<Boolean> requestTimeEvaluation(List<Object> requestTimeDetails) {
 		List<Boolean> list = new ArrayList<Boolean>();
 		try {
