@@ -46,18 +46,17 @@ public class CreateEvaluationReport implements ClientUI {
 	private Button createButton;
 	@FXML
 	private Button moreInformation;
-	
+
 	private Phase newCurrPhase;
 	private String info;
 	public static int flagHelp;
-
 
 	/**
 	 * Initialize the create evaluation report dialog
 	 */
 	public void initialize() {
 		info = "empty fields";
-		newCurrPhase=EvaluatorButtons.getPhase1();
+		newCurrPhase = EvaluatorButtons.getPhase1();
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
@@ -67,8 +66,8 @@ public class CreateEvaluationReport implements ClientUI {
 			public void updateItem(LocalDate date, boolean empty) {
 				super.updateItem(date, empty);
 				LocalDate deadLine = LocalDate.now().minusDays(1);
-				
-				setDisable(empty || date.compareTo(deadLine) <= 0 );
+
+				setDisable(empty || date.compareTo(deadLine) <= 0);
 			}
 		});
 		// initialize the combobox of info systems
@@ -89,19 +88,23 @@ public class CreateEvaluationReport implements ClientUI {
 			// disable, if one selection is missing or evaluated time is later than the
 			// deadline of the phase
 			protected boolean computeValue() {
-				if( EvaluatedTimeDatePicker.valueProperty().get() == null)
-						info="empty fields";
-				else if(EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getDate())<0)
-					info="earlier date";
-				return (requiredChangeTextArea.getText().isEmpty() ||requiredChangeTextArea.getText().trim().equals("")|| expectedResultTextArea.getText().isEmpty()||expectedResultTextArea.getText().trim().equals("")
-						|| risksAndConstraintsTextArea.getText().isEmpty() ||risksAndConstraintsTextArea.getText().trim().equals("")|| EvaluatedTimeDatePicker.getValue() == null
-						|| EvaluatedTimeDatePicker.valueProperty().get().compareTo(CrDetails.getCurrRequest().getDate())<0);
+				if (EvaluatedTimeDatePicker.valueProperty().get() == null)
+					info = "empty fields";
+				else if (EvaluatedTimeDatePicker.valueProperty().get()
+						.compareTo(CrDetails.getCurrRequest().getDate()) < 0)
+					info = "earlier date";
+				return (requiredChangeTextArea.getText().isEmpty() || requiredChangeTextArea.getText().trim().equals("")
+						|| expectedResultTextArea.getText().isEmpty()
+						|| expectedResultTextArea.getText().trim().equals("")
+						|| risksAndConstraintsTextArea.getText().isEmpty()
+						|| risksAndConstraintsTextArea.getText().trim().equals("")
+						|| EvaluatedTimeDatePicker.getValue() == null || EvaluatedTimeDatePicker.valueProperty().get()
+								.compareTo(CrDetails.getCurrRequest().getDate()) < 0);
 			}
 		};
 
 		createButton.disableProperty().bind(bb);
 		moreInformation.visibleProperty().bind(bb);
-		
 
 	}
 
@@ -126,10 +129,6 @@ public class CreateEvaluationReport implements ClientUI {
 		l.add(EvaluatedTimeDatePicker.getValue().toString());
 		ServerService serverService = new ServerService(DatabaseService.Create_Evaluation_Report, l);
 		clientController.handleMessageFromClientUI(serverService);
-		
-		
-		
-	
 
 	}
 
@@ -148,19 +147,25 @@ public class CreateEvaluationReport implements ClientUI {
 		}
 	}
 
+	/**
+	 * Displays information about why create button is disabled
+	 * 
+	 * @param e
+	 */
+
 	@FXML
 	public void moreInformationEvent(ActionEvent e) {
-		
+
 		switch (info) {
 		case "empty fields":
-			IcmUtils.displayInformationMsg("Information message",
-					"one or more empty fields");
+			IcmUtils.displayInformationMsg("Information message", "one or more empty fields");
 			break;
 		case "later date":
-			IcmUtils.displayInformationMsg("Information message","you entered later date than deadline");
+			IcmUtils.displayInformationMsg("Information message", "you entered later date than deadline");
 			break;
 		case "earlier date":
-			IcmUtils.displayInformationMsg("Information message","you entered earlier date than the date when the request submitted");
+			IcmUtils.displayInformationMsg("Information message",
+					"you entered earlier date than the date when the request submitted");
 			break;
 		}
 	}
@@ -175,18 +180,11 @@ public class CreateEvaluationReport implements ClientUI {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true && list.get(1) == true) {
 			IcmUtils.displayInformationMsg("creating evaluation report success");
-			
-		}
-		else
+
+		} else
 			IcmUtils.displayErrorMsg("creating evaluation report failed!!");
 		IcmUtils.getPopUp().close();
-		
-		
-			//IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
-		
-		
-	
-	
+
 	}
 
 }

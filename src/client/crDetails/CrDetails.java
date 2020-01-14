@@ -95,9 +95,14 @@ public class CrDetails implements ClientUI {
         clientController.handleMessageFromClientUI(loadRequestData);
 
     }
+    /**
+     * Download files of specific request
+     * @param event-the event that "download files" pressed
+     */
 
     @FXML
     public void downloadFiles(ActionEvent event) {
+    	//select specific directory to save the files
     	DirectoryChooser dirChooser = new DirectoryChooser();
     	File chosenDir = dirChooser.showDialog(client.ClientMain.getPrimaryStage());
     	if(chosenDir==null)
@@ -185,6 +190,7 @@ public class CrDetails implements ClientUI {
                         break;
                 }
                 break;
+               //display speific message about download files
             case download_files:
             	switch((String)serverService.getParams().get(0)) {
             case "success":

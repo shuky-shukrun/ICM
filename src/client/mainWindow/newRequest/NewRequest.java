@@ -103,7 +103,10 @@ public class NewRequest implements ClientUI {
 
     }
 
-
+    /**
+     * Adds files when add new change request
+     * @param-add files button pressed
+     */
     @FXML
     void addFiles(ActionEvent event) {
     	
@@ -122,7 +125,10 @@ public class NewRequest implements ClientUI {
 		}
 		filesListView.setItems(listTemp);// show the files on the screen
     }
-
+    /**
+     * remove file from list to attach
+     * @param event-remove file option selected
+     */
     @FXML
     void removeFiles(ActionEvent event) {
     	boolean flag=false;
