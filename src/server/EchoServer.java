@@ -19,6 +19,7 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -424,7 +425,14 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(serverService);
                     System.out.println("server finish register IT");
                     break;
-                	
+                case Get_Report_Details:
+                	System.out.println("server handle Register IT");
+                	List<LocalDate> dates = new ArrayList<>();
+                    Integer count= dbConnection.getReportDetails(dates);
+                    System.out.println(count);
+                    client.sendToClient(serverService);
+                    System.out.println("server finish Get Report Details");
+                	break;
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

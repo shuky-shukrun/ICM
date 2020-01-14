@@ -12,6 +12,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.DialogPane;
 import server.ServerService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class ITDCreateReport implements ClientUI {
@@ -19,9 +20,9 @@ public class ITDCreateReport implements ClientUI {
     @FXML
     private DialogPane createReportDialogPane;
     @FXML
-    private DatePicker startDateDatePicker;
+    private static DatePicker startDateDatePicker;
     @FXML
-    private DatePicker endDateDatePicker;
+    private static DatePicker endDateDatePicker;
     @FXML
     private ChoiceBox<Report.ReportType> reportTypeChoiceBox;
 
@@ -56,11 +57,13 @@ public class ITDCreateReport implements ClientUI {
 
     }
 
-    public void createReport() {
+    public void createReport() throws IOException {
         System.out.println("createReportFunc");
         switch (reportTypeChoiceBox.getSelectionModel().getSelectedItem()) {
             case A:
                 System.out.println("A report created");
+                IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/activityReportScreen.fxml", 751, 612);
+            
                 break;
             case B:
                 System.out.println("B report created");
@@ -78,5 +81,13 @@ public class ITDCreateReport implements ClientUI {
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
 
+    }
+    
+    public static LocalDate getStartDate() {
+    	return startDateDatePicker.getValue();
+    }
+    
+    public static LocalDate getEndDate() {
+    	return startDateDatePicker.getValue();
     }
 }

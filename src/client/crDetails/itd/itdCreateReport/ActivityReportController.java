@@ -1,6 +1,9 @@
 package client.crDetails.itd.itdCreateReport;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import client.ClientController;
 import client.ClientUI;
@@ -72,12 +75,21 @@ public class ActivityReportController implements ClientUI {
 	@FXML
 	private TextField countActive;
 	private ClientController clientController;
+	
 	public void initialize() {
 		try {
 			clientController=ClientController.getInstance(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		LocalDate startDate= ITDCreateReport.getStartDate();
+		LocalDate endDate= ITDCreateReport.getEndDate();
+		List<LocalDate> params = new ArrayList<>();
+		params.add(startDate);
+		params.add(endDate);
+        ServerService loadRequestData = new ServerService(ServerService.DatabaseService.Get_Report_Details, params);
+        clientController.handleMessageFromClientUI(loadRequestData);
+
 	}
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
