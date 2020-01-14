@@ -71,7 +71,7 @@ public class EchoServer extends AbstractServer {
         long delay = 1000L;
         long period = 1000L * 60L * 60L * 24L;
 //        period = 1000L * 60L * 10;
-        timer.scheduleAtFixedRate(serverTimer, delay, period);
+//        timer.scheduleAtFixedRate(serverTimer, delay, period);
     }
 
     // Instance methods ************************************************
