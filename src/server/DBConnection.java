@@ -1,32 +1,20 @@
 package server;
 
-import client.crDetails.CrDetails;
-import common.IcmUtils;
 import common.JavaEmail;
 import entities.*;
 import entities.IEPhasePosition.PhasePosition;
 import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
 
-import java.io.IOException;
+import javax.mail.MessagingException;
+import java.io.*;
 import java.sql.Date;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import javax.mail.MessagingException;
 
 public class DBConnection {
 	private static final int BUFFER_SIZE = 4096;
@@ -1465,83 +1453,118 @@ public class DBConnection {
         }
 
 	public void sendNotifications() throws SQLException, MessagingException {
-		System.out.println("sending!");
-		Date now = Date.valueOf(LocalDate.now().plusDays(2));
-		ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phDeadline < ? AND " +
-				"phStatus != 'DONE'");
-		ps.setDate(1, now);
+		System.out.println("start sendNotifications");
+
+		// get all the requests where the deadline is in less then 2 days
+		Date tomorrow = Date.valueOf(LocalDate.now().plusDays(2));
+		ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phDeadline < ? AND phDeadline > ? AND " +
+				"(phStatus = ? OR phStatus = ?)");
+		ps.setDate(1, tomorrow);
+		ps.setDate(2, Date.valueOf(LocalDate.now()));
+		ps.setString(3, PhaseStatus.IN_PROCESS.toString());
+		ps.setString(4, PhaseStatus.EXTENSION_TIME_APPROVED.toString());
 		ResultSet rs = ps.executeQuery();
 
+		// for each request
+		while (rs.next()) {
+			PhaseName phaseName = PhaseName.valueOf(rs.getString("phPhaseName"));
+			Integer changeRequestId = rs.getInt("phIDChangeRequest");
+
+			String emailContent = "You are the Phase Leader of this phase.\n" +
+					"Please contact the executive leader of the phase to make sure he is finishing his assignments by tomorrow.";
+
+			// send email to phase leader
+			PreparedStatement inProcessPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM ieInPhase " +
+					"WHERE crID = ? AND iePhaseName = ? AND " +
+					"iePhasePosition = ?");
+
+			inProcessPs.setInt(1, changeRequestId);
+			inProcessPs.setString(2, phaseName.toString());
+			inProcessPs.setString(3, PhasePosition.PHASE_LEADER.toString());
+
+			ResultSet inProcessRs = inProcessPs.executeQuery();
+			inProcessRs.next();
+			Integer PhaseLeaderId = inProcessRs.getInt("IDieInPhase");
+			inProcessRs.close();
+
+			PreparedStatement getEmailPs = sqlConnection.prepareStatement("SELECT email FROM users WHERE IDuser = ?");
+			getEmailPs.setString(1, PhaseLeaderId.toString());
+			inProcessRs = getEmailPs.executeQuery();
+
+			sendReminderEmail(phaseName, changeRequestId, inProcessRs, emailContent);
+			inProcessRs.close();
+
+			// find executive leaders for each phase
+			inProcessPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM ieInPhase " +
+					"WHERE crID = ? AND iePhaseName = ? AND " +
+					"iePhasePosition = ?");
+			inProcessPs.setInt(1, changeRequestId);
+			inProcessPs.setString(2, phaseName.toString());
+			switch (phaseName) {
+				case EVALUATION:
+					inProcessPs.setString(3, PhasePosition.EVALUATOR.toString());
+					emailContent = "You are the Evaluator of this request.\n" +
+							"Please submit your evaluation report by tomorrow.";
+					break;
+				case EXECUTION:
+					inProcessPs.setString(3, PhasePosition.EXECUTIVE_LEADER.toString());
+					emailContent = "You are the Executive Leader of this request.\n" +
+							"Please confirm the execution by tomorrow.";
+					break;
+				case VALIDATION:
+					inProcessPs.setString(3, PhasePosition.TESTER.toString());
+					emailContent = "You are the Tester of this request.\n" +
+							"Please submit your decision by tomorrow.";
+					break;
+			}
+
+			// send email to the executive leader
+			if(phaseName == PhaseName.EVALUATION || phaseName == PhaseName.EXECUTION || phaseName == PhaseName.VALIDATION) {
+				inProcessRs = inProcessPs.executeQuery();
+				while (inProcessRs.next()) {
+					Integer userId = inProcessRs.getInt("IDieInPhase");
+					getEmailPs = sqlConnection.prepareStatement("SELECT email FROM users " +
+							"WHERE IDuser = ?");
+					getEmailPs.setInt(1, userId);
+					ResultSet getEmailRs = getEmailPs.executeQuery();
+					sendReminderEmail(phaseName, changeRequestId, getEmailRs, emailContent);
+				}
+				inProcessRs.close();
+			}
+
+
+			// in case of validation or examination phase, notify CC Chairman
+			switch (phaseName) {
+				case EXAMINATION:
+					inProcessPs = sqlConnection.prepareStatement("SELECT email FROM users " +
+							"WHERE position = ?");
+					inProcessPs.setString(1, Position.CHAIRMAN.toString());
+					ResultSet getEmailRs = inProcessPs.executeQuery();
+
+					emailContent = "As the Change Committee Chairman, you are the Executive Leader of this phase.\n" +
+							"Please make sure you submit the committee decision by tomorrow.";
+					sendReminderEmail(phaseName, changeRequestId, getEmailRs, emailContent);
+					getEmailRs.close();
+					break;
+			}
+		}
+		System.out.println("done");
+	}
+
+	private void sendReminderEmail(PhaseName phaseName, Integer changeRequestId, ResultSet getEmailRs, String content) throws SQLException, MessagingException {
 		JavaEmail javaEmail = new JavaEmail();
 		javaEmail.setMailServerProperties();
 
 		String emailAddress;
 		String emailSubject;
 		String emailBody;
+		while (getEmailRs.next()) {
+			emailAddress = getEmailRs.getString("email");
+			emailSubject = "Reminder for request Number: " + changeRequestId;
+			emailBody = "The deadline for " + phaseName + " phase is tomorrow.\n" + content + "\n\nThank you!";
 
-		while (rs.next()) {
-			PhaseStatus phaseStatus = PhaseStatus.valueOf(rs.getString("phStatus"));
-			switch (phaseStatus) {
-				case SUBMITTED:
-					PreparedStatement submittedPs = sqlConnection.prepareStatement("SELECT email FROM users WHERE position = ?");
-					submittedPs.setString(1, Position.SUPERVISOR.toString());
-					ResultSet submittedRs = submittedPs.executeQuery();
-					submittedRs.next();
-
-					emailAddress = submittedRs.getString("email");
-					emailSubject = "Reminder for request Number: " + rs.getString("phIDChangeRequest");
-					emailBody = "The deadline for " + rs.getString("phPhaseName") +" phase is tomorrow. Please assign phase leaders and workers.";
-					javaEmail.sendEmail(emailAddress, emailSubject, emailBody);
-					System.out.println(emailAddress + "\n" + emailSubject + "\n" + emailBody);
-					break;
-
-				case PHASE_LEADER_ASSIGNED: case PHASE_EXEC_LEADER_ASSIGNED:
-					PreparedStatement phaseLeaderPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM ieInPhase " +
-							"WHERE crID = ? AND iePhaseName = ? AND " +
-							"iePhasePosition = ?");
-					phaseLeaderPs.setString(1, PhasePosition.EVALUATOR.toString());
-					ResultSet phaseLeaderRs = phaseLeaderPs.executeQuery();
-					phaseLeaderRs.next();
-					Integer phaseLeaderId = phaseLeaderRs.getInt("IDieInPhase");
-					phaseLeaderRs.close();
-
-					phaseLeaderPs = sqlConnection.prepareStatement("SELECT email FROM users WHERE IDuser = ?");
-					phaseLeaderPs.setString(1, phaseLeaderId.toString());
-					phaseLeaderRs = phaseLeaderPs.executeQuery();
-					phaseLeaderRs.next();
-
-					emailAddress = phaseLeaderRs.getString("email");
-					emailSubject = "Reminder for request Number: " + rs.getString("phIDChangeRequest");
-					emailBody = "The deadline for " + rs.getString("phPhaseName") +" phase is tomorrow. Please submit phase duration in the system.";
-					javaEmail.sendEmail(emailAddress, emailSubject, emailBody);
-					System.out.println(emailAddress + "\n" + emailSubject + "\n" + emailBody);
-					break;
-
-				case IN_PROCESS:case EXTENSION_TIME_REQUESTED:case EXTENSION_TIME_APPROVED:
-					PreparedStatement executiveLeaderPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM ieInPhase " +
-							"WHERE crID = ? AND iePhaseName = ? AND " +
-							"iePhasePosition = ?");
-					ResultSet executiveLeaderRs = executiveLeaderPs.executeQuery();
-					executiveLeaderRs.next();
-					Integer executiveLeaderId = executiveLeaderRs.getInt("IDieInPhase");
-					executiveLeaderRs.close();
-
-					executiveLeaderPs = sqlConnection.prepareStatement("SELECT email FROM users WHERE IDuser = ?");
-					executiveLeaderPs.setString(1, executiveLeaderId.toString());
-					executiveLeaderRs = executiveLeaderPs.executeQuery();
-					executiveLeaderRs.next();
-
-					emailAddress = executiveLeaderRs.getString("email");
-					emailSubject = "Reminder for request Number: " + rs.getString("phIDChangeRequest");
-					emailBody = "The deadline for " + rs.getString("phPhaseName") +" phase is tomorrow. Please submit phase duration in the system.";
-					javaEmail.sendEmail(emailAddress, emailSubject, emailBody);
-					System.out.println(emailAddress + "\n" + emailSubject + "\n" + emailBody);
-					break;
-
-			}
-			System.out.print(rs.getInt("phIDChangeRequest") + ": ");
-			System.out.println(rs.getString("phPhaseName"));
-
+			javaEmail.sendEmail(emailAddress, emailSubject, emailBody);
+			System.out.println(emailAddress + "\n" + emailSubject + "\n" + emailBody);
 		}
 	}
 }
