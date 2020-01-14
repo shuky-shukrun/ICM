@@ -4,7 +4,6 @@ package client.crDetails;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.ccc.CCCButtons;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
 import common.IcmUtils;
 import entities.*;
@@ -204,7 +203,7 @@ public class CrDetails implements ClientUI {
                         root = FXMLLoader.load(getClass().getResource("executiveLeader/ExecutiveLeaderButtons.fxml"));
                         break;
                     case EVALUATOR:
-                        root = FXMLLoader.load(getClass().getResource("evaluator/EvaluatorButtons2.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("evaluator/EvaluatorButtons.fxml"));
                         break;
                     case TESTER:
                         root = FXMLLoader.load(getClass().getResource("tester/TesterButtons.fxml"));

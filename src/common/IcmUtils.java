@@ -24,7 +24,6 @@ public class IcmUtils {
         Change_Request_Summary,
         Create_Evaluation_Report,
         show_Request_Time_Dialog,
-        Itd_Create_Report,
         Extension_Time_Request,
         View_Evaluation_Report,
         Assign_Tester
@@ -116,7 +115,7 @@ public class IcmUtils {
 
             case Change_Request_Summary:
                 sceneTitle = "ICM Change Request Summary";
-                fxmlPath = "/client/crDetails/CrDetails2.fxml";
+                fxmlPath = "/client/crDetails/CrDetails.fxml";
                 width = 1320;
                 height = 840;
                 break;
@@ -126,13 +125,6 @@ public class IcmUtils {
                 fxmlPath = "/client/crDetails/evaluator/TimeRequest.fxml";
                 width = 600;
                 height = 632;
-                break;
-                
-            case Itd_Create_Report:
-                sceneTitle = "Create Reports";
-                fxmlPath = "/client/crDetails/CrDetails.fxml";
-                width = 1000;
-                height = 650;
                 break;
                 
             default:
