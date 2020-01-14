@@ -113,6 +113,7 @@ public class MainWindow implements ClientUI {
         }
 
         ChangeInitiator currUser = ClientController.getUser();
+        userNameLabel.setText(currUser.getFirstName() + " " + currUser.getLastName());
 
         // show assign permissions and create report buttons only if the user is the ITD Manager
         if (currUser.getPosition() != Position.ITD_MANAGER) {

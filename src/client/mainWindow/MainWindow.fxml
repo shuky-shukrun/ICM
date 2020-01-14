@@ -152,9 +152,9 @@
          <left>
             <Pane prefHeight="688.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="userNameLabel" layoutX="93.0" layoutY="99.0" text="shuky shukrun" textFill="#938e8e">
+                  <Label fx:id="userNameLabel" alignment="CENTER" layoutY="100.0" prefWidth="300.0" text="shuky shukrun" textFill="#938e8e">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
                   <Button fx:id="itdManagerAssignPermissionsButton" alignment="BASELINE_LEFT" layoutX="14.0" layoutY="209.0" mnemonicParsing="false" onAction="#showItdManagerAssignPermissionsDialog" prefHeight="50.0" prefWidth="260.0" stylesheets="@../../css/fullpackstyling.css" text=" Assign Permissions" textFill="#f8f8f8">
@@ -187,7 +187,6 @@
                         <MaterialDesignIconView fx:id="itdManagerAssignPermissionsIcon2" fill="WHITE" glyphName="ACCOUNT_MULTIPLE_PLUS" size="25" text="" />
                      </graphic>
                   </Button>
-                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="99.0" layoutY="93.0" size="90" />
                   <Separator layoutX="20.0" layoutY="195.0" prefHeight="3.0" prefWidth="260.0" />
                   <Button fx:id="addNewRequestButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="138.0" mnemonicParsing="false" onAction="#showNewRequestDialog" prefHeight="50.0" prefWidth="260.0" stylesheets="@../../css/fullpackstyling.css" text=" Add New Request" textFill="WHITE">
                      <graphic>
@@ -197,6 +196,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
+                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="100.0" layoutY="88.0" size="100" strokeMiterLimit="0.0" text="" />
                </children>
             </Pane>
          </left>

@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -51,7 +52,7 @@ public class CrDetails implements ClientUI {
     @FXML
     private Pane buttonsPane;
     @FXML
-    private JFXTabPane crdTabPane;
+    private Label userNameLabel;
 
 
     @FXML
@@ -74,6 +75,9 @@ public class CrDetails implements ClientUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ChangeInitiator currUser = ClientController.getUser();
+        userNameLabel.setText(currUser.getFirstName() + " " + currUser.getLastName());
 
         List<Integer> params = new ArrayList<>();
         params.add(ClientController.getUser().getId());

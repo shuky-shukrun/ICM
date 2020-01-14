@@ -214,12 +214,12 @@
                <children>
                   <Separator layoutX="20.0" layoutY="195.0" prefHeight="3.0" prefWidth="260.0" />
                   <Pane fx:id="buttonsPane" layoutY="211.0" prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" />
-                  <Label fx:id="userNameLabel" layoutX="93.0" layoutY="99.0" text="shuky shukrun" textFill="#938e8e">
+                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="100.0" layoutY="88.0" size="100" strokeMiterLimit="0.0" />
+                  <Label fx:id="userNameLabel" alignment="CENTER" layoutY="100.0" prefWidth="300.0" text="shuky shukrun" textFill="#938e8e">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="99.0" layoutY="93.0" size="90" />
                </children>
             </Pane>
          </left>
