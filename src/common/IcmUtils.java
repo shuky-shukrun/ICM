@@ -146,6 +146,7 @@ public class IcmUtils {
          popUpStage.setTitle(sceneTitle);
          popUpStage.initModality(Modality.WINDOW_MODAL);
          popUpStage.initOwner(ClientMain.getPrimaryStage());
+         popUpStage.setResizable(false);
          popUp=popUpStage;
          popUpStage.showAndWait();
     }
