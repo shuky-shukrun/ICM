@@ -20,20 +20,20 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="843.0" prefWidth="1330.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.CrDetails">
    <children>
-      <BorderPane prefHeight="843.0" prefWidth="1330.0">
+      <BorderPane prefHeight="840.0" prefWidth="1320.0">
          <top>
             <Pane prefHeight="161.0" prefWidth="1330.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="384.0" fitWidth="1019.0" layoutX="311.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="384.0" fitWidth="1020.0" layoutX="300.0" layoutY="-41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../css/background.PNG" />
                      </image>
                   </ImageView>
-                  <Pane layoutY="-5.0" prefHeight="171.0" prefWidth="346.0" style="-fx-background-color: #3F2B63; -fx-background-radius: 0 60 0 0;">
+                  <Pane layoutY="-5.0" prefHeight="170.0" prefWidth="300.0" style="-fx-background-color: #3F2B63; -fx-background-radius: 0 60 0 0;">
                      <children>
-                        <ImageView fitHeight="114.0" fitWidth="229.0" layoutX="70.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="114.0" fitWidth="229.0" layoutX="43.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../css/‏‏logo.PNG" />
                            </image>
@@ -63,7 +63,7 @@
          <center>
             <Pane prefHeight="702.0" prefWidth="909.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutY="-3.0" prefHeight="88.0" prefWidth="985.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
+                  <Pane layoutY="-3.0" prefHeight="88.0" prefWidth="1020.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
                      <children>
                         <Label layoutX="28.0" layoutY="20.0" text="Change Request Details" textFill="WHITE">
                            <font>
@@ -72,63 +72,73 @@
                         </Label>
                      </children>
                   </Pane>
-                  <JFXTabPane fx:id="crdTabPane" layoutX="-3.0" layoutY="82.0" prefHeight="603.0" prefWidth="989.0">
+                  <JFXTabPane fx:id="crdTabPane" layoutY="82.0" prefHeight="600.0" prefWidth="1020.0">
                      <tabs>
                         <Tab fx:id="requestSummaryTab" text="Request Summary">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <AnchorPane fx:id="changeRequestIdTextField" prefHeight="664.0" prefWidth="1072.0" style="-fx-background-color: #f1eaea;">
+                                    <AnchorPane fx:id="changeRequestIdTextField" prefHeight="664.0" prefWidth="1070.0" style="-fx-background-color: #f1eaea;">
                                        <children>
-                                          <Label layoutX="37.0" layoutY="30.0" prefHeight="22.0" prefWidth="147.0" text="Change Request ID:">
+                                          <Label layoutX="19.0" layoutY="26.0" prefHeight="22.0" prefWidth="147.0" text="Change Request ID:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="changeRequestIDTextField" editable="false" layoutX="192.0" layoutY="27.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="37.0" layoutY="83.0" prefHeight="15.0" prefWidth="120.0" text="Opening Date:">
+                                          <TextField fx:id="changeRequestIDTextField" editable="false" layoutX="166.0" layoutY="23.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="19.0" layoutY="79.0" prefHeight="15.0" prefWidth="120.0" text="Opening Date:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="openingDateTextField" editable="false" layoutX="192.0" layoutY="80.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="410.0" layoutY="83.0" prefHeight="15.0" prefWidth="120.0" text="Initiator:">
+                                          <TextField fx:id="openingDateTextField" editable="false" layoutX="174.0" layoutY="76.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="729.0" layoutY="26.0" prefHeight="25.0" prefWidth="90.0" text="Initiator:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="initiatorTextField" editable="false" layoutX="540.0" layoutY="80.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="410.0" layoutY="30.0" prefHeight="15.0" prefWidth="120.0" text="Info System:">
+                                          <TextField fx:id="initiatorTextField" editable="false" layoutX="819.0" layoutY="23.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="383.0" layoutY="26.0" prefHeight="15.0" prefWidth="120.0" text="Info System:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="infoSystemTextField" editable="false" layoutX="541.0" layoutY="27.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="37.0" layoutY="183.0" prefHeight="15.0" prefWidth="120.0" text="Current State:">
+                                          <TextField fx:id="infoSystemTextField" editable="false" layoutX="503.0" layoutY="23.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="19.0" layoutY="128.0" prefHeight="15.0" prefWidth="120.0" text="Current State:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="37.0" layoutY="272.0" prefHeight="28.0" prefWidth="155.0" text="Requested Change:">
+                                          <Label layoutX="19.0" layoutY="217.0" prefHeight="28.0" prefWidth="155.0" text="Requested Change:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextArea fx:id="currentStateTextArea" editable="false" layoutX="190.0" layoutY="183.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <TextArea fx:id="requestedChangeTextField" editable="false" layoutX="191.0" layoutY="272.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <Label layoutX="37.0" layoutY="367.0" prefHeight="20.0" prefWidth="155.0" text="Reason For Change:">
+                                          <TextArea fx:id="currentStateTextArea" editable="false" layoutX="172.0" layoutY="128.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <TextArea fx:id="requestedChangeTextField" editable="false" layoutX="173.0" layoutY="217.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <Label layoutX="19.0" layoutY="312.0" prefHeight="20.0" prefWidth="155.0" text="Reason For Change:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextArea fx:id="reasonForChangeTextArea" editable="false" layoutX="190.0" layoutY="367.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <Label layoutX="37.0" layoutY="453.0" prefHeight="15.0" prefWidth="120.0" text="Comments:">
+                                          <TextArea fx:id="reasonForChangeTextArea" editable="false" layoutX="172.0" layoutY="312.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <Label layoutX="19.0" layoutY="398.0" prefHeight="15.0" prefWidth="120.0" text="Comments:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextArea fx:id="commentsTextArea" editable="false" layoutX="190.0" layoutY="458.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <Separator layoutX="-4.0" layoutY="18.0" orientation="VERTICAL" prefHeight="499.0" prefWidth="11.0" />
+                                          <TextArea fx:id="commentsTextArea" editable="false" layoutX="172.0" layoutY="403.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <Button fx:id="downloadFilesButton" alignment="BASELINE_LEFT" layoutX="174.0" layoutY="495.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="272.0" stylesheets="@../../css/fullpackstyling.css" text="Download Attached Files" textFill="#f8f8f8">
+                                             <padding>
+                                                <Insets bottom="17.0" left="35.0" />
+                                             </padding>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#fcfcfc" glyphName="DOWNLOAD" size="25" />
+                                             </graphic>
+                                          </Button>
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -196,26 +206,16 @@
             </Pane>
          </center>
          <left>
-            <Pane prefHeight="688.0" prefWidth="346.0" style="-fx-background-color: #3F2B63;" BorderPane.alignment="CENTER">
+            <Pane prefHeight="680.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" BorderPane.alignment="CENTER">
                <children>
-                  <Separator layoutX="26.0" layoutY="256.0" prefHeight="3.0" prefWidth="293.0" />
-                  <Label fx:id="userNameLabel" layoutX="113.0" layoutY="151.0" text="shuky shukrun" textFill="#938e8e">
+                  <Separator layoutX="20.0" layoutY="195.0" prefHeight="3.0" prefWidth="260.0" />
+                  <Label fx:id="userNameLabel" layoutX="99.0" layoutY="150.0" text="shuky shukrun" textFill="#938e8e">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="downloadFilesButton" alignment="BASELINE_LEFT" layoutX="14.0" layoutY="291.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="272.0" stylesheets="@../../css/fullpackstyling.css" text="Download Attached Files" textFill="#f8f8f8">
-                     <padding>
-                        <Insets bottom="17.0" left="35.0" />
-                     </padding>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <graphic>
-                        <MaterialDesignIconView fill="#fcfcfc" glyphName="DOWNLOAD" size="25" />
-                     </graphic>
-                  </Button>
-                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="119.0" layoutY="141.0" size="95" />
+                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="105.0" layoutY="140.0" size="95" />
+                  <Pane fx:id="buttonsPane" layoutY="211.0" prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" />
                </children>
             </Pane>
          </left>

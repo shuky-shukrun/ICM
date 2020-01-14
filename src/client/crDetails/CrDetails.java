@@ -4,6 +4,8 @@ package client.crDetails;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.ccc.CCCButtons;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTabPane;
 import common.IcmUtils;
 import entities.*;
 import javafx.event.ActionEvent;
@@ -49,6 +51,9 @@ public class CrDetails implements ClientUI {
     private TextField phaseDeadLineTextField;
     @FXML
     private Pane buttonsPane;
+    @FXML
+    private JFXTabPane crdTabPane;
+
 
     @FXML
     private Button downloadFilesButton;
@@ -199,7 +204,7 @@ public class CrDetails implements ClientUI {
                         root = FXMLLoader.load(getClass().getResource("executiveLeader/ExecutiveLeaderButtons.fxml"));
                         break;
                     case EVALUATOR:
-                        root = FXMLLoader.load(getClass().getResource("evaluator/EvaluatorButtons.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("evaluator/EvaluatorButtons2.fxml"));
                         break;
                     case TESTER:
                         root = FXMLLoader.load(getClass().getResource("tester/TesterButtons.fxml"));
@@ -214,4 +219,12 @@ public class CrDetails implements ClientUI {
         if (root != null)
             buttonsPane.getChildren().setAll(root);
     }
+
+    @FXML
+    void logout(ActionEvent event) throws IOException {
+        ClientController.setUser(null);
+        IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
+    }
+
+
 }

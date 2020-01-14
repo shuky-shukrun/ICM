@@ -116,9 +116,9 @@ public class IcmUtils {
 
             case Change_Request_Summary:
                 sceneTitle = "ICM Change Request Summary";
-                fxmlPath = "/client/crDetails/CrDetails.fxml";
-                width = 1000;
-                height = 650;
+                fxmlPath = "/client/crDetails/CrDetails2.fxml";
+                width = 1320;
+                height = 840;
                 break;
        
             case show_Request_Time_Dialog:
