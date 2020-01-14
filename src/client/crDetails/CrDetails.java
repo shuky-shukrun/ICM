@@ -22,6 +22,7 @@ import server.ServerService.DatabaseService;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,7 @@ public class CrDetails implements ClientUI {
 
     private static ChangeRequest currRequest;
     private ClientController clientController;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 
     public static ChangeRequest getCurrRequest() {
         return currRequest;
@@ -133,7 +135,7 @@ public class CrDetails implements ClientUI {
                 setCurrRequest(crList.get(0));
 
                 changeRequestIDTextField.setText(String.valueOf(currRequest.getId()));
-                openingDateTextField.setText(currRequest.getDate().toString());
+                openingDateTextField.setText(currRequest.getDate().format(formatter));
                 initiatorTextField.setText(currRequest.getInitiator().getFirstName() + " " + currRequest.getInitiator().getLastName());
                 infoSystemTextField.setText(currRequest.getInfoSystem().toString());
                 currentPhaseTextField.setText(currRequest.getCurrPhaseName().toString());
@@ -152,7 +154,7 @@ public class CrDetails implements ClientUI {
 
                 LocalDate deadLine = currRequest.getPhases().get(0).getDeadLine();
                 if(deadLine != null)
-                    phaseDeadLineTextField.setText(deadLine.toString());
+                    phaseDeadLineTextField.setText(deadLine.format(formatter));
 
                 ObservableList<String> filesList = FXCollections.observableArrayList();
 
@@ -230,13 +232,23 @@ public class CrDetails implements ClientUI {
                 root = FXMLLoader.load(getClass().getResource("itd/ITDButtons.fxml"));
                 break;
             case CCC:
-                root = FXMLLoader.load(getClass().getResource("ccc/CCCButtons.fxml"));
+                if(currRequest.getInitiator().equals(currUser) &&
+                        currRequest.getCurrPhaseName() != Phase.PhaseName.EXAMINATION)
+                    root = FXMLLoader.load(getClass().getResource("initiator/InitiatorButtons.fxml"));
+                else
+                    root = FXMLLoader.load(getClass().getResource("ccc/CCCButtons.fxml"));
                 break;
             case CHAIRMAN:
-                FXMLLoader loader = new FXMLLoader();
-                root = loader.load(getClass().getResource("ccc/CCCButtons.fxml").openStream());
-                CCCButtons chairman = loader.getController();
-                chairman.enableChairmanButtons();
+                if(currRequest.getInitiator().equals(currUser) &&
+                        currRequest.getCurrPhaseName() != Phase.PhaseName.EXAMINATION &&
+                        currRequest.getCurrPhaseName() != Phase.PhaseName.VALIDATION)
+                    root = FXMLLoader.load(getClass().getResource("initiator/InitiatorButtons.fxml"));
+                else {
+                    FXMLLoader loader = new FXMLLoader();
+                    root = loader.load(getClass().getResource("ccc/CCCButtons.fxml").openStream());
+                    CCCButtons chairman = loader.getController();
+                    chairman.enableChairmanButtons();
+                }
                 break;
             case SUPERVISOR:
                 root = FXMLLoader.load(getClass().getResource("supervisor/SupervisorButtons.fxml"));
