@@ -7,6 +7,8 @@ import client.crDetails.ccc.CCCButtons;
 import com.jfoenix.controls.JFXTabPane;
 import common.IcmUtils;
 import entities.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +58,8 @@ public class CrDetails implements ClientUI {
     private Label userNameLabel;
     @FXML
     private ProgressBar processBar;
+    @FXML
+    private ListView<String> filesListView;
 
     @FXML
     private Button downloadFilesButton;
@@ -134,14 +138,26 @@ public class CrDetails implements ClientUI {
                 commentsTextArea.textProperty().setValue(currRequest.getComment());
                 currPhaseStatus.setText(currRequest.getPhases().get(0).getPhaseStatus().toString());
 
-                IEPhasePosition phaseLeader = currRequest.getPhases().get(0).getIePhasePosition().get(IEPhasePosition.PhasePosition.PHASE_LEADER);
-                String phaseLeaderFn = phaseLeader.getInformationEngineer().getFirstName();
-                String phaseLeaderLn = phaseLeader.getInformationEngineer().getLastName();
-                phaseLeaderTextField.setText(phaseLeaderFn + " " + phaseLeaderLn);
+                if(currRequest.getCurrPhaseName() != Phase.PhaseName.SUBMITTED) {
+                    IEPhasePosition phaseLeader = currRequest.getPhases().get(0).getIePhasePosition().get(IEPhasePosition.PhasePosition.PHASE_LEADER);
+                    String phaseLeaderFn = phaseLeader.getInformationEngineer().getFirstName();
+                    String phaseLeaderLn = phaseLeader.getInformationEngineer().getLastName();
+                    phaseLeaderTextField.setText(phaseLeaderFn + " " + phaseLeaderLn);
+                }
 
                 LocalDate deadLine = currRequest.getPhases().get(0).getDeadLine();
                 if(deadLine != null)
                     phaseDeadLineTextField.setText(deadLine.toString());
+
+                ObservableList<String> filesList = FXCollections.observableArrayList();
+
+                if(currRequest.getFilesNames().isEmpty()) {
+                    downloadFilesButton.setDisable(true);
+                }
+                else {
+                    filesList.setAll(currRequest.getFilesNames());
+                    filesListView.setItems(filesList);
+                }
 
                 try {
                     initButtons();
@@ -172,7 +188,7 @@ public class CrDetails implements ClientUI {
             case download_files:
             	switch((String)serverService.getParams().get(0)) {
             case "success":
-            		IcmUtils.displayInformationMsg("Information message","check your chosen folder");
+            		IcmUtils.displayInformationMsg("success","Download finished", "Check your chosen folder.");
             		break;
             case "noFiles":
             	IcmUtils.displayInformationMsg("Information message","no files to download");

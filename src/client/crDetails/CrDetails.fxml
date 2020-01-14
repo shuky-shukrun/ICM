@@ -146,7 +146,7 @@
                                              </font>
                                           </Label>
                                           <TextArea fx:id="commentsTextArea" editable="false" layoutX="196.0" layoutY="437.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <Button fx:id="downloadFilesButton" alignment="BASELINE_LEFT" layoutX="632.0" layoutY="581.0" mnemonicParsing="false" stylesheets="@../../css/fullpackstyling.css" text="Download" textFill="#f8f8f8">
+                                          <Button fx:id="downloadFilesButton" alignment="BASELINE_LEFT" layoutX="632.0" layoutY="584.0" mnemonicParsing="false" onAction="#downloadFiles" stylesheets="@../../css/fullpackstyling.css" text="Download" textFill="#f8f8f8" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -154,7 +154,7 @@
                                                 <MaterialDesignIconView fill="#fcfcfc" glyphName="DOWNLOAD" size="25" />
                                              </graphic>
                                           </Button>
-                                          <ListView layoutX="198.0" layoutY="541.0" prefHeight="80.0" prefWidth="416.0" />
+                                          <ListView fx:id="filesListView" layoutX="198.0" layoutY="541.0" prefHeight="80.0" prefWidth="416.0" />
                                           <Label layoutX="43.0" layoutY="541.0" prefHeight="15.0" prefWidth="120.0" text="Attached Files:">
                                              <font>
                                                 <Font size="16.0" />

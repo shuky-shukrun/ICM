@@ -244,9 +244,7 @@ public class DBConnection {
 				iePhasePosition.getInformationEngineer().setId(rs.getInt("IDieInPhase"));
 				iePhasePosition.setCrID(params.get(1));
 				iePhasePosition.setPhaseName(currPhase.getName());
-				iePhasePosition
-						.setPhasePosition(IEPhasePosition.PhasePosition.valueOf(rs.getString("iePhasePosition")));
-
+				iePhasePosition.setPhasePosition(IEPhasePosition.PhasePosition.valueOf(rs.getString("iePhasePosition")));
 				iePhasePositionMap.put(iePhasePosition.getPhasePosition(), iePhasePosition);
 				PreparedStatement phaseLeaderPs = sqlConnection.prepareStatement("SELECT firstName, lastName FROM users WHERE IDuser = ?");
 				phaseLeaderPs.setInt(1, iePhasePosition.getInformationEngineer().getId());
@@ -255,9 +253,19 @@ public class DBConnection {
 					iePhasePosition.getInformationEngineer().setFirstName(phaseLeaderRs.getString("firstName"));
 					iePhasePosition.getInformationEngineer().setLastName(phaseLeaderRs.getString("lastName"));
 				}
-
+				phaseLeaderRs.close();
 			}
 
+			// get files
+			List<String> filesNames = new ArrayList<>();
+			ps = sqlConnection.prepareStatement("SELECT fileName FROM files WHERE CrID = ?");
+			ps.setInt(1, cr.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				filesNames.add(rs.getString("fileName"));
+			}
+			rs.close();
+			cr.setFilesNames(filesNames);
 			currPhase.setIePhasePosition(iePhasePositionMap);
 			cr.setPhases(crPhaseList);
 			crList.add(cr);
