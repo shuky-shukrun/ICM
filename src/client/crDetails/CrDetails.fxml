@@ -31,16 +31,25 @@
                         <Image url="@../../css/background.PNG" />
                      </image>
                   </ImageView>
-                  <Pane layoutY="-5.0" prefHeight="170.0" prefWidth="300.0" style="-fx-background-color: #3F2B63; -fx-background-radius: 0 60 0 0;">
+                  <Pane layoutY="-5.0" prefHeight="170.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;">
                      <children>
-                        <ImageView fitHeight="114.0" fitWidth="229.0" layoutX="43.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="114.0" fitWidth="229.0" layoutX="57.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../css/‏‏logo.PNG" />
                            </image>
                         </ImageView>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="1239.0" layoutY="14.0" onAction="#logout" prefHeight="72.0" prefWidth="77.0" text="Logout">
+                  <Pane layoutX="300.0" prefHeight="88.0" prefWidth="1020.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="21.0" text="Change Request Details" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="32.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="1208.0" layoutY="6.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -48,15 +57,17 @@
                         <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="40" text="" wrappingWidth="39.0" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="homeButton" alignment="BOTTOM_CENTER" layoutX="1148.0" layoutY="23.0" onAction="#backToHome" prefHeight="63.0" prefWidth="102.0" text="Home Page">
+                  <JFXButton fx:id="homeButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="1103.0" layoutY="6.0" onAction="#backToHome" prefHeight="75.0" prefWidth="105.0" text="Home Page">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="HOME" size="40" strokeType="INSIDE" wrappingWidth="41.214284896850586" />
+                     </graphic>
                   </JFXButton>
-                  <FontAwesomeIconView glyphName="HOME" layoutX="1175.0" layoutY="57.0" size="40" strokeType="INSIDE" wrappingWidth="23.214284896850586" />
-                  <Label layoutX="375.0" layoutY="126.0" prefHeight="21.0" prefWidth="275.0" text="Home page &gt; Change request details ">
+                  <Label layoutX="319.0" layoutY="107.0" prefHeight="21.0" prefWidth="275.0" text="Home page &gt; Change request details ">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
                </children>
@@ -65,22 +76,13 @@
          <center>
             <Pane prefHeight="702.0" prefWidth="909.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutY="-3.0" prefHeight="88.0" prefWidth="1020.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
-                     <children>
-                        <Label layoutX="28.0" layoutY="20.0" text="Change Request Details" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="32.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <JFXTabPane fx:id="crdTabPane" layoutY="82.0" prefHeight="600.0" prefWidth="1020.0">
+                  <JFXTabPane fx:id="crdTabPane" layoutY="76.0" prefHeight="606.0" prefWidth="1020.0">
                      <tabs>
                         <Tab fx:id="requestSummaryTab" text="Request Summary">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1126.0">
                                  <children>
-                                    <AnchorPane fx:id="changeRequestIdTextField" prefHeight="664.0" prefWidth="1070.0" style="-fx-background-color: #f1eaea;">
+                                    <AnchorPane fx:id="changeRequestIdTextField" prefHeight="567.0" prefWidth="1070.0" style="-fx-background-color: #f1eaea;">
                                        <children>
                                           <Label layoutX="19.0" layoutY="26.0" prefHeight="22.0" prefWidth="147.0" text="Change Request ID:">
                                              <font>
@@ -211,13 +213,13 @@
             <Pane prefHeight="680.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" BorderPane.alignment="CENTER">
                <children>
                   <Separator layoutX="20.0" layoutY="195.0" prefHeight="3.0" prefWidth="260.0" />
-                  <Label fx:id="userNameLabel" layoutX="99.0" layoutY="150.0" text="shuky shukrun" textFill="#938e8e">
+                  <Pane fx:id="buttonsPane" layoutY="211.0" prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" />
+                  <Label fx:id="userNameLabel" layoutX="93.0" layoutY="99.0" text="shuky shukrun" textFill="#938e8e">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="105.0" layoutY="140.0" size="95" />
-                  <Pane fx:id="buttonsPane" layoutY="211.0" prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" />
+                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="99.0" layoutY="93.0" size="90" />
                </children>
             </Pane>
          </left>

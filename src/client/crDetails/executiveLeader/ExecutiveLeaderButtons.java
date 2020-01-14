@@ -78,7 +78,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
                 IcmUtils.displayErrorMsg("Request status can't be " +
                         currPhase.getPhaseStatus() + ". Please contact system administrator.");
                 try {
-                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
+                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

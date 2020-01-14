@@ -1,11 +1,9 @@
 package client.login;
 
 import client.ClientController;
-import client.ClientMain;
 import client.ClientUI;
 
 import com.jfoenix.controls.JFXButton;
-import com.mysql.cj.xdevapi.Client;
 import common.IcmUtils;
 import entities.ChangeInitiator;
 import javafx.event.ActionEvent;
@@ -73,7 +71,7 @@ public class Login implements ClientUI {
                 List<ChangeInitiator> userList = serverService.getParams();
                 ClientController.setUser(userList.get(0));
                 try {
-                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
+                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

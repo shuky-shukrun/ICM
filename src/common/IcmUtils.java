@@ -19,14 +19,8 @@ public class IcmUtils {
 	
     public enum Scenes {
         Login,
-        Forgot_Password,
-        Main_Window_New,
-        Change_Request_Summary,
-        Create_Evaluation_Report,
-        show_Request_Time_Dialog,
-        Extension_Time_Request,
-        View_Evaluation_Report,
-        Assign_Tester
+        Main_Window,
+        Change_Request_Summary
         }
 
     public static  Optional<ButtonType> displayConfirmationMsg(String title, String headerText, String contentText) {
@@ -106,11 +100,11 @@ public class IcmUtils {
                 width = 500;
                 height = 410;
                 break;
-            case Main_Window_New:
+            case Main_Window:
                 sceneTitle = "ICM Main Window";
                 fxmlPath = "/client/mainWindow/MainWindow.fxml";
-                width = 1000;
-                height = 650;
+                width = 1320;
+                height = 840;
                 break;
 
             case Change_Request_Summary:
@@ -118,13 +112,6 @@ public class IcmUtils {
                 fxmlPath = "/client/crDetails/CrDetails.fxml";
                 width = 1320;
                 height = 840;
-                break;
-       
-            case show_Request_Time_Dialog:
-            	sceneTitle = "ICM request time dialog";
-                fxmlPath = "/client/crDetails/evaluator/TimeRequest.fxml";
-                width = 600;
-                height = 632;
                 break;
                 
             default:

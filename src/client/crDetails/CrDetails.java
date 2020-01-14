@@ -102,7 +102,7 @@ public class CrDetails implements ClientUI {
     @FXML
     void backToHome() {
         try {
-            IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
+            IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
         } catch (IOException e) {
             e.printStackTrace();
         }

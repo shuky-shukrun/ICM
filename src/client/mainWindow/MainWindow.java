@@ -32,12 +32,7 @@ public class MainWindow implements ClientUI {
     @FXML
     private TextField searchChangeRequestTextField;
     @FXML
-    private Button searchButton;
-    @FXML
-    private Button logoutButton;
-    @FXML
     private TabPane tabPane;
-
 
     @FXML
     private Tab inMyTreatmentTab;
@@ -93,12 +88,6 @@ public class MainWindow implements ClientUI {
     @FXML
     private TableColumn<ChangeRequest, String> phaseLeaderColumn2;
 
-
-    // buttons VBox
-    @FXML
-    private VBox sideVBox;
-    @FXML
-    private Button addNewRequestButton;
     @FXML
     private Button itdManagerAssignPermissionsButton;
     @FXML
@@ -106,7 +95,10 @@ public class MainWindow implements ClientUI {
     @FXML
     private Button registerButton;
     @FXML
+    private Label userNameLabel;
+    @FXML
     private AnchorPane mainAnchorPane;
+
 
     // class local variables
     private ClientController clientController;

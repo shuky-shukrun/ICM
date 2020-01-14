@@ -18,8 +18,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import server.ServerService;
 
@@ -199,7 +197,7 @@ public class NewRequest implements ClientUI {
                 IcmUtils.displayInformationMsg("Request Submitted Successfully", "Congratulations!",  "Your request has been submitted successfully.\nYou will get updates to your email.");
                 try {
                     IcmUtils.getPopUp().close();
-                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window_New);
+                    IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
                 } catch (IOException e) {
                     e.printStackTrace();
                     IcmUtils.displayErrorMsg(e.getMessage());

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
@@ -7,7 +9,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -15,152 +16,190 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.mainWindow.MainWindow">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.mainWindow.MainWindow">
    <children>
-      <ImageView fitHeight="69.0" fitWidth="151.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../logo6.PNG" />
-         </image>
-      </ImageView>
-      <TextField fx:id="searchChangeRequestTextField" layoutX="207.0" layoutY="22.0" prefHeight="35.0" prefWidth="433.0" promptText="Search change request by ID" style="-fx-background-radius: 10;" />
-      <MaterialDesignIconView fill="#838282" glyphName="MAGNIFY" layoutX="611.0" layoutY="47.0" size="19" text="" />
-      <Button fx:id="searchButton" layoutX="653.0" layoutY="22.0" mnemonicParsing="false" onAction="#search" prefHeight="35.0" prefWidth="84.0" style="-fx-background-radius: 10;" text="Search">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Button fx:id="logoutButton" contentDisplay="RIGHT" layoutX="890.0" layoutY="21.0" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="84.0" style="-fx-background-radius: 20;" text="Logout">
-         <font>
-            <Font size="13.0" />
-         </font>
-         <graphic>
-            <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="15" />
-         </graphic>
-      </Button>
-      <BorderPane layoutX="211.0" layoutY="96.0" prefHeight="540.0" prefWidth="782.0" style="-fx-background-color: #d2d1d1;">
+      <BorderPane prefHeight="843.0" prefWidth="1330.0">
+         <top>
+            <Pane prefHeight="161.0" prefWidth="1330.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane layoutY="-5.0" prefHeight="171.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;">
+                     <children>
+                        <ImageView fitHeight="114.0" fitWidth="229.0" layoutX="57.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../css/‏‏logo.PNG" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <ImageView fitHeight="253.0" fitWidth="1020.0" layoutX="300.0" layoutY="-2.0" nodeOrientation="INHERIT" opacity="0.5" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../css/background.PNG" />
+                     </image>
+                  </ImageView>
+                  <Pane layoutX="300.0" prefHeight="88.0" prefWidth="1020.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="22.0" text="ICM- Home Page" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="906.0" layoutY="6.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="40" text="" wrappingWidth="40.0" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </Pane>
+                  <Label layoutX="319.0" layoutY="107.0" text="Welcome to Braude Information Systems Change Management">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="319.0" layoutY="145.0" text="To open a change request, search by ID or press twice" />
+               </children>
+            </Pane>
+         </top>
          <center>
-            <TabPane fx:id="tabPane" prefHeight="540.0" prefWidth="758.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-               <tabs>
-                  <Tab fx:id="myRequestsTab" style="-fx-font-size: 15;" text="My Change Request">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="784.0">
-                           <children>
-                              <TableView fx:id="myTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="509.0" prefWidth="767.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <columns>
-                                    <TableColumn fx:id="idColumn" minWidth="-1.0" prefWidth="120.0" text="ID" />
-                                    <TableColumn fx:id="infoSystemColumn" prefWidth="140.0" text="Info System" />
-                                    <TableColumn fx:id="dateColumn" prefWidth="125.0" text="Opening Date" />
-                                    <TableColumn fx:id="currPhaseColumn" prefWidth="125.0" text="Phase" />
-                                    <TableColumn fx:id="phaseStatusColumn" prefWidth="125.0" text="Phase Status" />
-                                    <TableColumn fx:id="phaseLeaderColumn" prefWidth="125.0" text="Phase Leader" />
-                                 </columns>
-                                 <opaqueInsets>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab fx:id="inMyTreatmentTab" style="-fx-font-size: 15;" text="Change Request In My Treatment">
-                  <content>
-                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                        <children>
-                           <TableView fx:id="workTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="509.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                              <columns>
-                                 <TableColumn fx:id="idColumn1" minWidth="-1.0" prefWidth="120.0" text="ID" />
-                                 <TableColumn fx:id="infoSystemColumn1" prefWidth="140.0" text="Info System" />
-                                 <TableColumn fx:id="dateColumn1" prefWidth="125.0" text="Opening Date" />
-                                 <TableColumn fx:id="currPhaseColumn1" prefWidth="125.0" text="Phase" />
-                                 <TableColumn fx:id="phaseStatusColumn1" prefWidth="125.0" text="Phase Status" />
-                                 <TableColumn fx:id="phaseLeaderColumn1" prefWidth="125.0" text="Phase Leader" />
-                              </columns>
-                              <opaqueInsets>
-                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                              </opaqueInsets>
-                              <padding>
-                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                              </padding>
-                           </TableView>
-                        </children>
-                     </AnchorPane>
-                  </content>
-                </Tab>
-                  <Tab fx:id="searchTab" style="-fx-font-size: 15;" text="Search Results">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="784.0">
-                           <children>
-                              <TableView fx:id="searchTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="509.0" prefWidth="767.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <columns>
-                                    <TableColumn fx:id="idColumn2" minWidth="-1.0" prefWidth="120.0" text="ID" />
-                                    <TableColumn fx:id="infoSystemColumn2" prefWidth="140.0" text="Info System" />
-                                    <TableColumn fx:id="dateColumn2" prefWidth="125.0" text="Opening Date" />
-                                    <TableColumn fx:id="currPhaseColumn2" prefWidth="125.0" text="Phase" />
-                                    <TableColumn fx:id="phaseStatusColumn2" prefWidth="125.0" text="Phase Status" />
-                                    <TableColumn fx:id="phaseLeaderColumn2" prefWidth="125.0" text="Phase Leader" />
-                                 </columns>
-                                 <opaqueInsets>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-               </tabs>
-            </TabPane>
+            <Pane prefHeight="638.0" prefWidth="1029.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXTabPane fx:id="tabPane" layoutY="89.0" prefHeight="595.0" prefWidth="1020.0" stylesheets="@../../css/fullpackstyling.css">
+                     <tabs>
+                        <Tab fx:id="myRequestsTab" text="My Change Request">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1087.0">
+                                 <children>
+                                    <TableView fx:id="myTableView" layoutX="6.0" layoutY="-1.0" prefHeight="547.0" prefWidth="1009.0" stylesheets="@../../css/fullpackstyling.css">
+                                       <columns>
+                                          <TableColumn fx:id="idColumn" minWidth="-1.0" prefWidth="120.0" text="          ID" />
+                                          <TableColumn fx:id="infoSystemColumn" prefWidth="199.0" text="     Info System" />
+                                          <TableColumn fx:id="dateColumn" prefWidth="136.0" text="   Opening Date" />
+                                          <TableColumn fx:id="currPhaseColumn" prefWidth="145.0" text="        Phase" />
+                                          <TableColumn fx:id="phaseStatusColumn" prefWidth="175.0" text="   Phase Status" />
+                                          <TableColumn fx:id="phaseLeaderColumn" prefWidth="184.0" text="Phase Leader" />
+                                       </columns>
+                                       <opaqueInsets>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab fx:id="inMyTreatmentTab" text="Change Request In My Treatment">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="974.0">
+                                 <children>
+                                    <TableView fx:id="workTableView" layoutX="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="545.0" prefWidth="1007.0">
+                                       <columns>
+                                          <TableColumn fx:id="idColumn1" minWidth="-1.0" prefWidth="120.0" text="          ID" />
+                                          <TableColumn fx:id="infoSystemColumn1" prefWidth="207.0" text="Info System" />
+                                          <TableColumn fx:id="dateColumn1" prefWidth="147.0" text="Opening Date" />
+                                          <TableColumn fx:id="currPhaseColumn1" prefWidth="130.0" text="Phase" />
+                                          <TableColumn fx:id="phaseStatusColumn1" prefWidth="156.0" text="Phase Status" />
+                                          <TableColumn fx:id="phaseLeaderColumn1" prefWidth="195.0" text="Phase Leader" />
+                                       </columns>
+                                       <opaqueInsets>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab fx:id="searchTab" text="Search Results">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="searchTableView" layoutX="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="544.0" prefWidth="1007.0">
+                                       <columns>
+                                          <TableColumn fx:id="idColumn2" minWidth="-1.0" prefWidth="120.0" text="          ID" />
+                                          <TableColumn fx:id="infoSystemColumn2" prefWidth="221.0" text="Info System" />
+                                          <TableColumn fx:id="dateColumn2" prefWidth="145.0" text="Opening Date" />
+                                          <TableColumn fx:id="currPhaseColumn2" prefWidth="147.0" text="Phase" />
+                                          <TableColumn fx:id="phaseStatusColumn2" prefWidth="150.0" text="Phase Status" />
+                                          <TableColumn fx:id="phaseLeaderColumn2" prefWidth="169.0" text="Phase Leader" />
+                                       </columns>
+                                       <opaqueInsets>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
+                  <TextField fx:id="searchChangeRequestTextField" layoutX="14.0" layoutY="24.0" prefHeight="39.0" prefWidth="498.0" promptText="Search change request by ID" style="-fx-background-radius: 20;" />
+                  <MaterialDesignIconView fill="#838282" glyphName="MAGNIFY" layoutX="466.0" layoutY="53.0" size="25" text="" />
+               </children>
+            </Pane>
          </center>
+         <left>
+            <Pane prefHeight="688.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="userNameLabel" layoutX="93.0" layoutY="99.0" text="shuky shukrun" textFill="#938e8e">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="itdManagerAssignPermissionsButton" alignment="BASELINE_LEFT" layoutX="14.0" layoutY="209.0" mnemonicParsing="false" onAction="#showItdManagerAssignPermissionsDialog" prefHeight="50.0" prefWidth="260.0" stylesheets="@../../css/fullpackstyling.css" text=" Assign Permissions" textFill="#f8f8f8">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                     <graphic>
+                        <MaterialDesignIconView fx:id="itdManagerAssignPermissionsIcon" fill="WHITE" glyphName="ACCOUNT_MULTIPLE_PLUS" size="25" />
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="createReportButton" alignment="BASELINE_LEFT" layoutX="14.0" layoutY="261.0" mnemonicParsing="false" onAction="#showCreateReportDialog" prefHeight="50.0" prefWidth="260.0" stylesheets="@../../css/fullpackstyling.css" text=" Create Report" textFill="#fffbfb">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                     <graphic>
+                        <MaterialDesignIconView fx:id="createReportIcon" fill="WHITE" glyphName="CONTENT_PASTE" size="25" />
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="registerButton" alignment="BASELINE_LEFT" layoutX="14.0" layoutY="311.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerEvent" prefHeight="50.0" prefWidth="260.0" style="-fx-background-radius: 10;" stylesheets="@../../css/fullpackstyling.css" text=" Reggister IT workers" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <graphic>
+                        <MaterialDesignIconView fx:id="itdManagerAssignPermissionsIcon2" fill="WHITE" glyphName="ACCOUNT_MULTIPLE_PLUS" size="25" text="" />
+                     </graphic>
+                  </Button>
+                  <MaterialDesignIconView fill="#938e8e" glyphName="ACCOUNT_CIRCLE" layoutX="99.0" layoutY="93.0" size="90" />
+                  <Separator layoutX="20.0" layoutY="195.0" prefHeight="3.0" prefWidth="260.0" />
+                  <Button fx:id="addNewRequestButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="138.0" mnemonicParsing="false" onAction="#showNewRequestDialog" prefHeight="50.0" prefWidth="260.0" stylesheets="@../../css/fullpackstyling.css" text=" Add New Request" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="PLUS" onDragDetected="#showNewRequestDialog" size="25" />
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </left>
       </BorderPane>
-      <Label layoutX="211.0" layoutY="73.0" text="To open a change request search by ID or press twice">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
-      <VBox fx:id="sideVBox" layoutY="197.0" prefHeight="439.0" prefWidth="213.0" spacing="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="787.0" AnchorPane.topAnchor="197.0">
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-         <children>
-            <Button fx:id="addNewRequestButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showNewRequestDialog" style="-fx-font-size: 17; -fx-background-radius: 10;" styleClass="button-raised" text="Add New Request   " textAlignment="CENTER">
-               <graphic>
-                  <FontAwesomeIconView fill="#3f5dd9" glyphName="PLUS" size="18" />
-               </graphic>
-            </Button>
-            <Separator prefHeight="3.0" prefWidth="167.0" />
-            <Button fx:id="itdManagerAssignPermissionsButton" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showItdManagerAssignPermissionsDialog" style="-fx-background-radius: 10;" text="Assign Permissions        ">
-               <font>
-                  <Font size="13.0" />
-               </font>
-               <graphic>
-                  <MaterialDesignIconView fx:id="itdManagerAssignPermissionsIcon" glyphName="ACCOUNT_MULTIPLE_PLUS" size="20" />
-               </graphic>
-            </Button>
-            <Button fx:id="createReportButton" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showCreateReportDialog" style="-fx-background-radius: 10;" text="Create Report                ">
-               <font>
-                  <Font size="13.0" />
-               </font>
-               <graphic>
-                  <MaterialDesignIconView fx:id="createReportIcon" glyphName="CONTENT_PASTE" size="17" />
-               </graphic>
-            </Button>
-            <Button fx:id="registerButton" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerEvent" style="-fx-background-radius: 10;" text="Reggister IT workers">
-               <font>
-                  <Font size="13.0" />
-               </font>
-               <graphic>
-                  <MaterialDesignIconView fx:id="itdManagerAssignPermissionsIcon2" glyphName="ACCOUNT_MULTIPLE_PLUS" size="20" />
-               </graphic>
-            </Button>
-         </children>
-      </VBox>
    </children>
 </AnchorPane>
