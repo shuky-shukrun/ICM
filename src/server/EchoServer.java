@@ -468,6 +468,12 @@ public class EchoServer extends AbstractServer {
                         }
                     }
                     break;
+                case Update_Exception_Time:
+                    System.out.println("server handle Update Exception Time");
+                    List<Phase> phaseList = serverService.getParams();
+                    dbConnection.updateExceptionTime(phaseList);
+                    System.out.println("Update_Exception_Time server got data");
+                    break;
                 	
             }
         } catch (IOException | SQLException e) {

@@ -57,7 +57,7 @@ public class RequestExtensionTime implements ClientUI{
     		datePickerChoice = RequestedtimeDatePicker.getValue();
     		description = DescriptionTextArea.getText();
           System.out.println(DescriptionTextArea.getText()+RequestedtimeDatePicker.getValue());
-            return (datePickerChoice == null || description.isEmpty());
+            return (datePickerChoice == null || description.isEmpty()|| description.trim().equals(""));
         }, 	RequestedtimeDatePicker.valueProperty(),
 				DescriptionTextArea.textProperty()
         );
