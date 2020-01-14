@@ -15,6 +15,7 @@ import common.IcmUtils;
 import entities.EvaluationReport;
 import entities.Phase;
 import entities.Phase.PhaseStatus;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -124,7 +125,12 @@ public class ExtensionTimeDecision implements ClientUI  {
 					dtls.add(CrDetails.getCurrRequest().getId().toString());
 					dtls.add(localDate.toString());
 					ServerService service = new ServerService(DatabaseService.Email_ITD_Extension_Time_Approved, dtls);
-					clientController.handleMessageFromClientUI(service);
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							clientController.handleMessageFromClientUI(service);
+						}
+					});
 				} else {
 					IcmUtils.displayErrorMsg("Update time extension decision- failed");
 				}
