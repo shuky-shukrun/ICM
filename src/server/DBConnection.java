@@ -1249,8 +1249,31 @@ public class DBConnection {
     		break;
     		
     	case "EXTENSION_TIME_REQUESTED":
+    		PreparedStatement ps ;
+    		try {//update the new deadline after approving the extension in the DB.
+    			ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phIDChangeRequest = ?");
+    			ps.setInt(1, Integer.parseInt(params.get(0)));
+    			ResultSet rs = ps.executeQuery();
+    			rs.beforeFirst();
+    			rs.next();
+    			ps = sqlConnection.prepareStatement("UPDATE phase SET phDeadline = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			ps.setDate(1, Date.valueOf(params.get(3)));
+    			ps.setInt(2, Integer.parseInt(params.get(0)));
+    			ps.setString(3, params.get(2));
+    			ps.executeUpdate();
+    			
+				ps = sqlConnection.prepareStatement("UPDATE phase SET phExtensionRequestDecision = 1 WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			ps.setInt(1, Integer.parseInt(params.get(0)));
+				ps.setString(2, params.get(2));
+				ps.executeUpdate();
+				list.add(true);
+    		}catch (SQLException e) {
+    			e.printStackTrace();
+    			list.add(false);
+    		}
+    		
     		try {
-    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'EXTENSION_TIME_APPROVED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'EXTENSION_TIME_APPROVED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 				ps.setInt(1, Integer.parseInt(params.get(0)));
 				ps.setString(2, params.get(2));
 				ps.executeUpdate();
@@ -1574,4 +1597,26 @@ public class DBConnection {
 			System.out.println(emailAddress + "\n" + emailSubject + "\n" + emailBody);
 		}
 	}
+    	
+    	public List<Object> getITDInfo() {
+    		List<Object> l = new ArrayList<Object>();
+    		try {
+    			PreparedStatement ps = sqlConnection.prepareStatement("SELECT email, firstName, lastName FROM cbaricmy_ICM.users where position = 'ITD_MANAGER'");
+    			ResultSet rs = ps.executeQuery();
+    			if (rs.next()) {
+    				l.add(true);
+    				l.add(rs.getString("email"));
+    				l.add(rs.getString("firstName"));
+    				l.add(rs.getString("lastName"));
+    			} else
+    				l.add(false);
+
+    		} catch (SQLException e) {
+
+    			System.out.println(e.getMessage());
+    			e.printStackTrace();
+    		}
+    		return l;
+    	}
+ 
 }

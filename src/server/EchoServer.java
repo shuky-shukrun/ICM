@@ -441,6 +441,33 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(serverService);
                     System.out.println("server finish register IT");
                     break;
+                    
+                case Email_ITD_Extension_Time_Approved:
+                    System.out.println("server handle email ITD manager- extension time approved");
+                    List<Object> lst=dbConnection.getITDInfo();
+                    List<String> dtls = serverService.getParams();
+                    if((Boolean)lst.get(0)==false)
+                        try {
+                            client.sendToClient(new ServerService(DatabaseService.Email_ITD_Extension_Time_Approved, dtls));
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    else
+                    {
+                        String line1 = "Hello  "+(String)lst.get(3)+" "+(String)lst.get(2);
+                        String line2 = "Extension time has been approved to change request number: "+dtls.get(0);
+                        String line3 = "The new deadline to this change request is: "+dtls.get(1);
+                        String text = line1 + "\n" + line2+"\n"+line3;
+                        JavaEmail emailer=new JavaEmail();
+                        emailer.setMailServerProperties();
+
+                        try {
+                            emailer.sendEmail((String)lst.get(1), "Inform extension time", text);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
                 	
             }
         } catch (IOException | SQLException e) {
