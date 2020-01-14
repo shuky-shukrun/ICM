@@ -103,14 +103,14 @@ public class IcmUtils {
             case Main_Window:
                 sceneTitle = "ICM Main Window";
                 fxmlPath = "/client/mainWindow/MainWindow.fxml";
-                width = 1320;
+                width = 1100;
                 height = 840;
                 break;
 
             case Change_Request_Summary:
                 sceneTitle = "ICM Change Request Summary";
                 fxmlPath = "/client/crDetails/CrDetails.fxml";
-                width = 1320;
+                width = 1100;
                 height = 840;
                 break;
                 

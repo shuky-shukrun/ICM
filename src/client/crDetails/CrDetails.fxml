@@ -4,9 +4,9 @@
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
@@ -20,13 +20,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1320.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.CrDetails">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.CrDetails">
    <children>
       <BorderPane prefHeight="840.0" prefWidth="1320.0">
          <top>
-            <Pane prefHeight="161.0" prefWidth="1330.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="161.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="384.0" fitWidth="1020.0" layoutX="300.0" layoutY="-41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="203.0" fitWidth="800.0" layoutX="300.0" layoutY="-3.0" pickOnBounds="true">
                      <image>
                         <Image url="@../../css/background.PNG" />
                      </image>
@@ -40,7 +40,7 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <Pane layoutX="300.0" prefHeight="88.0" prefWidth="1020.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
+                  <Pane layoutX="300.0" prefHeight="88.0" prefWidth="800.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 60 0 0;">
                      <children>
                         <Label layoutX="14.0" layoutY="21.0" text="Change Request Details" textFill="WHITE">
                            <font>
@@ -49,7 +49,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="1208.0" layoutY="6.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
+                  <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="987.0" layoutY="6.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -57,7 +57,7 @@
                         <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="40" text="" wrappingWidth="39.0" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="homeButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="1103.0" layoutY="6.0" onAction="#backToHome" prefHeight="75.0" prefWidth="105.0" text="Home Page">
+                  <JFXButton fx:id="homeButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="882.0" layoutY="6.0" onAction="#backToHome" prefHeight="75.0" prefWidth="105.0" text="Home Page">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -65,7 +65,7 @@
                         <FontAwesomeIconView glyphName="HOME" size="40" strokeType="INSIDE" wrappingWidth="41.214284896850586" />
                      </graphic>
                   </JFXButton>
-                  <Label layoutX="319.0" layoutY="107.0" prefHeight="21.0" prefWidth="275.0" text="Home page &gt; Change request details ">
+                  <Label layoutX="319.0" layoutY="107.0" prefHeight="26.0" prefWidth="319.0" text="Home page &gt; Change request details ">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
@@ -73,142 +73,6 @@
                </children>
             </Pane>
          </top>
-         <center>
-            <Pane prefHeight="702.0" prefWidth="909.0" BorderPane.alignment="CENTER">
-               <children>
-                  <JFXTabPane fx:id="crdTabPane" layoutY="76.0" prefHeight="606.0" prefWidth="1020.0">
-                     <tabs>
-                        <Tab fx:id="requestSummaryTab" text="Request Summary">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1126.0">
-                                 <children>
-                                    <AnchorPane fx:id="changeRequestIdTextField" prefHeight="567.0" prefWidth="1070.0" style="-fx-background-color: #f1eaea;">
-                                       <children>
-                                          <Label layoutX="19.0" layoutY="26.0" prefHeight="22.0" prefWidth="147.0" text="Change Request ID:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="changeRequestIDTextField" editable="false" layoutX="166.0" layoutY="23.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="19.0" layoutY="79.0" prefHeight="15.0" prefWidth="120.0" text="Opening Date:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="openingDateTextField" editable="false" layoutX="174.0" layoutY="76.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="729.0" layoutY="26.0" prefHeight="25.0" prefWidth="90.0" text="Initiator:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="initiatorTextField" editable="false" layoutX="819.0" layoutY="23.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="383.0" layoutY="26.0" prefHeight="15.0" prefWidth="120.0" text="Info System:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="infoSystemTextField" editable="false" layoutX="503.0" layoutY="23.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="19.0" layoutY="128.0" prefHeight="15.0" prefWidth="120.0" text="Current State:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="19.0" layoutY="217.0" prefHeight="28.0" prefWidth="155.0" text="Requested Change:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextArea fx:id="currentStateTextArea" editable="false" layoutX="172.0" layoutY="128.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <TextArea fx:id="requestedChangeTextField" editable="false" layoutX="173.0" layoutY="217.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <Label layoutX="19.0" layoutY="312.0" prefHeight="20.0" prefWidth="155.0" text="Reason For Change:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextArea fx:id="reasonForChangeTextArea" editable="false" layoutX="172.0" layoutY="312.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <Label layoutX="19.0" layoutY="398.0" prefHeight="15.0" prefWidth="120.0" text="Comments:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextArea fx:id="commentsTextArea" editable="false" layoutX="172.0" layoutY="403.0" prefHeight="70.0" prefWidth="525.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <Button fx:id="downloadFilesButton" alignment="BASELINE_LEFT" layoutX="174.0" layoutY="495.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="272.0" stylesheets="@../../css/fullpackstyling.css" text="Download Attached Files" textFill="#f8f8f8">
-                                             <padding>
-                                                <Insets bottom="17.0" left="35.0" />
-                                             </padding>
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                             <graphic>
-                                                <MaterialDesignIconView fill="#fcfcfc" glyphName="DOWNLOAD" size="25" />
-                                             </graphic>
-                                          </Button>
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                        <Tab fx:id="requestStatusTab" text="Request Status">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="661.0" prefWidth="1071.0" style="-fx-background-color: #f1eaea;">
-                                       <children>
-                                          <Label layoutX="46.0" layoutY="285.0" prefHeight="15.0" prefWidth="120.0" text="Current Phase:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="currentPhaseTextField" editable="false" layoutX="201.0" layoutY="282.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="46.0" layoutY="338.0" prefHeight="15.0" prefWidth="120.0" text="Phase Deadline:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="phaseDeadLineTextField" editable="false" layoutX="201.0" layoutY="335.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="419.0" layoutY="285.0" prefHeight="15.0" prefWidth="120.0" text="Your Position:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="userPositionTextField" editable="false" layoutX="550.0" layoutY="282.0" prefHeight="20.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <Label layoutX="419.0" layoutY="338.0" prefHeight="15.0" prefWidth="120.0" text="Phase Leader:">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="phaseLeaderTextField" editable="false" layoutX="550.0" layoutY="335.0" prefHeight="31.0" prefWidth="175.0" style="-fx-background-radius: 10;" />
-                                          <ProgressBar layoutX="85.0" layoutY="72.0" prefHeight="23.0" prefWidth="602.0" progress="0.4" />
-                                          <Label layoutX="46.0" layoutY="29.0" prefHeight="25.0" prefWidth="78.0" text="Evaluation">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="157.0" layoutY="110.0" prefHeight="25.0" prefWidth="92.0" text="Examination">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="277.0" layoutY="29.0" prefHeight="25.0" prefWidth="92.0" text="Examination">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                          <Line endX="-100.0" endY="15.0" layoutX="302.0" layoutY="99.0" startX="-100.0" startY="-5.0" />
-                                          <Line endX="-100.0" endY="15.0" layoutX="422.0" layoutY="57.0" startX="-100.0" startY="-5.0" />
-                                          <Line endX="-100.0" endY="15.0" layoutX="186.0" layoutY="58.0" startX="-100.0" startY="-5.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                     </tabs>
-                  </JFXTabPane>
-               </children>
-            </Pane>
-         </center>
          <left>
             <Pane prefHeight="680.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" BorderPane.alignment="CENTER">
                <children>
@@ -223,6 +87,163 @@
                </children>
             </Pane>
          </left>
+         <center>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXTabPane fx:id="crdTabPane" prefHeight="681.0" prefWidth="800.0">
+                     <tabs>
+                        <Tab fx:id="requestSummaryTab" text="Request Summary">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="800.0">
+                                 <children>
+                                    <AnchorPane fx:id="changeRequestIdTextField" prefHeight="643.0" prefWidth="800.0" style="-fx-background-color: #f1eaea;">
+                                       <children>
+                                          <Label layoutX="43.0" layoutY="25.0" prefHeight="22.0" prefWidth="147.0" text="Change Request ID:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="changeRequestIDTextField" editable="false" layoutX="198.0" layoutY="22.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="43.0" layoutY="78.0" prefHeight="15.0" prefWidth="120.0" text="Opening Date:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="openingDateTextField" editable="false" layoutX="198.0" layoutY="75.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="450.0" layoutY="78.0" prefHeight="25.0" prefWidth="90.0" text="Initiator:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="initiatorTextField" editable="false" layoutX="551.0" layoutY="75.0" prefHeight="20.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="450.0" layoutY="25.0" prefHeight="25.0" prefWidth="100.0" text="Info System:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="infoSystemTextField" editable="false" layoutX="551.0" layoutY="22.0" prefHeight="20.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="43.0" layoutY="137.0" prefHeight="15.0" prefWidth="120.0" text="Current State:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="43.0" layoutY="237.0" prefHeight="28.0" prefWidth="155.0" text="Requested Change:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextArea fx:id="currentStateTextArea" editable="false" layoutX="196.0" layoutY="137.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <TextArea fx:id="requestedChangeTextField" editable="false" layoutX="197.0" layoutY="237.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <Label layoutX="43.0" layoutY="336.0" prefHeight="20.0" prefWidth="155.0" text="Reason For Change:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextArea fx:id="reasonForChangeTextArea" editable="false" layoutX="196.0" layoutY="336.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <Label layoutX="43.0" layoutY="437.0" prefHeight="15.0" prefWidth="120.0" text="Comments:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextArea fx:id="commentsTextArea" editable="false" layoutX="196.0" layoutY="437.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <Button fx:id="downloadFilesButton" alignment="BASELINE_LEFT" layoutX="632.0" layoutY="581.0" mnemonicParsing="false" stylesheets="@../../css/fullpackstyling.css" text="Download" textFill="#f8f8f8">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#fcfcfc" glyphName="DOWNLOAD" size="25" />
+                                             </graphic>
+                                          </Button>
+                                          <ListView layoutX="198.0" layoutY="541.0" prefHeight="80.0" prefWidth="416.0" />
+                                          <Label layoutX="43.0" layoutY="541.0" prefHeight="15.0" prefWidth="120.0" text="Attached Files:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab fx:id="requestStatusTab" text="Request Status">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="661.0" prefWidth="800.0" style="-fx-background-color: #f1eaea;">
+                                       <children>
+                                          <Label layoutX="38.0" layoutY="84.0" prefHeight="15.0" prefWidth="120.0" text="Current Phase:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="currentPhaseTextField" editable="false" layoutX="164.0" layoutY="81.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="424.0" layoutY="166.0" prefHeight="15.0" prefWidth="120.0" text="Phase Deadline:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="phaseDeadLineTextField" editable="false" layoutX="549.0" layoutY="166.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="421.0" layoutY="81.0" prefHeight="15.0" prefWidth="120.0" text="Phase Leader:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="phaseLeaderTextField" editable="false" layoutX="547.0" layoutY="81.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <Label layoutX="40.0" layoutY="164.0" prefHeight="15.0" prefWidth="120.0" text="Phase Status:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="currPhaseStatus" editable="false" layoutX="166.0" layoutY="161.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <ProgressBar fx:id="processBar" layoutX="96.0" layoutY="413.0" prefHeight="23.0" prefWidth="602.0" progress="0.0" />
+                                          <Label alignment="CENTER" layoutX="57.0" layoutY="346.0" prefHeight="25.0" prefWidth="78.0" text="Submitted">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutX="168.0" layoutY="479.0" prefHeight="25.0" prefWidth="92.0" text="Evaluation">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutX="288.0" layoutY="346.0" prefHeight="25.0" prefWidth="92.0" text="Examination">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Line endX="-100.0" endY="45.0" layoutX="313.0" layoutY="441.0" startX="-100.0" startY="-5.0" />
+                                          <Line endX="-100.0" endY="15.0" layoutX="433.0" layoutY="398.0" startX="-100.0" startY="-30.0" />
+                                          <Line endX="-100.0" endY="15.0" layoutX="197.0" layoutY="399.0" startX="-100.0" startY="-30.0" />
+                                          <Label alignment="CENTER" layoutX="409.0" layoutY="481.0" prefHeight="25.0" prefWidth="92.0" text="Execution">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Line endX="-100.0" endY="45.0" layoutX="554.0" layoutY="441.0" startX="-100.0" startY="-5.0" />
+                                          <Label alignment="CENTER" layoutX="528.0" layoutY="346.0" prefHeight="25.0" prefWidth="92.0" text="Validation">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Line endX="-100.0" endY="15.0" layoutX="673.0" layoutY="398.0" startX="-100.0" startY="-30.0" />
+                                          <Label alignment="CENTER" layoutX="651.0" layoutY="481.0" prefHeight="25.0" prefWidth="92.0" text="Closing">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Line endX="-100.0" endY="45.0" layoutX="796.0" layoutY="441.0" startX="-100.0" startY="-5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
+               </children>
+            </Pane>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>
