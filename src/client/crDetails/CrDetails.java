@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
@@ -61,7 +62,8 @@ public class CrDetails implements ClientUI {
     private ProgressBar processBar;
     @FXML
     private ListView<String> filesListView;
-
+    @FXML
+    private Button attachFilesButton;
     @FXML
     private Button downloadFilesButton;
 
@@ -194,15 +196,21 @@ public class CrDetails implements ClientUI {
                         break;
                 }
                 break;
-               //display speific message about download files
+
+            case Attach_Files:
+                boolean flag = (Boolean) serverService.getParams().get(0);
+                if (flag == true)
+                    IcmUtils.displayConfirmationMsg("Attach Files - Success", "Success", "Files attached successfully");
+                else
+                    IcmUtils.displayErrorMsg("Attach Files - Error", "Error", "Attach files failed");
+                break;
+
+               //display specific message about download files
             case download_files:
             	switch((String)serverService.getParams().get(0)) {
             case "success":
-            		IcmUtils.displayInformationMsg("success","Download finished", "Check your chosen folder.");
+            		IcmUtils.displayInformationMsg("Download Finished","Download Finished", "Check your chosen folder.");
             		break;
-            case "noFiles":
-            	IcmUtils.displayInformationMsg("Information message","no files to download");
-            	break;
             case "exception":	
             	IcmUtils.displayInformationMsg("Information message", "Error in process", ((Exception)serverService.getParams().get(1)).getMessage());
             	break;
@@ -219,8 +227,13 @@ public class CrDetails implements ClientUI {
         if(currRequest.isSuspended()) {
             IcmUtils.displayInformationMsg("Frozen Request", "Frozen Request", "This request is suspended");
             if(currUser.getPosition() != Position.ITD_MANAGER) {
+                attachFilesButton.setDisable(true);
                 return;
             }
+        }
+
+        if (!currRequest.getInitiator().getId().equals(currUser.getId())) {
+            attachFilesButton.setDisable(true);
         }
 
         if (currUser.getTitle() != ChangeInitiator.Title.INFOENGINEER) {
@@ -286,6 +299,33 @@ public class CrDetails implements ClientUI {
         if (root != null)
             buttonsPane.getChildren().setAll(root);
     }
+
+    /**
+     * Attach files for specific request
+     * @param event-attach files button pressed
+     */
+    @FXML
+    public void attachFiles(ActionEvent event) {
+        //select files to attach
+        List<Object> tempL = new ArrayList<>();
+        FileChooser fileCh = new FileChooser();
+        List<File> filesToAttach = fileCh.showOpenMultipleDialog(client.ClientMain.getPrimaryStage());
+        //checks if there are no files to attach
+        if (filesToAttach == null)
+            return;
+
+        File[] arr = new File[filesToAttach.size()];
+        int i = 0;
+        for (File f : filesToAttach) {
+            arr[i] = f;
+            i++;
+        }
+        tempL.add(CrDetails.getCurrRequest().getId());
+        tempL.add(arr);
+        clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Attach_Files, tempL));
+        IcmUtils.displayInformationMsg("attaching files in process...");
+    }
+
 
     @FXML
     void logout(ActionEvent event) throws IOException {
