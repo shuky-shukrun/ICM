@@ -125,4 +125,13 @@ public class CCCButtons implements ClientUI {
 			break;
 		}
 	}
+	
+    public static void setCurrPhase (Phase phase) {
+    	CCCButtons.currPhase=phase;
+    }
+    
+    public static Phase getPhase() {
+    	return currPhase;
+    	
+    }
 }
