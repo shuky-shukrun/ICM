@@ -44,7 +44,7 @@ public class AssignTester implements ClientUI {
 	ChangeInitiator oldSelection = new ChangeInitiator();
 
 	public void initialize() {
-		newCurrPhase = CCCButtons.getPhase();
+		
 		try {
 			clientController = ClientController.getInstance(this);
 
@@ -87,6 +87,7 @@ public class AssignTester implements ClientUI {
 				oldAndNewSelection);
 		clientController.handleMessageFromClientUI(serverService);
 		IcmUtils.displayInformationMsg("Updated!");
+		newCurrPhase = CCCButtons.getPhase();
 		newCurrPhase.setName(PhaseName.VALIDATION);
 		newCurrPhase.setPhaseStatus(PhaseStatus.IN_PROCESS);
 		CCCButtons.setCurrPhase(newCurrPhase);

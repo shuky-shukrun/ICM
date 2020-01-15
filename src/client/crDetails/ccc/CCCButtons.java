@@ -97,6 +97,7 @@ public class CCCButtons implements ClientUI {
 		Phase.PhaseStatus phaseStatus = crDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
 		Phase.PhaseName phase = crDetails.getCurrRequest().getCurrPhaseName();
 		ChangeInitiator currUser = ClientController.getUser();
+		currPhase=CrDetails.getCurrRequest().getPhases().get(0);
 		switch (phase) {
 		case EXAMINATION:
 			if (currUser.getPosition() == Position.CCC) {
