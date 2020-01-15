@@ -132,14 +132,9 @@ public class IcmUtils {
         primaryStage.show();
     }
 
-    public static void loadHomeScene(ClientUI clientUI) throws IOException {
-        loadScene(clientUI, "ICM Main Window", "/client/mainWindow/MainWindowUI.fxml", 590, 565);
-    }
     
     public static void popUpScene(ClientUI clientUI, String sceneTitle, String fxmlPath, int width, int height) throws IOException {
     	 System.out.println("Loading pop-up scene: " + sceneTitle);
-    	 width = 588;
-    	 height = 688;
          FXMLLoader loader = new FXMLLoader();
          Parent root = loader.load(clientUI.getClass().getResource(fxmlPath));
          Scene scene = new Scene(root, width, height);

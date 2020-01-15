@@ -62,7 +62,7 @@ public class CCCButtons implements ClientUI {
 		try {
 
 			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml",
-					600,700);
+					588,688);
 
 		} catch (IOException e) {
 			e.printStackTrace();

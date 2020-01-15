@@ -45,8 +45,8 @@ public class TesterButtons implements ClientUI {
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
 
-			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml", 400,
-					300);
+			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml", 588,
+					688);
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace();
