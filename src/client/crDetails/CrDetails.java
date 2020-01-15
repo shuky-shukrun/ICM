@@ -155,8 +155,12 @@ public class CrDetails implements ClientUI {
                 }
 
                 LocalDate deadLine = currRequest.getPhases().get(0).getDeadLine();
-                if(deadLine != null)
+                if(deadLine != null){
                     phaseDeadLineTextField.setText(deadLine.format(formatter));
+                    if(deadLine.isBefore(LocalDate.now())) {
+                        phaseDeadLineTextField.setStyle("-fx-text-inner-color: red; -fx-background-radius: 10");
+                    }
+                }
 
                 ObservableList<String> filesList = FXCollections.observableArrayList();
 

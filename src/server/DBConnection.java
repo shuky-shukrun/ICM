@@ -1006,6 +1006,8 @@ public class DBConnection {
 		ps.executeUpdate();
 		ps.close();
 
+		updateExceptionTime(changeRequest.getPhases());
+
 		System.out.println("database finish executionConfirmation");
 
 	}
