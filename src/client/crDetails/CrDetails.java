@@ -145,7 +145,8 @@ public class CrDetails implements ClientUI {
                 commentsTextArea.textProperty().setValue(currRequest.getComment());
                 currPhaseStatus.setText(currRequest.getPhases().get(0).getPhaseStatus().toString());
 
-                if(currRequest.getCurrPhaseName() != Phase.PhaseName.SUBMITTED) {
+                if(currRequest.getCurrPhaseName() != Phase.PhaseName.SUBMITTED &&
+                        currRequest.getCurrPhaseName() != Phase.PhaseName.CLOSING) {
                     IEPhasePosition phaseLeader = currRequest.getPhases().get(0).getIePhasePosition().get(IEPhasePosition.PhasePosition.PHASE_LEADER);
                     String phaseLeaderFn = phaseLeader.getInformationEngineer().getFirstName();
                     String phaseLeaderLn = phaseLeader.getInformationEngineer().getLastName();
