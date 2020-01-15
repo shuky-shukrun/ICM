@@ -8,12 +8,7 @@ import common.IcmUtils;
 import entities.Phase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import server.ServerService;
 
 public class TesterButtons implements ClientUI {
@@ -26,24 +21,22 @@ public class TesterButtons implements ClientUI {
 
     }
 	@FXML
-	private Button setDecisionButton1;
+	private Button setDecisionButton;
 
 	@FXML
 	private Button viewEvaluationReportButton;
+	@FXML
+	private Button setDecisionInfo;
 
 	private static Phase currPhase;
-	private int flag = 0;
 
 	public void initialize() {
 
-		if (flag == 0) {
-			currPhase = CrDetails.getCurrRequest().getPhases().get(0);
-			flag = 1;
-		}
-		if (flag == 1) {
-			if (!(currPhase.getName().equals(Phase.PhaseName.VALIDATION))) {
-				setDecisionButton1.setDisable(true);
-			}
+		setDecisionInfo.setVisible(false);
+		currPhase = CrDetails.getCurrRequest().getPhases().get(0);
+		if (!(currPhase.getName().equals(Phase.PhaseName.VALIDATION))) {
+			setDecisionButton.setDisable(true);
+			setDecisionInfo.setVisible(true);
 		}
 
 	}
@@ -66,6 +59,12 @@ public class TesterButtons implements ClientUI {
 
 		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/viewEvaluationReport.fxml", 600, 632);
 
+	}
+
+	@FXML
+	void setDecisionInfoMsg(ActionEvent event) {
+		IcmUtils.displayInformationMsg("Set Decision Help", "Decision Already Submitted",
+				"The decision for this phase already submitted.");
 	}
 
 	public static void setPhase(Phase NewPhase) {
