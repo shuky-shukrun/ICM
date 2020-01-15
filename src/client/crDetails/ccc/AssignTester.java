@@ -78,9 +78,14 @@ public class AssignTester implements ClientUI {
 		oldAndNewSelection.add(oldSelection);
 		oldAndNewSelection.add(selected);
 		oldAndNewSelection.add((crDetails.getCurrRequest().getId()));
-		ServerService serverService = new ServerService(ServerService.DatabaseService.Replace_Tester,oldAndNewSelection);
+		ServerService serverService = new ServerService(ServerService.DatabaseService.Replace_Tester,
+				oldAndNewSelection);
 		clientController.handleMessageFromClientUI(serverService);
 		IcmUtils.displayInformationMsg("Updated!");
+		newCurrPhase = CCCButtons.getPhase();
+		newCurrPhase.setName(PhaseName.VALIDATION);
+		newCurrPhase.setPhaseStatus(PhaseStatus.IN_PROCESS);
+		CCCButtons.setCurrPhase(newCurrPhase);
 		IcmUtils.getPopUp().close();
 	}
 
