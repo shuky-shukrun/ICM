@@ -61,8 +61,8 @@ public class CCCButtons implements ClientUI {
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
 
-			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml", 400,
-					300);
+			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml",
+					600,700);
 
 		} catch (IOException e) {
 			e.printStackTrace();
