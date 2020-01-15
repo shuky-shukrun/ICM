@@ -14,26 +14,26 @@
                 <Font size="30.0" />
             </font>
         </Label>
-        <Label fx:id="serverStatusLabel" layoutX="251.0" layoutY="323.0" text="off">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
+        <Label layoutX="16.0" layoutY="91.0" text="Server port:" />
+        <TextField fx:id="portTextFiled" layoutX="172.0" layoutY="86.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="5555" />
+        <Label layoutX="17.0" layoutY="132.0" text="Database URL:" />
+        <TextField fx:id="databaseUrlTextFiled" layoutX="173.0" layoutY="127.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="box5264.bluehost.com:3306/cbaricmy_ICM" />
+        <Label layoutX="19.0" layoutY="171.0" text="Database username:" />
+        <TextField fx:id="databaseUsernameTextFiled" layoutX="175.0" layoutY="166.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="cbaricmy_smart" />
+        <Label layoutX="18.0" layoutY="211.0" text="Database password:" />
+        <PasswordField fx:id="databasePasswordField" layoutX="175.0" layoutY="206.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="SMARTproject1!" />
         <Button fx:id="serverStatusBtn" defaultButton="true" layoutX="167.0" layoutY="264.0" mnemonicParsing="false" onAction="#startServer" prefHeight="45.0" prefWidth="106.0" style="-fx-background-radius: 10;" text="Start" />
         <Label layoutX="117.0" layoutY="323.0" text="current Status:">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="portTextFiled" layoutX="172.0" layoutY="86.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="5555" />
-        <Label layoutX="16.0" layoutY="91.0" text="Server port:" />
-        <Button fx:id="exitBtn" layoutX="382.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitProgram" text="Exit" />
+        <Label fx:id="serverStatusLabel" layoutX="251.0" layoutY="323.0" text="off">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
         <Label fx:id="listenLabel" alignment="CENTER" layoutX="16.0" layoutY="350.0" textAlignment="CENTER" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="4.0" />
-        <TextField fx:id="databaseUsernameTextFiled" layoutX="175.0" layoutY="166.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="cbaricmy_smart" />
-        <Label layoutX="19.0" layoutY="171.0" text="Database username:" />
-        <TextField fx:id="databaseUrlTextFiled" layoutX="173.0" layoutY="127.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="box5264.bluehost.com:3306/cbaricmy_ICM" />
-        <Label layoutX="17.0" layoutY="132.0" text="Database URL:" />
-        <Label layoutX="18.0" layoutY="211.0" text="Database password:" />
-        <PasswordField fx:id="databasePasswordField" layoutX="175.0" layoutY="206.0" prefHeight="31.0" prefWidth="259.0" style="-fx-background-radius: 10;" text="SMARTproject1!" />
+        <Button fx:id="exitBtn" layoutX="382.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitProgram" text="Exit" />
     </children>
 </AnchorPane>
