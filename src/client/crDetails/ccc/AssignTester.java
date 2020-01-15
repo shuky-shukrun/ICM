@@ -10,6 +10,9 @@ import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
 import entities.ChangeInitiator;
+import entities.Phase;
+import entities.Phase.PhaseName;
+import entities.Phase.PhaseStatus;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -35,6 +38,7 @@ public class AssignTester implements ClientUI {
 	private ClientController clientController;
 	private CrDetails crDetails;
 	private DBConnection dbConnection;
+	private Phase newCurrPhase;
 	ObservableList<ChangeInitiator> cccList = FXCollections.observableArrayList();
 	ChangeInitiator selectedTester;
 	ChangeInitiator oldSelection = new ChangeInitiator();
@@ -83,7 +87,7 @@ public class AssignTester implements ClientUI {
 		clientController.handleMessageFromClientUI(serverService);
 		IcmUtils.displayInformationMsg("Updated!");
 		newCurrPhase = CCCButtons.getPhase();
-		newCurrPhase.setName(PhaseName.VALIDATION);
+		//newCurrPhase.setName(PhaseName.VALIDATION);
 		newCurrPhase.setPhaseStatus(PhaseStatus.IN_PROCESS);
 		CCCButtons.setCurrPhase(newCurrPhase);
 		IcmUtils.getPopUp().close();
