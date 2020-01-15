@@ -83,11 +83,6 @@ public class CCCButtons implements ClientUI {
 
 	}
 
-	public void enableChairmanButtons() {
-		setDecisionButton.setDisable(false);
-		assignTesterButton.setDisable(false);
-	}
-
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);

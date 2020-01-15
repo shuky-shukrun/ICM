@@ -264,9 +264,7 @@ public class CrDetails implements ClientUI {
                     root = FXMLLoader.load(getClass().getResource("initiator/InitiatorButtons.fxml"));
                 else {
                     FXMLLoader loader = new FXMLLoader();
-                    root = loader.load(getClass().getResource("ccc/CCCButtons.fxml").openStream());
-                    CCCButtons chairman = loader.getController();
-                    chairman.enableChairmanButtons();
+                    root = loader.load(getClass().getResource("ccc/CCCButtons.fxml"));
                 }
                 break;
             case SUPERVISOR:
