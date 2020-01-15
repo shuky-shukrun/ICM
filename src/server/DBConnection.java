@@ -35,8 +35,7 @@ public class DBConnection {
 
 		// SQL connection to server
 		try {
-			sqlConnection = DriverManager.getConnection("jdbc:mysql://" + url + "?serverTimezone=IST", username,
-					password);
+			sqlConnection = DriverManager.getConnection("jdbc:mysql://" + url, username, password);
 			System.out.println("SQL connection succeed");
 
 		} catch (SQLException ex) {/* handle any errors */

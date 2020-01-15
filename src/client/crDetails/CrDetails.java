@@ -135,7 +135,8 @@ public class CrDetails implements ClientUI {
                 setCurrRequest(crList.get(0));
 
                 changeRequestIDTextField.setText(String.valueOf(currRequest.getId()));
-                openingDateTextField.setText(currRequest.getDate().format(formatter));
+                if(currRequest.getDate() != null)
+                    openingDateTextField.setText(currRequest.getDate().format(formatter));
                 initiatorTextField.setText(currRequest.getInitiator().getFirstName() + " " + currRequest.getInitiator().getLastName());
                 infoSystemTextField.setText(currRequest.getInfoSystem().toString());
                 currentPhaseTextField.setText(currRequest.getCurrPhaseName().toString());

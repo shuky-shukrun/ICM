@@ -253,7 +253,7 @@ public class MainWindow implements ClientUI {
 
     @FXML
     void showItdManagerAssignPermissionsDialog(ActionEvent event) throws IOException {
-        IcmUtils.popUpScene(this, "ITD Assign Permissions", "/client/mainWindow/ITDAssignPermissions/ITDAssignPermissions.fxml", 472, 452);
+        IcmUtils.popUpScene(this, "ITD Assign Permissions", "/client/mainWindow/itdAssignPermissions/ITDAssignPermissions.fxml", 472, 452);
 
     }
     @FXML

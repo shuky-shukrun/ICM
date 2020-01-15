@@ -141,12 +141,7 @@ public class CreateEvaluationReport implements ClientUI {
 	 * @param e-cancel button pressed event
 	 */
 	public void cancelEvaluationReport(ActionEvent e) {
-		try {
-			IcmUtils.getPopUp().close();
-			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		IcmUtils.getPopUp().close();
 	}
 
 	/**

@@ -42,6 +42,11 @@ public class Login implements ClientUI {
 
     @FXML
     void login(ActionEvent event) {
+        try {
+            clientController = ClientController.getInstance(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         List<String> params = new ArrayList<>();
         params.add(userName.getText());
         params.add(password.getText());
