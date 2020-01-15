@@ -38,12 +38,17 @@ public class CCCButtons implements ClientUI {
 	private Button moreInformationButton;
 
 	private ClientController clientController;
+	private static Phase currPhase;
 	private CrDetails crDetails;
 
 	@FXML
 	void showAssignTesterDialog(ActionEvent event) throws IOException {
-
-		IcmUtils.popUpScene(this, "Assign Tester", "/client/crDetails/ccc/AssignTester.fxml", 400, 300);
+		try {
+			IcmUtils.popUpScene(this, "Assign Tester", "/client/crDetails/ccc/AssignTester.fxml", 400, 300);
+			initialize();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -92,6 +97,7 @@ public class CCCButtons implements ClientUI {
 		Phase.PhaseStatus phaseStatus = crDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
 		Phase.PhaseName phase = crDetails.getCurrRequest().getCurrPhaseName();
 		ChangeInitiator currUser = ClientController.getUser();
+		currPhase=CrDetails.getCurrRequest().getPhases().get(0);
 		switch (phase) {
 		case EXAMINATION:
 			if (currUser.getPosition() == Position.CCC) {
@@ -125,4 +131,13 @@ public class CCCButtons implements ClientUI {
 			break;
 		}
 	}
+	
+    public static void setCurrPhase (Phase phase) {
+    	CCCButtons.currPhase=phase;
+    }
+    
+    public static Phase getPhase() {
+    	return currPhase;
+    	
+    }
 }
