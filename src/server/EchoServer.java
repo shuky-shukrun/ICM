@@ -432,6 +432,7 @@ public class EchoServer extends AbstractServer {
 				List<Integer> frozenList = new ArrayList<>();
 				List<Integer> activeList = new ArrayList<>();
 				List<Integer> closedList = new ArrayList<>();
+				List<Integer> declinedList = new ArrayList<>();
 				List<List<Integer>> countList = new ArrayList<>();
 				
 				LocalDate startDate= (LocalDate) serverService.getParams().get(0);
@@ -450,9 +451,12 @@ public class EchoServer extends AbstractServer {
 						activeList.add(activeCount);
 						int closedCount=dbConnection.getCReportDetails(from,to);
 						closedList.add(closedCount);
+						int declinedCount = dbConnection.getDReportDetails(from,to);
+						declinedList.add(declinedCount);
 						countList.add(frozenList);
 						countList.add(activeList);
 						countList.add(closedList);
+						countList.add(declinedList);
 						serverService.setParams(countList);
 						client.sendToClient(serverService);
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.time.temporal.ChronoUnit;
@@ -15,6 +16,8 @@ import client.ClientController;
 import client.ClientUI;
 import entities.ChangeInitiator;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
@@ -22,6 +25,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import server.ServerService;
@@ -91,6 +95,8 @@ public class ActivityReportController implements ClientUI {
 	private AnchorPane mainAnchorPane;
 	private ClientController clientController;
 	static HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+    public static final String Column1MapKey = "A";
+    public static final String Column2MapKey = "B";
 
 
 	public void initialize() {
@@ -127,32 +133,63 @@ public class ActivityReportController implements ClientUI {
 		List frozenCount= params.get(0);
 		List activeCount=params.get(1);
 		List closedCount=params.get(2);
+		List declinedCount=params.get(3);
+
 		System.out.println("hello");
-		System.out.println(params.get(0));
-		System.out.println(params.get(1));
-		System.out.println(params.get(2));
+		System.out.println(frozenCount);
+		System.out.println(activeCount);
+		System.out.println(closedCount);
+		System.out.println(declinedCount);
 		System.out.println("bye");
 
-		int size1 = params.get(0).size();
-		int size2 = params.get(1).size();
-		int size3 = params.get(2).size();
+		int totalFrozen=0;
+		int totalActive=0;
+		int totalClosed=0;
+		int totalDeclined=0;
+		
+		int size1 = frozenCount.size();
+		int size2 = activeCount.size();
+		int size3 = closedCount.size();
+		int size4 = declinedCount.size();
+		System.out.println(size4);
+		
 		Integer[] numArray1 = new Integer[size1];
 		Integer[] numArray2 = new Integer[size2];
 		Integer[] numArray3 = new Integer[size3];
-		params.get(0).toArray(numArray1);
-		params.get(1).toArray(numArray2);
-		params.get(2).toArray(numArray3);
+		Integer[] numArray4 = new Integer[size4];
+		
+		frozenCount.toArray(numArray1);
+		activeCount.toArray(numArray2);
+		closedCount.toArray(numArray3);
+		declinedCount.toArray(numArray4);
+		
 		Arrays.sort(numArray1);
 		Arrays.sort(numArray2);
 		Arrays.sort(numArray3);
+		Arrays.sort(numArray4);
+		
+		for(int i=0; i<size1; i++) {
+			totalFrozen= totalFrozen+ numArray1[i];
+		}
+		for(int i=0; i<size2; i++) {
+			totalActive= totalActive+ numArray2[i];
+		}
+		for(int i=0; i<size3; i++) {
+			totalClosed= totalClosed+ numArray3[i];
+		}
+		for(int i=0; i<size4; i++) {
+			totalDeclined= totalDeclined+ numArray4[i];
+		}
 
 		double frozenMed= median(numArray1);
 		double activeMed= median(numArray2);
 		double closedMed= median(numArray3);
+		double declinedMed= median(numArray4);
 
 		double frozenStd= std(numArray1);
-		double activeStd= std(numArray1);
-		double closedStd= std(numArray1);
+		double activeStd= std(numArray2);
+		double closedStd= std(numArray3);
+		double declinedStd= std(numArray4);
 
 		String s = String.valueOf(frozenMed);
 		String s1 = String.valueOf(frozenStd);
@@ -160,9 +197,12 @@ public class ActivityReportController implements ClientUI {
 		String s3 = String.valueOf(activeStd);
 		String s4 = String.valueOf(closedMed);
 		String s5 = String.valueOf(closedStd);
-		String s6= String.valueOf(numArray1.length);
-		String s7= String.valueOf(numArray2.length);
-		String s8= String.valueOf(size3);
+		String s6 = String.valueOf(declinedMed);
+		String s7 = String.valueOf(declinedStd);
+		String s8= String.valueOf(totalFrozen);
+		String s9= String.valueOf(totalActive);
+		String s10= String.valueOf(totalClosed);
+		String s11= String.valueOf(totalDeclined);
 		
 		medFrozen.textProperty().set(s);
 		medFrozen.setDisable(true);
@@ -176,9 +216,18 @@ public class ActivityReportController implements ClientUI {
 		medClosed.setDisable(true);
 		stdClosed.textProperty().set(s5);
 		stdClosed.setDisable(true);
-		countFrozen.textProperty().set(s6);
-		countActive.textProperty().set(s7);
-		countClosed.textProperty().set(s8);
+		medDeclined.textProperty().set(s6);
+		stdDeclined.textProperty().set(s7);
+		countFrozen.textProperty().set(s8);
+		countActive.textProperty().set(s9);
+		countClosed.textProperty().set(s10);
+		countDeclined.textProperty().set(s11);
+		
+		System.out.println(frq(numArray1));
+		System.out.println(frq(numArray2));
+		System.out.println(frq(numArray3));
+
+
 
 
 	}
@@ -194,28 +243,31 @@ public class ActivityReportController implements ClientUI {
 	
 	public double std(Integer[] Array) {
 		double sum=0.0;
+		double sd = 0.0;
+		
 		for (int i = 0; i < Array.length; i++) {
 			sum = sum + Array[i];
-			System.out.println(sum);
 		}
+		
 		double avg = sum / (double) Array.length;
-		System.out.println(avg);
-		double sd = 0;
-		for (int i = 0; i < Array.length; i++) {
-			sd += ((Array[i] - avg) * (Array[i] - avg)) / (Array.length - 1);
-		}
-		double standardDeviation = Math.sqrt(sd);
-		return standardDeviation;
+		
+        for(double num: Array) {
+            sd += Math.pow(num - avg, 2);
+        }
+        
+        return Math.sqrt(sd/Array.length);
+
 	}
 	
-	public void frq(Integer[] Array) {
+	public HashMap frq(Integer[] Array) {
+		hm.clear();
 		for (int i = 0; i < Array.length; i++) {
 			if (hm.containsKey(Array[i]))
 				hm.put(Array[i], hm.get(Array[i]) + 1);
 			else
 				hm.put(Array[i], 1);
 		}
-		System.out.println(hm);
+		return(hm);
 	}
 
 }

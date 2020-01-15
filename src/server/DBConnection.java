@@ -1544,5 +1544,30 @@ public class DBConnection {
 		}
 		return count;
 	}
+	
+	public int getDReportDetails(LocalDate startDate, LocalDate endDate) {
+		int count=0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("SELECT COUNT(*) As count from phase P, changeRequest C WHERE"
+							+ " C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? "
+							+ "And C.crCurrPhaseName='CLOSING' AND"
+							+ " P.phPhaseName=C.crCurrPhaseName and "
+							+ "P.phStatus='DECLINE' and P.phIDChangeRequest=C.crID ");
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setInt(3, 0);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) 
+				count = rs.getInt("count");
+			System.out.println(count);
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 }
