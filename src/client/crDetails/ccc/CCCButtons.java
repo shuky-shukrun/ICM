@@ -38,6 +38,7 @@ public class CCCButtons implements ClientUI {
 	private Button moreInformationButton;
 
 	private ClientController clientController;
+	private static Phase currPhase;
 	private CrDetails crDetails;
 
 	@FXML
