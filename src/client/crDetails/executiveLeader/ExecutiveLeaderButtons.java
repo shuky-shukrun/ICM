@@ -64,6 +64,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 				info = "Phase time has been submitted";
 				confirmExecutionButton.setDisable(true);
 				requestPhaseTimeButton1.setDisable(true);
+				moreInformationButton.setDisable(false);
 				moreInformationButton2.setVisible(true);
 				moreInformationButton2.setDisable(false);
 				break;
