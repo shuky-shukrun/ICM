@@ -1,57 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="482.0" prefWidth="235.0" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.supervisor.SupervisorButtons">
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
+<Pane prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" stylesheets="@../../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.supervisor.SupervisorButtons">
    <children>
-      <Button fx:id="phaseTimeDecisionButton" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#setTimeDecision" prefHeight="35.0" style="-fx-background-radius: 10;" text="Phase Time Decision" textAlignment="CENTER">
-         <font>
-            <Font size="14.0" />
-         </font>
+      <VBox prefHeight="470.0" prefWidth="250.0" spacing="10.0" style="-fx-background-color: #3F2B63;">
+         <children>
+            <Button fx:id="assignPhaseLeadersButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showAssignPhaseLeadersDialog" prefHeight="50.0" prefWidth="250.0" text=" Assign Phase Leaders" textFill="#f8f8f8">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_MULTIPLE_PLUS" size="25" />
+               </graphic>
+            </Button>
+            <Button fx:id="phaseTimeDecisionButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#setTimeDecision" prefHeight="50.0" prefWidth="250.0" text=" Phase Time Decision" textFill="#f8f8f8">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITE" glyphName="ALARM_CHECK" size="25" />
+               </graphic>
+            </Button>
+            <Button fx:id="closeChangeRequestButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#closeChangeRequest" prefHeight="50.0" prefWidth="250.0" text=" Close Change Request" textFill="#f8f8f8">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="TIMES_CIRCLE_ALT" size="25" />
+               </graphic>
+            </Button>
+            <Button fx:id="freezeRequestButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#freezeRequest" prefHeight="50.0" prefWidth="250.0" text=" Freeze Request" textFill="#f8f8f8">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="HAND_STOP_ALT" size="25" />
+               </graphic>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </VBox>
+      <Button fx:id="phaseTimeRequestInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="60.0" mnemonicParsing="false" onAction="#phaseTimeDecisionInfo" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
-            <MaterialDesignIconView glyphName="ALARM_CHECK" size="20" />
+            <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>
       </Button>
-      <Button fx:id="assignPhaseLeadersButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAssignPhaseLeadersDialog" prefHeight="35.0" style="-fx-background-radius: 10;" text="Assign Phase Leaders">
-         <font>
-            <Font size="14.0" />
-         </font>
+      <Button fx:id="moreInformation2" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="120.0" mnemonicParsing="false" onAction="#moreInformation2Event" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
-            <MaterialDesignIconView glyphName="ACCOUNT_MULTIPLE_PLUS" size="20" />
+            <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>
       </Button>
-      <Button fx:id="freezeRequestButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#freezeRequest" prefHeight="35.0" style="-fx-background-radius: 10;" text="Freeze Request">
-         <font>
-            <Font size="14.0" />
-         </font>
+      <Button fx:id="freezeRequestInfoButton" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="181.0" mnemonicParsing="false" onAction="#freezeRequestInfo" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
-            <FontAwesomeIconView glyphName="HAND_STOP_ALT" size="17" />
+            <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>
       </Button>
-      <Button fx:id="closeChangeRequestButton" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#closeChangeRequest" prefHeight="35.0" style="-fx-background-radius: 10;" text="Close Change Request">
-         <font>
-            <Font size="14.0" />
-         </font>
-         <graphic>
-            <FontAwesomeIconView glyphName="TIMES_CIRCLE_ALT" size="20" />
-         </graphic>
-      </Button>
-      <JFXButton fx:id="moreInformation2" alignment="TOP_LEFT" onAction="#moreInformation2Event" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
-         <graphic>
-            <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
-         </graphic>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </JFXButton>
    </children>
-</VBox>
+</Pane>

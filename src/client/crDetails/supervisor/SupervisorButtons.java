@@ -35,9 +35,12 @@ public class SupervisorButtons implements ClientUI {
 
 	@FXML
 	private Button closeChangeRequestButton;
-
+	@FXML
+	private Button phaseTimeRequestInfo;
 	@FXML
 	private Button moreInformation2;
+	@FXML
+	private Button freezeRequestInfoButton;
 
 	private static Phase.PhaseStatus CurrStatus;
     private String info;
@@ -49,10 +52,12 @@ public class SupervisorButtons implements ClientUI {
     	try {
 			clientController=ClientController.getInstance(this);
 			moreInformation2.setVisible(false);	
-			//moreInformation3.setVisible(true);
-			
+			phaseTimeRequestInfo.setVisible(false);
+			freezeRequestButton.setVisible(false);
+
 			if(CrDetails.getCurrRequest().isSuspended())
 			{
+				
 				info="not in closing";
 				closeChangeRequestButton.setDisable(true);
 				moreInformation2.setVisible(true);
@@ -83,6 +88,7 @@ public class SupervisorButtons implements ClientUI {
     		}
     		if(!(CurrStatus.equals(Phase.PhaseStatus.TIME_REQUESTED)||CurrStatus.equals(Phase.PhaseStatus.EXTENSION_TIME_REQUESTED))){
     			phaseTimeDecisionButton.setDisable(true);
+    			phaseTimeRequestInfo.setVisible(true);
     		}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -149,6 +155,16 @@ public class SupervisorButtons implements ClientUI {
 			IcmUtils.displayInformationMsg("There are no time requests.");
 
 		}
+	}
+
+	@FXML
+	private void phaseTimeDecisionInfo() {
+		IcmUtils.displayInformationMsg("Phase Time Help", "Phase Time Approved", "Phase time for this phase already approved.");
+	}
+
+	@FXML
+	private void freezeRequestInfo() {
+		IcmUtils.displayInformationMsg("Phase Time Help", "Phase Time Approved", "Phase time for this phase already approved.");
 	}
 
 	@FXML
