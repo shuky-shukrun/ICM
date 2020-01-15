@@ -247,7 +247,7 @@ public class DBConnection {
 				iePhasePosition.setPhaseName(currPhase.getName());
 				iePhasePosition.setPhasePosition(IEPhasePosition.PhasePosition.valueOf(rs.getString("iePhasePosition")));
 				iePhasePositionMap.put(iePhasePosition.getPhasePosition(), iePhasePosition);
-				PreparedStatement phaseLeaderPs = sqlConnection.prepareStatement("SELECT firstName, lastName FROM cbaricmy_ICM.users WHERE IDuser = ?");
+				PreparedStatement phaseLeaderPs = sqlConnection.prepareStatement("SELECT firstName, lastName FROM users WHERE IDuser = ?");
 				phaseLeaderPs.setInt(1, iePhasePosition.getInformationEngineer().getId());
 				ResultSet phaseLeaderRs = phaseLeaderPs.executeQuery();
 				while (phaseLeaderRs.next()) {
@@ -259,7 +259,7 @@ public class DBConnection {
 
 			// get files
 			List<String> filesNames = new ArrayList<>();
-			ps = sqlConnection.prepareStatement("SELECT fileName FROM cbaricmy_ICM.files WHERE CrID = ?");
+			ps = sqlConnection.prepareStatement("SELECT fileName FROM files WHERE CrID = ?");
 			ps.setInt(1, cr.getId());
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -890,7 +890,7 @@ public class DBConnection {
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection.prepareStatement(
-						"UPDATE cbaricmy_ICM.phase SET phSetDecisionDescription = 'Ask For Additional Data' WHERE phIDChangeRequest = ? and phPhaseName='EVALUATION'");
+						"UPDATE phase SET phSetDecisionDescription = 'Ask For Additional Data' WHERE phIDChangeRequest = ? and phPhaseName='EVALUATION'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
@@ -955,7 +955,7 @@ public class DBConnection {
 			rs.next();
 			if (rs.getString("phSetDecisionDescription") != null
 					&& rs.getString("phSetDecisionDescription").equals("Ask For Additional Data")) {
-				ps = sqlConnection.prepareStatement("delete from cbaricmy_ICM.evaluationReport where cRequestID=?");
+				ps = sqlConnection.prepareStatement("delete from evaluationReport where cRequestID=?");
 				ps.setInt(1, id);
 				ps.executeUpdate();
 				System.out.println("true");
@@ -1488,7 +1488,7 @@ public class DBConnection {
 
 		// get all the requests where the deadline is in less then 2 days
 		Date tomorrow = Date.valueOf(LocalDate.now().plusDays(2));
-		ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.phase WHERE phDeadline < ? AND phDeadline > ? AND " +
+		ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phDeadline < ? AND phDeadline > ? AND " +
 				"(phStatus = ? OR phStatus = ?)");
 		ps.setDate(1, tomorrow);
 		ps.setDate(2, Date.valueOf(LocalDate.now()));
@@ -1505,7 +1505,7 @@ public class DBConnection {
 					"Please contact the executive leader of the phase to make sure he is finishing his assignments by tomorrow.";
 
 			// send email to phase leader
-			PreparedStatement inProcessPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM cbaricmy_ICM.ieInPhase " +
+			PreparedStatement inProcessPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM ieInPhase " +
 					"WHERE crID = ? AND iePhaseName = ? AND " +
 					"iePhasePosition = ?");
 
@@ -1518,7 +1518,7 @@ public class DBConnection {
 			Integer PhaseLeaderId = inProcessRs.getInt("IDieInPhase");
 			inProcessRs.close();
 
-			PreparedStatement getEmailPs = sqlConnection.prepareStatement("SELECT email FROM cbaricmy_ICM.users WHERE IDuser = ?");
+			PreparedStatement getEmailPs = sqlConnection.prepareStatement("SELECT email FROM users WHERE IDuser = ?");
 			getEmailPs.setString(1, PhaseLeaderId.toString());
 			inProcessRs = getEmailPs.executeQuery();
 
@@ -1526,7 +1526,7 @@ public class DBConnection {
 			inProcessRs.close();
 
 			// find executive leaders for each phase
-			inProcessPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM cbaricmy_ICM.ieInPhase " +
+			inProcessPs = sqlConnection.prepareStatement("SELECT IDieInPhase FROM ieInPhase " +
 					"WHERE crID = ? AND iePhaseName = ? AND " +
 					"iePhasePosition = ?");
 			inProcessPs.setInt(1, changeRequestId);
@@ -1554,7 +1554,7 @@ public class DBConnection {
 				inProcessRs = inProcessPs.executeQuery();
 				while (inProcessRs.next()) {
 					Integer userId = inProcessRs.getInt("IDieInPhase");
-					getEmailPs = sqlConnection.prepareStatement("SELECT email FROM cbaricmy_ICM.users " +
+					getEmailPs = sqlConnection.prepareStatement("SELECT email FROM users " +
 							"WHERE IDuser = ?");
 					getEmailPs.setInt(1, userId);
 					ResultSet getEmailRs = getEmailPs.executeQuery();
@@ -1567,7 +1567,7 @@ public class DBConnection {
 			// in case of validation or examination phase, notify CC Chairman
 			switch (phaseName) {
 				case EXAMINATION:
-					inProcessPs = sqlConnection.prepareStatement("SELECT email FROM cbaricmy_ICM.users " +
+					inProcessPs = sqlConnection.prepareStatement("SELECT email FROM users " +
 							"WHERE position = ?");
 					inProcessPs.setString(1, Position.CHAIRMAN.toString());
 					ResultSet getEmailRs = inProcessPs.executeQuery();
@@ -1633,7 +1633,7 @@ public class DBConnection {
     		
 				try {
 					
-					PreparedStatement ps = sqlConnection.prepareStatement("SELECT phExceptionTime FROM cbaricmy_ICM.phase WHERE phIDChangeRequest=? AND phPhaseName=?");
+					PreparedStatement ps = sqlConnection.prepareStatement("SELECT phExceptionTime FROM phase WHERE phIDChangeRequest=? AND phPhaseName=?");
 					ps.setInt(1 ,currPhase.getChangeRequestId());
 		            ps.setString(2, currPhase.getName().toString());
 		            ResultSet rs= ps.executeQuery();
@@ -1643,7 +1643,7 @@ public class DBConnection {
 	    			if(exceptionTime>0)
 					days= days+exceptionTime;
 	    			
-		            PreparedStatement ps1 = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phExceptionTime=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+		            PreparedStatement ps1 = sqlConnection.prepareStatement("UPDATE phase SET phExceptionTime=? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 		            ps1.setInt(1, days);
 		            ps1.setInt(2 ,currPhase.getChangeRequestId());
 		            ps1.setString(3, currPhase.getName().toString());
