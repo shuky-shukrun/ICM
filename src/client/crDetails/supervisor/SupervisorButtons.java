@@ -53,7 +53,6 @@ public class SupervisorButtons implements ClientUI {
 			clientController=ClientController.getInstance(this);
 			moreInformation2.setVisible(false);	
 			phaseTimeRequestInfo.setVisible(false);
-			freezeRequestButton.setVisible(false);
 
 			if(CrDetails.getCurrRequest().isSuspended())
 			{

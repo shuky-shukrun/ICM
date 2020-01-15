@@ -20,7 +20,7 @@ import server.ServerService.DatabaseService;
 public class ITDButtons implements ClientUI {
 
     @FXML
-    private JFXButton thawMessage;
+    private Button thawMessage;
     @FXML
     private Button thawButton;
 
@@ -65,8 +65,8 @@ public class ITDButtons implements ClientUI {
     		case Thaw_Request:
     			if((Boolean)serverService.getParams().get(0)==true) {
     				IcmUtils.displayInformationMsg("Success", "Request Thawed");
+    				CrDetails.getCurrRequest().setSuspended(false);
     				thawButton.setDisable(true);
-    				thawMessage.setVisible(false);
     			}
     			else
     				IcmUtils.displayErrorMsg("Error", "Thaw Request Failed");
@@ -83,7 +83,7 @@ public class ITDButtons implements ClientUI {
 			IcmUtils.displayInformationMsg("Frozen request", "Frozen request", frozenRequest);
 		}
     	else {
-			String activeRequest = "This request is active.\nOnly frozen requests can be thaw.";
+			String activeRequest = "This request is active.\nOnly frozen requests can be thawed.";
 			IcmUtils.displayInformationMsg("Active request", "Active request", activeRequest);
 		}
 
