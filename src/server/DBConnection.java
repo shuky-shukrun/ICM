@@ -54,7 +54,7 @@ public class DBConnection {
 
 		try {
 			PreparedStatement ps = sqlConnection
-					.prepareStatement("SELECT * FROM cbaricmy_ICM.users WHERE IDuser = ? AND password = ?");
+					.prepareStatement("SELECT * FROM users WHERE IDuser = ? AND password = ?");
 			ps.setString(1, params.get(0));
 			ps.setString(2, params.get(1));
 			ResultSet rs = ps.executeQuery();
@@ -101,7 +101,7 @@ public class DBConnection {
 			// create and execute the query
 			// the user is the change initiator
 			ps = sqlConnection.prepareStatement("SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName "
-					+ "FROM cbaricmy_ICM.changeRequest CR " + "WHERE CR.crIDuser = ?;");
+					+ "FROM changeRequest CR " + "WHERE CR.crIDuser = ?;");
 			ps.setInt(1, currUser.getId());
 			// go throw the results and add it to arrayList
 			Set<ChangeRequest> tempSet = insertRequestsIntoList(currUser.getId());
@@ -116,21 +116,21 @@ public class DBConnection {
 			case ITD_MANAGER:
 			case SUPERVISOR:
 				ps = sqlConnection.prepareStatement(
-						"SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName " + "FROM cbaricmy_ICM.changeRequest CR");
+						"SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName " + "FROM changeRequest CR");
 				break;
 			case CHAIRMAN:
 				ps = sqlConnection.prepareStatement("SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName "
-						+ "FROM cbaricmy_ICM.changeRequest CR,  cbaricmy_ICM.ieInPhase IE " + "WHERE (CR.crCurrPhaseName = 'EXAMINATION' OR CR.crCurrPhaseName = 'VALIDATION')"
+						+ "FROM changeRequest CR,  ieInPhase IE " + "WHERE (CR.crCurrPhaseName = 'EXAMINATION' OR CR.crCurrPhaseName = 'VALIDATION')"
 						+ "OR (CR.crCurrPhaseName = IE.iePhaseName AND " + "IE.iePhasePosition = 'TESTER')");
 				break;
 			case CCC:
 				ps = sqlConnection.prepareStatement("SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName "
-						+ "FROM cbaricmy_ICM.changeRequest CR,  cbaricmy_ICM.ieInPhase IE " + "WHERE CR.crCurrPhaseName = 'EXAMINATION' "
+						+ "FROM changeRequest CR,  ieInPhase IE " + "WHERE CR.crCurrPhaseName = 'EXAMINATION' "
 						+ "OR (CR.crCurrPhaseName = IE.iePhaseName AND " + "IE.iePhasePosition = 'TESTER')");
 				break;
 			case REGULAR:
 				ps = sqlConnection.prepareStatement("SELECT CR.crID, CR.crInfoSystem, CR.crDate, CR.crCurrPhaseName "
-						+ "FROM cbaricmy_ICM.changeRequest CR, cbaricmy_ICM.ieInPhase IE " + "WHERE CR.crID = IE.crID AND "
+						+ "FROM changeRequest CR, ieInPhase IE " + "WHERE CR.crID = IE.crID AND "
 						+ "CR.crCurrPhaseName = IE.iePhaseName AND " + "IE.IDieInPhase = ?");
 				ps.setInt(1, currUser.getId());
 				break;
@@ -180,7 +180,7 @@ public class DBConnection {
 
 		try {
 			// get request basic info
-			ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.changeRequest WHERE crID = ?");
+			ps = sqlConnection.prepareStatement("SELECT * FROM changeRequest WHERE crID = ?");
 			ps.setInt(1, params.get(1));
 
 			ResultSet rs = ps.executeQuery();
@@ -203,7 +203,7 @@ public class DBConnection {
 			ps.close();
 
 			// get request current phase
-			ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.phase WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+			ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 			ps.setInt(1, cr.getId());
 			ps.setString(2, cr.getCurrPhaseName().toString());
 
@@ -231,7 +231,7 @@ public class DBConnection {
 			ps.close();
 
 			// get Information Engineer Phase Position for the current user
-			ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.ieInPhase WHERE crID = ? AND iePhaseName = ?");
+			ps = sqlConnection.prepareStatement("SELECT * FROM ieInPhase WHERE crID = ? AND iePhaseName = ?");
 			ps.setInt(1, cr.getId());
 			ps.setString(2, cr.getCurrPhaseName().toString());
 
@@ -274,7 +274,7 @@ public class DBConnection {
 			ps.close();
 
 			// get initiator details
-			ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.users WHERE IDuser = ?");
+			ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser = ?");
 			ps.setInt(1, cr.getInitiator().getId());
 			rs = ps.executeQuery();
 			rs.beforeFirst();
@@ -338,7 +338,7 @@ public class DBConnection {
 		try {
 			System.out.println("insert new evaluation report");
 			PreparedStatement ps = sqlConnection.prepareStatement(
-					"INSERT INTO cbaricmy_ICM.evaluationReport(cRequestID,infoSystem,requestedChange,expectedResult,risksAndConstraints,EvaluatedTime) VALUES(?,?,?,?,?,?)");
+					"INSERT INTO evaluationReport(cRequestID,infoSystem,requestedChange,expectedResult,risksAndConstraints,EvaluatedTime) VALUES(?,?,?,?,?,?)");
 			ps.setInt(1, Integer.parseInt(requirementList1.get(0)));
 			ps.setString(2, requirementList1.get(1));
 			ps.setString(3, requirementList1.get(2));
@@ -358,7 +358,7 @@ public class DBConnection {
 		// assigned
 		try {
 			PreparedStatement ps = sqlConnection.prepareStatement(
-					"UPDATE cbaricmy_ICM.phase SET phStatus='IN_PROCESS',phDeadline=? where phIDChangeRequest=? AND phPhaseName='EXAMINATION'");
+					"UPDATE phase SET phStatus='IN_PROCESS',phDeadline=? where phIDChangeRequest=? AND phPhaseName='EXAMINATION'");
 			ps.setInt(2, Integer.parseInt(requirementList1.get(0)));// id
 			LocalDate d = LocalDate.now().plusDays(7);
 			ps.setDate(1,Date.valueOf(d));
@@ -375,7 +375,7 @@ public class DBConnection {
 		try {
 			System.out.println("update current phase of request to examination");
 			PreparedStatement ps1 = sqlConnection
-					.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = 'EXAMINATION' WHERE crID = ?");
+					.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXAMINATION' WHERE crID = ?");
 			ps1.setInt(1, Integer.parseInt(requirementList1.get(0)));
 			ps1.executeUpdate();
 			flag = true;
@@ -388,7 +388,7 @@ public class DBConnection {
 		// update evaluation phase of specific request status to done
 		try {
 			PreparedStatement ps1 = sqlConnection.prepareStatement(
-					"UPDATE cbaricmy_ICM.phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ? AND phPhaseName='EVALUATION'");
+					"UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ? AND phPhaseName='EVALUATION'");
 			ps1.setInt(1, Integer.parseInt(requirementList1.get(0)));
 			ps1.executeUpdate();
 			flag = true;
@@ -469,7 +469,7 @@ public class DBConnection {
 		System.out.println("Database handle addNewRequest");
 		// insert request
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.changeRequest "
+			ps = sqlConnection.prepareStatement("INSERT INTO changeRequest "
 					+ "(crIDuser, crInfoSystem, crCurrState, crRequestedChange, crReasonForChange, "
 					+ "crComments, crDate, crCurrPhaseName, crSuspended) " + "VALUE (?,?,?,?,?,?,?,?, 0)");
 			ps.setInt(1, newRequest.getInitiator().getId());
@@ -488,7 +488,7 @@ public class DBConnection {
 		}
 
 		try {
-			ps = sqlConnection.prepareStatement("SELECT MAX(crID) FROM cbaricmy_ICM.changeRequest");
+			ps = sqlConnection.prepareStatement("SELECT MAX(crID) FROM changeRequest");
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			newRequest.setId(rs.getInt(1));
@@ -502,7 +502,7 @@ public class DBConnection {
 
 		// insert SUBMITTED phase
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.phase "
+			ps = sqlConnection.prepareStatement("INSERT INTO phase "
 					+ "(phIDChangeRequest, phPhaseName, phDeadline, phStatus) " + "VALUE (?,?,?,?)");
 			ps.setInt(1, newRequest.getId());
 			ps.setString(2, newRequest.getCurrPhaseName().toString());
@@ -517,7 +517,7 @@ public class DBConnection {
 
 		// insert all other phases
 		try {
-			ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.phase " + "(phIDChangeRequest, phPhaseName, phStatus) "
+			ps = sqlConnection.prepareStatement("INSERT INTO phase " + "(phIDChangeRequest, phPhaseName, phStatus) "
 					+ "VALUES (?,?,?), (?,?,?), (?,?,?), (?,?,?), (?,?,?)");
 
 			ps.setInt(1, newRequest.getId());
@@ -563,7 +563,7 @@ public class DBConnection {
 	}
 
 	private boolean uploadFile(int id, String fileName, String filePath) {
-		String sql = "INSERT INTO cbaricmy_ICM.files values (?,?,?,?)";
+		String sql = "INSERT INTO files values (?,?,?,?)";
 		try {
 			PreparedStatement statement = sqlConnection.prepareStatement(sql);
 			statement.setInt(1, id);
@@ -593,7 +593,7 @@ public class DBConnection {
 		PreparedStatement ps;
 		try {
 
-			ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.evaluationReport WHERE cRequestId = ?");
+			ps = sqlConnection.prepareStatement("SELECT * FROM evaluationReport WHERE cRequestId = ?");
 			ps.setInt(1, params.get(0));
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -619,7 +619,7 @@ public class DBConnection {
 		List<Boolean> l = new ArrayList<Boolean>();
 		PreparedStatement stmt3;
 		try {
-			stmt3 = sqlConnection.prepareStatement("SELECT COUNT(*) As count FROM cbaricmy_ICM.evaluationReport where cRequestId=?");
+			stmt3 = sqlConnection.prepareStatement("SELECT COUNT(*) As count FROM evaluationReport where cRequestId=?");
 			stmt3.setInt(1, params.get(0));
 			ResultSet rs3 = stmt3.executeQuery();
 			while (rs3.next()) {
@@ -651,7 +651,7 @@ public class DBConnection {
 		ResultSet rs = null;
 		List<File> l = new ArrayList<File>();
 		// get from database all the change request files
-		String selectSQL = "SELECT fileName,file FROM cbaricmy_ICM.files where CrID=?";
+		String selectSQL = "SELECT fileName,file FROM files where CrID=?";
 		PreparedStatement pstmt = null;
 		try {
 
@@ -753,7 +753,7 @@ public class DBConnection {
 		System.out.println("database handle getInfoEngineers");
 		List<ChangeInitiator> infoEngineersList = new ArrayList<>();
 
-		ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.users WHERE title = 'INFOENGINEER'");
+		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE title = 'INFOENGINEER'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -786,7 +786,7 @@ public class DBConnection {
 		List<ChangeInitiator> newSelection = params.get(1);
 
 		for (int i = 0; i < 4; i++) {
-			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.users SET position=? WHERE IDuser=?");
+			ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
 			ps.setString(1, Position.REGULAR.toString());
 			ps.setInt(2, oldSelection.get(i).getId());
 			ps.executeUpdate();
@@ -794,7 +794,7 @@ public class DBConnection {
 		}
 
 		for (int i = 0; i < 4; i++) {
-			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.users SET position=? WHERE IDuser=?");
+			ps = sqlConnection.prepareStatement("UPDATE users SET position=? WHERE IDuser=?");
 			ps.setString(1, positionList.get(i).toString());
 			ps.setInt(2, newSelection.get(i).getId());
 			ps.executeUpdate();
@@ -814,7 +814,7 @@ public class DBConnection {
 		try {
 			System.out.println("insert the decision to datebase");
 			ps = sqlConnection.prepareStatement(
-					"UPDATE cbaricmy_ICM.phase SET phSetDecisionDescription = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+					"UPDATE phase SET phSetDecisionDescription = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 			decision = params.get(0) + ":" + params.get(1);
 			ps.setString(1, decision);
 			ps.setInt(2, crId);
@@ -830,7 +830,7 @@ public class DBConnection {
 
 		// update the current phase to done
 		try {
-			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'DONE' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 			ps.setInt(1, crId);
 			ps.setString(2, params.get(3));
 			ps.executeUpdate();
@@ -848,11 +848,11 @@ public class DBConnection {
 		case "Decline The Change":
 			try {
 				ps = sqlConnection
-						.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection
-						.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'DECLINED' WHERE phIDChangeRequest = ? AND phPhaseName='CLOSING'");
+						.prepareStatement("UPDATE phase SET phStatus = 'DECLINED' WHERE phIDChangeRequest = ? AND phPhaseName='CLOSING'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
@@ -867,7 +867,7 @@ public class DBConnection {
 		case "Commit The Change":
 			try {
 				ps = sqlConnection
-						.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
@@ -882,11 +882,11 @@ public class DBConnection {
 		case "Ask For Additional Data":
 			try {
 				ps = sqlConnection
-						.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ?");
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection.prepareStatement(
-						"UPDATE cbaricmy_ICM.phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? AND phPhaseName = 'EVALUATION'");
+						"UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? AND phPhaseName = 'EVALUATION'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection.prepareStatement(
@@ -905,11 +905,11 @@ public class DBConnection {
 		case "Approve The Change":
 			try {
 				ps = sqlConnection
-						.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'CLOSING' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection
-						.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? and phPhaseName='CLOSING'");
+						.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? and phPhaseName='CLOSING'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
@@ -924,11 +924,11 @@ public class DBConnection {
 		case "Report Test Failure":
 			try {
 				ps = sqlConnection
-						.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
+						.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EXECUTION' WHERE crID = ?");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				ps = sqlConnection.prepareStatement(
-						"UPDATE cbaricmy_ICM.phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? AND phPhaseName = 'EXECUTION'");
+						"UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? AND phPhaseName = 'EXECUTION'");
 				ps.setInt(1, crId);
 				ps.executeUpdate();
 				flag = true;
@@ -949,7 +949,7 @@ public class DBConnection {
 	public boolean checkReturnRequest(int id) {
 		try {
 			PreparedStatement ps = sqlConnection.prepareStatement(
-					"select phSetDecisionDescription from cbaricmy_ICM.phase where phIDChangeRequest=? and phPhaseName='EVALUATION'");
+					"select phSetDecisionDescription from phase where phIDChangeRequest=? and phPhaseName='EVALUATION'");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -975,7 +975,7 @@ public class DBConnection {
 	public boolean freezeRequest(int id1) {
 		PreparedStatement ps;
 		try {
-			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crSuspended=1 WHERE crID=?");
+			ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crSuspended=1 WHERE crID=?");
 			ps.setInt(1, id1);
 			ps.executeUpdate();
 			return true;
@@ -991,7 +991,7 @@ public class DBConnection {
 		System.out.println("database handle executionConfirmation");
 
 		// update phase status to DONE
-		ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = ? " +
+		ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = ? " +
 				"WHERE (phIDChangeRequest = ? AND phPhaseName = ?)");
 		ps.setString(1, Phase.PhaseStatus.DONE.toString());
 		ps.setInt(2, changeRequest.getId());
@@ -1000,7 +1000,7 @@ public class DBConnection {
 		ps.close();
 
 		// update current phase in change request table
-		ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = ? " +
+		ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = ? " +
 				"WHERE crID = ?");
 		ps.setString(1, Phase.PhaseName.VALIDATION.toString());
 		ps.setInt(2, changeRequest.getId());
@@ -1015,7 +1015,7 @@ public class DBConnection {
 	public boolean thawRequest(int id1) {
 		PreparedStatement ps;
 		try {
-			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crSuspended=0 where crID=?");
+			ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crSuspended=0 where crID=?");
 			ps.setInt(1, id1);
 			ps.executeUpdate();
 			return true;
@@ -1029,7 +1029,7 @@ public class DBConnection {
 
 	public boolean closeRequest(int id1) {
 		try {
-			PreparedStatement ps=sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus='DONE' WHERE phIDChangeRequest=? AND phPhaseName='CLOSING'");
+			PreparedStatement ps=sqlConnection.prepareStatement("UPDATE phase SET phStatus='DONE' WHERE phIDChangeRequest=? AND phPhaseName='CLOSING'");
 			ps.setInt(1, id1);
 			ps.executeUpdate();
 			return true;
@@ -1045,7 +1045,7 @@ public class DBConnection {
 		System.out.println("database handle getCCC");
 		List<ChangeInitiator> cccList = new ArrayList<>();
 
-		ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.users WHERE position = 'ccc' or position='CHAIRMAN'");
+		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE position = 'ccc' or position='CHAIRMAN'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -1081,7 +1081,7 @@ public class DBConnection {
 		//int count = rs.getInt("count");
 		//if (count==0) {
 
-			ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.ieInPhase "
+			ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase "
 					+ "(IDieInPhase, crID, iePhaseName, iePhasePosition, evaluationReportId) " + "VALUE (?,?,?,?,?)");
 			ps.setInt(1, b.getId());
 			ps.setInt(2, id);
@@ -1117,7 +1117,7 @@ public class DBConnection {
         System.out.println(crInitiator);
         
         try {		
-            PreparedStatement ps1 = sqlConnection.prepareStatement("SELECT misIDUser FROM cbaricmy_ICM.ManageInfoSystem WHERE misnfoSystem = ?");
+            PreparedStatement ps1 = sqlConnection.prepareStatement("SELECT misIDUser FROM ManageInfoSystem WHERE misnfoSystem = ?");
             ps1.setString(1, crInitiator.getManagedSystem().toString());
             ResultSet rs1 = ps1.executeQuery();
 			rs1.beforeFirst();
@@ -1125,7 +1125,7 @@ public class DBConnection {
 			int evaluatorId= rs1.getInt("misIDUser");
 			ps1.close();
 			
-			PreparedStatement ps2 = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.users WHERE IDuser = ?");
+			PreparedStatement ps2 = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser = ?");
             ps2.setInt(1, evaluatorId);
             ResultSet rs2 = ps2.executeQuery();
             rs2.beforeFirst();
@@ -1142,7 +1142,7 @@ public class DBConnection {
            	evaluator.setPosition(Position.valueOf(rs2.getString("position")));
            	phaseLeadersAndEvaluatorList.add(evaluator);
            	
-           	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.users WHERE IDuser != ? AND title=? AND position=?");
+           	PreparedStatement ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE IDuser != ? AND title=? AND position=?");
             ps.setInt(1, crInitiator.getId());
             ps.setString(2, ChangeInitiator.Title.INFOENGINEER.toString());
             ps.setString(3, Position.REGULAR.toString());
@@ -1184,7 +1184,7 @@ public class DBConnection {
         	 try {	
         		 for(IEPhasePosition worker:newPhaseLeadersAndWorkersList ) {
         			 
-    	   PreparedStatement ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.ieInPhase (IDieInPhase, crID, iePhaseName,iePhasePosition) VALUE (?,?,?,?)");
+    	   PreparedStatement ps = sqlConnection.prepareStatement("INSERT INTO ieInPhase (IDieInPhase, crID, iePhaseName,iePhasePosition) VALUE (?,?,?,?)");
     	   ps.setInt(1, worker.getInformationEngineer().getId());
     	   ps.setInt(2, worker.getCrID());
     	   ps.setString(3, worker.getPhaseName().toString());
@@ -1192,11 +1192,11 @@ public class DBConnection {
     	   ps.executeUpdate();
         		 }	 
         		 
-        		    ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
+        		    ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? ");
      				ps.setInt(1,newPhaseLeadersAndWorkersList.get(0).getCrID());
      				ps.executeUpdate();
      				
-     				ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ? ");
+     				ps = sqlConnection.prepareStatement("UPDATE changeRequest SET crCurrPhaseName = 'EVALUATION' WHERE crID = ? ");
      				ps.setInt(1,newPhaseLeadersAndWorkersList.get(0).getCrID());
      				ps.executeUpdate();
         	    
@@ -1238,7 +1238,7 @@ public class DBConnection {
     	switch(currStatus) {
     	case "TIME_REQUESTED":
     		try {
-    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 				ps.setInt(1, Integer.parseInt(params.get(0)));
 				ps.setString(2, params.get(2));
 				ps.executeUpdate();
@@ -1252,18 +1252,18 @@ public class DBConnection {
     	case "EXTENSION_TIME_REQUESTED":
     		PreparedStatement ps ;
     		try {//update the new deadline after approving the extension in the DB.
-    			ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.phase WHERE phIDChangeRequest = ?");
+    			ps = sqlConnection.prepareStatement("SELECT * FROM phase WHERE phIDChangeRequest = ?");
     			ps.setInt(1, Integer.parseInt(params.get(0)));
     			ResultSet rs = ps.executeQuery();
     			rs.beforeFirst();
     			rs.next();
-    			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phDeadline = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			ps = sqlConnection.prepareStatement("UPDATE phase SET phDeadline = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
     			ps.setDate(1, Date.valueOf(params.get(3)));
     			ps.setInt(2, Integer.parseInt(params.get(0)));
     			ps.setString(3, params.get(2));
     			ps.executeUpdate();
     			
-				ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phExtensionRequestDecision = 1 WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+				ps = sqlConnection.prepareStatement("UPDATE phase SET phExtensionRequestDecision = 1 WHERE phIDChangeRequest = ? AND phPhaseName = ?");
     			ps.setInt(1, Integer.parseInt(params.get(0)));
 				ps.setString(2, params.get(2));
 				ps.executeUpdate();
@@ -1274,7 +1274,7 @@ public class DBConnection {
     		}
     		
     		try {
-    			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'EXTENSION_TIME_APPROVED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'EXTENSION_TIME_APPROVED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 				ps.setInt(1, Integer.parseInt(params.get(0)));
 				ps.setString(2, params.get(2));
 				ps.executeUpdate();
@@ -1297,7 +1297,7 @@ public class DBConnection {
     	switch(currStatus) {
     	case "TIME_REQUESTED":
     		try {
-    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'TIME_DECLINED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'TIME_DECLINED' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 				ps.setInt(1, Integer.parseInt(params.get(0)));
 				ps.setString(2, params.get(2));
 				ps.executeUpdate();
@@ -1310,7 +1310,7 @@ public class DBConnection {
     		
     	case "EXTENSION_TIME_REQUESTED":
     		try {
-    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+    			PreparedStatement ps = sqlConnection.prepareStatement("UPDATE phase SET phStatus = 'IN_PROCESS' WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 				ps.setInt(1, Integer.parseInt(params.get(0)));
 				ps.setString(2, params.get(2));
 				ps.executeUpdate();
@@ -1328,7 +1328,7 @@ public class DBConnection {
     		System.out.println("database handle getEmployee");
     		List<ChangeInitiator> employeeList = new ArrayList<>();
 
-    		ps = sqlConnection.prepareStatement("SELECT * FROM cbaricmy_ICM.users WHERE title = 'ADMINISTRATION' or title='LECTURER'");
+    		ps = sqlConnection.prepareStatement("SELECT * FROM users WHERE title = 'ADMINISTRATION' or title='LECTURER'");
     		ResultSet rs = ps.executeQuery();
 
     		while (rs.next()) {
@@ -1376,7 +1376,7 @@ public class DBConnection {
         	ChangeInitiator valPhaseLeader = new ChangeInitiator();
         	
             try {		
-                PreparedStatement ps = sqlConnection.prepareStatement("SELECT IDieInPhase,iePhaseName,iePhasePosition FROM cbaricmy_ICM.ieInPhase WHERE crID =? AND iePhasePosition != 'TESTER'");
+                PreparedStatement ps = sqlConnection.prepareStatement("SELECT IDieInPhase,iePhaseName,iePhasePosition FROM ieInPhase WHERE crID =? AND iePhasePosition != 'TESTER'");
                 ps.setInt(1, ChangeRequestID);
                 ResultSet rs= ps.executeQuery();
     			rs.beforeFirst();
@@ -1398,7 +1398,7 @@ public class DBConnection {
     			switch (phName) {
     			case EVALUATION:
     				if(phPosition==PhasePosition.PHASE_LEADER) { 
-    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM cbaricmy_ICM.users WHERE IDuser =? ");
+    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
     	                ps1.setInt(1,ID);
     	                ResultSet rs1= ps1.executeQuery();
     	    			rs1.beforeFirst();
@@ -1408,7 +1408,7 @@ public class DBConnection {
     	    			evPhaseLeader.setLastName(rs1.getString("lastName"));
     			}
     				else if(phPosition==PhasePosition.EVALUATOR) {
-    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM cbaricmy_ICM.users WHERE IDuser =? ");
+    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
     	                ps1.setInt(1,ID);
     	                ResultSet rs2= ps1.executeQuery();
     	    			rs2.beforeFirst();
@@ -1420,7 +1420,7 @@ public class DBConnection {
     				break;
 
     			case EXAMINATION:
-    				ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM cbaricmy_ICM.users WHERE IDuser =? ");
+    				ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
 	                ps1.setInt(1,ID);
 	                ResultSet rs3= ps1.executeQuery();
 	    			rs3.beforeFirst();
@@ -1432,7 +1432,7 @@ public class DBConnection {
     			case EXECUTION:
     				if(phPosition==PhasePosition.PHASE_LEADER) 
     				 {
-    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM cbaricmy_ICM.users WHERE IDuser =? ");
+    					ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
     	                ps1.setInt(1,ID);
     	                ResultSet rs4= ps1.executeQuery();
     	    			rs4.beforeFirst();
@@ -1443,7 +1443,7 @@ public class DBConnection {
     				 }
     					else if(phPosition==PhasePosition.EXECUTIVE_LEADER)
     					 {
-    						ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM cbaricmy_ICM.users WHERE IDuser =? ");
+    						ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
         	                ps1.setInt(1,ID);
         	                ResultSet rs5= ps1.executeQuery();
         	    			rs5.beforeFirst();
@@ -1454,7 +1454,7 @@ public class DBConnection {
     					 }
     				break;
     			case VALIDATION:
-    				ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM cbaricmy_ICM.users WHERE IDuser =? ");
+    				ps1 = sqlConnection.prepareStatement("SELECT IDuser,firstName,lastName FROM users WHERE IDuser =? ");
 	                ps1.setInt(1,ID);
 	                ResultSet rs6= ps1.executeQuery();
 	    			rs6.beforeFirst();
