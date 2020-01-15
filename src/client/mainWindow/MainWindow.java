@@ -12,10 +12,12 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import server.ServerService;
@@ -102,6 +104,9 @@ public class MainWindow implements ClientUI {
 
         ChangeInitiator currUser = ClientController.getUser();
         userNameLabel.setText(currUser.getFirstName() + " " + currUser.getLastName());
+
+        searchChangeRequestTextField.addEventFilter(KeyEvent.KEY_TYPED , numeric_Validation(8));
+
 
         // show assign permissions and create report buttons only if the user is the ITD Manager
         if (currUser.getPosition() != Position.ITD_MANAGER) {
@@ -283,4 +288,19 @@ public class MainWindow implements ClientUI {
         }
     }
 
+    /* Numeric Validation Limit the  characters to maxLengh AND to ONLY DigitS *************************************/
+    public EventHandler<KeyEvent> numeric_Validation(final Integer max_Lengh) {
+        return new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                TextField txt_TextField = (TextField) e.getSource();
+                if (txt_TextField.getText().length() >= max_Lengh) {
+                    e.consume();
+                }
+                if(!e.getCharacter().matches("[0-9]")){
+                    e.consume();
+                }
+            }
+        };
+    }
 }
