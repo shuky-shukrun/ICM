@@ -1,8 +1,6 @@
 package client.crDetails.ccc;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +9,13 @@ import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
 import entities.EvaluationReport;
-import javafx.beans.value.WritableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import server.ServerService;
 
 public class ViewEvaluationReport implements ClientUI {
@@ -36,7 +33,7 @@ public class ViewEvaluationReport implements ClientUI {
 	@FXML
 	private TextArea requiredChangeTextArea;
 	@FXML
-	private TextArea timeTextArea;
+	private TextField timeTextField;
 	
 	private ClientController clientController;	
     private CrDetails crDetails;
@@ -83,9 +80,9 @@ public class ViewEvaluationReport implements ClientUI {
         expectedResultTextArea.setEditable(false);
         risksAndConstraintsTextArea.textProperty().setValue(currReport.getRisksAndConstraints());
         risksAndConstraintsTextArea.setEditable(false);
-        timeTextArea.textProperty().setValue(currReport.getEvaluatedTime().toString());
-        timeTextArea.setEditable(false);
-        
+        timeTextField.setText(currReport.getEvaluatedTime().toString());
+        timeTextField.setEditable(false);
+
 
 
 	 }

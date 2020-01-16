@@ -54,7 +54,7 @@ public class CCCButtons implements ClientUI {
 
 	@FXML
 	void showEvaluationReport(ActionEvent event) throws IOException {
-		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/viewEvaluationReport.fxml", 600, 632);
+		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/ViewEvaluationReport.fxml", 588, 688);
 	}
 
 	@FXML

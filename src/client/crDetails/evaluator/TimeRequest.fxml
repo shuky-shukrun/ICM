@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.evaluator.RequestTimeEvaluation">
-   <content>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.evaluator.RequestTimeEvaluation">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #f1eaea;">
          <children>
-            <Label layoutX="108.0" layoutY="165.0" text="Time:">
+            <Label layoutX="94.0" layoutY="287.0" text="Time:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <DatePicker fx:id="datePickid" layoutX="175.0" layoutY="166.0" />
-            <Button fx:id="applyButton" layoutX="252.0" layoutY="212.0" mnemonicParsing="false" onAction="#applyTimeRequest" style="-fx-background-radius: 10; -fx-background-color: #4b92e8;" text="Submit">
+            <DatePicker fx:id="datePickid" layoutX="161.0" layoutY="288.0" prefWidth="257.0" />
+            <Button fx:id="applyButton" layoutX="437.0" layoutY="627.0" mnemonicParsing="false" onAction="#applyTimeRequest" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #4b92e8;" text="Submit">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="cancelbtn" cancelButton="true" layoutX="90.0" layoutY="212.0" mnemonicParsing="false" onAction="#cancelTimeRequest" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="cancelbtn" cancelButton="true" layoutX="318.0" layoutY="627.0" mnemonicParsing="false" onAction="#cancelTimeRequest" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10;" text="Cancel">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutX="116.0" layoutY="58.0" text="Time Request">
+            <Pane prefHeight="141.0" prefWidth="600.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 0 60 60;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="19.0" text="Time Request" textFill="#fcfcfc">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="3.0" prefHeight="21.0" prefWidth="428.0" text="Home page &gt;Change request details &gt;Time Request">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Circle fill="#f1eaea" layoutX="294.0" layoutY="140.0" radius="77.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
+            <MaterialDesignIconView fill="#7156dd" glyphName="ALARM" layoutX="265.0" layoutY="159.0" size="60" />
+            <FontAwesomeIconView fill="#7156dd" glyphName="PLUS" layoutX="241.0" layoutY="170.0" size="30" />
+            <Label layoutX="92.0" layoutY="238.0" prefHeight="25.0" prefWidth="489.0" text="Choose time for current phase " textFill="#3f2b63">
                <font>
-                  <Font name="System Bold" size="28.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="69.0" fitWidth="151.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../logo6.PNG" />
-               </image>
-            </ImageView>
-            <Label layoutX="108.0" layoutY="140.0" text="Choose the requested phase time">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <MaterialDesignIconView fill="#216dcc" glyphName="ALARM" layoutX="301.0" layoutY="89.0" size="30" />
-            <JFXButton fx:id="moreInformation" alignment="TOP_LEFT" layoutX="194.0" layoutY="263.0" onAction="#moreInformationEvent" prefHeight="26.0" prefWidth="215.0" text="Why this button is disable?" textFill="#1b0eae" underline="true">
+            <Button fx:id="moreInformation" layoutX="550.0" layoutY="631.0" mnemonicParsing="false" onAction="#moreInformationEvent" prefHeight="31.0" prefWidth="36.0" style="-fx-background-color: #f1eaea;">
                <graphic>
-                  <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="20" text="" />
+                  <FontAwesomeIconView fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" size="21" text="" />
                </graphic>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </JFXButton>
+            </Button>
          </children>
       </AnchorPane>
-   </content>
-</DialogPane>
+   </children>
+</AnchorPane>

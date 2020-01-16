@@ -89,7 +89,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	@FXML
 	void showRequestTimeDialog(ActionEvent event) throws IOException {
 
-		IcmUtils.popUpScene(this, "Request Phase Time", "/client/crDetails/evaluator/TimeRequest.fxml", 400, 300);
+		IcmUtils.popUpScene(this, "Request Phase Time", "/client/crDetails/evaluator/TimeRequest.fxml", 588, 688);
 		initialize();
 	}
 
