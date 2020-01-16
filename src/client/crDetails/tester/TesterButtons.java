@@ -30,6 +30,9 @@ public class TesterButtons implements ClientUI {
 
 	private static Phase currPhase;
 
+	/**
+	 * Initialize the Tester buttons
+	 */
 	public void initialize() {
 
 		setDecisionInfo.setVisible(false);
@@ -42,6 +45,11 @@ public class TesterButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Show the set decision dialog, if possible when setDecision button pressed
+	 * 
+	 * @param event-setDecision button pressed event
+	 */
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
 
@@ -55,6 +63,11 @@ public class TesterButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Show the evaluation report dialog, if possible when viewEvaluationReport button pressed
+	 * 
+	 * @param event-viewEvaluationReport button pressed event
+	 */
 	void showEvaluationReport(ActionEvent event) throws IOException {
 
 		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/viewEvaluationReport.fxml", 600, 632);
@@ -62,6 +75,11 @@ public class TesterButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Show pop-up with the information why the set decision button is disabled.
+	 * 
+	 * @param event-setDecisionInfo button is pressed event
+	 */
 	void setDecisionInfoMsg(ActionEvent event) {
 		IcmUtils.displayInformationMsg("Set Decision Help", "Decision Already Submitted",
 				"The decision for this phase already submitted.");
