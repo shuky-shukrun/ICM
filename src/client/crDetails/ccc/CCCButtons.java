@@ -71,11 +71,8 @@ public class CCCButtons implements ClientUI {
 
 	@FXML
 	void moreInformationEvent(ActionEvent event) {
-		IcmUtils.displayInformationMsg("Information message",
-				"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-						+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-				"Change request " + CrDetails.getCurrRequest().getId() + " -Tester was allready assignd");
-
+		IcmUtils.displayInformationMsg("Set Decision Help","Decision has been submitted",
+				"The decision for this request already submitted.");
 	}
 
 	@Override
@@ -118,11 +115,9 @@ public class CCCButtons implements ClientUI {
 			case EXTENSION_TIME_APPROVED:
 				setDecisionButton.setVisible(false);
 				assignTesterButton.setVisible(false);
-				//assignTesterButton.setDisable(true);
 				viewEvaluationReportButton.setVisible(true);
 				viewEvaluationReportButton.setDisable(false);
 				moreInformationButton.setVisible(false);
-				//moreInformationButton.setDisable(false);
 				break;
 			}
 			break;
