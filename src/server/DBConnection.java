@@ -1,5 +1,6 @@
 package server;
 
+import common.IcmUtils;
 import common.JavaEmail;
 import entities.*;
 import entities.IEPhasePosition.PhasePosition;
@@ -560,7 +561,12 @@ public class DBConnection {
 		}
 		// enter the files to files table
 		if (newRequest.getFiles() != null) {
-			uploadFiles(newRequest.getId(), newRequest.getFiles());
+			try {
+				uploadFiles(newRequest.getId(), newRequest.getFiles());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				throw new IOException(e);
+			}
 		}
 	}
 
@@ -571,7 +577,7 @@ public class DBConnection {
 	 * @param listParams-files to attach
 	 * @return true-if success ,false-else
 	 */
-	public boolean uploadFiles(int id, File[] listParams) {
+	public boolean uploadFiles(int id, File[] listParams) throws SQLException {
 		System.out.println("server upload given files");
 		int i;
 
@@ -590,7 +596,7 @@ public class DBConnection {
 	 * @param filePath-the file path of the uploaded file
 	 * @return true-if the file uploaded,false-else
 	 */
-	private boolean uploadFile(int id, String fileName, String filePath) {
+	private boolean uploadFile(int id, String fileName, String filePath) throws SQLException {
 		String sql = "INSERT INTO cbaricmy_ICM.files values (?,?,?,?)";
 		try {
 			PreparedStatement statement = sqlConnection.prepareStatement(sql);
@@ -603,8 +609,7 @@ public class DBConnection {
 			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) { // TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+			throw new SQLException(e.getMessage());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
