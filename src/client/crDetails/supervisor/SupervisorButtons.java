@@ -134,7 +134,7 @@ public class SupervisorButtons implements ClientUI {
     		switch (CurrStatus) {
     		case TIME_REQUESTED:
     			try {
-    				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/TimeRequestDecision.fxml", 420, 350);
+    				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/TimeRequestDecision.fxml", 588, 688);
     				initialize();
     			} catch (IOException e) {
     				e.printStackTrace();
