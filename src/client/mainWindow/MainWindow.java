@@ -18,6 +18,7 @@ import server.ServerService;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,9 +182,22 @@ public class MainWindow implements ClientUI {
                                        TableColumn<ChangeRequest, InfoSystem> infoSystemColumn,
                                        TableColumn<ChangeRequest, LocalDate> dateColumn,
                                        TableColumn<ChangeRequest, Phase.PhaseName> currPhaseColumn) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         infoSystemColumn.setCellValueFactory(new PropertyValueFactory<>("infoSystem"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        dateColumn.setCellFactory(col -> new TableCell<ChangeRequest, LocalDate>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+
+                super.updateItem(item, empty);
+                if (empty)
+                    setText(null);
+                else
+                    setText(String.format(item.format(formatter)));
+            }
+        });
         currPhaseColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseName"));
     }
 
@@ -231,12 +245,14 @@ public class MainWindow implements ClientUI {
         List<List<ChangeRequest>> allRequests = serverService.getParams();
         myRequests.setAll(allRequests.get(0));
         myTableView.setItems(myRequests);
+        myTableView.getSortOrder().add(idColumn);
         if (ClientController.getUser().getTitle() != ChangeInitiator.Title.INFOENGINEER) {
             inMyTreatmentTab.setDisable(true);
         }
         else {
             inMyTreatmentRequests.setAll(allRequests.get(1));
             workTableView.setItems(inMyTreatmentRequests);
+            workTableView.getSortOrder().add(idColumn1);
         }
     }
 
