@@ -328,6 +328,10 @@ public class CrDetails implements ClientUI {
         IcmUtils.displayInformationMsg("attaching files in process...");
     }
 
+    @FXML
+    private void refresh() throws IOException {
+        IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
+    }
 
     @FXML
     void logout(ActionEvent event) throws IOException {

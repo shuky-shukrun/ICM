@@ -47,24 +47,32 @@
                               <Font name="System Bold" size="32.0" />
                            </font>
                         </Label>
+                        <JFXButton fx:id="homeButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="565.0" layoutY="4.0" onAction="#backToHome" prefHeight="80.0" prefWidth="70.0" text="Back">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="40" strokeType="INSIDE" wrappingWidth="41.214284896850586" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="refreshButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="635.0" layoutY="4.0" onAction="#refresh" prefHeight="80.0" prefWidth="79.0" text="Refresh">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="UNDO" size="40" strokeType="INSIDE" wrappingWidth="41.214284896850586" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="714.0" layoutY="4.0" onAction="#logout" prefHeight="80.0" prefWidth="72.0" text="Logout">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="40" text="" wrappingWidth="39.0" />
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </Pane>
-                  <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="987.0" layoutY="6.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <graphic>
-                        <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="40" text="" wrappingWidth="39.0" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="homeButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="882.0" layoutY="6.0" onAction="#backToHome" prefHeight="75.0" prefWidth="105.0" text="Home Page">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="HOME" size="40" strokeType="INSIDE" wrappingWidth="41.214284896850586" />
-                     </graphic>
-                  </JFXButton>
                   <Label layoutX="319.0" layoutY="107.0" prefHeight="26.0" prefWidth="319.0" text="Home page &gt; Change request details ">
                      <font>
                         <Font name="System Bold" size="17.0" />

@@ -46,12 +46,20 @@
                               <Font name="System Bold" size="30.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="688.0" layoutY="7.0" onAction="#logout" prefHeight="75.0" prefWidth="105.0" text="Logout">
+                        <JFXButton fx:id="refreshButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="635.0" layoutY="4.0" onAction="#refresh" prefHeight="80.0" prefWidth="79.0" text="Refresh">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
                            <graphic>
-                              <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="40" text="" wrappingWidth="40.0" />
+                              <FontAwesomeIconView glyphName="UNDO" size="40" strokeType="INSIDE" wrappingWidth="41.214284896850586" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="714.0" layoutY="4.0" onAction="#logout" prefHeight="80.0" prefWidth="72.0" text="Logout">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <MaterialDesignIconView glyphName="ACCOUNT_OFF" size="40" text="" wrappingWidth="39.0" />
                            </graphic>
                         </JFXButton>
                      </children>

@@ -303,4 +303,8 @@ public class MainWindow implements ClientUI {
             }
         };
     }
+    @FXML
+    private void refresh() throws IOException {
+        IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
+    }
 }
