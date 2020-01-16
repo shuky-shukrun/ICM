@@ -170,7 +170,7 @@ public class SupervisorButtons implements ClientUI {
 	void showAssignPhaseLeadersDialog(ActionEvent event) {
 		try {
 			IcmUtils.popUpScene(this, "Assign Phase Leaders",
-					"/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml", 600, 680);
+					"/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml", 588, 768);
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace(); }
