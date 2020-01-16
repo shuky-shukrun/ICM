@@ -154,7 +154,7 @@
          <left>
             <Pane prefHeight="688.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="userNameLabel" alignment="CENTER" layoutY="100.0" prefWidth="300.0" text="shuky shukrun" textFill="#938e8e">
+                  <Label fx:id="userNameLabel" alignment="CENTER" layoutY="100.0" prefWidth="300.0" text="Israel Israeli" textFill="#938e8e">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -181,7 +181,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="registerButton" alignment="BASELINE_LEFT" layoutX="14.0" layoutY="311.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerEvent" prefHeight="50.0" prefWidth="260.0" style="-fx-background-radius: 10;" stylesheets="@../../css/fullpackstyling.css" text=" Reggister IT workers" textFill="WHITE">
+                  <Button fx:id="registerButton" alignment="BASELINE_LEFT" layoutX="14.0" layoutY="311.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerEvent" prefHeight="50.0" prefWidth="260.0" style="-fx-background-radius: 10;" stylesheets="@../../css/fullpackstyling.css" text=" Register IT workers" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>

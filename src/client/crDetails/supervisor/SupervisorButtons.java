@@ -41,6 +41,8 @@ public class SupervisorButtons implements ClientUI {
 	private Button moreInformation2;
 	@FXML
 	private Button freezeRequestInfoButton;
+	@FXML
+	private Button editButton;
 
 	private static Phase.PhaseStatus CurrStatus;
     private String info;

@@ -1143,14 +1143,6 @@ public class DBConnection {
 		System.out.println(a);
 		System.out.println(b);
 
-		// ps = sqlConnection.prepareStatement("SELECT COUNT(*) As count FROM ieInPhase
-		// where crID=? and iePhaseName='VALIDATION' ");
-		// ps.setInt(1, id);
-		// ResultSet rs = ps.executeQuery();
-		// rs.next();
-		// int count = rs.getInt("count");
-		// if (count==0) {
-
 		ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.ieInPhase "
 				+ "(IDieInPhase, crID, iePhaseName, iePhasePosition, evaluationReportId) " + "VALUE (?,?,?,?,?)");
 		ps.setInt(1, b.getId());
@@ -1161,21 +1153,13 @@ public class DBConnection {
 		ps.executeUpdate();
 		ps.close();
 		ps = sqlConnection.prepareStatement(
-				"UPDATE cbaricmy_ICM.phase set phStatus='IN_PROCESS' where phIDChangeRequest=? and phPhaseName=?");
-		System.out.println("ronit");
-		ps.setInt(1, id);
-		ps.setString(2, Phase.PhaseName.VALIDATION.toString());
+				"UPDATE cbaricmy_ICM.phase set phStatus='IN_PROCESS', phDeadline = ? where phIDChangeRequest=? and phPhaseName=?");
+		ps.setDate(1, Date.valueOf(LocalDate.now().plusDays(7)));
+		ps.setInt(2, id);
+		ps.setString(3, Phase.PhaseName.VALIDATION.toString());
 		ps.executeUpdate();
 		System.out.println("ronit1");
 		ps.close();
-		// } else {
-		/*
-		 * ps = sqlConnection
-		 * .prepareStatement("UPDATE cbaricmy_ICM.ieInPhase set IDieInPhase=? where crID=? and iePhaseName=?"
-		 * ); ps.setInt(1, b.getId()); ps.setInt(2, id); ps.setString(3,
-		 * Phase.PhaseName.VALIDATION.toString()); ps.executeUpdate(); ps.close(); }
-		 */
-
 	}
 
 	public List<List<ChangeInitiator>> getPhaseLeadersDetails(List<InformationEngineer> ChangeInitiatorList) {
