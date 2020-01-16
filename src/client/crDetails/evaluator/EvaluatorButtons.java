@@ -139,8 +139,8 @@ public class EvaluatorButtons implements ClientUI {
 	public void showRequestTimeDialog(ActionEvent event) {
 
 		try {
-			IcmUtils.popUpScene(this, "ICM request time dialog", "/client/crDetails/evaluator/TimeRequest.fxml", 600,
-					632);
+			IcmUtils.popUpScene(this, "ICM request time dialog", "/client/crDetails/evaluator/TimeRequest.fxml", 588,
+					688);
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,54 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.phaseLeader.RequestExtensionTime.RequestExtensionTime">
-   <content>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.phaseLeader.RequestExtensionTime.RequestExtensionTime">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #f1eaea;">
          <children>
-            <Label layoutX="37.0" layoutY="149.0" text="Requested time:">
+            <Label layoutX="69.0" layoutY="293.0" text="Requested time:">
                <font>
                   <Font size="18.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#e02e2e" glyphName="ASTERISK" />
+               </graphic>
             </Label>
-            <DatePicker fx:id="RequestedtimeDatePicker" layoutX="185.0" layoutY="150.0" prefHeight="24.0" prefWidth="197.0" />
-            <Button fx:id="submitButton" layoutX="297.0" layoutY="300.0" mnemonicParsing="false" onAction="#submitRequestTime" style="-fx-background-radius: 10; -fx-background-color: #4691ce;" text="Submit">
+            <DatePicker fx:id="RequestedtimeDatePicker" layoutX="238.0" layoutY="294.0" prefHeight="24.0" prefWidth="257.0" />
+            <Button fx:id="submitButton" layoutX="451.0" layoutY="625.0" mnemonicParsing="false" onAction="#submitRequestTime" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #4691ce;" text="Submit">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="CancelButton" cancelButton="true" layoutX="171.0" layoutY="300.0" mnemonicParsing="false" onAction="#cancelRequestTime" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="CancelButton" cancelButton="true" layoutX="325.0" layoutY="625.0" mnemonicParsing="false" onAction="#cancelRequestTime" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10;" text="Cancel">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
-            <Label layoutX="37.0" layoutY="200.0" text="Description:">
+            <Label layoutX="69.0" layoutY="347.0" text="Description:">
                <font>
                   <Font size="18.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#e02e2e" glyphName="ASTERISK" />
+               </graphic>
             </Label>
-            <TextArea fx:id="DescriptionTextArea" layoutX="185.0" layoutY="197.0" prefHeight="60.0" prefWidth="197.0" />
-            <Label alignment="CENTER" layoutX="24.0" layoutY="81.0" text="Request Extension Time">
+            <TextArea fx:id="DescriptionTextArea" layoutX="238.0" layoutY="344.0" prefHeight="120.0" prefWidth="300.0" />
+            <Pane prefHeight="141.0" prefWidth="600.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 0 60 60;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="17.0" text="Request Extension Time" textFill="#fcfcfc">
+                     <font>
+                        <Font name="System Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="11.0" layoutY="2.0" prefHeight="21.0" prefWidth="428.0" text="Home page &gt;Change request details &gt;Request Extension Time">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Circle fill="#f1eaea" layoutX="300.0" layoutY="141.0" radius="77.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
+            <MaterialDesignIconView fill="#7156dd" glyphName="ALARM_PLUS" layoutX="273.0" layoutY="161.0" size="60" text="" />
+            <FontAwesomeIconView fill="#7156dd" glyphName="PLUS" size="30" />
+            <FontAwesomeIconView fill="#7156dd" glyphName="PLUS" layoutX="249.0" layoutY="167.0" size="30" />
+            <Label layoutX="69.0" layoutY="244.0" prefHeight="25.0" prefWidth="450.0" text="Please insert the requested extension date and description" textFill="#3f2b63">
                <font>
-                  <Font name="System Bold" size="28.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <ImageView fitHeight="69.0" fitWidth="151.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../logo6.PNG" />
-               </image>
-            </ImageView>
-            <MaterialDesignIconView fill="#4691ce" glyphName="ALARM_PLUS" layoutX="349.0" layoutY="110.0" size="25" text="" />
+            <Label layoutX="69.0" layoutY="635.0" text="Required Field" textFill="#b91515">
+               <graphic>
+                  <FontAwesomeIconView fill="#e02e2e" glyphName="ASTERISK" />
+               </graphic>
+            </Label>
          </children>
       </AnchorPane>
-   </content>
-</DialogPane>
+   </children>
+</AnchorPane>
