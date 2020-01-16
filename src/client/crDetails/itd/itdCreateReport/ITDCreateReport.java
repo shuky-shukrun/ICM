@@ -92,10 +92,11 @@ public class ITDCreateReport implements ClientUI {
         createButton.disableProperty().bind(bb);
     }
 
-    public void createReport(LocalDate from, LocalDate to) throws IOException {
+    @FXML
+    public void createReport() throws IOException {
         System.out.println("createReportFunc");
-        ITDCreateReport.setStartDate(from);
-        ITDCreateReport.setEndDate(to);
+        ITDCreateReport.setStartDate(startDateDatePicker.getValue());
+        ITDCreateReport.setEndDate(endDateDatePicker.getValue());
         switch (reportTypeChoiceBox.getSelectionModel().getSelectedItem()) {
             case A:
                 System.out.println("A report created");
