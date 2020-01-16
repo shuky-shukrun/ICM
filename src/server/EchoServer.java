@@ -3,8 +3,6 @@ package server;// This file contains material supporting section 3.7 of the text
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
-import client.ClientController;
-import client.ClientUI;
 import common.JavaEmail;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
@@ -21,11 +19,11 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * This class overrides some of the methods in the abstract superclass in order
@@ -67,12 +65,18 @@ public class EchoServer extends AbstractServer {
         super(port);
         dbConnection = new DBConnection(url, username, password);
 
-        Timer timer = new Timer("Server Timer");
-        ServerTimer serverTimer = new ServerTimer();
-        long delay = 1000L;
-        long period = 1000L * 60L * 60L * 24L;
-//        period = 1000L * 60L * 10;
-//        timer.scheduleAtFixedRate(serverTimer, delay, period);
+        //the Date and time at which you want to execute
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Thread.sleep(2000);
+            Date date = dateFormatter.parse("2020-01-16 21:00:00");
+            Timer timer = new Timer("Server Timer");
+            ServerTimer serverTimer = new ServerTimer();
+            long period = 1000L * 60L * 60L * 24L;
+            timer.schedule(serverTimer, date, period);
+        } catch (ParseException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 	// Instance methods ************************************************
@@ -308,7 +312,7 @@ public class EchoServer extends AbstractServer {
                 case Get_Selected_Phase_Leaders_And_Workers:
                     System.out.println("server handle Get_Selected_Phase_Leaders_And_Workers");
                     List<ChangeRequest> changeRequestsList = serverService.getParams();
-                    List<ChangeInitiator> selectedPhaseLeadersAndWorkers = dbConnection.getselectedPhaseLeadersAndWorkers(changeRequestsList);
+                    List<ChangeInitiator> selectedPhaseLeadersAndWorkers = dbConnection.getSelectedPhaseLeadersAndWorkers(changeRequestsList);
                     System.out.println("Get_Selected_Phase_Leaders_And_Workers server got data");
                     serverService.setParams(selectedPhaseLeadersAndWorkers);
                     try {

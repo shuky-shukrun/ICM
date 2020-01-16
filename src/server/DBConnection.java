@@ -564,7 +564,6 @@ public class DBConnection {
 			try {
 				uploadFiles(newRequest.getId(), newRequest.getFiles());
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				throw new IOException(e);
 			}
 		}
@@ -608,10 +607,9 @@ public class DBConnection {
 			statement.setBinaryStream(4, input);
 			statement.executeUpdate();
 			return true;
-		} catch (SQLException e) { // TODO Auto-generated catch block
+		} catch (SQLException e) {
 			throw new SQLException(e.getMessage());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
@@ -1431,7 +1429,7 @@ public class DBConnection {
 
 	}
 
-	public List<ChangeInitiator> getselectedPhaseLeadersAndWorkers(List<ChangeRequest> changeRequestsList) {
+	public List<ChangeInitiator> getSelectedPhaseLeadersAndWorkers(List<ChangeRequest> changeRequestsList) {
 
 		List<ChangeInitiator> phaseLeadersAndWorkersList = new ArrayList<>();
 		List<IEPhasePosition> iEPhasePositionList = new ArrayList<>();
