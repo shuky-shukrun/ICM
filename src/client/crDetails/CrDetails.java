@@ -325,7 +325,7 @@ public class CrDetails implements ClientUI {
         tempL.add(CrDetails.getCurrRequest().getId());
         tempL.add(arr);
         clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Attach_Files, tempL));
-        IcmUtils.displayInformationMsg("attaching files in process...");
+       
     }
 
     @FXML

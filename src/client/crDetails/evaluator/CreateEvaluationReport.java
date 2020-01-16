@@ -9,9 +9,7 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
-import client.crDetails.phaseLeader.PhaseLeaderButtons;
 import common.IcmUtils;
-import common.IcmUtils.Scenes;
 import entities.Phase;
 import entities.Phase.PhaseStatus;
 import javafx.beans.binding.BooleanBinding;
@@ -24,7 +22,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
@@ -44,21 +42,19 @@ public class CreateEvaluationReport implements ClientUI {
 	private Button cancelButton;
 	@FXML
 	private Button createButton;
-	@FXML
-	private Button moreInformation;
 
 	private Phase newCurrPhase;
-	private String info;
+	private Phase oldCurrPhase;
 	public static int flagHelp;
-   // private Phase oldCurrPhase;
+  
 
 	/**
 	 * Initialize the create evaluation report dialog
 	 */
 	public void initialize() {
-		info = "empty fields";
+		
 		newCurrPhase=EvaluatorButtons.getPhase1();
-		//oldCurrPhase=EvaluatorButtons.getPhase1();
+		oldCurrPhase=EvaluatorButtons.getPhase1();
 		try {
 			clientController = ClientController.getInstance(this);
 		} catch (IOException e) {
@@ -72,7 +68,7 @@ public class CreateEvaluationReport implements ClientUI {
 				setDisable(empty || date.compareTo(deadLine) <= 0);
 			}
 		});
-		// initialize the combobox of info systems
+		// initialize the combo box of info systems
 		List<String> list = new ArrayList<String>();
 		list.add(CrDetails.getCurrRequest().getInfoSystem().toString());
 		ObservableList<String> obList = FXCollections.observableList(list);
@@ -90,11 +86,6 @@ public class CreateEvaluationReport implements ClientUI {
 			// disable, if one selection is missing or evaluated time is later than the
 			// deadline of the phase
 			protected boolean computeValue() {
-				if (EvaluatedTimeDatePicker.valueProperty().get() == null)
-					info = "empty fields";
-				else if (EvaluatedTimeDatePicker.valueProperty().get()
-						.compareTo(CrDetails.getCurrRequest().getDate()) < 0)
-					info = "earlier date";
 				return (requiredChangeTextArea.getText().isEmpty() || requiredChangeTextArea.getText().trim().equals("")
 						|| expectedResultTextArea.getText().isEmpty()
 						|| expectedResultTextArea.getText().trim().equals("")
@@ -106,18 +97,16 @@ public class CreateEvaluationReport implements ClientUI {
 		};
 
 		createButton.disableProperty().bind(bb);
-		moreInformation.visibleProperty().bind(bb);
+	
 
 	}
 
 	@FXML
 	/**
 	 * Creates evaluation report if possible when create button pressed
-	 * 
 	 * @param e-create button pressed event
 	 */
 	public void createEvaluationReport(ActionEvent e) {
-		boolean flag = true;
 		String temp = "";
 		newCurrPhase.setPhaseStatus(PhaseStatus.DONE);
 		EvaluatorButtons.setPhase1(newCurrPhase);
@@ -137,7 +126,6 @@ public class CreateEvaluationReport implements ClientUI {
 	@FXML
 	/**
 	 * Back to change request summary dialog when cancel button pressed
-	 * 
 	 * @param e-cancel button pressed event
 	 */
 	public void cancelEvaluationReport(ActionEvent e) {
@@ -150,22 +138,6 @@ public class CreateEvaluationReport implements ClientUI {
 	 * @param e
 	 */
 
-	@FXML
-	public void moreInformationEvent(ActionEvent e) {
-
-		switch (info) {
-		case "empty fields":
-			IcmUtils.displayInformationMsg("Information message", "one or more empty fields");
-			break;
-		case "later date":
-			IcmUtils.displayInformationMsg("Information message", "you entered later date than deadline");
-			break;
-		case "earlier date":
-			IcmUtils.displayInformationMsg("Information message",
-					"you entered earlier date than the date when the request submitted");
-			break;
-		}
-	}
 
 	@Override
 	/**
@@ -181,10 +153,10 @@ public class CreateEvaluationReport implements ClientUI {
 		} else
 			IcmUtils.displayErrorMsg("creating evaluation report failed!!");
 		
-		//List<Phase> phList = new ArrayList<>();
-		//phList.add(oldCurrPhase);
-		//ServerService updateExceptionTime = new ServerService(ServerService.DatabaseService.Update_Exception_Time, phList);
-		//clientController.handleMessageFromClientUI(updateExceptionTime);	
+		List<Phase> phList = new ArrayList<>();
+		phList.add(oldCurrPhase);
+		ServerService updateExceptionTime = new ServerService(ServerService.DatabaseService.Update_Exception_Time, phList);
+		clientController.handleMessageFromClientUI(updateExceptionTime);	
 		IcmUtils.getPopUp().close();
 
 	}

@@ -54,15 +54,7 @@ public class SupervisorButtons implements ClientUI {
 			moreInformation2.setVisible(false);	
 			phaseTimeRequestInfo.setVisible(false);
 
-			if(CrDetails.getCurrRequest().isSuspended())
-			{
-				
-				info="not in closing";
-				closeChangeRequestButton.setDisable(true);
-				moreInformation2.setVisible(true);
-				
-				phaseTimeDecisionButton.setDisable(true);
-			}
+		
 			if(CrDetails.getCurrRequest().getPhases().get(0).getName()!=PhaseName.CLOSING)
 			{
 				info="not in closing";
@@ -70,10 +62,12 @@ public class SupervisorButtons implements ClientUI {
 				moreInformation2.setVisible(true);
 
 			}
-			if (CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().equals("DONE")) {
+			if (CrDetails.getCurrRequest().getPhases().get(0).getName()==PhaseName.CLOSING&&CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()==Phase.PhaseStatus.DONE) {
 				info = "finished";
 				moreInformation2.setVisible(true);
 				closeChangeRequestButton.setDisable(true);
+				freezeRequestButton.setDisable(true);
+				
 			}
 			
 			if(flag==false) {
@@ -85,7 +79,7 @@ public class SupervisorButtons implements ClientUI {
     			assignPhaseLeadersButton.setText("View phase leaders");
 
     		}
-    		if(!(CurrStatus.equals(Phase.PhaseStatus.TIME_REQUESTED)||CurrStatus.equals(Phase.PhaseStatus.EXTENSION_TIME_REQUESTED))){
+    		if(!(CurrStatus.equals(Phase.PhaseStatus.TIME_REQUESTED)||CurrStatus==Phase.PhaseStatus.EXTENSION_TIME_REQUESTED)){
     			phaseTimeDecisionButton.setDisable(true);
     			phaseTimeRequestInfo.setVisible(true);
     		}
@@ -205,7 +199,7 @@ public class SupervisorButtons implements ClientUI {
     			break;
     		case Close_Request:
 				if ((Boolean) serverService.getParams().get(0) == true) {
-					IcmUtils.displayConfirmationMsg("Success", "Close Request Successfully");
+					IcmUtils.displayInformationMsg("Close Request","Close Request", "Close Request Successfully");
 					closeChangeRequestButton.setDisable(true);
 					moreInformation2.setVisible(true);
 					info="finished";

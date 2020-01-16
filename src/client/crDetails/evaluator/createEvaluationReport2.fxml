@@ -72,11 +72,7 @@
             </Pane>
             <Circle fill="#f1eaea" layoutX="300.0" layoutY="141.0" radius="77.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
             <MaterialDesignIconView fill="#7156dd" glyphName="CONTENT_PASTE" layoutX="271.0" layoutY="159.0" size="60" />
-            <Button layoutX="545.0" layoutY="750.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="36.0" style="-fx-background-color: #f1eaea;">
-               <graphic>
-                  <FontAwesomeIconView fx:id="moreInformation" fill="#3073d9" glyphName="EXCLAMATION_CIRCLE" onDragDetected="#moreInformationEvent" size="21" text="" />
-               </graphic>
-            </Button>
+            <Button layoutX="545.0" layoutY="750.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="36.0" style="-fx-background-color: #f1eaea;" />
             <Label layoutX="53.0" layoutY="227.0" prefHeight="25.0" prefWidth="489.0" text="Please fill in the following fields to create evaluation report" textFill="#3f2b63">
                <font>
                   <Font name="System Bold" size="16.0" />
