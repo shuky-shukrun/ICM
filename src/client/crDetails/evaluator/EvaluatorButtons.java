@@ -52,7 +52,6 @@ public class EvaluatorButtons implements ClientUI {
 			flag = 1;
 		}
 		checkIsReturnRequest(CrDetails.getCurrRequest().getId());
-	
 		switch (currPhase.getPhaseStatus()) {
 		// time request not submitted yet
 			case SUBMITTED:
@@ -94,6 +93,7 @@ public class EvaluatorButtons implements ClientUI {
 				createEvaluationReportButton.setDisable(true);
 				phaseTimeRequestInfo.setVisible(true);
 				createReportInfo.setVisible(true);
+				break;
 				
 		}
 		List<Integer> l = new ArrayList<>();
@@ -110,6 +110,7 @@ public class EvaluatorButtons implements ClientUI {
 	public void showCreateEvaluationReportDialog(ActionEvent event) {
 
 		try {
+			//needed to be change to the new one
 			IcmUtils.popUpScene(this, "ICM Create Evaluation Report",
 					"/client/crDetails/evaluator/createEvaluationReport.fxml", 588, 788);
 			initialize();

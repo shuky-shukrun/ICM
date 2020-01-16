@@ -122,6 +122,10 @@ public class RequestTimeEvaluation implements ClientUI {
 
 	}
 	@FXML
+	/**
+	 * Displays info about why the submit button disabled
+	 * @param e-the event when the more information button pressed
+	 */
 	public void moreInformationEvent(ActionEvent e) {
 		if(flagHelp==0)
 			info = "empty fields";

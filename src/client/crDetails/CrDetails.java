@@ -22,6 +22,7 @@ import server.ServerService.DatabaseService;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -208,7 +209,10 @@ public class CrDetails implements ClientUI {
                 else
                     IcmUtils.displayErrorMsg("Attach Files - Error", "Error", "Attach files failed");
                 break;
-
+            case Error:
+                SQLException sqlException = ((SQLException) serverService.getParams().get(0));
+                IcmUtils.displayErrorMsg("Server Error", "Server Error", sqlException.getMessage());
+                break;
                //display specific message about download files
             case download_files:
             	switch((String)serverService.getParams().get(0)) {
@@ -218,6 +222,7 @@ public class CrDetails implements ClientUI {
             case "exception":	
             	IcmUtils.displayInformationMsg("Information message", "Error in process", ((Exception)serverService.getParams().get(1)).getMessage());
             	break;
+           
             	}
         }
     }
@@ -325,7 +330,7 @@ public class CrDetails implements ClientUI {
         tempL.add(CrDetails.getCurrRequest().getId());
         tempL.add(arr);
         clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Attach_Files, tempL));
-        IcmUtils.displayInformationMsg("attaching files in process...");
+       
     }
 
     @FXML
