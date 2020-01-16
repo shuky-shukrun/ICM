@@ -44,7 +44,7 @@ public class CCCButtons implements ClientUI {
 	@FXML
 	void showAssignTesterDialog(ActionEvent event) throws IOException {
 		try {
-			IcmUtils.popUpScene(this, "Assign Tester", "/client/crDetails/ccc/AssignTester.fxml", 400, 300);
+			IcmUtils.popUpScene(this, "Assign Tester", "/client/crDetails/ccc/AssignTester.fxml", 588, 688);
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace();
