@@ -3,21 +3,21 @@ package client.crDetails.itd.itdCreateReport;
 import client.ClientUI;
 import common.IcmUtils;
 import entities.Report;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.DialogPane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 import server.ServerService;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class ITDCreateReport implements ClientUI {
 
-    @FXML
-    private DialogPane createReportDialogPane;
     @FXML
     private DatePicker startDateDatePicker;
     @FXML
@@ -25,19 +25,8 @@ public class ITDCreateReport implements ClientUI {
     @FXML
     private ChoiceBox<Report.ReportType> reportTypeChoiceBox;
 
-
-    public DatePicker getStartDateDatePicker() {
-        return startDateDatePicker;
-    }
-
-    public DatePicker getEndDateDatePicker() {
-        return endDateDatePicker;
-    }
-
-    public ChoiceBox<Report.ReportType> getReportTypeChoiceBox() {
-        return reportTypeChoiceBox;
-    }
-
+    @FXML
+    private Button createButton;
 
     public void initialize() {
 
@@ -54,6 +43,21 @@ public class ITDCreateReport implements ClientUI {
             }
         });
 
+
+
+        // disable Create button any field is invalid
+        BooleanBinding bb = Bindings.createBooleanBinding(() -> {
+                    LocalDate from = startDateDatePicker.getValue();
+                    LocalDate to = endDateDatePicker.getValue();
+                    Report.ReportType reportType = reportTypeChoiceBox.getSelectionModel().getSelectedItem();
+
+                    // disable, if one selection is missing or from is not smaller than to
+                    return (from == null || to == null || (from.compareTo(to) >= 0) || reportType == null);
+                }, startDateDatePicker.valueProperty(),
+                endDateDatePicker.valueProperty(),
+                reportTypeChoiceBox.valueProperty()
+        );
+        createButton.disableProperty().bind(bb);
     }
 
     public void createReport() {
@@ -72,11 +76,17 @@ public class ITDCreateReport implements ClientUI {
                 System.out.println("Custom report created");
                 break;
         }
+        IcmUtils.getPopUp().close();
     }
 
 
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
 
+    }
+
+    @FXML
+    void closePopup(ActionEvent event) {
+        IcmUtils.getPopUp().close();
     }
 }

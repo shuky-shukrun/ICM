@@ -209,51 +209,10 @@ public class MainWindow implements ClientUI {
         IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
     }
 
-    @FXML
-    void search(ActionEvent event) {
-
-
-
-    }
 
     @FXML
     void showCreateReportDialog(ActionEvent event) throws IOException {
-
-        // load dialog pane
-        Dialog<ButtonType> createReportDialog = new Dialog<>();
-        createReportDialog.initOwner(mainAnchorPane.getScene().getWindow());
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/client/crDetails/itd/itdCreateReport/ITDCreateReport.fxml"));
-        createReportDialog.getDialogPane().setContent(loader.load());
-        createReportDialog.setTitle("ITD Create Report");
-
-        ButtonType createButton = new ButtonType("Create");
-        createReportDialog.getDialogPane().getButtonTypes().add(createButton);
-        createReportDialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
-        ITDCreateReport ITDCreateReport = loader.getController();
-
-        // disable Create button any field is invalid
-        BooleanBinding bb = Bindings.createBooleanBinding(() -> {
-            LocalDate from = ITDCreateReport.getStartDateDatePicker().getValue();
-            LocalDate to = ITDCreateReport.getEndDateDatePicker().getValue();
-            Report.ReportType reportType = ITDCreateReport.getReportTypeChoiceBox().getSelectionModel().getSelectedItem();
-
-            // disable, if one selection is missing or from is not smaller than to
-            return (from == null || to == null || (from.compareTo(to) >= 0) || reportType == null);
-        }, ITDCreateReport.getStartDateDatePicker().valueProperty(),
-                ITDCreateReport.getEndDateDatePicker().valueProperty(),
-                ITDCreateReport.getReportTypeChoiceBox().valueProperty()
-        );
-        createReportDialog.getDialogPane().lookupButton(createButton).disableProperty()
-                .bind(bb);
-
-        // if create button is pressed, create report
-        Optional<ButtonType> result = createReportDialog.showAndWait();
-        if (result.isPresent() && result.get() == createButton) {
-            ITDCreateReport.createReport();
-        }
+        IcmUtils.popUpScene(this, "ITD Create Reports", "/client/crDetails/itd/itdCreateReport/ITDCreateReport2.fxml", 588, 688);
     }
 
     @FXML

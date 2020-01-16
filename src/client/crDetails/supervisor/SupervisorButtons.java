@@ -213,7 +213,16 @@ public class SupervisorButtons implements ClientUI {
 				break;
     	}
     }
-    
+
+    @FXML
+	private void editRequest(){
+
+	}
+
+	@FXML
+	private void editButtonInfoMsg(){
+
+	}
     
     public static void setCurrPhase (Phase phase) {
     	SupervisorButtons.currPhase=phase;
