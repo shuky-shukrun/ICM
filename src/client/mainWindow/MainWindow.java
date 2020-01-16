@@ -3,30 +3,23 @@ package client.mainWindow;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
-import client.crDetails.itd.itdCreateReport.ITDCreateReport;
-import client.mainWindow.newRequest.NewRequest;
 import common.IcmUtils;
 import entities.*;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import server.ServerService;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 public class MainWindow implements ClientUI {
@@ -212,7 +205,7 @@ public class MainWindow implements ClientUI {
 
     @FXML
     void showCreateReportDialog(ActionEvent event) throws IOException {
-        IcmUtils.popUpScene(this, "ITD Create Reports", "/client/crDetails/itd/itdCreateReport/ITDCreateReport2.fxml", 588, 688);
+        IcmUtils.popUpScene(this, "ITD Create Reports", "/client/crDetails/itd/itdCreateReport/ITDCreateReport.fxml", 588, 688);
     }
 
     @FXML
