@@ -4,13 +4,24 @@ import client.ClientController;
 import client.ClientUI;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+
 import common.IcmUtils;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entities.ChangeInitiator;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import server.ServerService;
 
 import java.io.IOException;
@@ -19,18 +30,72 @@ import java.util.List;
 
 public class Login implements ClientUI {
 
+
+    @FXML
+    private AnchorPane layersignup;
+    @FXML
+    private AnchorPane layer2;
+    @FXML
+    private JFXButton signin;
+    @FXML
+    private Label l1;
+    @FXML
+    private Label l2;
+    @FXML
+    private Label l3;
+    @FXML
+    private Label s1;
+    @FXML
+    private Label s2;
+    @FXML
+    private JFXButton Aboutus;
+    @FXML
+    private Label a1;
+    @FXML
+    private Label a2;
+    @FXML
+    private Label a3;
+    @FXML
+    private Label a4;
+    @FXML
+    private Label b2;
+    @FXML
+    private JFXButton loginButton; 
     @FXML
     private TextField userName;
     @FXML
-    private Button loginButton;
-    @FXML
-    private PasswordField password;
+    private JFXPasswordField password;
     @FXML
     private JFXButton ForgotPass;
+    @FXML
+    private AnchorPane layer1;
+    @FXML
+    private Pane pane;
+    @FXML
+    private FontAwesomeIconView icon;
+    @FXML
+    private Circle circle;
+    @FXML
+    private Circle circle1;
+    @FXML
+    private ImageView logo;
+    @FXML
+    private Circle circle11;
+    @FXML
+    private ImageView logo1;
 
     private ClientController clientController = null;
 
     public void initialize() {
+    	 s1.setVisible(false);
+         s2.setVisible(false);
+         Aboutus.setVisible(false);
+         b2.setVisible(false);
+         loginButton.setVisible(false);
+         userName.setVisible(false);
+         password.setVisible(false);
+         ForgotPass.setVisible(false);
+    	
         try {
             clientController = ClientController.getInstance(this);
             System.out.println("login UI initialized");
@@ -38,6 +103,89 @@ public class Login implements ClientUI {
             e.printStackTrace();
             IcmUtils.displayErrorMsg(e.getMessage());
         }
+    }
+    
+    @FXML
+    private void btn(MouseEvent event) {
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.7));
+        slide.setNode(layer2);
+        
+        slide.setToX(491);
+        slide.play();
+        
+        layer1.setTranslateX(-309);
+        loginButton.setVisible(true);
+        b2.setVisible(true);
+        
+        s1.setVisible(true);
+        s2.setVisible(true);
+        Aboutus.setVisible(true);
+        circle1.setVisible(false);
+        logo.setVisible(false);
+        l1.setVisible(false);
+        l2.setVisible(false);
+        l3.setVisible(false);
+        signin.setVisible(false);
+        a1.setVisible(false);
+        a2.setVisible(false);
+        a3.setVisible(false);
+        a4.setVisible(false);
+        userName.setVisible(true);
+        password.setVisible(true);
+        ForgotPass.setVisible(true);
+        pane.setVisible(true);
+        circle.setVisible(true);
+        icon.setVisible(true);
+        circle11.setVisible(true);
+        logo1.setVisible(true);
+       
+        
+        slide.setOnFinished((e->{
+        
+        
+        }));
+    }
+
+    @FXML
+    private void btn2(MouseEvent event) {
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.7));
+        slide.setNode(layer2);
+        
+        slide.setToX(0);
+        slide.play();
+        
+        layer1.setTranslateX(0);
+        loginButton.setVisible(false);
+        b2.setVisible(false);
+        
+        s1.setVisible(false);
+        s2.setVisible(false);
+        Aboutus.setVisible(false);
+        circle1.setVisible(true);
+        logo.setVisible(true);
+        l1.setVisible(true);
+        l2.setVisible(true);
+        l3.setVisible(true);
+        signin.setVisible(true);
+        a1.setVisible(true);
+        a2.setVisible(true);
+        a3.setVisible(true);
+        a4.setVisible(true);
+        userName.setVisible(false);
+        password.setVisible(false);
+        ForgotPass.setVisible(false);
+        pane.setVisible(false);
+        circle.setVisible(false);
+        icon.setVisible(false);
+        circle11.setVisible(false);
+        logo1.setVisible(false);
+        
+        slide.setOnFinished((e->{
+        
+        
+        }));
     }
 
     @FXML
