@@ -894,6 +894,12 @@ public class DBConnection {
 				ps.executeUpdate();
 				flag = true;
 				list.add(flag);
+				ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.ieInPhase SET evaluationReportId = null WHERE crID = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
+				ps = sqlConnection.prepareStatement("DELETE FROM cbaricmy_ICM.evaluationReport WHERE cRequestId = ?");
+				ps.setInt(1, crId);
+				ps.executeUpdate();
 			} catch (SQLException e) {
 				flag = false;
 				list.add(flag);

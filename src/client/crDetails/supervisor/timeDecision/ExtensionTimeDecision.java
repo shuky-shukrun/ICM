@@ -45,6 +45,9 @@ public class ExtensionTimeDecision implements ClientUI  {
 	private PhaseStatus newCurrPhase;
 	private LocalDate localDate;
 	
+	/**
+	 * Initialize the extension time request decision dialog
+	 */
 	public void initialize() {
 		newCurrPhase = SupervisorButtons.getPhaseStatus();
 		CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().toString();
@@ -53,6 +56,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//Get the extension time details to initialize accordingly.
 		List<String> params = new ArrayList<String>();
 		params.add(CrDetails.getCurrRequest().getId().toString());
 		params.add(CrDetails.getCurrRequest().getCurrPhaseName().toString());
@@ -61,6 +65,11 @@ public class ExtensionTimeDecision implements ClientUI  {
 	}
 
     @FXML
+    /**
+	 * Submit the decision, if possible when submit button pressed
+	 * 
+	 * @param event-submit button pressed event
+	 */
     void submitRequestTime(ActionEvent event) {
     	String crId = new String();
 		crId = CrDetails.getCurrRequest().getId().toString();
@@ -76,8 +85,12 @@ public class ExtensionTimeDecision implements ClientUI  {
     }
 
     
-    
     @FXML
+    /**
+	 * Submit the decision, if possible when reject button pressed
+	 * 
+	 * @param event-reject button pressed event
+	 */
     void rejectRequestTime (ActionEvent event) {
     	String crId = new String();
 		crId = CrDetails.getCurrRequest().getId().toString();
@@ -92,9 +105,15 @@ public class ExtensionTimeDecision implements ClientUI  {
     }
 
 	@Override
+	/**
+	 * Initialize the extension time request decision dialog according to the request and
+	 * show pop-up with the information if the decision (approve/reject) action was successful 
+	 * 
+	 * @param serverService-ServerService object that the client controller send
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		switch(serverService.getDatabaseService()) {
-		
+		//Initialize the extension time request decision dialog according to the request
 		case Load_Extension_Time:
 		System.out.println("adding extension time request details to screen");
 
@@ -114,7 +133,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 	        	extensionTimeDatePicker.hide(); 
 	        });
         break;
-        
+        //Show pop-up with the information if the approve action was successful and send an email to ITD manager
 		case Approve_Phase_Time:
 			if(CurrStatus.equals("EXTENSION_TIME_REQUESTED")) {
 				List<Boolean> list = serverService.getParams();
@@ -137,7 +156,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 			}
 			IcmUtils.getPopUp().close();
 			break;
-        
+		//Show pop-up with the information if the reject action was successful 
 		default:
 			List<Boolean> list = serverService.getParams();
 			if (list.get(0) == true) {

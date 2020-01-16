@@ -7,6 +7,7 @@ import java.util.List;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
+import client.crDetails.tester.TesterButtons;
 import common.IcmUtils;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
@@ -60,7 +61,6 @@ public class CCCButtons implements ClientUI {
 	@FXML
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
-
 			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml",
 					588,688);
 

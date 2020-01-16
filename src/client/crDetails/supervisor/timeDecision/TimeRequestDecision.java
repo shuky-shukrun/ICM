@@ -36,6 +36,9 @@ public class TimeRequestDecision implements ClientUI  {
 	private String CurrStatus = new String();
 	private PhaseStatus newCurrPhase;
 	
+	/**
+	 * Initialize the time request decision dialog
+	 */
 	public void initialize() {
 		newCurrPhase = SupervisorButtons.getPhaseStatus();
 		CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus().toString();
@@ -44,7 +47,7 @@ public class TimeRequestDecision implements ClientUI  {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		//initialize the fields according to the time request.
 		requestedTime = CrDetails.getCurrRequest().getPhases().get(0).getDeadLine();
 		phaseTimeDatePicker.setValue(requestedTime);
 		phaseTimeDatePicker.setDisable(false);
@@ -56,6 +59,11 @@ public class TimeRequestDecision implements ClientUI  {
 	}
 
     @FXML
+    /**
+	 * Submit the decision, if possible when submit button pressed
+	 * 
+	 * @param event-submit button pressed event
+	 */
     void submitRequestTime(ActionEvent event) {
 		String crId = new String();
 		crId = CrDetails.getCurrRequest().getId().toString();
@@ -70,6 +78,11 @@ public class TimeRequestDecision implements ClientUI  {
     }
 
     @FXML
+    /**
+	 * Submit the decision, if possible when reject button pressed
+	 * 
+	 * @param event-reject button pressed event
+	 */
     void rejectRequestTime (ActionEvent event) {
     	String crId = new String();
 		crId = CrDetails.getCurrRequest().getId().toString();
@@ -84,6 +97,11 @@ public class TimeRequestDecision implements ClientUI  {
     }
     
 	@Override
+	/**
+	 * Show pop-up with the information if the decision (approve/reject) action was successful 
+	 * 
+	 * @param serverService-ServerService object that the client controller send
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true) {
