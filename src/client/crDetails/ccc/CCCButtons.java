@@ -118,9 +118,11 @@ public class CCCButtons implements ClientUI {
 			case EXTENSION_TIME_APPROVED:
 				setDecisionButton.setVisible(false);
 				assignTesterButton.setVisible(false);
+				//assignTesterButton.setDisable(true);
 				viewEvaluationReportButton.setVisible(true);
 				viewEvaluationReportButton.setDisable(false);
 				moreInformationButton.setVisible(false);
+				//moreInformationButton.setDisable(false);
 				break;
 			}
 			break;
