@@ -1,6 +1,7 @@
 package client.crDetails.itd.itdCreateReport;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -119,10 +120,8 @@ public class ActivityReportController implements ClientUI {
 		long leftBetween = daysBetween % 7;
 		params.add(weeksBetween);
 		params.add(leftBetween);
-		ServerService getFrozen = new ServerService(ServerService.DatabaseService.Get_Report_Details, params);
+		ServerService getFrozen = new ServerService(ServerService.DatabaseService.Get_Activity_Report_Details, params);
 		clientController.handleMessageFromClientUI(getFrozen);
-		ServerService getActive = new ServerService(ServerService.DatabaseService.Get_Active_Details, params);
-		clientController.handleMessageFromClientUI(getActive);
 
 	}
 
@@ -162,6 +161,7 @@ public class ActivityReportController implements ClientUI {
 		activeCount.toArray(numArray2);
 		closedCount.toArray(numArray3);
 		declinedCount.toArray(numArray4);
+		
 		
 		Arrays.sort(numArray1);
 		Arrays.sort(numArray2);
@@ -223,10 +223,27 @@ public class ActivityReportController implements ClientUI {
 		countClosed.textProperty().set(s10);
 		countDeclined.textProperty().set(s11);
 		
+		System.out.println("1");
 		System.out.println(frq(numArray1));
+		System.out.println("2");
 		System.out.println(frq(numArray2));
+		System.out.println("3");
 		System.out.println(frq(numArray3));
+		System.out.println("4");
+		
+//		private final ObservableList<Integer[]> data =FXCollections.observableArrayList(frq(numArray1));
+//		cntFrozen.setMinWidth(100);
+//        cntFrozen.setCellValueFactory(new PropertyValueFactory<>("numArray1"));
+//        disFrozen.setMinWidth(100);
+//        disFrozen.setCellValueFactory(new PropertyValueFactory<>("frq(numArray1)"));
+//        FrozenTable.setItems();
 
+		cntFrozen.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("count"));
+		disFrozen.setCellValueFactory(new PropertyValueFactory<>("freq"));
+	    ObservableList data = FXCollections.observableArrayList();
+	    FrozenTable.setItems(data);
+	    data.add(frq(numArray1));
+		
 
 
 
@@ -259,15 +276,33 @@ public class ActivityReportController implements ClientUI {
 
 	}
 	
-	public HashMap frq(Integer[] Array) {
-		hm.clear();
-		for (int i = 0; i < Array.length; i++) {
-			if (hm.containsKey(Array[i]))
-				hm.put(Array[i], hm.get(Array[i]) + 1);
-			else
-				hm.put(Array[i], 1);
-		}
-		return(hm);
+	public Integer[] frq(Integer[] Array) {
+		
+		Integer[] fr= new Integer[Array.length];
+	       int visited = -1;  
+	        for(int i = 0; i < Array.length; i++){  
+	            int count = 1;  
+	            for(int j = i+1; j < Array.length; j++){  
+	                if(Array[i] == Array[j]){  
+	                    count++;  
+	                    //To avoid counting same element again  
+                    fr[j] = visited;  
+	                }  
+	            }  
+	            if(fr[i] != visited)  
+	                fr[i] = count;  
+	        } 
+	        return fr;
 	}
+		
+//		hm.clear();
+//		for (int i = 0; i < Array.length; i++) {
+//			if (hm.containsKey(Array[i]))
+//				hm.put(Array[i], hm.get(Array[i]) + 1);
+//			else
+//				hm.put(Array[i], 1);
+//		}
+//		return(hm);
+//	}
 
 }

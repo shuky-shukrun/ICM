@@ -86,6 +86,8 @@ public class ITDCreateReport implements ClientUI {
                 break;
             case B:
                 System.out.println("B report created");
+                IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/performanceReportScreen.fxml", 481, 320);
+
                 break;
             case C:
                 System.out.println("C report created");

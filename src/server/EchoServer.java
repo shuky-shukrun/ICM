@@ -427,7 +427,7 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(serverService);
 				System.out.println("server finish register IT");
 				break;
-			case Get_Report_Details:
+			case Get_Activity_Report_Details:
 				System.out.println("server Get Report Details");
 				List<Integer> frozenList = new ArrayList<>();
 				List<Integer> activeList = new ArrayList<>();
@@ -473,6 +473,24 @@ public class EchoServer extends AbstractServer {
 
 				}
 				System.out.println("server finish Get Report Details");
+				break;
+				
+			case Get_Performance_Report_Details:
+				System.out.println("server Get Performance Report Details");
+				List<List<LocalDate>> totalList= new ArrayList<>();
+				LocalDate startDate1= (LocalDate) serverService.getParams().get(0);
+				LocalDate from1= startDate1;
+				LocalDate endDate1= (LocalDate) serverService.getParams().get(1);
+				LocalDate to1= endDate1;
+				List<LocalDate> timeList = dbConnection.getPerformanceReportDetails(from1,to1);
+				System.out.println(timeList);
+				totalList.add(timeList);
+				List<LocalDate> timeList1 = dbConnection.getPerformanceReportDetails1(from1,to1);
+				System.out.println(timeList1);
+				totalList.add(timeList1);
+				serverService.setParams(totalList);
+				client.sendToClient(serverService);
+				System.out.println("server finish Get Performance Report Details");
 				break;
 			}
 		} catch (IOException | SQLException e) {
