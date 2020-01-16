@@ -111,7 +111,7 @@ public class EvaluatorButtons implements ClientUI {
 
 		try {
 			IcmUtils.popUpScene(this, "ICM Create Evaluation Report",
-					"/client/crDetails/evaluator/createEvaluationReport.fxml", 600, 632);
+					"/client/crDetails/evaluator/createEvaluationReport.fxml", 588, 788);
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace();
