@@ -44,7 +44,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="65.0" layoutY="542.0" text="Evaluated Time:">
+            <Label layoutX="65.0" layoutY="542.0" text="Estimated Finish Date:">
                <font>
                   <Font size="18.0" />
                </font>
@@ -64,7 +64,7 @@
                </children>
             </Pane>
             <Circle fill="#f1eaea" layoutX="294.0" layoutY="140.0" radius="77.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
-            <TextField fx:id="timeTextField" layoutX="273.0" layoutY="546.0" prefHeight="31.0" prefWidth="257.0" style="-fx-background-radius: 10;" />
+            <TextField fx:id="timeTextField" layoutX="275.0" layoutY="540.0" prefHeight="31.0" prefWidth="257.0" style="-fx-background-radius: 10;" />
             <OctIconView fill="#7156dd" glyphName="CLIPPY" layoutX="265.0" layoutY="157.0" size="70" />
          </children>
       </AnchorPane>

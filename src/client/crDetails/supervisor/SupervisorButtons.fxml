@@ -62,6 +62,17 @@
                   <FontAwesomeIconView fill="WHITE" glyphName="HAND_STOP_ALT" size="25" />
                </graphic>
             </Button>
+            <Button fx:id="editButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#editRequest" prefHeight="50.0" prefWidth="250.0" text=" Edit" textFill="#f8f8f8">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="PENCIL_SQUARE_ALT" size="25" />
+               </graphic>
+            </Button>
          </children>
          <opaqueInsets>
             <Insets />
@@ -81,6 +92,11 @@
          </graphic>
       </Button>
       <Button fx:id="freezeRequestInfoButton" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="181.0" mnemonicParsing="false" onAction="#freezeRequestInfo" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
+         <graphic>
+            <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
+         </graphic>
+      </Button>
+      <Button fx:id="editButtonInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="240.0" mnemonicParsing="false" onAction="#editButtonInfoMsg" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>
