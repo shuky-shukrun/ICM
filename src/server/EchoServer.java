@@ -21,6 +21,7 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -53,9 +54,9 @@ public class EchoServer extends AbstractServer {
 
     // Class variables *************************************************
 
-    private DBConnection dbConnection;
+	private DBConnection dbConnection;
 
-    // Constructors ****************************************************
+	// Constructors ****************************************************
 
     /**
      * Constructs an instance of the echo server.
@@ -74,16 +75,19 @@ public class EchoServer extends AbstractServer {
 //        timer.scheduleAtFixedRate(serverTimer, delay, period);
     }
 
-    // Instance methods ************************************************
+	// Instance methods ************************************************
 
-    /**
-     * This method handles any messages received from the client.
-     *
-     * @param msg    The message received from the client.
-     * @param client The connection from which the message originated.
-     */
-    public void handleMessageFromClient(Object msg, ConnectionToClient client) {
+	/**
+	 * This method handles any messages received from the client.
+	 *
+	 * @param msg    The message received from the client.
+	 * @param client The connection from which the message originated.
+	 */
+	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		ServerService serverService = (ServerService) msg;
+		ServerService serverService1 = (ServerService) msg;
+		ServerService serverService2 = (ServerService) msg;
+		ServerService serverService3 = (ServerService) msg;
 		try {
             System.out.println("Message received: " + msg + " from " + client);
             // extract the requested service from the server
@@ -473,16 +477,81 @@ public class EchoServer extends AbstractServer {
                     List<Phase> phaseList = serverService.getParams();
                     dbConnection.updateExceptionTime(phaseList);
                     System.out.println("Update_Exception_Time server got data");
-                    break;
+					break;
+					case Get_Activity_Report_Details:
+					System.out.println("server Get Report Details");
+					List<Integer> frozenList = new ArrayList<>();
+					List<Integer> activeList = new ArrayList<>();
+					List<Integer> closedList = new ArrayList<>();
+					List<Integer> declinedList = new ArrayList<>();
+					List<List<Integer>> countList = new ArrayList<>();
+					
+					LocalDate startDate= (LocalDate) serverService.getParams().get(0);
+					LocalDate from= startDate;
+					LocalDate endDate= (LocalDate) serverService.getParams().get(1);
+					LocalDate to= endDate;
+					long weeks= (long) serverService.getParams().get(2);
+					long left= (long) serverService.getParams().get(2);
+					if (left == 0) {
+						for (int i = 0; i <= weeks; i++) {
+							from = startDate.plusDays(7 * i);
+							to = startDate.plusDays(7 * 1 + 6);
+							int frozenCount = dbConnection.getFReportDetails(from,to);
+							frozenList.add(frozenCount);
+							int activeCount=dbConnection.getAReportDetails(from,to);
+							activeList.add(activeCount);
+							int closedCount=dbConnection.getCReportDetails(from,to);
+							closedList.add(closedCount);
+							int declinedCount = dbConnection.getDReportDetails(from,to);
+							declinedList.add(declinedCount);
+							countList.add(frozenList);
+							countList.add(activeList);
+							countList.add(closedList);
+							countList.add(declinedList);
+							serverService.setParams(countList);
+							client.sendToClient(serverService);
+	
+						}
+					} else {
+						for (int i = 0; i < weeks; i++) {
+							from= from.plusDays(7*i);
+							to= from.plusDays(7*i+6);
+							int count = dbConnection.getFReportDetails(from,to);
+							frozenList.add(count);
+							serverService.setParams(frozenList);
+							client.sendToClient(serverService);
+						}
+	
+					}
+					System.out.println("server finish Get Report Details");
+					break;
+					
+				case Get_Performance_Report_Details:
+					System.out.println("server Get Performance Report Details");
+					List<List<LocalDate>> totalList= new ArrayList<>();
+					LocalDate startDate1= (LocalDate) serverService.getParams().get(0);
+					LocalDate from1= startDate1;
+					LocalDate endDate1= (LocalDate) serverService.getParams().get(1);
+					LocalDate to1= endDate1;
+					List<LocalDate> timeList = dbConnection.getPerformanceReportDetails(from1,to1);
+					System.out.println(timeList);
+					totalList.add(timeList);
+					List<LocalDate> timeList1 = dbConnection.getPerformanceReportDetails1(from1,to1);
+					System.out.println(timeList1);
+					totalList.add(timeList1);
+					serverService.setParams(totalList);
+					client.sendToClient(serverService);
+					System.out.println("server finish Get Performance Report Details");
+					break;
                 	
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();
 			System.out.println("\n\nError: " + e.getMessage());
-            List<Exception> ExceptionsList = new ArrayList<>();
-            ExceptionsList.add(e);
-            serverService.setDatabaseService(DatabaseService.Error);
-            serverService.setParams(ExceptionsList);
+			List<Exception> ExceptionsList = new ArrayList<>();
+			ExceptionsList.add(e);
+			serverService.setDatabaseService(DatabaseService.Error);
+			serverService.setParams(ExceptionsList);
 			try {
 				client.sendToClient(serverService);
 			} catch (IOException ex) {
@@ -490,21 +559,21 @@ public class EchoServer extends AbstractServer {
 				System.out.println("\n\nError: " + ex.getMessage());
 			}
 		}
-    }
+	}
 
-    /**
-     * This method overrides the one in the superclass. Called when the server
-     * starts listening for connections.
-     */
-    protected void serverStarted() {
-        System.out.println("Server listening for connections on port " + getPort());
-    }
+	/**
+	 * This method overrides the one in the superclass. Called when the server
+	 * starts listening for connections.
+	 */
+	protected void serverStarted() {
+		System.out.println("Server listening for connections on port " + getPort());
+	}
 
-    /**
-     * This method overrides the one in the superclass. Called when the server stops
-     * listening for connections.
-     */
-    protected void serverStopped() {
-        System.out.println("Server has stopped listening for connections.");
-    }
+	/**
+	 * This method overrides the one in the superclass. Called when the server stops
+	 * listening for connections.
+	 */
+	protected void serverStopped() {
+		System.out.println("Server has stopped listening for connections.");
+	}
 }

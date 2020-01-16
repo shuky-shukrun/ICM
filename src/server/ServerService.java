@@ -67,6 +67,8 @@ public class ServerService implements Serializable {
         Get_Employee,
         Register_IT,
         Email_ITD_Extension_Time_Approved,
-        Update_Exception_Time
+        Update_Exception_Time,
+        Get_Activity_Report_Details,
+        Get_Performance_Report_Details
     }
 }
