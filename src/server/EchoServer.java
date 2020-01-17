@@ -10,6 +10,7 @@ import entities.EvaluationReport;
 import entities.IEPhasePosition;
 import entities.InformationEngineer;
 import entities.Phase;
+import javafx.application.Platform;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import server.ServerService.DatabaseService;
@@ -383,16 +384,26 @@ public class EchoServer extends AbstractServer {
                         JavaEmail emailer=new JavaEmail();
                         emailer.setMailServerProperties();
 
-                        try {
-                            emailer.sendEmail(((String)serverService.getParams().get(3)), "Request Decision", text);
-                        } catch (MessagingException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+                        Thread mail = new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    emailer.sendEmail(((String)serverService.getParams().get(3)), "Request Decision", text);
+                                } catch (MessagingException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        mail.start();
                 	}
                 	flagss=new ArrayList<Boolean>();
                 	flagss.add(flagw);
-                	client.sendToClient(new ServerService(DatabaseService.Close_Request, flagss));
+                    try {
+                        client.sendToClient(new ServerService(DatabaseService.Close_Request, flagss));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 	break;
                 case Assign_Tester:
 

@@ -128,7 +128,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
 								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
 						"Change request " + CrDetails.getCurrRequest().getId()
-								+ " -time request approved allready." );
+								+ " -time request approved already." );
 			
 		 break;
 		 case TIME_REQUESTED:

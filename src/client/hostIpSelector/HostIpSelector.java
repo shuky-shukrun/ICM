@@ -27,7 +27,7 @@ public class HostIpSelector implements ClientUI {
 
         // load the gui and starting it
         try {
-            IcmUtils.loadScene(this, "ICM - Login", "/client/login/Login2.fxml", 800, 500);
+            IcmUtils.loadScene(this, "ICM - Login", "/client/login/Login.fxml", 800, 500);
 //            IcmUtils.loadHomeScene(this);
 
         } catch (Exception e) {

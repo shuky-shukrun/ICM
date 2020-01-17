@@ -160,7 +160,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 		default:
 			List<Boolean> list = serverService.getParams();
 			if (list.get(0) == true) {
-				IcmUtils.displayInformationMsg("Extension time decision", "Extension time decision updated", "Your decision was update successfully.");
+				IcmUtils.displayInformationMsg("Extension time decision", "Extension time decision updated", "Your decision was updated successfully.");
 			} else {
 				IcmUtils.displayErrorMsg("Error", "Extension time error", "Please contact system administration.");
 			}

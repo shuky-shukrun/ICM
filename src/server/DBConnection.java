@@ -851,7 +851,7 @@ public class DBConnection {
 
 		// update decision in the db - set to null at first
 		try {
-			System.out.println("insert the decision to datebase");
+			System.out.println("insert the decision to database");
 			ps = sqlConnection.prepareStatement(
 					"UPDATE cbaricmy_ICM.phase SET phSetDecisionDescription = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
 			decision = params.get(0) + ":" + params.get(1);
@@ -976,6 +976,11 @@ public class DBConnection {
 				ps = sqlConnection.prepareStatement(
 						"UPDATE cbaricmy_ICM.phase SET phStatus = 'PHASE_LEADER_ASSIGNED' WHERE phIDChangeRequest = ? AND phPhaseName = 'EXECUTION'");
 				ps.setInt(1, crId);
+				ps.executeUpdate();
+				ps = sqlConnection.prepareStatement(
+						"UPDATE cbaricmy_ICM.phase SET phStatus = ? WHERE phIDChangeRequest = ? AND phPhaseName = 'VALIDATION'");
+				ps.setString(1, PhaseStatus.IN_PROCESS.toString());
+				ps.setInt(2, crId);
 				ps.executeUpdate();
 				flag = true;
 				list.add(flag);

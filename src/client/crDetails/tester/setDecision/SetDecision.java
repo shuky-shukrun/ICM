@@ -141,7 +141,7 @@ public class SetDecision implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true && list.get(2) == true) {
-			IcmUtils.displayInformationMsg("Tester decision", "Tester decision updated", "Your decision was update successfully.");
+			IcmUtils.displayInformationMsg("Decision updated", "Decision updated", "Your decision was update successfully.");
 		} else {
 			IcmUtils.displayErrorMsg("Error", "Error in tester decision", "Please contact system administrator.");
 		}

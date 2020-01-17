@@ -2,10 +2,13 @@ package client.crDetails.tester;
 
 import java.io.IOException;
 
+import client.ClientController;
+import client.ClientMain;
 import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
 import entities.Phase;
+import entities.Position;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,6 +45,8 @@ public class TesterButtons implements ClientUI {
 			setDecisionInfo.setVisible(true);
 		}
 
+			setDecisionButton.setVisible(false);
+			setDecisionInfo.setVisible(false);
 	}
 
 	@FXML

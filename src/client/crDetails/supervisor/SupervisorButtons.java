@@ -8,17 +8,17 @@ import java.util.Optional;
 import client.ClientController;
 import client.ClientUI;
 import client.crDetails.CrDetails;
-import client.crDetails.supervisor.AssignPhaseLeaders.AssignPhaseLeaders;
 import common.IcmUtils;
-import entities.ChangeInitiator;
-import entities.ChangeRequest;
 import entities.Phase;
 import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
+import javafx.stage.StageStyle;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
@@ -49,6 +49,8 @@ public class SupervisorButtons implements ClientUI {
     private ClientController clientController;
     private static Phase currPhase;
     private boolean flag=false;
+
+    private Alert pleaseWaitMessage;
     
     public void initialize() {
     	try {
@@ -95,7 +97,7 @@ public class SupervisorButtons implements ClientUI {
      */
 	@FXML
 	void closeChangeRequest(ActionEvent event) {
-		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("are you sure you want to close this request?");
+		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("Are you sure you want to close this request?");
 		if (result.get() == ButtonType.OK) {
 			List<String> params = new ArrayList<String>();
 			params.add(CrDetails.getCurrRequest().getId().toString());
@@ -104,6 +106,14 @@ public class SupervisorButtons implements ClientUI {
 					+ CrDetails.getCurrRequest().getInitiator().getLastName());
 			params.add(CrDetails.getCurrRequest().getInitiator().getEmail());
 			clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Close_Request, params));
+
+			pleaseWaitMessage = new Alert(Alert.AlertType.INFORMATION);
+			pleaseWaitMessage.setTitle("Closing request");
+			pleaseWaitMessage.setHeaderText("Closing request");
+			pleaseWaitMessage.setContentText("Please wait");
+			pleaseWaitMessage.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
+			pleaseWaitMessage.initStyle(StageStyle.TRANSPARENT);
+			pleaseWaitMessage.showAndWait();
 		}
 	}
 	/**
@@ -202,6 +212,7 @@ public class SupervisorButtons implements ClientUI {
     			break;
     		case Close_Request:
 				if ((Boolean) serverService.getParams().get(0) == true) {
+					pleaseWaitMessage.close();
 					IcmUtils.displayInformationMsg("Close Request","Close Request", "Close Request Successfully");
 					closeChangeRequestButton.setDisable(true);
 					moreInformation2.setVisible(true);
