@@ -69,13 +69,12 @@ public class EchoServer extends AbstractServer {
         //the Date and time at which you want to execute
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Thread.sleep(2000);
             Date date = dateFormatter.parse("2020-01-19 07:00:00");
             Timer timer = new Timer("Server Timer");
             ServerTimer serverTimer = new ServerTimer();
             long period = 1000L * 60L * 60L * 24L;
             timer.schedule(serverTimer, date, period);
-        } catch (ParseException | InterruptedException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

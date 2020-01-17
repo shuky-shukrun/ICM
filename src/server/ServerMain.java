@@ -23,7 +23,7 @@ public class ServerMain extends Application implements ClientUI {
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/server/serverUI/ServerUI.fxml").openStream());
-            Scene scene = new Scene(root, 440, 385);
+            Scene scene = new Scene(root, 560, 550);
             primaryStage.setScene(scene);
             primaryStage.setTitle("ICM Server");
             primaryStage.show();
