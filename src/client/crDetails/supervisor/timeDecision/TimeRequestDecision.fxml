@@ -47,7 +47,7 @@
             <MaterialDesignIconView fill="#7156dd" glyphName="ALARM" layoutX="264.0" layoutY="159.0" size="60" text="" />
          </children>
       </AnchorPane>
-      <Label layoutX="64.0" layoutY="235.0" prefHeight="25.0" text="Please Choose your dicision regarding to the requested time" textFill="#3f2b63">
+      <Label layoutX="64.0" layoutY="235.0" prefHeight="25.0" text="Please Choose your decision regarding to the requested time" textFill="#3f2b63">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

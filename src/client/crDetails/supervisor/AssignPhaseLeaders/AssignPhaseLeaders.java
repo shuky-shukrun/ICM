@@ -58,6 +58,9 @@ public class AssignPhaseLeaders implements ClientUI {
 	private Label label1;
 	@FXML
 	private Label label2;
+	@FXML
+	private Label pathLabel;
+	
 	
 	private ChangeInitiator initiatorOfCr;
 	private ClientController clientController;
@@ -140,6 +143,7 @@ public class AssignPhaseLeaders implements ClientUI {
 				label1.setVisible(false);
 				label2.setVisible(false);
 	            titleLabel.setText("View phase leaders");
+	            pathLabel.setText("Home page >Change request details >View phase leaders");
 				cancelButton.setText("Close");
 				List<ChangeRequest> changeRequestsList =new ArrayList<>();
 				changeRequestsList.add(CrDetails.getCurrRequest());

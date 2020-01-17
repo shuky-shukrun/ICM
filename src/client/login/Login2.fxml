@@ -46,14 +46,14 @@
                   </Label>
                   <Pane fx:id="pane" layoutX="55.0" layoutY="159.0" prefHeight="323.0" prefWidth="386.0" style="-fx-border-color: #f1eaea; -fx-border-color: #7156DD; -fx-border-radius: 20; -fx-background-radius: 20; -fx-border-width: 7;" visible="false">
                      <children>
+                        <JFXTextField fx:id="userName" layoutX="50.0" layoutY="72.0" prefHeight="31.0" prefWidth="258.0" promptText="Username" visible="false" />
+                        <JFXPasswordField fx:id="password" layoutX="46.0" layoutY="140.0" prefHeight="31.0" prefWidth="258.0" promptText="password" visible="false" />
+                        <JFXButton fx:id="ForgotPass" layoutX="155.0" layoutY="185.0" onAction="#forgotPass" prefHeight="31.0" prefWidth="173.0" text="Forget Your Password?" textFill="#294aae" underline="true" visible="false" />
                         <JFXButton fx:id="loginButton" layoutX="88.0" layoutY="244.0" onAction="#login" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #7156DD; -fx-background-radius: 200; -fx-text-fill: white;" text="Login" visible="false">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="ForgotPass" layoutX="155.0" layoutY="185.0" onAction="#forgotPass" prefHeight="31.0" prefWidth="173.0" text="Forget Your Password?" textFill="#294aae" underline="true" visible="false" />
-                        <JFXPasswordField fx:id="password" layoutX="46.0" layoutY="140.0" prefHeight="31.0" prefWidth="258.0" promptText="password" visible="false" />
-                        <JFXTextField fx:id="userName" layoutX="50.0" layoutY="72.0" prefHeight="31.0" prefWidth="258.0" promptText="Username" visible="false" />
                      </children>
                   </Pane>
                   <Circle fx:id="circle" fill="#f1eaea" layoutX="241.0" layoutY="147.0" radius="77.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" visible="false" />

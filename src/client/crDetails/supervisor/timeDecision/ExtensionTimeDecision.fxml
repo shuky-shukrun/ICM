@@ -38,12 +38,12 @@
             <TextArea fx:id="descriptionTextArea" disable="true" layoutX="204.0" layoutY="323.0" prefHeight="120.0" prefWidth="280.0" />
             <Pane prefHeight="141.0" prefWidth="600.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 0 60 60;">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="137.0" layoutY="21.0" text="Extension Time Dicison" textFill="#fcfcfc">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="135.0" layoutY="21.0" text="Extension Time Decision" textFill="#fcfcfc">
                      <font>
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </Label>
-                  <Label layoutX="3.0" prefHeight="21.0" prefWidth="428.0" text="Home page &gt;Change request details &gt;Extension Time Dicison">
+                  <Label layoutX="3.0" prefHeight="21.0" prefWidth="428.0" text="Home page &gt;Change request details &gt;Extension Time Decision">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -51,7 +51,7 @@
                </children>
             </Pane>
             <Circle fill="#f1eaea" layoutX="294.0" layoutY="140.0" radius="77.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
-            <Label layoutX="54.0" layoutY="231.0" prefHeight="25.0" prefWidth="462.0" text="Please Choose your dicision regarding  to the requested time" textFill="#3f2b63">
+            <Label layoutX="54.0" layoutY="231.0" prefHeight="25.0" prefWidth="462.0" text="Please Choose your decision regarding  to the requested time" textFill="#3f2b63">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
