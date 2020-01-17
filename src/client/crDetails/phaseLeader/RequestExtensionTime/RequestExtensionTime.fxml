@@ -24,16 +24,6 @@
                </graphic>
             </Label>
             <DatePicker fx:id="RequestedtimeDatePicker" layoutX="238.0" layoutY="294.0" prefHeight="24.0" prefWidth="257.0" />
-            <Button fx:id="submitButton" layoutX="451.0" layoutY="625.0" mnemonicParsing="false" onAction="#submitRequestTime" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #4691ce;" text="Submit">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="CancelButton" cancelButton="true" layoutX="325.0" layoutY="625.0" mnemonicParsing="false" onAction="#cancelRequestTime" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10;" text="Cancel">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
             <Label layoutX="69.0" layoutY="347.0" text="Description:">
                <font>
                   <Font size="18.0" />
@@ -43,6 +33,16 @@
                </graphic>
             </Label>
             <TextArea fx:id="DescriptionTextArea" layoutX="238.0" layoutY="344.0" prefHeight="120.0" prefWidth="300.0" />
+            <Button fx:id="CancelButton" cancelButton="true" layoutX="349.0" layoutY="636.0" mnemonicParsing="false" onAction="#cancelRequestTime" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10;" text="Cancel">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="submitButton" layoutX="475.0" layoutY="636.0" mnemonicParsing="false" onAction="#submitRequestTime" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #4691ce;" text="Submit">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
             <Pane prefHeight="141.0" prefWidth="600.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 0 60 60;">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="17.0" text="Request Extension Time" textFill="#fcfcfc">

@@ -43,7 +43,7 @@ public class PhaseLeaderButtons implements ClientUI {
 			if (currPhase.getPhaseStatus() == PhaseStatus.IN_PROCESS) {
 				LocalDate currDate = LocalDate.now(); // Create a date object
 				LocalDate deadLine = currPhase.getDeadLine();
-				days = (ChronoUnit.DAYS.between(currDate, deadLine)) + 2;
+				days = (ChronoUnit.DAYS.between(currDate, deadLine)) + 1;
 				System.out.println("Days between: " + days);
 
 				if (!(days < 4 && days > 0) || days > 3) {
@@ -88,7 +88,7 @@ public class PhaseLeaderButtons implements ClientUI {
 
 		switch (helpType) {
 		case "Time Exception":
-			IcmUtils.displayInformationMsg("Information message",
+			IcmUtils.displayInformationMsg("Time Exception",
 					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
 							+ "Current phase: " + currPhase.getName().toString() + "\n" + "Deadline: "
 							+ currPhase.getDeadLine().format(formatter) + "\n" + "Time left: " + days + " days" + "\n",
@@ -96,21 +96,21 @@ public class PhaseLeaderButtons implements ClientUI {
 			break;
 
 		case "Time extension already exists":
-			IcmUtils.displayInformationMsg("Information message",
+			IcmUtils.displayInformationMsg("Time extension already exists",
 					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
 							+ "Current phase: " + currPhase.getName().toString(),
 					"A time extension request for this phase has already been submitted and aproved." + "\n"
 							+ "Time extension request can only be aproved once!");
 			break;
 		case "time extension requested":
-			IcmUtils.displayInformationMsg("Information message",
+			IcmUtils.displayInformationMsg("Time extension requested",
 					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
 							+ "Current phase: " + currPhase.getName().toString() + "\n" + "Phase status: "
 							+ currPhase.getPhaseStatus(),
 					"Time extension request for this phase has been forwarded to the supervisor's approval.");
 			break;
 		case "No deadline":
-			IcmUtils.displayInformationMsg("Information message",
+			IcmUtils.displayInformationMsg("No deadline",
 					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
 							+ "Current phase: " + currPhase.getName().toString() + "\n",
 					"The deadline for this phase has not been set yet.");

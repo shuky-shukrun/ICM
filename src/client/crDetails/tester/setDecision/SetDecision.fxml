@@ -18,20 +18,26 @@
                <font>
                   <Font size="18.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#e02e2e" glyphName="ASTERISK" />
+               </graphic>
             </Label>
-            <ChoiceBox fx:id="decisionChoiceBox" layoutX="180.0" layoutY="282.0" onKeyReleased="#keyReleaseProperty" prefWidth="300.0" style="-fx-background-radius: 10;" />
+            <ChoiceBox fx:id="decisionChoiceBox" layoutX="195.0" layoutY="282.0" onKeyReleased="#keyReleaseProperty" prefWidth="300.0" style="-fx-background-radius: 10;" />
             <Label layoutX="64.0" layoutY="338.0" text="Description:">
                <font>
                   <Font size="18.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#e02e2e" glyphName="ASTERISK" />
+               </graphic>
             </Label>
-            <TextArea fx:id="descriptionTextArea" layoutX="180.0" layoutY="341.0" onKeyReleased="#keyReleaseProperty" prefHeight="185.0" prefWidth="300.0" promptText="Enter the decision description" wrapText="true" />
-            <Button fx:id="okButton" layoutX="460.0" layoutY="634.0" mnemonicParsing="false" onAction="#submitDecision" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #4b92e8;" text="Submit">
+            <TextArea fx:id="descriptionTextArea" layoutX="195.0" layoutY="341.0" onKeyReleased="#keyReleaseProperty" prefHeight="185.0" prefWidth="300.0" promptText="Enter the decision description" wrapText="true" />
+            <Button fx:id="okButton" layoutX="466.0" layoutY="634.0" mnemonicParsing="false" onAction="#submitDecision" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #4b92e8;" text="Submit">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="cancelButton" cancelButton="true" layoutX="333.0" layoutY="634.0" mnemonicParsing="false" onAction="#cancelSetDecision" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10;" text="Cancel">
+            <Button fx:id="cancelButton" cancelButton="true" layoutX="339.0" layoutY="634.0" mnemonicParsing="false" onAction="#cancelSetDecision" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10;" text="Cancel">
                <font>
                   <Font size="16.0" />
                </font>
@@ -58,6 +64,11 @@
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
+      </Label>
+      <Label layoutX="79.0" layoutY="645.0" text="Required Field" textFill="#b91515">
+         <graphic>
+            <FontAwesomeIconView fill="#e02e2e" glyphName="ASTERISK" />
+         </graphic>
       </Label>
    </children>
 </AnchorPane>

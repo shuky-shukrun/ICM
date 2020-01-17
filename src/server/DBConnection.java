@@ -1696,7 +1696,7 @@ public class DBConnection {
 		Phase currPhase = phList.get(0);
 		LocalDate currDate = LocalDate.now(); // Create a date object
 		LocalDate deadLine = currPhase.getDeadLine();
-		int days = (int) ((ChronoUnit.DAYS.between(deadLine, currDate)) - 1);
+		int days = (int) ((ChronoUnit.DAYS.between(deadLine, currDate)));
 		System.out.println("Days between: " + days);
 
 		if (days > 0) {

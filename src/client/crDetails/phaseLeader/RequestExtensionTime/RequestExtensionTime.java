@@ -47,9 +47,9 @@ public class RequestExtensionTime implements ClientUI{
 		RequestedtimeDatePicker.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
 				super.updateItem(date, empty);
-				LocalDate deadLine = newCurrPhase.getDeadLine().plusDays(1);
+				LocalDate deadLine = newCurrPhase.getDeadLine();
 				
-				setDisable(empty || date.compareTo(deadLine) <= 0 );
+				setDisable(empty || date.compareTo(deadLine) <=0 );
 			}
 		});
 
