@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import server.DBConnection;
 import server.ServerService;
 
@@ -27,6 +28,8 @@ public class ITRegistration implements ClientUI {
 	private Button cancelButton;
 	@FXML
 	private ChoiceBox<ChangeInitiator> employeeChoiceBox;
+	@FXML
+	private Label noUsersLabel;
 
 	private ClientController clientController;
 	private CrDetails crDetails;
@@ -34,6 +37,7 @@ public class ITRegistration implements ClientUI {
 	ChangeInitiator selectedEmployee;
 	ChangeInitiator oldSelection = new ChangeInitiator();
 	ObservableList<ChangeInitiator> employeeList = FXCollections.observableArrayList();
+
 	
 	public void initialize() {
 		
@@ -59,6 +63,11 @@ public class ITRegistration implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 
 		List<ChangeInitiator> params = serverService.getParams();
+		if(params.isEmpty()) {
+			submitButton.setDisable(true);
+			noUsersLabel.setVisible(true);
+			return;
+		}
 		employeeList.setAll(params);
 		employeeChoiceBox.setItems(employeeList);
 	}
