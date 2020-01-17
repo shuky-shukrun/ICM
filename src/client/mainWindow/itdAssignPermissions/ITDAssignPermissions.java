@@ -101,8 +101,6 @@ public class ITDAssignPermissions implements ClientUI {
         newSelection.add(selectedCcc2);
         newSelection.add(selectedChairman);
 
-        // TODO: handle no change case!
-
         List<List<ChangeInitiator>> oldAndNewSelection = new ArrayList<>();
         oldAndNewSelection.add(oldSelection);
         oldAndNewSelection.add(newSelection);

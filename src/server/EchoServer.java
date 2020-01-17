@@ -121,8 +121,8 @@ public class EchoServer extends AbstractServer {
                     else
                     {
                         String line1 = "Hey  "+(String)l.get(2)+" "+(String)l.get(3);
-                        String line2 = "Your id is:"+(int)l.get(1)+"    ";
-                        String line3 = "Your password is:"+(String)l.get(4);
+                        String line2 = "Your id is: "+(int)l.get(1)+"    ";
+                        String line3 = "Your password is: "+(String)l.get(4);
                         String text = line1 + "\n" + line2+"\n"+line3;
                         JavaEmail emailer=new JavaEmail();
                         emailer.setMailServerProperties();
@@ -130,7 +130,6 @@ public class EchoServer extends AbstractServer {
                         try {
                             emailer.sendEmail((String)l.get(5), "Restore Password", text);
                         } catch (MessagingException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     }
@@ -374,7 +373,7 @@ public class EchoServer extends AbstractServer {
                 	if(flagw==true) {
                 		String line3="";
                 		String line1 = "Hey  "+(String)serverService.getParams().get(2);
-                        String line2="your request no."+id1+" closed";
+                        String line2="Your request no. "+id1+" closed";
                         if(((String)serverService.getParams().get(1)).equals("DECLINE"))
                         	line3="status of request:DECLINE";
                         else if(((String)serverService.getParams().get(1)).equals("IN_PROCESS"))
@@ -389,7 +388,6 @@ public class EchoServer extends AbstractServer {
                                 try {
                                     emailer.sendEmail(((String)serverService.getParams().get(3)), "Request Decision", text);
                                 } catch (MessagingException e) {
-                                    // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
                             }

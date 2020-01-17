@@ -73,7 +73,6 @@ public class ViewEvaluationReport implements ClientUI {
         
         infoSystemChoiceBox.setItems(FXCollections.observableArrayList(currReport.getInfoSystem().toString()));
         infoSystemChoiceBox.getSelectionModel().select(0);
-        // TODO: infoSystemChoiceBox set Editable(false)
         requiredChangeTextArea.textProperty().setValue(currReport.getRequiredChange());
         requiredChangeTextArea.setEditable(false);
         expectedResultTextArea.textProperty().setValue(currReport.getExpectedResult());

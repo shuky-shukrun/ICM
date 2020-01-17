@@ -164,7 +164,6 @@ public class DBConnection {
 			row.setDate(rs.getDate("crDate").toLocalDate());
 			row.setCurrPhaseName(Phase.PhaseName.valueOf(rs.getString("crCurrPhaseName")));
 			requestSet.add(row);
-			System.out.println(row);
 		}
 		ps.close();
 		return requestSet;
@@ -819,7 +818,6 @@ public class DBConnection {
 		positionList.add(Position.CCC);
 		positionList.add(Position.CCC);
 		positionList.add(Position.CHAIRMAN);
-		System.out.println(params);
 
 		List<ChangeInitiator> oldSelection = params.get(0);
 		List<ChangeInitiator> newSelection = params.get(1);
@@ -992,7 +990,6 @@ public class DBConnection {
 			break;
 
 		}
-
 		return list;
 	}
 
@@ -1136,15 +1133,11 @@ public class DBConnection {
 			cccList.add(ccc);
 		}
 		ps.close();
-		System.out.println(cccList);
 		return cccList;
-
 	}
 
 	public void replaceTester(ChangeInitiator a, ChangeInitiator b, Integer id) throws SQLException {
 		System.out.println("database handle replaceTester");
-		System.out.println(a);
-		System.out.println(b);
 
 		ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.ieInPhase "
 				+ "(IDieInPhase, crID, iePhaseName, iePhasePosition, evaluationReportId) " + "VALUE (?,?,?,?,?)");
@@ -1161,17 +1154,16 @@ public class DBConnection {
 		ps.setInt(2, id);
 		ps.setString(3, Phase.PhaseName.VALIDATION.toString());
 		ps.executeUpdate();
-		System.out.println("ronit1");
 		ps.close();
 	}
 
 	public List<List<ChangeInitiator>> getPhaseLeadersDetails(List<InformationEngineer> ChangeInitiatorList) {
 
+		System.out.println("database handle getPhaseLeadersDetails");
 		List<List<ChangeInitiator>> workersList = new ArrayList<>();
 		List<ChangeInitiator> phaseLeadersAndExecutiveLeaderList = new ArrayList<>();
 		List<ChangeInitiator> phaseLeadersAndEvaluatorList = new ArrayList<>();
 		InformationEngineer crInitiator = ChangeInitiatorList.get(0);
-		System.out.println(crInitiator);
 
 		try {
 			PreparedStatement ps1 = sqlConnection
@@ -1221,7 +1213,6 @@ public class DBConnection {
 				row.setPosition(Position.valueOf(rs.getString("position")));
 				phaseLeadersAndExecutiveLeaderList.add(row);
 				phaseLeadersAndEvaluatorList.add(row);
-				System.out.println(row);
 			}
 			workersList.add(phaseLeadersAndExecutiveLeaderList);
 			workersList.add(phaseLeadersAndEvaluatorList);
@@ -1417,15 +1408,12 @@ public class DBConnection {
 			employeeList.add(employee);
 		}
 		ps.close();
-		System.out.println(employeeList);
 		return employeeList;
 
 	}
 
 	public void registerIT(ChangeInitiator a, Integer id) throws SQLException {
 		System.out.println("database handle replaceTester");
-		System.out.println(a);
-		System.out.println(id);
 
 		ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.users set department='IT' where idUser=?");
 		ps.setInt(1, id);
@@ -1548,7 +1536,6 @@ public class DBConnection {
 			phaseLeadersAndWorkersList.add(exe);
 			phaseLeadersAndWorkersList.add(valPhaseLeader);
 
-			System.out.println(phaseLeadersAndWorkersList.toString());
 			System.out.println("DB get selected phase leaders and workers");
 
 		} catch (SQLException e) {
@@ -1653,7 +1640,7 @@ public class DBConnection {
 				break;
 			}
 		}
-		System.out.println("done");
+		System.out.println("done send notifications");
 	}
 
 	private void sendReminderEmail(PhaseName phaseName, Integer changeRequestId, ResultSet getEmailRs, String content)
