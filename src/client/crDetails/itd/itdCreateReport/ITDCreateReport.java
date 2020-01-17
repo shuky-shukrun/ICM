@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import server.ServerService;
 
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class ITDCreateReport implements ClientUI {
     private  DatePicker endDateDatePicker;
     @FXML
     private ChoiceBox<Report.ReportType> reportTypeChoiceBox;
+
+    private Stage popup;
 
     @FXML
     private Button createButton;
@@ -94,6 +97,7 @@ public class ITDCreateReport implements ClientUI {
 
     @FXML
     public void createReport() throws IOException {
+        popup = IcmUtils.getPopUp();
         System.out.println("createReportFunc");
         ITDCreateReport.setStartDate(startDateDatePicker.getValue());
         ITDCreateReport.setEndDate(endDateDatePicker.getValue());
@@ -127,6 +131,10 @@ public class ITDCreateReport implements ClientUI {
 
     @FXML
     void closePopup(ActionEvent event) {
-        IcmUtils.getPopUp().close();
+
+        if(popup != null)
+            popup.close();
+        else
+            IcmUtils.getPopUp().close();
     }
 }
