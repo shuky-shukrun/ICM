@@ -237,7 +237,7 @@ public class MainWindow implements ClientUI {
 
     @FXML
     void showNewRequestDialog(ActionEvent event) throws IOException {
-        IcmUtils.popUpScene(this, "New Change Request", "/client/mainWindow/newRequest/NewRequest.fxml", 585, 730);
+        IcmUtils.popUpScene(this, "New Change Request", "/client/mainWindow/newRequest/NewRequest.fxml", 658, 928);
     }
 
     @Override
