@@ -230,7 +230,7 @@ public class MainWindow implements ClientUI {
     @FXML
     void registerEvent(ActionEvent event) throws IOException {
         	
-       	 IcmUtils.popUpScene(this, "Register IT", "/client/mainWindow/ITRegistration.fxml", 400, 300);
+       	 IcmUtils.popUpScene(this, "Register IT", "/client/mainWindow/ITRegistration.fxml", 588, 688);
 
        
     }
