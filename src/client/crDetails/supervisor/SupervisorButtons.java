@@ -110,7 +110,7 @@ public class SupervisorButtons implements ClientUI {
 			pleaseWaitMessage = new Alert(Alert.AlertType.INFORMATION);
 			pleaseWaitMessage.setTitle("Closing request");
 			pleaseWaitMessage.setHeaderText("Closing request");
-			pleaseWaitMessage.setContentText("Please wait");
+			pleaseWaitMessage.setContentText("Please wait...");
 			pleaseWaitMessage.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
 			pleaseWaitMessage.initStyle(StageStyle.TRANSPARENT);
 			pleaseWaitMessage.showAndWait();
