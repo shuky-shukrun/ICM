@@ -92,6 +92,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
+                  <Label fx:id="positionLabel" layoutX="20.0" layoutY="149.0" text="Your Position:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userPosition" layoutX="135.0" layoutY="151.0" text="Loading..." textFill="WHITE" />
                </children>
             </Pane>
          </left>
@@ -111,25 +117,25 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="changeRequestIDTextField" editable="false" layoutX="198.0" layoutY="22.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <TextField fx:id="changeRequestIDTextField" editable="false" layoutX="198.0" layoutY="22.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" text="Loading..." />
                                           <Label layoutX="43.0" layoutY="78.0" prefHeight="15.0" prefWidth="120.0" text="Opening Date:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="openingDateTextField" editable="false" layoutX="198.0" layoutY="75.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <TextField fx:id="openingDateTextField" editable="false" layoutX="198.0" layoutY="75.0" prefHeight="31.0" prefWidth="205.0" style="-fx-background-radius: 10;" text="Loading..." />
                                           <Label layoutX="450.0" layoutY="78.0" prefHeight="25.0" prefWidth="90.0" text="Initiator:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="initiatorTextField" editable="false" layoutX="551.0" layoutY="75.0" prefHeight="20.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <TextField fx:id="initiatorTextField" editable="false" layoutX="551.0" layoutY="75.0" prefHeight="20.0" prefWidth="205.0" style="-fx-background-radius: 10;" text="Loading..." />
                                           <Label layoutX="450.0" layoutY="25.0" prefHeight="25.0" prefWidth="100.0" text="Info System:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="infoSystemTextField" editable="false" layoutX="551.0" layoutY="22.0" prefHeight="20.0" prefWidth="205.0" style="-fx-background-radius: 10;" />
+                                          <TextField fx:id="infoSystemTextField" editable="false" layoutX="551.0" layoutY="22.0" prefHeight="20.0" prefWidth="205.0" style="-fx-background-radius: 10;" text="Loading..." />
                                           <Label layoutX="43.0" layoutY="137.0" prefHeight="15.0" prefWidth="120.0" text="Current State:">
                                              <font>
                                                 <Font size="16.0" />
@@ -140,20 +146,20 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextArea fx:id="currentStateTextArea" editable="false" layoutX="196.0" layoutY="137.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
-                                          <TextArea fx:id="requestedChangeTextField" editable="false" layoutX="197.0" layoutY="237.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <TextArea fx:id="currentStateTextArea" editable="false" layoutX="196.0" layoutY="137.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" text="Loading..." wrapText="true" />
+                                          <TextArea fx:id="requestedChangeTextField" editable="false" layoutX="197.0" layoutY="237.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" text="Loading..." wrapText="true" />
                                           <Label layoutX="43.0" layoutY="336.0" prefHeight="20.0" prefWidth="155.0" text="Reason For Change:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextArea fx:id="reasonForChangeTextArea" editable="false" layoutX="196.0" layoutY="336.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <TextArea fx:id="reasonForChangeTextArea" editable="false" layoutX="196.0" layoutY="336.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" text="Loading..." wrapText="true" />
                                           <Label layoutX="43.0" layoutY="437.0" prefHeight="15.0" prefWidth="120.0" text="Comments:">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextArea fx:id="commentsTextArea" editable="false" layoutX="196.0" layoutY="437.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" wrapText="true" />
+                                          <TextArea fx:id="commentsTextArea" editable="false" layoutX="196.0" layoutY="437.0" prefHeight="80.0" prefWidth="560.0" style="-fx-background-radius: 10;" text="Loading..." wrapText="true" />
                                           <Button fx:id="downloadFilesButton" alignment="BASELINE_LEFT" layoutX="629.0" layoutY="589.0" mnemonicParsing="false" onAction="#downloadFiles" stylesheets="@../../css/fullpackstyling.css" text=" Download" textFill="#f8f8f8" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />

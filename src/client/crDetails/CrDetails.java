@@ -67,6 +67,10 @@ public class CrDetails implements ClientUI {
     private Button attachFilesButton;
     @FXML
     private Button downloadFilesButton;
+    @FXML
+    private Label userPosition;
+    @FXML
+    private Label positionLabel;
 
     private static ChangeRequest currRequest;
     private ClientController clientController;
@@ -235,8 +239,10 @@ public class CrDetails implements ClientUI {
 
         if(currRequest.isSuspended()) {
             IcmUtils.displayInformationMsg("Frozen Request", "Frozen Request", "This request is suspended");
+            attachFilesButton.setDisable(true);
             if(currUser.getPosition() != Position.ITD_MANAGER) {
-                attachFilesButton.setDisable(true);
+                positionLabel.setText("IMPORTANT:");
+                userPosition.setText("FROZEN REQUEST");
                 return;
             }
         }
@@ -248,12 +254,15 @@ public class CrDetails implements ClientUI {
         if (currUser.getTitle() != ChangeInitiator.Title.INFOENGINEER) {
             root = FXMLLoader.load(getClass().getResource("initiator/InitiatorButtons.fxml"));
             buttonsPane.getChildren().setAll(root);
+            userPosition.setText("INITIATOR");
             return;
         }
 
+        userPosition.setText(currUser.getPosition().toString());
         switch (currUser.getPosition()) {
             case ITD_MANAGER:
                 root = FXMLLoader.load(getClass().getResource("itd/ITDButtons.fxml"));
+
                 break;
             case CCC:
                 if(currRequest.getInitiator().equals(currUser) &&
@@ -277,6 +286,7 @@ public class CrDetails implements ClientUI {
                 break;
             case REGULAR:
                 root = FXMLLoader.load(getClass().getResource("initiator/InitiatorButtons.fxml"));
+                userPosition.setText("INITIATOR");
                 break;
         }
 
@@ -299,8 +309,8 @@ public class CrDetails implements ClientUI {
                     case PHASE_LEADER:
                         root = FXMLLoader.load(getClass().getResource("phaseLeader/PhaseLeaderButtons.fxml"));
                         break;
-
                 }
+                userPosition.setText(ie.getPhasePosition().toString());
             }
         }
         if (root != null)
