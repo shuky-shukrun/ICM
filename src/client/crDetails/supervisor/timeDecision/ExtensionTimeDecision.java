@@ -138,7 +138,7 @@ public class ExtensionTimeDecision implements ClientUI  {
 			if(CurrStatus.equals("EXTENSION_TIME_REQUESTED")) {
 				List<Boolean> list = serverService.getParams();
 				if (list.get(0) == true &&list.get(1) == true) {
-					IcmUtils.displayInformationMsg("Update time extension decision- success");
+					IcmUtils.displayInformationMsg("Extension time decision", "Extension time decision updated", "Your decision was update successfully.");
 					
 					List<String> dtls = new ArrayList<String>();
 					dtls.add(CrDetails.getCurrRequest().getId().toString());
@@ -160,14 +160,12 @@ public class ExtensionTimeDecision implements ClientUI  {
 		default:
 			List<Boolean> list = serverService.getParams();
 			if (list.get(0) == true) {
-				IcmUtils.displayInformationMsg("Update time extension decision- success");
+				IcmUtils.displayInformationMsg("Extension time decision", "Extension time decision updated", "Your decision was update successfully.");
 			} else {
-				IcmUtils.displayErrorMsg("Update time extension decision- failed");
+				IcmUtils.displayErrorMsg("Error", "Extension time error", "Please contact system administration.");
 			}
 			IcmUtils.getPopUp().close();
 			break;
-        
-        
 		}
 		  
 	}

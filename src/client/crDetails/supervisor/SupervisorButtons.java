@@ -147,7 +147,8 @@ public class SupervisorButtons implements ClientUI {
     			break;
 
 		default:
-			IcmUtils.displayInformationMsg("There are no time requests.");
+			IcmUtils.displayErrorMsg("Error", "Phase time error", "There are no time requests.\n" +
+					"The button should be disable.\nPlease contact system administrator.");
 
 		}
 	}

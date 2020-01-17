@@ -59,13 +59,6 @@ public class IcmUtils {
         alert.showAndWait();
     }
 
-    public static void displayInformationMsg(String contentText) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
-
-
     public static void displayErrorMsg(String title, String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

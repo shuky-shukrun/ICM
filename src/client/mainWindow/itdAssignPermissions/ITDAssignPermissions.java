@@ -158,7 +158,7 @@ public class ITDAssignPermissions implements ClientUI {
                 break;
 
             case Itd_Update_Permissions:
-                IcmUtils.displayInformationMsg("Updated!");
+                IcmUtils.displayInformationMsg("ITD assign permissions", "Permissions updated successfully", "Permissions updated successfully.");
                 IcmUtils.getPopUp().close();
                 break;
 

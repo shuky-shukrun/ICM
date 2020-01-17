@@ -74,7 +74,8 @@ public class ITRegistration implements ClientUI {
 		System.out.println(selected.getId());
 		ServerService serverService = new ServerService(ServerService.DatabaseService.Register_IT,Selection);
 		clientController.handleMessageFromClientUI(serverService);
-		IcmUtils.displayInformationMsg("Updated!");
+		IcmUtils.displayInformationMsg("IT registration", "IT registration success", selected.getFirstName() + selected.getLastName() + " " +
+				"was registered to IT department successfully.");
 		IcmUtils.getPopUp().close();
 	}
 	

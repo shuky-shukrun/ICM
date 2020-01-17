@@ -158,9 +158,10 @@ public class RequestTimeEvaluation implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean>list=serverService.getParams();
 		if(list.get(0)==true)
-			IcmUtils.displayInformationMsg("request time has been submitted");
+			IcmUtils.displayInformationMsg("Time requested", "Time requested successfully", "Time requested successfully.\n" +
+					"Request passed to supervisor for phase time approval.");
 		else
-			IcmUtils.displayErrorMsg("request time failed");
+			IcmUtils.displayErrorMsg("Error", "Time request failed", "Please contact system administrator.");
 		IcmUtils.getPopUp().close();
 		
 
