@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.initiator.InitiatorButtons">
+<Pane style="-fx-background-color: #3F2B63;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.initiator.InitiatorButtons">
    <children>
-      <VBox prefHeight="470.0" prefWidth="250.0" spacing="10.0" style="-fx-background-color: #3F2B63;">
+      <VBox spacing="10.0" style="-fx-background-color: #3F2B63;">
          <children>
             <JFXButton fx:id="moreInfo" alignment="TOP_LEFT" onAction="#moreInfoAction" prefHeight="26.0" prefWidth="215.0" text=" Closed Request" textFill="WHITE" underline="true">
                <font>

@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import server.ServerService;
@@ -56,7 +57,7 @@ public class CrDetails implements ClientUI {
     @FXML
     private TextField phaseLeaderTextField;
     @FXML
-    private Pane buttonsPane;
+    private VBox buttonsPane;
     @FXML
     private Label userNameLabel;
     @FXML
@@ -262,7 +263,6 @@ public class CrDetails implements ClientUI {
         switch (currUser.getPosition()) {
             case ITD_MANAGER:
                 root = FXMLLoader.load(getClass().getResource("itd/ITDButtons.fxml"));
-
                 break;
             case CCC:
                 if(currRequest.getInitiator().equals(currUser) &&
@@ -290,9 +290,7 @@ public class CrDetails implements ClientUI {
                 break;
         }
 
-        if (root != null) {
-            buttonsPane.getChildren().setAll(root);
-        }
+        buttonsPane.getChildren().addAll(root);
 
         for (IEPhasePosition ie: iePhasePositionMap.values() ) {
             if (ie.getInformationEngineer().getId().equals(currUser.getId())) {
@@ -313,8 +311,8 @@ public class CrDetails implements ClientUI {
                 userPosition.setText(ie.getPhasePosition().toString());
             }
         }
-        if (root != null)
-            buttonsPane.getChildren().setAll(root);
+        if(! buttonsPane.getChildren().contains(root))
+            buttonsPane.getChildren().addAll(root);
     }
 
     /**

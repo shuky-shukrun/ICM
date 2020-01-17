@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" stylesheets="@../../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.ccc.CCCButtons">
+<Pane style="-fx-background-color: #3F2B63;" stylesheets="@../../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.ccc.CCCButtons">
    <children>
-      <VBox prefHeight="470.0" prefWidth="250.0" spacing="10.0" style="-fx-background-color: #3F2B63;">
+      <VBox spacing="10.0" style="-fx-background-color: #3F2B63;">
          <children>
             <Button fx:id="viewEvaluationReportButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showEvaluationReport" prefHeight="50.0" prefWidth="250.0" text="View Evaluation Report" textFill="#f8f8f8">
                <padding>

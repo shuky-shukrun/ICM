@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="470.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" stylesheets="@../../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.supervisor.SupervisorButtons">
+<Pane prefHeight="313.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" stylesheets="@../../../css/fullpackstyling.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.supervisor.SupervisorButtons">
    <children>
-      <VBox prefHeight="470.0" prefWidth="250.0" spacing="10.0" style="-fx-background-color: #3F2B63;">
+      <VBox prefHeight="313.0" prefWidth="250.0" spacing="10.0" style="-fx-background-color: #3F2B63;">
          <children>
             <Button fx:id="assignPhaseLeadersButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showAssignPhaseLeadersDialog" prefHeight="50.0" prefWidth="250.0" text=" Assign Phase Leaders" textFill="#f8f8f8">
                <padding>
