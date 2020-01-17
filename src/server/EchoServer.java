@@ -547,6 +547,46 @@ public class EchoServer extends AbstractServer {
 					client.sendToClient(serverService);
 					System.out.println("server finish Get Performance Report Details");
 					break;
+					
+				case Get_Delays_Report_Details:
+				System.out.println("server Get Report Details");				
+				List<List<Integer>> sumList = new ArrayList<>();
+				List<Integer> numOfDelaysList = new ArrayList<>();
+				List<Integer> durationOfDelaysList= new ArrayList<>();
+				LocalDate startDate2= (LocalDate) serverService.getParams().get(0);
+				LocalDate from2= startDate2;
+				LocalDate endDate2= (LocalDate) serverService.getParams().get(1);
+				LocalDate to2= endDate2;
+				long weeks2= (long) serverService.getParams().get(2);
+				long left2= (long) serverService.getParams().get(2);
+				if (left2 == 0) {
+					for (int i = 0; i <= weeks2; i++) {
+						from = startDate2.plusDays(7 * i);
+						to = startDate2.plusDays(7 * 1 + 6);
+						int numOfDelaysCount = dbConnection.getDelaysReportDetails(from,to);
+						numOfDelaysList.add(numOfDelaysCount);
+						int delayCount=dbConnection.getDelaysReportDetails1(from,to);
+						System.out.println(delayCount);
+						durationOfDelaysList.add(delayCount);
+						sumList.add(numOfDelaysList);
+						sumList.add(durationOfDelaysList);
+						serverService.setParams(sumList);
+						client.sendToClient(serverService);
+
+					}
+				} else {
+					for (int i = 0; i < weeks2; i++) {
+						from2= from2.plusDays(7*i);
+						to2= from2.plusDays(7*i+6);
+						int count2 = dbConnection.getFReportDetails(from2,to2);
+						numOfDelaysList.add(count2);
+						serverService.setParams(numOfDelaysList);
+						client.sendToClient(serverService);
+					}
+
+				}
+				System.out.println("server finish Get Report Details");
+				break;
                 	
             }
         } catch (IOException | SQLException e) {

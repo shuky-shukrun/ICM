@@ -72,6 +72,15 @@ public class PerformanceReport implements ClientUI {
 			System.out.println(count);
 		}
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		String s = String.valueOf(count);
 		totalExtention.textProperty().set(s);
 		

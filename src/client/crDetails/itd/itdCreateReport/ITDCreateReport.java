@@ -98,17 +98,19 @@ public class ITDCreateReport implements ClientUI {
         ITDCreateReport.setStartDate(startDateDatePicker.getValue());
         ITDCreateReport.setEndDate(endDateDatePicker.getValue());
         switch (reportTypeChoiceBox.getSelectionModel().getSelectedItem()) {
-            case A:
+            case Activity_Report:
                 System.out.println("A report created");
                 IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/activityReportScreen.fxml", 751, 612);
                 break;
-            case B:
+            case Performance_Report:
                 System.out.println("B report created");
-                IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/performanceReportScreen.fxml", 481, 320);
+                IcmUtils.popUpScene(this, "Performance report", "/client/crDetails/itd/itdCreateReport/performanceReportScreen.fxml", 481, 320);
 
                 break;
-            case C:
+            case Delays_Report:
                 System.out.println("C report created");
+                IcmUtils.popUpScene(this, "Delays report", "/client/crDetails/itd/itdCreateReport/delaysReport.fxml", 681, 572);
+
                 break;
             case Custom:
                 System.out.println("Custom report created");

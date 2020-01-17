@@ -1870,7 +1870,54 @@ public class DBConnection {
 		return timeList1;
 		
 	}
+	
+	public int getDelaysReportDetails(LocalDate startDate, LocalDate endDate) {
 
+		int count = 0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("SELECT COUNT(*) As count from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C WHERE C.crDate >= ? AND C.crDate <= ? and P.phExceptionTime !=? and P.phIDChangeRequest=C.crID ");
+			System.out.println(startDate);
+			System.out.println(endDate);
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setInt(3, 0);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next())
+				count = rs.getInt("count");
+			System.out.println(count);
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+		
+	}
 	 
+	public int getDelaysReportDetails1(LocalDate startDate, LocalDate endDate) {
+
+		int count = 0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("SELECT* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C WHERE C.crDate >= ? AND C.crDate <= ? and P.phExceptionTime !=? and P.phIDChangeRequest=C.crID ");
+			System.out.println(startDate);
+			System.out.println(endDate);
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setInt(3, 0);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next())
+				count = count+ rs.getInt("phExceptionTime");
+			System.out.println(count);
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 }

@@ -69,6 +69,7 @@ public class ServerService implements Serializable {
         Email_ITD_Extension_Time_Approved,
         Update_Exception_Time,
         Get_Activity_Report_Details,
-        Get_Performance_Report_Details
+        Get_Performance_Report_Details,
+        Get_Delays_Report_Details
     }
 }
