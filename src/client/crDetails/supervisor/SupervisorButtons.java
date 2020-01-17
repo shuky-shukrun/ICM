@@ -155,12 +155,12 @@ public class SupervisorButtons implements ClientUI {
 
 	@FXML
 	private void phaseTimeDecisionInfo() {
-		IcmUtils.displayInformationMsg("Phase Time Help", "Phase Time Approved", "Phase time for this phase already approved.");
+		IcmUtils.displayInformationMsg("Phase time help", "Phase time help", "There is no time request waiting for approval.");
 	}
 
 	@FXML
 	private void freezeRequestInfo() {
-		IcmUtils.displayInformationMsg("Phase Time Help", "Phase Time Approved", "Phase time for this phase already approved.");
+		IcmUtils.displayInformationMsg("Frozen request", "Frozen request", "This request is already frozen.");
 	}
 
 	@FXML
