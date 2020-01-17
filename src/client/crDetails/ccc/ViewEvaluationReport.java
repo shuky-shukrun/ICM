@@ -47,6 +47,9 @@ public class ViewEvaluationReport implements ClientUI {
         ViewEvaluationReport.currReport = currReport;
     }
 	
+	/**
+	 * Initialize the create evaluation report dialog
+	 */
 	public void initialize() {
         try {
             clientController = ClientController.getInstance(this);
@@ -64,6 +67,10 @@ public class ViewEvaluationReport implements ClientUI {
        
     }
 	
+	/**
+	 * @param serverService-ServerService object that the client controller send
+	 * insert values into the fxml file of the viewEvaluationReport
+	 */
 	 public void handleMessageFromClientController(ServerService serverService) {
      	System.out.println("adding details to screen");
 
@@ -73,7 +80,6 @@ public class ViewEvaluationReport implements ClientUI {
         
         infoSystemChoiceBox.setItems(FXCollections.observableArrayList(currReport.getInfoSystem().toString()));
         infoSystemChoiceBox.getSelectionModel().select(0);
-        // TODO: infoSystemChoiceBox set Editable(false)
         requiredChangeTextArea.textProperty().setValue(currReport.getRequiredChange());
         requiredChangeTextArea.setEditable(false);
         expectedResultTextArea.textProperty().setValue(currReport.getExpectedResult());
@@ -86,7 +92,11 @@ public class ViewEvaluationReport implements ClientUI {
 
 
 	 }
-	 
+	 @FXML
+		/**
+		 * Back to change request summary dialog when cancel button pressed
+		 * @param e-cancel button pressed event
+		 */
 	 public void backAction(ActionEvent e) {
 		 
 		 IcmUtils.getPopUp().close();

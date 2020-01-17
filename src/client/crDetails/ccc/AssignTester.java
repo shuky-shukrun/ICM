@@ -43,6 +43,10 @@ public class AssignTester implements ClientUI {
 	ChangeInitiator selectedTester;
 	ChangeInitiator oldSelection = new ChangeInitiator();
 
+	
+	/**
+	 * Initialize the create evaluation report dialog
+	 */
 	public void initialize() {
 		
 		try {
@@ -64,7 +68,12 @@ public class AssignTester implements ClientUI {
 
 	}
 
-
+	@Override
+	/**
+	 * insert members of the committee into the ChoiceBox
+	 * 
+	 * @param serverService-ServerService object that the client controller send
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 
 		List<ChangeInitiator> params = serverService.getParams();
@@ -74,6 +83,11 @@ public class AssignTester implements ClientUI {
 
 	}
 
+	@FXML
+	/**
+	 * Assigning the tester is possible when submit button pressed
+	 * @param e-submit button pressed event
+	 */
 	public void submitTester(ActionEvent e) throws IOException {
 		selectedTester = testerChoiceBox.getSelectionModel().getSelectedItem();
 		ChangeInitiator selected = new ChangeInitiator();
@@ -94,6 +108,11 @@ public class AssignTester implements ClientUI {
 		IcmUtils.getPopUp().close();
 	}
 
+	@FXML
+	/**
+	 * Back to change request summary dialog when cancel button pressed
+	 * @param e-cancel button pressed event
+	 */
 	public void cancelAction(ActionEvent e) {
 		IcmUtils.getPopUp().close();
 		

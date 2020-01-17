@@ -615,6 +615,14 @@ public class DBConnection {
 		}
 
 	}
+	
+	/**
+	 * Gets details of evaluation report from the database
+	 * 
+	 * @param params -the id of the requested change request
+	 * 
+	 * @return List of Evaluation Reports
+	 */
 
 	public List<EvaluationReport> getEvaluationReportDetails(List<Integer> params) {
 
@@ -1112,6 +1120,12 @@ public class DBConnection {
 		}
 
 	}
+	
+	/**
+	 * Gets details of members of the ccc from the database
+	 * 
+	 * @return List of all the users that are part of the ccc
+	 */
 
 	public List<ChangeInitiator> getCCC() throws SQLException {
 		System.out.println("database handle getCCC");
@@ -1141,6 +1155,15 @@ public class DBConnection {
 
 	}
 
+	/**
+	 * Sets a member of the ccc as a tester at the database
+	 * 
+	 * @param a -the previous tester
+	 * 
+	 * @param b- the new tester
+	 * 
+	 * @param id- the id of the change request
+	 */
 	public void replaceTester(ChangeInitiator a, ChangeInitiator b, Integer id) throws SQLException {
 		System.out.println("database handle replaceTester");
 		System.out.println(a);
@@ -1394,6 +1417,11 @@ public class DBConnection {
 		return list;
 	}
 
+	/**
+	 * Gets details of employees(administration/lecturer) from the database
+	 * 
+	 * @return List of employees
+	 */
 	public List<ChangeInitiator> getEmployee() throws SQLException {
 		System.out.println("database handle getEmployee");
 		List<ChangeInitiator> employeeList = new ArrayList<>();
@@ -1422,6 +1450,13 @@ public class DBConnection {
 
 	}
 
+	/**
+	 * Sets the user as part of the IT department at the database
+	 * 
+	 * @param a- the chosen user
+	 * 
+	 * @param id- the users id
+	 */
 	public void registerIT(ChangeInitiator a, Integer id) throws SQLException {
 		System.out.println("database handle replaceTester");
 		System.out.println(a);
@@ -1734,6 +1769,16 @@ public class DBConnection {
 		}
 
 	}
+	
+	/**
+	 * Gets details of activity report (frozen requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of frozen requests
+	 */
 	public int getFReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1755,6 +1800,15 @@ public class DBConnection {
 		return count;
 	}
 
+	/**
+	 * Gets details of activity report (active requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of active requests
+	 */
 	public int getAReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1776,6 +1830,15 @@ public class DBConnection {
 		return count;
 	}
 
+	/**
+	 * Gets details of activity report (closed requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of closed requests
+	 */
 	public int getCReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1800,6 +1863,15 @@ public class DBConnection {
 		return count;
 	}
 
+	/**
+	 * Gets details of activity report (declined requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of declined requests
+	 */
 	public int getDReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1824,6 +1896,15 @@ public class DBConnection {
 		return count;
 	}
 
+	/**
+	 * Gets details of performance report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return list of all the extension dates
+	 */
 	public List<LocalDate> getPerformanceReportDetails(LocalDate startDate, LocalDate endDate) {
 		 
 			List<LocalDate> timeList=new ArrayList<>();
@@ -1849,6 +1930,17 @@ public class DBConnection {
 			}
 			return timeList;
 	}
+
+
+	/**
+	 * Gets details of performance report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return list of all the original deadlines
+	 */
 	
 	public List<LocalDate> getPerformanceReportDetails1(LocalDate startDate, LocalDate endDate) {
 	
@@ -1876,6 +1968,17 @@ public class DBConnection {
 		
 	}
 	
+
+	/**
+	 * Gets details of delays report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return number of delays 
+	 */
+
 	public int getDelaysReportDetails(LocalDate startDate, LocalDate endDate) {
 
 		int count = 0;
@@ -1901,6 +2004,16 @@ public class DBConnection {
 		
 	}
 	 
+
+	/**
+	 * Gets details of performance report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the total duration of delays
+	 */
 	public int getDelaysReportDetails1(LocalDate startDate, LocalDate endDate) {
 
 		int count = 0;

@@ -38,6 +38,11 @@ public class CCCButtons implements ClientUI {
 	private CrDetails crDetails;
 
 	@FXML
+	/**
+	 * load the assign tester dialog when the appropriate button pressed
+	 *
+	 * @param event-"Assign Tester" button pressed event
+	 */
 	void showAssignTesterDialog(ActionEvent event) throws IOException {
 		try {
 			IcmUtils.popUpScene(this, "Assign Tester", "/client/crDetails/ccc/AssignTester.fxml", 588, 688);
@@ -49,11 +54,21 @@ public class CCCButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * load the view evaluation report dialog when the appropriate button pressed
+	 *
+	 * @param event-"View Evaluation Report" button pressed event
+	 */
 	void showEvaluationReport(ActionEvent event) throws IOException {
 		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/ViewEvaluationReport.fxml", 588, 688);
 	}
 
 	@FXML
+	/**
+	 * load the set decision dialog when the appropriate button pressed
+	 *
+	 * @param event-"Set Decision" button pressed event
+	 */
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
 			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml",
@@ -65,6 +80,9 @@ public class CCCButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Show information message when this button appeared on the screen
+	 */
 	void moreInformationEvent(ActionEvent event) {
 		IcmUtils.displayInformationMsg("Set Decision Help","Decision has been submitted",
 				"The decision for this request already submitted.");
@@ -75,6 +93,9 @@ public class CCCButtons implements ClientUI {
 
 	}
 
+	/**
+	 * Initialize the CCC/ChairMan/tester change request summary dialog
+	 */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -159,10 +180,18 @@ public class CCCButtons implements ClientUI {
 		}
 	}
 	
+	/**
+	 * Sets the attribute of current phase with phase object
+	 * @param phase-the current phase object
+	 */
     public static void setCurrPhase (Phase phase) {
     	CCCButtons.currPhase=phase;
     }
     
+	/**
+	 * gets the attribute of current phase
+	 * returns the current phase
+	 */
     public static Phase getPhase() {
     	return currPhase;
     	
