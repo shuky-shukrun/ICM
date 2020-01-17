@@ -1738,7 +1738,7 @@ public class DBConnection {
 		int count = 0;
 		try {
 			PreparedStatement ps = sqlConnection.prepareStatement(
-					"SELECT COUNT(*) As count FROM changeRequest WHERE crDate >= ? AND crDate <= ? AND crSuspended=? ");
+					"SELECT COUNT(*) As count FROM cbaricmy_ICM.changeRequest C WHERE C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? ");
 			ps.setDate(1, Date.valueOf((LocalDate) startDate));
 			ps.setDate(2, Date.valueOf((LocalDate) endDate));
 			ps.setInt(3, 1);
@@ -1758,8 +1758,8 @@ public class DBConnection {
 	public int getAReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
-			PreparedStatement ps = sqlConnection.prepareStatement("SELECT COUNT(*) As count from changeRequest WHERE"
-					+ " crDate >= ? AND crDate <= ? AND crSuspended=? " + "And crCurrPhaseName!='CLOSING'");
+			PreparedStatement ps = sqlConnection.prepareStatement("SELECT COUNT(*) As count from cbaricmy_ICM.changeRequest C WHERE"
+					+ " C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? " + "And C.crCurrPhaseName!='CLOSING'");
 			ps.setDate(1, Date.valueOf((LocalDate) startDate));
 			ps.setDate(2, Date.valueOf((LocalDate) endDate));
 			ps.setInt(3, 0);
@@ -1780,7 +1780,7 @@ public class DBConnection {
 		int count = 0;
 		try {
 			PreparedStatement ps = sqlConnection
-					.prepareStatement("SELECT COUNT(*) As count from phase P, changeRequest C WHERE"
+					.prepareStatement("SELECT COUNT(*) As count from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C WHERE"
 							+ " C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? "
 							+ "And C.crCurrPhaseName='CLOSING' AND" + " P.phPhaseName=C.crCurrPhaseName and "
 							+ "P.phStatus='DONE' and P.phIDChangeRequest=C.crID ");
@@ -1828,7 +1828,7 @@ public class DBConnection {
 		 
 			List<LocalDate> timeList=new ArrayList<>();
 			try {
-				PreparedStatement ps = sqlConnection.prepareStatement("select* from phase P, changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? AND P.phExtensionRequestDecision=? AND P.phIDChangeRequest=C.crID ");
+				PreparedStatement ps = sqlConnection.prepareStatement("select* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? AND P.phExtensionRequestDecision=? AND P.phIDChangeRequest=C.crID ");
 				
 				
 				ps.setDate(1, Date.valueOf((LocalDate) startDate));
@@ -1854,7 +1854,7 @@ public class DBConnection {
 	
 		List<LocalDate> timeList1=new ArrayList<>();
 		try {
-			PreparedStatement ps = sqlConnection.prepareStatement("select* from phase P, changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? AND P.phExtensionRequestDecision=? AND P.phIDChangeRequest=C.crID ");
+			PreparedStatement ps = sqlConnection.prepareStatement("select* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crSuspended=? AND P.phExtensionRequestDecision=? AND P.phIDChangeRequest=C.crID ");
 			
 			
 			ps.setDate(1, Date.valueOf((LocalDate) startDate));
