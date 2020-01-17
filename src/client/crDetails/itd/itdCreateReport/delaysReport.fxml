@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.itd.itdCreateReport.DelaysReport">
+   <children>
+      <Label layoutX="229.0" layoutY="26.0" prefHeight="43.0" prefWidth="223.0" text="Delays In Execution Report">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="96.0" prefHeight="20.0" prefWidth="138.0" text="Number Of Delays:" underline="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="133.0" text="Median" />
+      <Label layoutX="40.0" layoutY="170.0" text="Std" />
+      <Label layoutX="40.0" layoutY="216.0" text="Frequancy" />
+      <TextField layoutX="123.0" layoutY="129.0" />
+      <TextField layoutX="123.0" layoutY="166.0" />
+      <TextField layoutX="426.0" layoutY="129.0" />
+      <Label layoutX="31.0" layoutY="329.0" text="Delays Per System:" underline="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="362.0" text="Median" />
+      <Label layoutX="31.0" layoutY="406.0" text="Std" />
+      <Label layoutX="31.0" layoutY="446.0" text="Frequancy" />
+      <TextField layoutX="129.0" layoutY="367.0" />
+      <TextField layoutX="129.0" layoutY="402.0" />
+      <TextField layoutX="426.0" layoutY="166.0" />
+      <TableView layoutX="129.0" layoutY="198.0" prefHeight="110.0" prefWidth="138.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <TableView layoutX="135.0" layoutY="436.0" prefHeight="122.0" prefWidth="138.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <Label layoutX="333.0" layoutY="98.0" text="Days Of Delay:" underline="true" />
+      <Label layoutX="333.0" layoutY="133.0" text="Median" />
+      <Label layoutX="332.0" layoutY="170.0" text="Std" />
+      <Label layoutX="333.0" layoutY="216.0" text="Frequancy" />
+      <TableView layoutX="432.0" layoutY="198.0" prefHeight="110.0" prefWidth="138.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="C1" />
+            <TableColumn prefWidth="75.0" text="C2" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>
