@@ -44,69 +44,68 @@ public class ActivityReportController implements ClientUI {
 	@FXML
 	private TextField stdActive;
 	@FXML
+	private TextField countActive;
+	@FXML
 	private TableView<distribution> ActiveTable;
 	@FXML
 	private TableColumn<distribution, Integer> cntActive;
 	@FXML
 	private TableColumn<distribution, Integer> disActive;
 	@FXML
-	private TableView<Integer[]> FrozenTable;
-	@FXML
-	private TableColumn<Integer, Integer> cntFrozen;
-	@FXML
-	private TableColumn<Integer, Integer> disFrozen;
-	@FXML
 	private TextField stdFrozen;
 	@FXML
 	private TextField medFrozen;
+	@FXML
+	private TextField countFrozen;
+	@FXML
+	private TableView<distribution> FrozenTable;
+	@FXML
+	private TableColumn<distribution, Integer> cntFrozen;
+	@FXML
+	private TableColumn<distribution, Integer> disFrozen;
 	@FXML
 	private TextField medClosed;
 	@FXML
 	private TextField stdClosed;
 	@FXML
-	private TableView<Integer> ClosedTable;
+	private TextField countClosed;
 	@FXML
-	private TableColumn<Integer, Integer> cntClosed;
+	private TableView<distribution> ClosedTable;
 	@FXML
-	private TableColumn<Integer, Integer> disClosed;
+	private TableColumn<distribution, Integer> cntClosed;
+	@FXML
+	private TableColumn<distribution, Integer> disClosed;
 	@FXML
 	private TextField medDeclined;
 	@FXML
 	private TextField stdDeclined;
 	@FXML
-	private TableView<Integer> DeclinedTable;
+	private TextField countDeclined;
 	@FXML
-	private TableColumn<Integer, Integer> cntDeclined;
+	private TableView<distribution> DeclinedTable;
 	@FXML
-	private TableColumn<Integer, Integer> disDeclined;
+	private TableColumn<distribution, Integer> cntDeclined;
+	@FXML
+	private TableColumn<distribution, Integer> disDeclined;
 	@FXML
 	private TextField medWorkDays;
 	@FXML
 	private TextField stdWorkDays;
 	@FXML
-	private TableView<Integer> WorkDaysTable;
-	@FXML
-	private TableColumn<Integer, Integer> cntWorkDays;
-	@FXML
-	private TableColumn<Integer, Integer> disWorkDays;
-	@FXML
 	private TextField countWorkDays;
 	@FXML
-	private TextField countDeclined;
+	private TableView<distribution> WorkDaysTable;
 	@FXML
-	private TextField countClosed;
+	private TableColumn<distribution, Integer> cntWorkDays;
 	@FXML
-	private TextField countFrozen;
-	@FXML
-	private TextField countActive;
+	private TableColumn<distribution, Integer> disWorkDays;
 	@FXML
 	private AnchorPane mainAnchorPane;
 	private ClientController clientController;
-	private ObservableList<distribution> helper;
-
-	public static final String Column1MapKey = "A";
-	public static final String Column2MapKey = "B";
-
+	private ObservableList<distribution> listActive;
+	private ObservableList<distribution> listFrozen;
+	private ObservableList<distribution> listDeclined;
+	private ObservableList<distribution> listClosed;
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -124,8 +123,24 @@ public class ActivityReportController implements ClientUI {
 		// TimeUnit.DAYS.convert(numOfDays, TimeUnit.MILLISECONDS);
 		cntActive.setStyle("-fx-alignment: CENTER");
 		disActive.setStyle("-fx-alignment: CENTER");
-		helper = FXCollections.observableArrayList();
+		listActive = FXCollections.observableArrayList();
+		listFrozen = FXCollections.observableArrayList();
+		listDeclined = FXCollections.observableArrayList();
+		listClosed = FXCollections.observableArrayList();
 		initTableValueFactory(cntActive, disActive);
+		
+		cntFrozen.setStyle("-fx-alignment: CENTER");
+		disFrozen.setStyle("-fx-alignment: CENTER");
+		
+		initTableValueFactory(cntFrozen, disFrozen);
+		cntDeclined.setStyle("-fx-alignment: CENTER");
+		disDeclined.setStyle("-fx-alignment: CENTER");
+		
+		initTableValueFactory(cntDeclined, disDeclined);
+		cntClosed.setStyle("-fx-alignment: CENTER");
+		disClosed.setStyle("-fx-alignment: CENTER");
+		
+		initTableValueFactory(cntClosed, disClosed);
 
 		long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
 		long weeksBetween = daysBetween / 7;
@@ -137,117 +152,11 @@ public class ActivityReportController implements ClientUI {
 
 	}
 
-	private void initTableValueFactory(TableColumn<distribution, Integer> cntActive2,
-			TableColumn<distribution, Integer> disActive2) {
-		cntActive2.setCellValueFactory(new PropertyValueFactory<>("num"));
-		disActive2.setCellValueFactory(new PropertyValueFactory<>("dis"));
+	private void initTableValueFactory(TableColumn<distribution, Integer> cnt,
+			TableColumn<distribution, Integer> dis) {
+		cnt.setCellValueFactory(new PropertyValueFactory<>("num"));
+		dis.setCellValueFactory(new PropertyValueFactory<>("dis"));
 	}
-
-	@Override
-	public void handleMessageFromClientController(ServerService serverService) {
-		// params is the list of values for statistic
-		List<List<Integer>> params = serverService.getParams();
-		List frozenCount = params.get(0);
-		List activeCount = params.get(1);
-		List closedCount = params.get(2);
-		List declinedCount = params.get(3);
-
-		System.out.println("hello");
-		System.out.println(frozenCount);
-		System.out.println(activeCount);
-		System.out.println(closedCount);
-		System.out.println(declinedCount);
-		System.out.println("bye");
-
-		int totalFrozen = 0;
-		int totalActive = 0;
-		int totalClosed = 0;
-		int totalDeclined = 0;
-
-		int size1 = frozenCount.size();
-		int size2 = activeCount.size();
-		int size3 = closedCount.size();
-		int size4 = declinedCount.size();
-		System.out.println(size4);
-
-		Integer[] numArray1 = new Integer[size1];
-		Integer[] numArray2 = new Integer[size2];
-		Integer[] numArray3 = new Integer[size3];
-		Integer[] numArray4 = new Integer[size4];
-
-		frozenCount.toArray(numArray1);
-		activeCount.toArray(numArray2);
-		closedCount.toArray(numArray3);
-		declinedCount.toArray(numArray4);
-
-		Arrays.sort(numArray1);
-		Arrays.sort(numArray2);
-		Arrays.sort(numArray3);
-		Arrays.sort(numArray4);
-
-		for (int i = 0; i < size1; i++) {
-			totalFrozen = totalFrozen + numArray1[i];
-		}
-		for (int i = 0; i < size2; i++) {
-			totalActive = totalActive + numArray2[i];
-		}
-		for (int i = 0; i < size3; i++) {
-			totalClosed = totalClosed + numArray3[i];
-		}
-		for (int i = 0; i < size4; i++) {
-			totalDeclined = totalDeclined + numArray4[i];
-		}
-
-		double frozenMed = median(numArray1);
-		double activeMed = median(numArray2);
-		double closedMed = median(numArray3);
-		double declinedMed = median(numArray4);
-
-		double frozenStd = std(numArray1);
-		double activeStd = std(numArray2);
-		double closedStd = std(numArray3);
-		double declinedStd = std(numArray4);
-
-		String s = String.valueOf(frozenMed);
-		String s1 = String.valueOf(frozenStd);
-		String s2 = String.valueOf(activeMed);
-		String s3 = String.valueOf(activeStd);
-		String s4 = String.valueOf(closedMed);
-		String s5 = String.valueOf(closedStd);
-		String s6 = String.valueOf(declinedMed);
-		String s7 = String.valueOf(declinedStd);
-		String s8 = String.valueOf(totalFrozen);
-		String s9 = String.valueOf(totalActive);
-		String s10 = String.valueOf(totalClosed);
-		String s11 = String.valueOf(totalDeclined);
-
-		medFrozen.textProperty().set(s);
-		medFrozen.setDisable(true);
-		stdFrozen.textProperty().set(s1);
-		stdFrozen.setDisable(true);
-		medActive.textProperty().set(s2);
-		medActive.setDisable(true);
-		stdActive.textProperty().set(s3);
-		stdActive.setDisable(true);
-		medClosed.textProperty().set(s4);
-		medClosed.setDisable(true);
-		stdClosed.textProperty().set(s5);
-		stdClosed.setDisable(true);
-		medDeclined.textProperty().set(s6);
-		stdDeclined.textProperty().set(s7);
-		countFrozen.textProperty().set(s8);
-		countActive.textProperty().set(s9);
-		countClosed.textProperty().set(s10);
-		countDeclined.textProperty().set(s11);
-		//active table
-		List<distribution>l=frq(numArray2);
-		helper.setAll(l);
-		ActiveTable.setItems(helper);
-		System.out.println(ActiveTable.getItems().get(0).toString());
-		
-
-	}
-
 	public double median(Integer[] Array) {
 		double median;
 		if (Array.length % 2 == 0)
@@ -296,5 +205,106 @@ public class ActivityReportController implements ClientUI {
 		return l;
 
 	}
+	@Override
+	public void handleMessageFromClientController(ServerService serverService) {
+		// params is the list of values for statistic
+		List<List<Integer>> params = serverService.getParams();
+		List frozenCount = params.get(0);
+		List activeCount = params.get(1);
+		List closedCount = params.get(2);
+		List declinedCount = params.get(3);
+		int totalFrozen = 0;
+		int totalActive = 0;
+		int totalClosed = 0;
+		int totalDeclined = 0;
+
+		int size1 = frozenCount.size();
+		int size2 = activeCount.size();
+		int size3 = closedCount.size();
+		int size4 = declinedCount.size();
+	
+		Integer[] numArray1 = new Integer[size1];
+		Integer[] numArray2 = new Integer[size2];
+		Integer[] numArray3 = new Integer[size3];
+		Integer[] numArray4 = new Integer[size4];
+
+		frozenCount.toArray(numArray1);
+		activeCount.toArray(numArray2);
+		closedCount.toArray(numArray3);
+		declinedCount.toArray(numArray4);
+
+		Arrays.sort(numArray1);
+		Arrays.sort(numArray2);
+		Arrays.sort(numArray3);
+		Arrays.sort(numArray4);
+
+		for (int i = 0; i < size1; i++) {
+			totalFrozen = totalFrozen + numArray1[i];
+		}
+		for (int i = 0; i < size2; i++) {
+			totalActive = totalActive + numArray2[i];
+		}
+		for (int i = 0; i < size3; i++) {
+			totalClosed = totalClosed + numArray3[i];
+		}
+		for (int i = 0; i < size4; i++) {
+			totalDeclined = totalDeclined + numArray4[i];
+		}
+		//calculate the medians
+		double frozenMed = median(numArray1);
+		double activeMed = median(numArray2);
+		double closedMed = median(numArray3);
+		double declinedMed = median(numArray4);
+		//calculate the standard deviation
+		double frozenStd = std(numArray1);
+		double activeStd = std(numArray2);
+		double closedStd = std(numArray3);
+		double declinedStd = std(numArray4);
+
+		String s = String.valueOf(frozenMed);
+		String s1 = String.valueOf(frozenStd);
+		String s2 = String.valueOf(activeMed);
+		String s3 = String.valueOf(activeStd);
+		String s4 = String.valueOf(closedMed);
+		String s5 = String.valueOf(closedStd);
+		String s6 = String.valueOf(declinedMed);
+		String s7 = String.valueOf(declinedStd);
+		String s8 = String.valueOf(totalFrozen);
+		String s9 = String.valueOf(totalActive);
+		String s10 = String.valueOf(totalClosed);
+		String s11 = String.valueOf(totalDeclined);
+
+		medFrozen.textProperty().set(s);
+		stdFrozen.textProperty().set(s1);
+		medActive.textProperty().set(s2);
+		stdActive.textProperty().set(s3);
+		medClosed.textProperty().set(s4);
+		stdClosed.textProperty().set(s5);
+		medDeclined.textProperty().set(s6);
+		stdDeclined.textProperty().set(s7);
+		countFrozen.textProperty().set(s8);
+		countActive.textProperty().set(s9);
+		countClosed.textProperty().set(s10);
+		countDeclined.textProperty().set(s11);
+		//active table
+		List<distribution>l=frq(numArray2);
+		listActive.setAll(l);
+		ActiveTable.setItems(listActive);
+		//frozen table
+		List<distribution>l1=frq(numArray1);
+		listFrozen.setAll(l1);
+		FrozenTable.setItems(listFrozen);
+		//declined table
+		List<distribution>l2=frq(numArray4);
+		listDeclined.setAll(l2);
+		DeclinedTable.setItems(listDeclined);
+		//closed table
+		List<distribution>l3=frq(numArray3);
+		listClosed.setAll(l3);
+		ClosedTable.setItems(listClosed);
+
+	}
+
+
 
 }
