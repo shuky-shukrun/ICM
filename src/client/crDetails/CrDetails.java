@@ -205,7 +205,7 @@ public class CrDetails implements ClientUI {
             case Attach_Files:
                 boolean flag = (Boolean) serverService.getParams().get(0);
                 if (flag == true)
-                    IcmUtils.displayConfirmationMsg("Attach Files - Success", "Success", "Files attached successfully");
+                    IcmUtils.displayInformationMsg("Attach Files - Success", "Success", "Files attached successfully");
                 else
                     IcmUtils.displayErrorMsg("Attach Files - Error", "Error", "Attach files failed");
                 break;

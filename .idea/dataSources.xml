@@ -8,5 +8,11 @@
       <jdbc-url>jdbc:mysql://box5264.bluehost.com:3306/cbaricmy_ICM</jdbc-url>
       <keep-alive enable="true" />
     </data-source>
+    <data-source source="LOCAL" name="ICM local server" uuid="909bb393-e307-4b7e-af5e-e2f83879f1d0">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+    </data-source>
   </component>
 </project>
