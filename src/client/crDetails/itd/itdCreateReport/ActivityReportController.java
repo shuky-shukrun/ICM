@@ -164,11 +164,12 @@ public class ActivityReportController implements ClientUI {
 
 		double avg = sum / (double) Array.length;
 
-		for (double num : Array) {
-			sd += Math.pow(num - avg, 2);
+		for (int i=0; i<Array.length;i++) {
+			sd = sd + Math.pow(Array[i] - avg, 2);
+			//sd += Math.pow(num - avg, 2);
 		}
 
-		return Math.sqrt(sd / Array.length);
+		return Math.sqrt(sd /( Array.length-1));
 
 	}
 
@@ -197,11 +198,12 @@ public class ActivityReportController implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		// params is the list of values for statistic
 		List<List<Integer>> params = serverService.getParams();
-		System.out.println("tom"+params.get(0).toString());
-		ArrayList frozenCount = (ArrayList) params.get(0);
+		
+		List frozenCount = params.get(0);
 		List activeCount = params.get(1);
 		List closedCount = params.get(2);
 		List declinedCount = params.get(3);
+		
 		int totalFrozen = 0;
 		int totalActive = 0;
 		int totalClosed = 0;
@@ -244,6 +246,7 @@ public class ActivityReportController implements ClientUI {
 		double activeMed = median(numArray2);
 		double closedMed = median(numArray3);
 		double declinedMed = median(numArray4);
+		System.out.println("ronit"+frozenMed);
 		//calculate the standard deviation
 		double frozenStd = std(numArray1);
 		double activeStd = std(numArray2);
