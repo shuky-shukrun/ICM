@@ -12,7 +12,7 @@
    <children>
       <VBox spacing="10.0" style="-fx-background-color: #3F2B63;">
          <children>
-            <Button fx:id="requestPhaseTimeButton1" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showRequestTimeDialog" prefHeight="50.0" prefWidth="250.0" text=" Request Phase Time" textFill="#f8f8f8">
+            <Button fx:id="requestPhaseTimeButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showRequestTimeDialog" prefHeight="50.0" prefWidth="250.0" text=" Request Phase Time" textFill="#f8f8f8">
                <padding>
                   <Insets left="10.0" />
                </padding>
@@ -48,12 +48,12 @@
             <Insets left="10.0" />
          </padding>
       </VBox>
-      <Button fx:id="moreInformationButton" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" mnemonicParsing="false" onAction="#moreInformationEvent" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
+      <Button fx:id="requestPhaseTimeInfoButton" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" mnemonicParsing="false" onAction="#requestPhaseTimeInfoMsg" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>
       </Button>
-      <Button fx:id="moreInformationButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="60.0" mnemonicParsing="false" onAction="#moreInformationEvent1" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
+      <Button fx:id="confirmExecutionInfoButton" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="60.0" mnemonicParsing="false" onAction="#confirmExecutionInfoMsg" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>

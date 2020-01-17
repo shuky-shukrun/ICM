@@ -7,7 +7,7 @@ import server.EchoServer;
 
 import java.io.IOException;
 
-public class ServerUIController {
+public class ServerUI {
 
 
     @FXML
@@ -29,8 +29,11 @@ public class ServerUIController {
 
     private EchoServer echoServer = null;
 
+    /**
+     * gets the server params from UI and start the server
+     */
     @FXML
-    void startServer(ActionEvent event) {
+    void startServer() {
         // for the first time, create new server object
         if (echoServer == null) {
             int port = Integer.parseInt(portTextFiled.getText());
@@ -76,6 +79,9 @@ public class ServerUIController {
         }
     }
 
+    /**
+     * exit the program.
+     */
     public void exitProgram(ActionEvent event) {
         System.exit(0);
     }

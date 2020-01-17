@@ -21,19 +21,22 @@ import java.util.Optional;
 public class ExecutiveLeaderButtons implements ClientUI {
 
 	@FXML
-	private Button requestPhaseTimeButton1;
+	private Button requestPhaseTimeButton;
 	@FXML
 	private Button confirmExecutionButton;
 	@FXML
-	private Button moreInformationButton;
+	private Button requestPhaseTimeInfoButton;
 	@FXML
-	private Button moreInformationButton2;
+	private Button confirmExecutionInfoButton;
 
 	private ClientController clientController;
 	private String info;
 	private static Phase currPhase;
 	private int flag = 0;
 
+	/**
+	 * initialize the executive leader buttons
+	 */
     public void initialize() {
 
 		try {
@@ -49,30 +52,30 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 		ChangeRequest currRequest = CrDetails.getCurrRequest();
 
-		moreInformationButton2.setVisible(false);
+		confirmExecutionInfoButton.setVisible(false);
 
 		
         switch (currPhase.getPhaseStatus()) {
 			case PHASE_LEADER_ASSIGNED: case PHASE_EXEC_LEADER_ASSIGNED:
 				info = "time of phase yet not approved";
 				confirmExecutionButton.setDisable(true);
-				moreInformationButton.setDisable(true);
-				moreInformationButton2.setVisible(true);
+				requestPhaseTimeInfoButton.setDisable(true);
+				confirmExecutionInfoButton.setVisible(true);
 				break;
 
 			case TIME_REQUESTED:
 				info = "Phase time has been submitted";
 				confirmExecutionButton.setDisable(true);
-				requestPhaseTimeButton1.setDisable(true);
-				moreInformationButton.setDisable(false);
-				moreInformationButton2.setVisible(true);
-				moreInformationButton2.setDisable(false);
+				requestPhaseTimeButton.setDisable(true);
+				requestPhaseTimeInfoButton.setDisable(false);
+				confirmExecutionInfoButton.setVisible(true);
+				confirmExecutionInfoButton.setDisable(false);
 				break;
 
 			case IN_PROCESS: case EXTENSION_TIME_REQUESTED: case EXTENSION_TIME_APPROVED:
 				confirmExecutionButton.setVisible(true);
-				requestPhaseTimeButton1.setDisable(true);
-				moreInformationButton.setVisible(true);
+				requestPhaseTimeButton.setDisable(true);
+				requestPhaseTimeInfoButton.setVisible(true);
 				break;
 				
             default:
@@ -87,15 +90,23 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 	}
 
+	/**
+	 * shows "Request Phase Time" dialog.
+	 * @throws IOException if have problem to load the the scene from fxml file.
+	 */
 	@FXML
-	void showRequestTimeDialog(ActionEvent event) throws IOException {
+	void showRequestTimeDialog() throws IOException {
 
 		IcmUtils.popUpScene(this, "Request Phase Time", "/client/crDetails/evaluator/TimeRequest.fxml", 588, 688);
 		initialize();
 	}
 
+	/**
+	 * shows "Execution Confirmation" dialog.
+	 * if confirm - change the request's phase to Validation.
+	 */
 	@FXML
-	void confirmExecution(ActionEvent event) {
+	void confirmExecution() {
 		Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
 		confirmAlert.setTitle("Execution Confirmation");
 		confirmAlert.setHeaderText("Execution Confirmation");
@@ -118,8 +129,11 @@ public class ExecutiveLeaderButtons implements ClientUI {
 		}
 	}
 
+	/**
+	 * shows info popup message: why the requestPhaseTimeButton is disable.
+	 */
 	@FXML
-	public void moreInformationEvent(ActionEvent e) {
+	public void requestPhaseTimeInfoMsg() {
 		 entities.Phase.PhaseStatus temp=CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
 		 switch(temp) {
 		 case IN_PROCESS:
@@ -143,8 +157,11 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 	}
 
+	/**
+	 * shows info popup message: why the confirmExecutionButton is disable.
+	 */
 	@FXML
-	public void moreInformationEvent1(ActionEvent e) {
+	public void confirmExecutionInfoMsg() {
 
 		IcmUtils.displayInformationMsg("Information message",
 				"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
@@ -153,20 +170,24 @@ public class ExecutiveLeaderButtons implements ClientUI {
 						+ "Execution can't be confirmed when the phase time not yet approved!");
 
 	}
-	public static void setPhase1(Phase NewPhase) {
-		currPhase = NewPhase;
-	}
 
+	/**
+	 * @return the current request's phase
+	 */
 	public static Phase getPhase1() {
 		return currPhase;
 	}
 
+
+	/**
+	 * handle the returned value from server.
+	 * shows an error popup message in case of server error
+	 *
+	 * @param serverService contains the exception object from server
+	 */
 	@Override
     public void handleMessageFromClientController(ServerService serverService) {
         switch (serverService.getDatabaseService()) {
-            case Execution_Confirmation:
-
-                break;
             case Error:
                 List<Exception> errorList = serverService.getParams();
                 IcmUtils.displayErrorMsg(errorList.get(0).getMessage());

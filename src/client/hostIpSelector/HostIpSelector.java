@@ -13,31 +13,30 @@ public class HostIpSelector implements ClientUI {
 
     @FXML
     private TextField ipTextField;
-
-    @FXML
-    private Button loginButton;
-
     @FXML
     private TextField hostTextField;
 
+    /**
+     * gets the server ip and port from UI and connect to server
+     */
     @FXML
-    void login(ActionEvent event) {
+    void login() {
         ClientMain.setHost(ipTextField.getText());
         ClientMain.setPort(Integer.parseInt(hostTextField.getText()));
 
         // load the gui and starting it
         try {
             IcmUtils.loadScene(this, "ICM - Login", "/client/login/Login.fxml", 800, 500);
-//            IcmUtils.loadHomeScene(this);
-
         } catch (Exception e) {
             e.printStackTrace();
             IcmUtils.displayErrorMsg(e.getMessage());
         }
     }
 
+    /**
+     * handle the returned value from server. Does nothing in this case.
+     */
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
-
     }
 }

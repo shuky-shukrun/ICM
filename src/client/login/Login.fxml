@@ -48,8 +48,8 @@
                      <children>
                         <JFXTextField fx:id="userName" layoutX="50.0" layoutY="72.0" prefHeight="31.0" prefWidth="258.0" promptText="User ID" visible="false" />
                         <JFXPasswordField fx:id="password" layoutX="46.0" layoutY="140.0" prefHeight="31.0" prefWidth="258.0" promptText="Password" visible="false" />
-                        <JFXButton fx:id="ForgotPass" layoutX="155.0" layoutY="185.0" onAction="#forgotPass" prefHeight="31.0" prefWidth="173.0" text="Forgot Your Password?" textFill="#294aae" underline="true" visible="false" />
-                        <JFXButton fx:id="loginButton" layoutX="88.0" layoutY="244.0" onAction="#login" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #7156DD; -fx-background-radius: 200; -fx-text-fill: white;" text="Login" visible="false">
+                        <JFXButton fx:id="forgotPass" layoutX="155.0" layoutY="185.0" onAction="#forgotPass" prefHeight="31.0" prefWidth="173.0" text="Forgot Your Password?" textFill="#294aae" underline="true" visible="false" />
+                        <JFXButton fx:id="loginButton" defaultButton="true" layoutX="88.0" layoutY="244.0" onAction="#login" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #7156DD; -fx-background-radius: 200; -fx-text-fill: white;" text="Login" visible="false">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -89,12 +89,12 @@
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <JFXButton fx:id="signin" layoutX="75.0" layoutY="304.0" onMouseClicked="#btn" prefHeight="45.0" prefWidth="150.0" style="-fx-background-color: #7156DD; -fx-border-radius: 200; -fx-border-color: white; -fx-background-radius: 200; -fx-text-fill: white;" text=" Login page">
+            <JFXButton fx:id="signIn" layoutX="75.0" layoutY="304.0" onAction="#showLoginPane" prefHeight="45.0" prefWidth="150.0" style="-fx-background-color: #7156DD; -fx-border-radius: 200; -fx-border-color: white; -fx-background-radius: 200; -fx-text-fill: white;" text=" Login page">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="Aboutus" layoutX="75.0" layoutY="304.0" onMouseClicked="#btn2" prefHeight="45.0" prefWidth="150.0" style="-fx-background-color: #7156DD; -fx-border-radius: 200; -fx-border-color: white; -fx-background-radius: 200; -fx-text-fill: white;" text="About us" visible="false">
+            <JFXButton fx:id="aboutUs" layoutX="75.0" layoutY="304.0" onAction="#showAboutUsPane" prefHeight="45.0" prefWidth="150.0" style="-fx-background-color: #7156DD; -fx-border-radius: 200; -fx-border-color: white; -fx-background-radius: 200; -fx-text-fill: white;" text="About us" visible="false">
                <font>
                   <Font size="16.0" />
                </font>

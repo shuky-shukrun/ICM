@@ -12,9 +12,7 @@ import entities.ChangeInitiator;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -30,13 +28,10 @@ import java.util.List;
 
 public class Login implements ClientUI {
 
-
-    @FXML
-    private AnchorPane layersignup;
     @FXML
     private AnchorPane layer2;
     @FXML
-    private JFXButton signin;
+    private JFXButton signIn;
     @FXML
     private Label l1;
     @FXML
@@ -48,7 +43,7 @@ public class Login implements ClientUI {
     @FXML
     private Label s2;
     @FXML
-    private JFXButton Aboutus;
+    private JFXButton aboutUs;
     @FXML
     private Label a1;
     @FXML
@@ -66,7 +61,7 @@ public class Login implements ClientUI {
     @FXML
     private JFXPasswordField password;
     @FXML
-    private JFXButton ForgotPass;
+    private JFXButton forgotPass;
     @FXML
     private AnchorPane layer1;
     @FXML
@@ -86,15 +81,18 @@ public class Login implements ClientUI {
 
     private ClientController clientController = null;
 
+    /**
+     * Initialize the login window
+     */
     public void initialize() {
     	 s1.setVisible(false);
          s2.setVisible(false);
-         Aboutus.setVisible(false);
+         aboutUs.setVisible(false);
          b2.setVisible(false);
          loginButton.setVisible(false);
          userName.setVisible(false);
          password.setVisible(false);
-         ForgotPass.setVisible(false);
+         forgotPass.setVisible(false);
     	
         try {
             clientController = ClientController.getInstance(this);
@@ -104,9 +102,12 @@ public class Login implements ClientUI {
             IcmUtils.displayErrorMsg(e.getMessage());
         }
     }
-    
+
+    /**
+     * slide the pane to show the login screen
+     */
     @FXML
-    private void btn(MouseEvent event) {
+    private void showLoginPane() {
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.7));
         slide.setNode(layer2);
@@ -120,35 +121,32 @@ public class Login implements ClientUI {
         
         s1.setVisible(true);
         s2.setVisible(true);
-        Aboutus.setVisible(true);
+        aboutUs.setVisible(true);
         circle1.setVisible(false);
         logo.setVisible(false);
         l1.setVisible(false);
         l2.setVisible(false);
         l3.setVisible(false);
-        signin.setVisible(false);
+        signIn.setVisible(false);
         a1.setVisible(false);
         a2.setVisible(false);
         a3.setVisible(false);
         a4.setVisible(false);
         userName.setVisible(true);
         password.setVisible(true);
-        ForgotPass.setVisible(true);
+        forgotPass.setVisible(true);
         pane.setVisible(true);
         circle.setVisible(true);
         icon.setVisible(true);
         circle11.setVisible(true);
         logo1.setVisible(true);
-       
-        
-        slide.setOnFinished((e->{
-        
-        
-        }));
     }
 
+    /**
+     * slide the pane to show the about us screen
+     */
     @FXML
-    private void btn2(MouseEvent event) {
+    private void showAboutUsPane() {
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.7));
         slide.setNode(layer2);
@@ -162,34 +160,32 @@ public class Login implements ClientUI {
         
         s1.setVisible(false);
         s2.setVisible(false);
-        Aboutus.setVisible(false);
+        aboutUs.setVisible(false);
         circle1.setVisible(true);
         logo.setVisible(true);
         l1.setVisible(true);
         l2.setVisible(true);
         l3.setVisible(true);
-        signin.setVisible(true);
+        signIn.setVisible(true);
         a1.setVisible(true);
         a2.setVisible(true);
         a3.setVisible(true);
         a4.setVisible(true);
         userName.setVisible(false);
         password.setVisible(false);
-        ForgotPass.setVisible(false);
+        forgotPass.setVisible(false);
         pane.setVisible(false);
         circle.setVisible(false);
         icon.setVisible(false);
         circle11.setVisible(false);
         logo1.setVisible(false);
-        
-        slide.setOnFinished((e->{
-        
-        
-        }));
     }
 
+    /**
+     * get the user ID and password from UI and login the user into the system.
+     */
     @FXML
-    void login(ActionEvent event) {
+    void login() {
         try {
             clientController = ClientController.getInstance(this);
         } catch (IOException e) {
@@ -204,9 +200,12 @@ public class Login implements ClientUI {
 
 
     }
-    //forgot password button
+
+    /**
+     * shows "ICM - Forgot password" dialog.
+     */
     @FXML
-    void forgotPass(ActionEvent event) {
+    void forgotPass() {
     	try {
 			IcmUtils.popUpScene(this,  "ICM - Forgot password", "/client/login/ForgotPassword.fxml", 500, 410);
 		} catch (IOException e) {
@@ -214,6 +213,13 @@ public class Login implements ClientUI {
 		}
     }
 
+    /**
+     * handle the returned value from server.
+     * if the details are correct, sets the current user on ClientController and load the main window.
+     * else, shows an error message.
+     *
+     * @param serverService contains the exception object from server
+     */
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
             System.out.println("login return from server");

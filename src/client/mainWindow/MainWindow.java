@@ -89,6 +89,9 @@ public class MainWindow implements ClientUI {
     private ObservableList<ChangeRequest> myRequests;
     private ObservableList<ChangeRequest> inMyTreatmentRequests;
 
+    /**
+     * Initialize the main window
+     */
     public void initialize() {
         try {
             clientController = ClientController.getInstance(this);
@@ -165,6 +168,7 @@ public class MainWindow implements ClientUI {
         });
     }
 
+    // set double click on table row
     private void initRowDoubleClick(TableView<ChangeRequest> myTableView) {
         myTableView.setRowFactory(tv -> {
             TableRow<ChangeRequest> row = new TableRow<>();
@@ -178,6 +182,14 @@ public class MainWindow implements ClientUI {
         });
     }
 
+    /**
+     * init TableView values.
+     *
+     * @param idColumn the ID column.
+     * @param infoSystemColumn the info system.
+     * @param dateColumn the date column.
+     * @param currPhaseColumn the current phase column.
+     */
     private void initTableValueFactory(TableColumn<ChangeRequest, Integer> idColumn,
                                        TableColumn<ChangeRequest, InfoSystem> infoSystemColumn,
                                        TableColumn<ChangeRequest, LocalDate> dateColumn,
@@ -200,7 +212,10 @@ public class MainWindow implements ClientUI {
         });
         currPhaseColumn.setCellValueFactory(new PropertyValueFactory<>("currPhaseName"));
     }
-
+    /**
+     * shows change request details dialog.
+     */
+    @FXML
     private void showRequestDialog() {
         try {
             IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
@@ -209,37 +224,90 @@ public class MainWindow implements ClientUI {
         }
     }
 
-
+    /**
+     * logout from system.
+     * @throws IOException if have problem to load the scene from fxml file.
+     */
     @FXML
-    void logout(ActionEvent event) throws IOException {
+    void logout() throws IOException {
         ClientController.setUser(null);
         IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
     }
 
-
+    /**
+     * shows "ITD create report" dialog.
+     * @throws IOException if have problem to load the the scene from fxml file.
+     */
     @FXML
-    void showCreateReportDialog(ActionEvent event) throws IOException {
+    void showCreateReportDialog() throws IOException {
         IcmUtils.popUpScene(this, "ITD Create Reports", "/client/crDetails/itd/itdCreateReport/ITDCreateReport.fxml", 588, 688);
     }
 
+    /**
+     * shows "ITD assign permissions" dialog.
+     * @throws IOException if have problem to load the the scene from fxml file.
+     */
     @FXML
-    void showItdManagerAssignPermissionsDialog(ActionEvent event) throws IOException {
+    void showItdManagerAssignPermissionsDialog() throws IOException {
         IcmUtils.popUpScene(this, "ITD Assign Permissions", "/client/mainWindow/itdAssignPermissions/ITDAssignPermissions.fxml", 588, 688);
-
     }
+
+    /**
+     * shows "ITD Register IT" dialog.
+     * @throws IOException if have problem to load the the scene from fxml file.
+     */
     @FXML
-    void registerEvent(ActionEvent event) throws IOException {
-        	
+    void registerEvent() throws IOException {
        	 IcmUtils.popUpScene(this, "Register IT", "/client/mainWindow/ITRegistration.fxml", 588, 688);
-
-       
     }
 
+    /**
+     * shows "New Change Request" dialog.
+     * @throws IOException if have problem to load the the scene from fxml file.
+     */
     @FXML
-    void showNewRequestDialog(ActionEvent event) throws IOException {
+    void showNewRequestDialog() throws IOException {
         IcmUtils.popUpScene(this, "New Change Request", "/client/mainWindow/newRequest/NewRequest.fxml", 658, 928);
     }
 
+    /**
+     * helper function to validate that search TextField contain only digits.
+     *
+     * @param max_Length the max length of change request id
+     * @return EventHandler that can be assign to TextField
+     */
+    public EventHandler<KeyEvent> numeric_Validation(final Integer max_Length) {
+        return new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                TextField txt_TextField = (TextField) e.getSource();
+                if (txt_TextField.getText().length() >= max_Length) {
+                    e.consume();
+                }
+                if(!e.getCharacter().matches("[0-9]")){
+                    e.consume();
+                }
+            }
+        };
+    }
+
+    /**
+     * reload the main window
+     * @throws IOException if have problem to load the the scene from fxml file.
+     */
+    @FXML
+    private void refresh() throws IOException {
+        IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
+    }
+
+    /**
+     * handle the returned value from server.
+     *
+     * @param serverService contain the enum and the params for it:
+     *                      ServerService.DatabaseService.Get_All_Requests,
+     *                      List of all the requests based on the user position.
+     *                      it then loads the requests into the UI
+     */
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
         List<List<ChangeRequest>> allRequests = serverService.getParams();
@@ -254,25 +322,5 @@ public class MainWindow implements ClientUI {
             workTableView.setItems(inMyTreatmentRequests);
             workTableView.getSortOrder().add(idColumn1);
         }
-    }
-
-    /* Numeric Validation Limit the  characters to maxLengh AND to ONLY DigitS *************************************/
-    public EventHandler<KeyEvent> numeric_Validation(final Integer max_Lengh) {
-        return new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                TextField txt_TextField = (TextField) e.getSource();
-                if (txt_TextField.getText().length() >= max_Lengh) {
-                    e.consume();
-                }
-                if(!e.getCharacter().matches("[0-9]")){
-                    e.consume();
-                }
-            }
-        };
-    }
-    @FXML
-    private void refresh() throws IOException {
-        IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
     }
 }
