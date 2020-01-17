@@ -192,11 +192,13 @@ public class ActivityReportController implements ClientUI {
 		return l;
 
 	}
+	
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		// params is the list of values for statistic
 		List<List<Integer>> params = serverService.getParams();
-		List frozenCount = params.get(0);
+		System.out.println("tom"+params.get(0).toString());
+		ArrayList frozenCount = (ArrayList) params.get(0);
 		List activeCount = params.get(1);
 		List closedCount = params.get(2);
 		List declinedCount = params.get(3);

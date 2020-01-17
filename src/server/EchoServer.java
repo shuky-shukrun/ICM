@@ -506,7 +506,7 @@ public class EchoServer extends AbstractServer {
 					LocalDate endDate= (LocalDate) serverService.getParams().get(1);
 					LocalDate to= endDate;
 					long weeks= (long) serverService.getParams().get(2);
-					long left= (long) serverService.getParams().get(2);
+					long left= (long) serverService.getParams().get(3);
 					if (left == 0) {
 						for (int i = 0; i <= weeks; i++) {
 							from = startDate.plusDays(7 * i);
@@ -528,14 +528,14 @@ public class EchoServer extends AbstractServer {
 	
 						}
 					} else {
-						for (int i = 0; i < weeks; i++) {
-							from= from.plusDays(7*i);
-							to= from.plusDays(7*i+6);
+						for (int i = 0; i <= weeks; i++) {
+							from= startDate.plusDays(7*i);
+							to= startDate.plusDays(7*i+6);
 							int count = dbConnection.getFReportDetails(from,to);
 							frozenList.add(count);
-							serverService.setParams(frozenList);
-							client.sendToClient(serverService);
-						}
+							}
+						serverService.setParams(frozenList);
+						client.sendToClient(serverService);
 	
 					}
 					System.out.println("server finish Get Report Details");
