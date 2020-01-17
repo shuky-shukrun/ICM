@@ -1,8 +1,7 @@
 package client.crDetails.itd.itdCreateReport;
 
 import java.io.IOException;
-import java.sql.Array;
-import java.sql.Date;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,29 +10,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.time.temporal.ChronoUnit;
 
 import client.ClientController;
 import client.ClientUI;
-import entities.ChangeInitiator;
-import entities.ChangeRequest;
-import entities.InfoSystem;
-import entities.Phase;
-import entities.distribution;
+import entities.Distribution;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import server.ServerService;
@@ -46,11 +33,11 @@ public class ActivityReportController implements ClientUI {
 	@FXML
 	private TextField countActive;
 	@FXML
-	private TableView<distribution> ActiveTable;
+	private TableView<Distribution> ActiveTable;
 	@FXML
-	private TableColumn<distribution, Integer> cntActive;
+	private TableColumn<Distribution, Integer> cntActive;
 	@FXML
-	private TableColumn<distribution, Integer> disActive;
+	private TableColumn<Distribution, Integer> disActive;
 	@FXML
 	private TextField stdFrozen;
 	@FXML
@@ -58,11 +45,11 @@ public class ActivityReportController implements ClientUI {
 	@FXML
 	private TextField countFrozen;
 	@FXML
-	private TableView<distribution> FrozenTable;
+	private TableView<Distribution> FrozenTable;
 	@FXML
-	private TableColumn<distribution, Integer> cntFrozen;
+	private TableColumn<Distribution, Integer> cntFrozen;
 	@FXML
-	private TableColumn<distribution, Integer> disFrozen;
+	private TableColumn<Distribution, Integer> disFrozen;
 	@FXML
 	private TextField medClosed;
 	@FXML
@@ -70,11 +57,11 @@ public class ActivityReportController implements ClientUI {
 	@FXML
 	private TextField countClosed;
 	@FXML
-	private TableView<distribution> ClosedTable;
+	private TableView<Distribution> ClosedTable;
 	@FXML
-	private TableColumn<distribution, Integer> cntClosed;
+	private TableColumn<Distribution, Integer> cntClosed;
 	@FXML
-	private TableColumn<distribution, Integer> disClosed;
+	private TableColumn<Distribution, Integer> disClosed;
 	@FXML
 	private TextField medDeclined;
 	@FXML
@@ -82,11 +69,11 @@ public class ActivityReportController implements ClientUI {
 	@FXML
 	private TextField countDeclined;
 	@FXML
-	private TableView<distribution> DeclinedTable;
+	private TableView<Distribution> DeclinedTable;
 	@FXML
-	private TableColumn<distribution, Integer> cntDeclined;
+	private TableColumn<Distribution, Integer> cntDeclined;
 	@FXML
-	private TableColumn<distribution, Integer> disDeclined;
+	private TableColumn<Distribution, Integer> disDeclined;
 	@FXML
 	private TextField medWorkDays;
 	@FXML
@@ -94,18 +81,18 @@ public class ActivityReportController implements ClientUI {
 	@FXML
 	private TextField countWorkDays;
 	@FXML
-	private TableView<distribution> WorkDaysTable;
+	private TableView<Distribution> WorkDaysTable;
 	@FXML
-	private TableColumn<distribution, Integer> cntWorkDays;
+	private TableColumn<Distribution, Integer> cntWorkDays;
 	@FXML
-	private TableColumn<distribution, Integer> disWorkDays;
+	private TableColumn<Distribution, Integer> disWorkDays;
 	@FXML
 	private AnchorPane mainAnchorPane;
 	private ClientController clientController;
-	private ObservableList<distribution> listActive;
-	private ObservableList<distribution> listFrozen;
-	private ObservableList<distribution> listDeclined;
-	private ObservableList<distribution> listClosed;
+	private ObservableList<Distribution> listActive;
+	private ObservableList<Distribution> listFrozen;
+	private ObservableList<Distribution> listDeclined;
+	private ObservableList<Distribution> listClosed;
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -152,8 +139,8 @@ public class ActivityReportController implements ClientUI {
 
 	}
 
-	private void initTableValueFactory(TableColumn<distribution, Integer> cnt,
-			TableColumn<distribution, Integer> dis) {
+	private void initTableValueFactory(TableColumn<Distribution, Integer> cnt,
+			TableColumn<Distribution, Integer> dis) {
 		cnt.setCellValueFactory(new PropertyValueFactory<>("num"));
 		dis.setCellValueFactory(new PropertyValueFactory<>("dis"));
 	}
@@ -185,8 +172,8 @@ public class ActivityReportController implements ClientUI {
 
 	}
 
-	public List<distribution> frq(Integer[] Array) {
-		List<distribution>l=new ArrayList<distribution>();
+	public List<Distribution> frq(Integer[] Array) {
+		List<Distribution>l=new ArrayList<Distribution>();
 		HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
 		for (int i = 0; i < Array.length; i++) {
 			if (hm.containsKey(Array[i]))
@@ -198,7 +185,7 @@ public class ActivityReportController implements ClientUI {
 		 Iterator it = hm.entrySet().iterator();
 		    while (it.hasNext()) {
 		        Map.Entry pair = (Map.Entry)it.next();
-		        l.add(new distribution((Integer)pair.getKey(), (Integer)pair.getValue()));
+		        l.add(new Distribution((Integer)pair.getKey(), (Integer)pair.getValue(),null));
 		        it.remove(); // avoids a ConcurrentModificationException
 		    }
 		  
@@ -287,19 +274,19 @@ public class ActivityReportController implements ClientUI {
 		countClosed.textProperty().set(s10);
 		countDeclined.textProperty().set(s11);
 		//active table
-		List<distribution>l=frq(numArray2);
+		List<Distribution>l=frq(numArray2);
 		listActive.setAll(l);
 		ActiveTable.setItems(listActive);
 		//frozen table
-		List<distribution>l1=frq(numArray1);
+		List<Distribution>l1=frq(numArray1);
 		listFrozen.setAll(l1);
 		FrozenTable.setItems(listFrozen);
 		//declined table
-		List<distribution>l2=frq(numArray4);
+		List<Distribution>l2=frq(numArray4);
 		listDeclined.setAll(l2);
 		DeclinedTable.setItems(listDeclined);
 		//closed table
-		List<distribution>l3=frq(numArray3);
+		List<Distribution>l3=frq(numArray3);
 		listClosed.setAll(l3);
 		ClosedTable.setItems(listClosed);
 

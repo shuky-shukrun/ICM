@@ -17,17 +17,17 @@ public class Report {
 	public enum ReportType {
 		// TODO: change reports name
 		// TODO: add report implementation
-		A,
-		B,
-		C,
+		Activity_Report,
+		Performance_Report,
+		Delays_Report,
 		Custom
 	}
 
 	public static ObservableList<ReportType> getAllReportTypes() {
 		ObservableList<ReportType> reportTypes = FXCollections.observableArrayList();
-		reportTypes.add(ReportType.A);
-		reportTypes.add(ReportType.B);
-		reportTypes.add(ReportType.C);
+		reportTypes.add(ReportType.Activity_Report);
+		reportTypes.add(ReportType.Performance_Report);
+		reportTypes.add(ReportType.Delays_Report);
 		reportTypes.add(ReportType.Custom);
 
 		return reportTypes;
