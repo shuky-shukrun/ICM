@@ -40,7 +40,6 @@ public class ITDButtons implements ClientUI {
     	else {
 			thawButton.setDisable(true);
 			thawMessage.setVisible(true);
-			thawMessage.setText("Why this button is disable?");
 		}
 
     }
