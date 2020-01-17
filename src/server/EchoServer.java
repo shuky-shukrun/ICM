@@ -69,7 +69,7 @@ public class EchoServer extends AbstractServer {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Thread.sleep(2000);
-            Date date = dateFormatter.parse("2020-01-16 21:00:00");
+            Date date = dateFormatter.parse("2020-01-19 07:00:00");
             Timer timer = new Timer("Server Timer");
             ServerTimer serverTimer = new ServerTimer();
             long period = 1000L * 60L * 60L * 24L;
