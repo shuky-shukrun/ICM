@@ -1,4 +1,4 @@
-package client.crDetails.supervisor.AssignPhaseLeaders;
+package client.crDetails.supervisor.assignPhaseLeaders;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,13 +12,11 @@ import common.IcmUtils;
 import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.IEPhasePosition;
-import entities.IEPhasePosition.PhasePosition;
 import entities.InfoSystem;
 import entities.InformationEngineer;
 import entities.Phase;
 import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
-import entities.Position;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -27,9 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import server.ServerService;
 
 public class AssignPhaseLeaders implements ClientUI {

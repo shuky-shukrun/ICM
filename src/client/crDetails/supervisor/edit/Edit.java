@@ -1,4 +1,4 @@
-package client.crDetails.supervisor.Edit;
+package client.crDetails.supervisor.edit;
 
 import client.ClientUI;
 import javafx.event.ActionEvent;

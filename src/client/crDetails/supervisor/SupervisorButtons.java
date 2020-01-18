@@ -17,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.StageStyle;
 import server.ServerService;
 import server.ServerService.DatabaseService;
@@ -177,7 +176,7 @@ public class SupervisorButtons implements ClientUI {
 	void showAssignPhaseLeadersDialog(ActionEvent event) {
 		try {
 			IcmUtils.popUpScene(this, "Assign Phase Leaders",
-					"/client/crDetails/supervisor/AssignPhaseLeaders/AssignPhaseLeaders.fxml", 588, 768);
+					"/client/crDetails/supervisor/assignPhaseLeaders/AssignPhaseLeaders.fxml", 588, 768);
 			initialize();
 		} catch (IOException e) {
 			e.printStackTrace(); }
