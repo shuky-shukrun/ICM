@@ -1207,6 +1207,13 @@ public class DBConnection {
 		ps.close();
 	}
 
+	/**
+	 * A method that returns the potential phase leaders, executive leaders and evaluators.
+	 * 
+	 * @param ChangeInitiatorList- a list of change initiators.
+	 * @return list that contains a list of potential phase leaders executive leader 
+	 * and a list of potential phase leaders and evaluator.
+	 */
 	public List<List<ChangeInitiator>> getPhaseLeadersDetails(List<InformationEngineer> ChangeInitiatorList) {
 
 		System.out.println("database handle getPhaseLeadersDetails");
