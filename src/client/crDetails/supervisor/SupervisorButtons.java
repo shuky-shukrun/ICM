@@ -239,6 +239,9 @@ public class SupervisorButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Information massage that appears when the time decision button is disabled. 
+	 */
 	private void phaseTimeDecisionInfo() {
 		IcmUtils.displayInformationMsg(
 				"Phase time help",
@@ -247,6 +250,9 @@ public class SupervisorButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Information massage that appears when the freeze button is disabled. 
+	 */
 	private void freezeRequestInfo() {
 		IcmUtils.displayInformationMsg(
 				"Frozen request",
@@ -255,6 +261,10 @@ public class SupervisorButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Assign phase leaders and workers dialog when pressed.
+	 * @param event- assignPhaseLeaders button pressed.
+	 */
 	void showAssignPhaseLeadersDialog(ActionEvent event) {
 		try {
 			IcmUtils.popUpScene(this, "Assign Phase Leaders",
@@ -287,6 +297,11 @@ public class SupervisorButtons implements ClientUI {
 	}
     
     @Override
+    /**
+	 * Show pop-up with the information if the freeze or close action was successful 
+	 * 
+	 * @param serverService-ServerService object that the client controller send
+	 */
     public void handleMessageFromClientController(ServerService serverService) {
     	switch(serverService.getDatabaseService()) {
     		case Freeze_Request:
@@ -321,6 +336,10 @@ public class SupervisorButtons implements ClientUI {
     }
 
     @FXML
+    /**
+     * Edit the change request.
+     * @param event- edit button was pressed.
+     */
 	private void editRequest(ActionEvent event){
     	try {
 			IcmUtils.popUpScene(this, "Edit Request","/client/crDetails/supervisor/edit/Edit.fxml", 588, 688);
@@ -332,6 +351,9 @@ public class SupervisorButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Information massage in case the edit button is disable.
+	 */
 	private void editButtonInfoMsg() {
 		IcmUtils.displayInformationMsg(
 				"Edit request help",
@@ -339,18 +361,34 @@ public class SupervisorButtons implements ClientUI {
 				"You can not edit requests in CLOSING phase.");
 	}
     
+	/**
+	 * Set currPhase
+	 * @param phase- the new current phase.
+	 */
     public static void setCurrPhase (Phase phase) {
     	SupervisorButtons.currPhase=phase;
     }
     
+    /**
+     * get the current phase.
+     * @return currPhase (the current phase).
+     */
     public static Phase getPhase() {
     	return currPhase;
     }
     
+    /**
+     * set the current phase status.
+     * @param status- the current phase status.
+     */
     public static void setCurrPhaseStatus (PhaseStatus status) {
     	SupervisorButtons.CurrStatus = status;
     }
     
+    /**
+     * get the current phase status.
+     * @return CurrStatus- the currant status.
+     */
     public static PhaseStatus getPhaseStatus() {
     	return CurrStatus;
     }
