@@ -2,6 +2,8 @@ package client.login;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,14 @@ import common.JavaEmail;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
 public class ForgotPassword implements ClientUI {
 	private ClientController clientController;
 	@FXML
-	private TextField loginEmailTextField;
+	private TextField loginIDTextField;
 	@FXML
 	private Button SubmitLoginEmail;
 	@FXML
@@ -36,13 +39,14 @@ public class ForgotPassword implements ClientUI {
 	
 		try {
 			clientController = ClientController.getInstance(this);
+			loginIDTextField.addEventFilter(KeyEvent.KEY_TYPED, numeric_Validation(8));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		// disable request time button any field is invalid
 				BooleanBinding bb = new BooleanBinding() {
 					{
-						super.bind(loginEmailTextField.textProperty());
+						super.bind(loginIDTextField.textProperty());
 					}
 
 					@Override
@@ -50,11 +54,9 @@ public class ForgotPassword implements ClientUI {
 					// deadline of the phase
 					protected boolean computeValue() {
 					
-						if( loginEmailTextField.getText().isEmpty())
-							info="no mail";
-						else if(!JavaEmail.isValidEmailAddress(loginEmailTextField.getText()))
-							info="not legal email";
-						return ( loginEmailTextField.getText().isEmpty()||!JavaEmail.isValidEmailAddress(loginEmailTextField.getText()));
+						if( loginIDTextField.getText().isEmpty())
+							info="no Id";
+						return ( loginIDTextField.getText().isEmpty());
 					}
 				};
 
@@ -76,11 +78,13 @@ public class ForgotPassword implements ClientUI {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		List<String> email = new ArrayList<String>();
-		if(!loginEmailTextField.getText().equals(""))
+		List<Integer> idList=new ArrayList<Integer>();
+		int id;
+		if(!loginIDTextField.getText().equals(""))
 		{
-		email.add(loginEmailTextField.getText());
-		clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Forgot_Password, email));
+		id=Integer.parseInt(loginIDTextField.getText());
+		idList.add(id);
+		clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Forgot_Password, idList));
 		IcmUtils.getPopUp().close();
 		}
 		
@@ -111,6 +115,27 @@ public class ForgotPassword implements ClientUI {
 		IcmUtils.getPopUp().close();
 	
 	}
+    /**
+     * helper function to validate that search TextField contain only digits.
+     *
+     * @param max_Length the max length of change request id
+     * @return EventHandler that can be assign to TextField
+     */
+    public EventHandler<KeyEvent> numeric_Validation(final Integer max_Length) {
+        return new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                TextField txt_TextField = (TextField) e.getSource();
+                if (txt_TextField.getText().length() >= max_Length) {
+                    e.consume();
+                }
+                if(!e.getCharacter().matches("[0-9]")){
+                    e.consume();
+                }
+            }
+        };
+    }
+
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 	

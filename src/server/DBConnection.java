@@ -451,19 +451,19 @@ public class DBConnection {
 		return list;
 	}
 
-	public List<Object> forgotPasswordRequest(List<String> params) {
+	public List<Object> forgotPasswordRequest(List<Integer> params) {
 		List<Object> l = new ArrayList<Object>();
 		try {
 			PreparedStatement ps = sqlConnection.prepareStatement(
-					"SELECT IDuser,firstName,lastName,password FROM cbaricmy_ICM.users where email=?");
-			ps.setString(1, params.get(0));
+					"SELECT firstName,lastName,email,password FROM cbaricmy_ICM.users where IDuser=?");
+			ps.setInt(1, params.get(0));
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
 				l.add(true);
-				l.add(rs.getInt("IDUser"));
 				l.add(rs.getString("firstName"));
 				l.add(rs.getString("lastName"));
+				l.add(rs.getString("email"));
 				l.add(rs.getString("password"));
 				l.add(params.get(0));
 			} else
