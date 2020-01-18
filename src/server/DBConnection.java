@@ -307,6 +307,11 @@ public class DBConnection {
 		return crList;
 	}
 
+	/**
+	 * This method update the extension time request in the DB.
+	 * @param pList -list With the current phase.
+	 * @return updateList- Boolean list that indicate whether the update succeed.
+	 */
 	public List<Boolean> updatePhaseExtensionTime(List<Phase> pList) {
 
 		List<Boolean> updateList = new ArrayList<>();
@@ -1207,6 +1212,12 @@ public class DBConnection {
 		ps.close();
 	}
 
+	
+	/**
+	 * This method get the optional Phase leaders details from the DB.
+	 * @param ChangeInitiatorList -list With the details of the change initiator(change initiator can't be Phase leader in it's own request).
+	 * @return workersList- list With optional Phase leaders.
+	 */
 	public List<List<ChangeInitiator>> getPhaseLeadersDetails(List<InformationEngineer> ChangeInitiatorList) {
 
 		System.out.println("database handle getPhaseLeadersDetails");
@@ -1275,6 +1286,12 @@ public class DBConnection {
 		return workersList;
 	}
 
+	
+	/**
+	 * This method update the selected Phase leaders details in the DB.
+	 * @param newList -list With the selected Phase leaders.
+	 * @return isUpdate- Boolean list that indicate whether the update succeed.
+	 */
 	public List<Boolean> supervisorUpdatePhaseLeaders(List<IEPhasePosition> newList) {
 
 		List<Boolean> isUpdate = new ArrayList<>();
@@ -1506,6 +1523,12 @@ public class DBConnection {
 
 	}
 
+	
+	/**
+	 * This method return the selected Phase leaders details from the DB.
+	 * @param changeRequestsList -list With the current change request.
+	 * @return phaseLeadersAndWorkersList- list With the selected Phase leaders details.
+	 */
 	public List<ChangeInitiator> getSelectedPhaseLeadersAndWorkers(List<ChangeRequest> changeRequestsList) {
 
 		List<ChangeInitiator> phaseLeadersAndWorkersList = new ArrayList<>();
@@ -1771,6 +1794,11 @@ public class DBConnection {
 		return l;
 	}
 
+	
+	/**
+	 * This method update the exception time in the DB.
+	 * @param phList -list With the current phase.
+	 */
 	public void updateExceptionTime(List<Phase> phList) {
 
 		Phase currPhase = phList.get(0);
