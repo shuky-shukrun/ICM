@@ -40,6 +40,12 @@ public class RequestExtensionTime implements ClientUI{
 	private ClientController clientController;
 	final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+	/**
+	 * Initialize the request extension time dialog.
+	 *  set date picker to disable dates before the deadline of the phase. 
+	 *  set submit button to disable until all required filed are fill. 
+	 *  create instance of ClientController
+	 */
 	public void initialize() {
 		try {
 		newCurrPhase=PhaseLeaderButtons.getPhase();
@@ -71,6 +77,10 @@ public class RequestExtensionTime implements ClientUI{
 	}
 
 	@FXML
+	/**
+	 * submit the time extension request when the submit button pressed and send data to DB.
+	 * @param event-submit button pressed event
+	 */
 	void submitRequestTime(ActionEvent event) {
 		datePickerChoice = RequestedtimeDatePicker.getValue();
 		description = DescriptionTextArea.getText();
@@ -88,11 +98,19 @@ public class RequestExtensionTime implements ClientUI{
 
 
 	@FXML
+	/**
+	 * close the time extension request dialog.
+	 * @param event-cancel button pressed event
+	 */
 	void cancelRequestTime(ActionEvent event) {
 		IcmUtils.getPopUp().close();
 	}
 
 	@Override
+	/**
+	 * display alert with the information if the time extension request has been successfully submitted.
+	 * @param serverService-ServerService object that the client controller send
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		
 				List<Boolean> update=serverService.getParams();

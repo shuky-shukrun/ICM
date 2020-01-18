@@ -76,6 +76,7 @@ public class AssignPhaseLeaders implements ClientUI {
     private IEPhasePosition validationPhaseLeader= new IEPhasePosition(); 
     private int crId;
     private Phase newCurrPhase;
+    private Phase oldPhase;
     
 	public void initialize() {
 		try {
@@ -160,7 +161,7 @@ public class AssignPhaseLeaders implements ClientUI {
 
 	@FXML
 	void submitAssignPhaseLeaders(ActionEvent event) {
-	
+		
 		evaluationPhaseLeader= addDetails(evaluationPhaseLeaderChoiceBox, "EVALUATION", "PHASE_LEADER");
 		evaluator= addDetails(evaluatorChoiceBox, "EVALUATION", "EVALUATOR");
 		examinationPhaseLeader= addDetails(examinationPhaseLeaderChoiceBox, "EXAMINATION", "PHASE_LEADER");
@@ -217,6 +218,12 @@ public class AssignPhaseLeaders implements ClientUI {
 				newCurrPhase.setName(PhaseName.EVALUATION);
 				newCurrPhase.setPhaseStatus(PhaseStatus.PHASE_LEADER_ASSIGNED);
 				SupervisorButtons.setCurrPhase(newCurrPhase);
+				oldPhase=SupervisorButtons.getPhase();
+				oldPhase.setName(PhaseName.SUBMITTED);
+				List<Phase> phList = new ArrayList<>();
+				phList.add(oldPhase);
+				ServerService updateExceptionTime1 = new ServerService(ServerService.DatabaseService.Update_Exception_Time, phList);
+				clientController.handleMessageFromClientUI(updateExceptionTime1);
 				IcmUtils.getPopUp().close();
 		}
 		break;	

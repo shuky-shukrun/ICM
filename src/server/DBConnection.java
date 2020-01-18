@@ -1686,6 +1686,7 @@ public class DBConnection {
 	public void updateExceptionTime(List<Phase> phList) {
 
 		Phase currPhase = phList.get(0);
+		System.out.println(currPhase.getName().toString() + currPhase.getDeadLine().toString());
 		LocalDate currDate = LocalDate.now(); // Create a date object
 		LocalDate deadLine = currPhase.getDeadLine();
 		int days = (int) ((ChronoUnit.DAYS.between(deadLine, currDate)));
@@ -1713,6 +1714,7 @@ public class DBConnection {
 				ps1.setString(3, currPhase.getName().toString());
 				ps1.executeUpdate();
 				ps1.close();
+				ps.close();
 				System.out.println("phase exception Time updated");
 
 			} catch (SQLException e) {

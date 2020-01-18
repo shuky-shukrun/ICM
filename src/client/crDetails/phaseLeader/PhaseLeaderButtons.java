@@ -29,6 +29,12 @@ public class PhaseLeaderButtons implements ClientUI {
 	private int flag = 0;
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+
+	/**
+	 * Initialize the phase leader buttons.
+	 *  set request extension time button to Disable When you can't
+	 *  submit time extension request. 
+	 */
 	public void initialize() {
 		requestPhaseTimeButton2.setDisable(true);
 		moreInformation.setVisible(false);
@@ -72,6 +78,11 @@ public class PhaseLeaderButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * load the request extension time dialog when the appropriate button pressed
+	 *
+	 * @param event-request extension time button pressed event
+	 */
 	void showExtensionTimeDialog(ActionEvent event) {
 
 		try {
@@ -84,6 +95,11 @@ public class PhaseLeaderButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Displays information about why request extension time button is disabled
+	 * 
+	 * @param event-more information button pressed event
+	 */
 	void moreInformationEvent(ActionEvent event) {
 
 		switch (helpType) {
@@ -118,15 +134,28 @@ public class PhaseLeaderButtons implements ClientUI {
 		}
 	}
 
+	/**
+     * Sets the updated current phase into the private variable currPhase.
+     * @param NewPhase -the updated current phase.
+     */
 	public static void setPhase(Phase NewPhase) {
 		currPhase = NewPhase;
 	}
-
+	
+	
+	/**
+     * Returns the updated current phase.
+     *
+     * @return the updated current phaser.
+     */
 	public static Phase getPhase() {
 		return currPhase;
 	}
 
 	@Override
+	/**
+	 * handle message that came from the client controller
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 
 	}
