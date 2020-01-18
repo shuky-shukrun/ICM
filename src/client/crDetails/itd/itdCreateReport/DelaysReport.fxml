@@ -17,38 +17,38 @@
       </Label>
       <Label layoutX="46.0" layoutY="129.0" text="Median:" />
       <Label layoutX="48.0" layoutY="164.0" text="Std:" />
-      <TextField fx:id="medNumber" layoutX="117.0" layoutY="124.0" />
-      <TextField fx:id="stdNumber" layoutX="117.0" layoutY="165.0" />
-      <TextField fx:id="medDelays" layoutX="436.0" layoutY="124.0" />
-      <Label layoutX="41.0" layoutY="331.0" text="Delays Per System:" underline="true">
+      <TextField fx:id="medNumber" editable="false" layoutX="117.0" layoutY="124.0" />
+      <TextField fx:id="stdNumber" editable="false" layoutX="117.0" layoutY="165.0" />
+      <TextField fx:id="medDelays" editable="false" layoutX="436.0" layoutY="124.0" />
+      <Label layoutX="50.0" layoutY="337.0" text="Delays Per System:" underline="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="39.0" layoutY="363.0" text="Median:" />
-      <Label layoutX="42.0" layoutY="396.0" prefHeight="21.0" prefWidth="33.0" text="Std:" />
-      <TextField fx:id="medSystem" layoutX="122.0" layoutY="358.0" />
-      <TextField fx:id="stdSystem" layoutX="122.0" layoutY="391.0" />
-      <TextField fx:id="stdDelays" layoutX="436.0" layoutY="159.0" />
+      <Label layoutX="48.0" layoutY="369.0" text="Median:" />
+      <Label layoutX="51.0" layoutY="402.0" prefHeight="21.0" prefWidth="33.0" text="Std:" />
+      <TextField fx:id="medSystem" editable="false" layoutX="131.0" layoutY="364.0" />
+      <TextField fx:id="stdSystem" editable="false" layoutX="131.0" layoutY="397.0" />
+      <TextField fx:id="stdDelays" editable="false" layoutX="436.0" layoutY="159.0" />
       <TableView fx:id="numberTable" layoutX="116.0" layoutY="203.0" prefHeight="110.0" prefWidth="187.0">
          <columns>
-            <TableColumn fx:id="cntNumber" prefWidth="75.0" text="count" />
-            <TableColumn fx:id="disNumber" prefWidth="111.0" text="distribution" />
+            <TableColumn fx:id="cntNumber" editable="false" prefWidth="75.0" text="count" />
+            <TableColumn fx:id="disNumber" editable="false" prefWidth="111.0" text="distribution" />
          </columns>
       </TableView>
-      <TableView fx:id="systemTable" layoutX="126.0" layoutY="430.0" prefHeight="122.0" prefWidth="179.0">
+      <TableView fx:id="systemTable" layoutX="48.0" layoutY="436.0" prefHeight="122.0" prefWidth="271.0">
          <columns>
-            <TableColumn fx:id="infoSystemCol" prefWidth="97.0" text="info system" />
-            <TableColumn fx:id="cntCol" prefWidth="81.0" text="count" />
+            <TableColumn fx:id="infoSystemCol" editable="false" prefWidth="187.0" text="info system" />
+            <TableColumn fx:id="cntCol" editable="false" text="count" />
          </columns>
       </TableView>
       <Label layoutX="362.0" layoutY="98.0" text="Days Of Delay:" underline="true" />
       <Label layoutX="360.0" layoutY="129.0" text="Median:" />
       <Label layoutX="361.0" layoutY="164.0" text="Std:" />
-      <TableView fx:id="delaysTable" layoutX="442.0" layoutY="197.0" prefHeight="122.0" prefWidth="179.0">
+      <TableView fx:id="delaysTable" layoutX="436.0" layoutY="197.0" prefHeight="122.0" prefWidth="187.0">
          <columns>
-            <TableColumn fx:id="cntDelays" prefWidth="75.0" text="count" />
-            <TableColumn fx:id="disDelays" prefWidth="103.0" text="distribution" />
+            <TableColumn fx:id="cntDelays" editable="false" prefWidth="75.0" text="count" />
+            <TableColumn fx:id="disDelays" editable="false" prefWidth="111.0" text="distribution" />
          </columns>
       </TableView>
       <Pane layoutX="-7.0" prefHeight="74.0" prefWidth="689.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 0 60 60;">

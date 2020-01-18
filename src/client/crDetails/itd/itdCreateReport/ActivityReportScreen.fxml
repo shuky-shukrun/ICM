@@ -36,8 +36,8 @@
       <TextField fx:id="stdActive" editable="false" layoutX="148.0" layoutY="106.0" prefHeight="19.0" prefWidth="56.0" />
       <TableView fx:id="ActiveTable" layoutX="27.0" layoutY="157.0" prefHeight="141.0" prefWidth="195.0">
          <columns>
-            <TableColumn fx:id="cntActive" prefWidth="75.0" text="count" />
-            <TableColumn fx:id="disActive" prefWidth="124.0" text="distribution" />
+            <TableColumn fx:id="cntActive" editable="false" prefWidth="75.0" text="count" />
+            <TableColumn fx:id="disActive" editable="false" prefWidth="124.0" text="distribution" />
          </columns>
       </TableView>
       <Label layoutX="274.0" layoutY="55.0" text="Frozen Requests:">
@@ -57,8 +57,8 @@
       </Label>
       <TableView fx:id="FrozenTable" layoutX="271.0" layoutY="157.0" prefHeight="141.0" prefWidth="206.0">
          <columns>
-            <TableColumn fx:id="cntFrozen" prefWidth="75.0" text="count" />
-            <TableColumn fx:id="disFrozen" prefWidth="124.0" text="distribution" />
+            <TableColumn fx:id="cntFrozen" editable="false" prefWidth="75.0" text="count" />
+            <TableColumn fx:id="disFrozen" editable="false" prefWidth="124.0" text="distribution" />
          </columns>
       </TableView>
       <TextField fx:id="stdFrozen" editable="false" layoutX="391.0" layoutY="116.0" prefHeight="19.0" prefWidth="56.0" />
@@ -82,8 +82,8 @@
       <TextField fx:id="stdClosed" editable="false" layoutX="151.0" layoutY="434.0" prefHeight="25.0" prefWidth="56.0" />
       <TableView fx:id="ClosedTable" layoutX="32.0" layoutY="468.0" prefHeight="131.0" prefWidth="187.0">
          <columns>
-            <TableColumn fx:id="cntClosed" prefWidth="75.0" text="count" />
-            <TableColumn fx:id="disClosed" prefWidth="124.0" text="distribution" />
+            <TableColumn fx:id="cntClosed" editable="false" prefWidth="75.0" text="count" />
+            <TableColumn fx:id="disClosed" editable="false" prefWidth="124.0" text="distribution" />
          </columns>
       </TableView>
       <Label layoutX="527.0" layoutY="55.0" text="Declined Requests:">
@@ -105,8 +105,8 @@
       <TextField fx:id="stdDeclined" editable="false" layoutX="659.0" layoutY="116.0" prefHeight="19.0" prefWidth="56.0" />
       <TableView fx:id="DeclinedTable" layoutX="529.0" layoutY="157.0" prefHeight="141.0" prefWidth="187.0">
          <columns>
-            <TableColumn fx:id="cntDeclined" prefWidth="75.0" text="count" />
-            <TableColumn fx:id="disDeclined" prefWidth="124.0" text="distribution" />
+            <TableColumn fx:id="cntDeclined" editable="false" prefWidth="75.0" text="count" />
+            <TableColumn fx:id="disDeclined" editable="false" prefWidth="124.0" text="distribution" />
          </columns>
       </TableView>
       <Label layoutX="289.0" layoutY="373.0" text="Total Work Days:">
@@ -128,8 +128,8 @@
       <TextField fx:id="stdWorkDays" editable="false" layoutX="412.0" layoutY="434.0" prefHeight="19.0" prefWidth="56.0" />
       <TableView fx:id="WorkDaysTable" layoutX="286.0" layoutY="468.0" prefHeight="131.0" prefWidth="195.0">
          <columns>
-            <TableColumn fx:id="cntWorkDays" prefWidth="75.0" text="count" />
-            <TableColumn fx:id="disWorkDays" prefWidth="124.0" text="distribution" />
+            <TableColumn fx:id="cntWorkDays" editable="false" prefWidth="75.0" text="count" />
+            <TableColumn fx:id="disWorkDays" editable="false" prefWidth="124.0" text="distribution" />
          </columns>
       </TableView>
       <Label layoutX="521.0" layoutY="559.0" text="Total Work Days:">

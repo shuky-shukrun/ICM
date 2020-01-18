@@ -5,18 +5,12 @@ import common.IcmUtils;
 import entities.Report;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import server.ServerService;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class ITDCreateReport implements ClientUI {
 
@@ -77,16 +71,16 @@ public class ITDCreateReport implements ClientUI {
         switch (reportTypeChoiceBox.getSelectionModel().getSelectedItem()) {
             case Activity_Report:
                 System.out.println("A report created");
-                IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/activityReportScreen.fxml", 751, 612);
+                IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/ActivityReportScreen.fxml", 751, 612);
                 break;
             case Performance_Report:
                 System.out.println("B report created");
-                IcmUtils.popUpScene(this, "Performance report", "/client/crDetails/itd/itdCreateReport/performanceReportScreen.fxml", 481, 320);
+                IcmUtils.popUpScene(this, "Performance report", "/client/crDetails/itd/itdCreateReport/PerformanceReportScreen.fxml", 481, 320);
 
                 break;
             case Delays_Report:
                 System.out.println("C report created");
-                IcmUtils.popUpScene(this, "Delays report", "/client/crDetails/itd/itdCreateReport/delaysReport.fxml", 681, 572);
+                IcmUtils.popUpScene(this, "Delays report", "/client/crDetails/itd/itdCreateReport/DelaysReport.fxml", 681, 572);
 
                 break;
         }

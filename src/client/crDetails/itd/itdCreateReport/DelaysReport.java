@@ -34,10 +34,6 @@ public class DelaysReport implements ClientUI {
 	@FXML
 	private TextField stdDelays;
 	@FXML
-	private TextField medSystem2;
-	@FXML
-	private TextField stdSystem2;
-	@FXML
 	private TextField medSystem;
 	@FXML
 	private TextField stdSystem;
@@ -59,12 +55,7 @@ public class DelaysReport implements ClientUI {
 	private TableColumn<Distribution, String> infoSystemCol;
 	@FXML
 	private TableColumn<Distribution, Integer> cntCol;
-	@FXML
-	private TableView<Distribution> systemTable2;
-	@FXML
-	private TableColumn<Distribution, String> infoSystemCol2;
-	@FXML
-	private TableColumn<Distribution, Integer> cntCol2;
+
 	
 	private ClientController clientController;
 	private ObservableList<Distribution> listNumber;
@@ -108,10 +99,6 @@ public class DelaysReport implements ClientUI {
 		infoSystemCol.setStyle("-fx-alignment: CENTER");
 		cntCol.setStyle("-fx-alignment: CENTER");
 		initOtherTableValueFactory(infoSystemCol, cntCol);
-		
-		infoSystemCol2.setStyle("-fx-alignment: CENTER");
-		cntCol2.setStyle("-fx-alignment: CENTER");
-		initOtherTableValueFactory(infoSystemCol2, cntCol2);
 		
 		
 		long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
@@ -280,8 +267,6 @@ public class DelaysReport implements ClientUI {
 		stdDelays.textProperty().set(s3);
 		medSystem.textProperty().set(s4);
 		stdSystem.textProperty().set(s5);
-		medSystem2.textProperty().set(s6);
-		stdSystem2.textProperty().set(s7);
 		
 		//number of delays table
 		List<Distribution>l=frq(numArray1);
@@ -298,8 +283,6 @@ public class DelaysReport implements ClientUI {
 		//duration of delays per info system table
 		List<Distribution>l3=countPerInfoSystem(numArray4);
 		listPerInfoSystem2.setAll(l3);
-		systemTable2.setItems(listPerInfoSystem2);
-		
 	}
 
 

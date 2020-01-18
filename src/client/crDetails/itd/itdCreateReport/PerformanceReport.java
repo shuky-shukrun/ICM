@@ -13,11 +13,9 @@ import javafx.scene.control.TextField;
 import server.ServerService;
 
 public class PerformanceReport implements ClientUI {
-	
+
 	@FXML
-	private TextField totalActivity;
-	@FXML
-	private TextField totalExtention;
+	private TextField totalExtension;
 	
 	private ClientController clientController;
 
@@ -36,9 +34,7 @@ public class PerformanceReport implements ClientUI {
 		List<Object> params = new ArrayList<>();
 		params.add(startDate);
 		params.add(endDate);
-		// long numOfDays= Date.valueOf((LocalDate)endDate).getTime()-
-		// Date.valueOf((LocalDate)startDate).getTime();
-		// TimeUnit.DAYS.convert(numOfDays, TimeUnit.MILLISECONDS);
+
 		long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
 		long weeksBetween = daysBetween / 7;
 		long leftBetween = daysBetween % 7;
@@ -57,17 +53,17 @@ public class PerformanceReport implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		
 		List<List<Integer>> params = serverService.getParams();
-		List extentionList= params.get(0);
+		List extensionList= params.get(0);
 		List dateList= params.get(1);
 		System.out.println(params.get(0));
 		System.out.println(params.get(1));
 		
 		//this size equals to the size of the second list
-		int size= extentionList.size();
+		int size= extensionList.size();
 		long count=0;
 		
 		for(int i=0; i<size; i++) {
-			String s= extentionList.get(i).toString();
+			String s= extensionList.get(i).toString();
 			String s1= dateList.get(i).toString();
 			LocalDate localDate = LocalDate.parse(s);
 			LocalDate localDate1 = LocalDate.parse(s1);
@@ -77,7 +73,7 @@ public class PerformanceReport implements ClientUI {
 			System.out.println(count);
 		}
 		String s = String.valueOf(count);
-		totalExtention.textProperty().set(s);
+		totalExtension.textProperty().set(s);
 		
 	}
 
