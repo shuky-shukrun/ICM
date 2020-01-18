@@ -72,6 +72,9 @@ public class DelaysReport implements ClientUI {
 	private ObservableList<Distribution> listPerInfoSystem;
 	private ObservableList<Distribution> listPerInfoSystem2;
 	
+	/**
+	 * Initializes the delays report
+	 */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -121,7 +124,11 @@ public class DelaysReport implements ClientUI {
 
 	}
 
-
+	/**
+	 * initializes the table of frequencies per info system
+	 * @param infoSystemCol-info system column
+	 * @param cntCol-count of delays per info system column
+	 */
 	private void initOtherTableValueFactory(TableColumn<Distribution, String> infoSystemCol,
 			TableColumn<Distribution, Integer> cntCol) {
 		// TODO Auto-generated method stub
@@ -129,13 +136,21 @@ public class DelaysReport implements ClientUI {
 		cntCol.setCellValueFactory(new PropertyValueFactory<>("dis"));
 	}
 
-
+	/**
+	 * initializes the table of frequencies not per info system
+	 * @param cnt-values column
+	 * @param dis-frequencies of values column
+	 */
 	private void initTableValueFactory(TableColumn<Distribution, Integer> cnt,
 			TableColumn<Distribution, Integer> dis) {
 		cnt.setCellValueFactory(new PropertyValueFactory<>("num"));
 		dis.setCellValueFactory(new PropertyValueFactory<>("dis"));
 	}
-	
+	/**
+	 * Calculates a median for the given array
+	 * @param Array-array of elements
+	 * @return the median of the elements
+	 */
 	public double median(Integer[] Array) {
 		double median;
 		if (Array.length % 2 == 0)
@@ -145,6 +160,11 @@ public class DelaysReport implements ClientUI {
 
 		return median;
 	}
+	/**
+	 * Calculates a standard deviation for the given array
+	 * @param Array-array of elements
+	 * @return the standard deviation of the elements
+	 */
 	
 	public double std(Integer[] Array) {
 		double sum=0.0;
@@ -163,6 +183,11 @@ public class DelaysReport implements ClientUI {
         return Math.sqrt(sd/Array.length);
 
 	}
+	/**
+	 * Calculates frequencies of array elements
+	 * @param Array-given array of elements
+	 * @return list of frequencies
+	 */
 	public List<Distribution> frq(Integer[] Array) {
 		List<Distribution>l=new ArrayList<Distribution>();
 		HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
@@ -183,6 +208,11 @@ public class DelaysReport implements ClientUI {
 		return l;
 
 	}
+	/**
+	 * Calculates the count of delays per info system
+	 * @param Array -the given array 
+	 * @return list of counters per info system
+	 */
 	public List<Distribution> countPerInfoSystem(Integer[] Array) {
 		int i;
 		List<Distribution>l=new ArrayList<Distribution>();
@@ -192,6 +222,9 @@ public class DelaysReport implements ClientUI {
 		return l;
 
 	}
+	/**
+	 * Handles the message that returns from the server
+	 */
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		// params is the list of values for statistic

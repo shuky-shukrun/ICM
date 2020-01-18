@@ -1895,13 +1895,22 @@ public class DBConnection {
 		}
 		return count;
 	}
+	/**
+	 * Gets details of activity report (total work days) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of total work days
+	 */
 	public int getTReportDetails(LocalDate startDate, LocalDate endDate) {
 		 
 		List<LocalDate> time1List=new ArrayList<>();
 		List<LocalDate> time2List=new ArrayList<>();
 
 		try {
-			PreparedStatement ps = sqlConnection.prepareStatement("select* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND P.phStatus!='PHASE_LEADER_ASSIGNED' AND P.phStatus!='TIME_REQUESTED' AND P.phStatus!='SUBMITTED' AND P.phDeadline is not null");
+			PreparedStatement ps = sqlConnection.prepareStatement("select* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND P.phStatus!='PHASE_LEADER_ASSIGNED' AND P.phStatus!='TIME_REQUESTED' AND P.phStatus!='SUBMITTED' AND P.phStatus!='DONE' AND P.phStatus!='PHASE_EXEC_LEADER_ASSIGNED' AND P.phDeadline is not null");
          
 			
 			
@@ -1920,7 +1929,7 @@ public class DBConnection {
 		}
 		System.out.println(time1List);
 		try {
-			PreparedStatement ps = sqlConnection.prepareStatement("select distinct* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >=? AND C.crDate <= ?  AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND (P.phStatus='IN_PROCESS' OR P.phStatus='EXTENSION_TIME_APPROVED' OR P.phStatus='EXTENSION_TIME_REQUESTED') AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phDeadline is not null;");
+			PreparedStatement ps = sqlConnection.prepareStatement("select distinct * from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >=? AND C.crDate <= ?  AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND (P.phStatus='IN_PROCESS' OR P.phStatus='EXTENSION_TIME_APPROVED' OR P.phStatus='EXTENSION_TIME_REQUESTED') AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phDeadline is not null;");
 			
 			
 			ps.setDate(1, Date.valueOf((LocalDate) startDate));
@@ -1929,9 +1938,6 @@ public class DBConnection {
 			//ps.setString(4, Phase.PhaseStatus.IN_PROCESS.toString());
 			//ps.setString(5, Phase.PhaseStatus.EXTENSION_TIME_APPROVED.toString());
 			//ps.setString(6, Phase.PhaseStatus.EXTENSION_TIME_REQUESTED.toString());
-
-
-
 
 			ResultSet rs = ps.executeQuery();
 
@@ -1961,12 +1967,13 @@ public class DBConnection {
 			String s1=time2List.get(i).toString();
 			LocalDate localDate = LocalDate.parse(s);
 			LocalDate localDate1 = LocalDate.parse(s1);
-			long daysBetween = ChronoUnit.DAYS.between(localDate,localDate1);
+			long daysBetween =Math.abs(ChronoUnit.DAYS.between(localDate,localDate1));
 			System.out.println("check1"+daysBetween);
 			count= count+daysBetween;
 			System.out.println("check2"+count);
 		}
-		return (int) count;
+		return (int)count;
+
 }
 	/**
 	 * Gets details of performance report from the database
@@ -2109,7 +2116,16 @@ public class DBConnection {
 		}
 		return count;
 	}
-	
+
+	/**
+	 * Gets number of delays by info system from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of delays by info system
+	 */
 	public int getDelaysReportPerSystemDetails(LocalDate startDate, LocalDate endDate, InfoSystem infoSystem) {
 
 		int count = 0;
@@ -2132,7 +2148,16 @@ public class DBConnection {
 		}
 		return count;
 	}
-	
+
+	/**
+	 * Gets total duration of delays per info system from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the total duration of delays per info system
+	 */
 	public int getDurationReportPerSystemDetails(LocalDate startDate, LocalDate endDate, InfoSystem infoSystem) {
 
 		int sum = 0;

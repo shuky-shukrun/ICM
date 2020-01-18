@@ -520,6 +520,7 @@ public class EchoServer extends AbstractServer {
 						int declinedCount = dbConnection.getDReportDetails(from, to);
 						declinedList.add(declinedCount);
 						int totalDaysCount = dbConnection.getTReportDetails(from, to);
+						System.out.println("Tom"+totalDaysCount);
 						totalDaysList.add(totalDaysCount);
 
 
@@ -529,6 +530,7 @@ public class EchoServer extends AbstractServer {
 					countList.add(closedList);
 					countList.add(declinedList);
 					countList.add(totalDaysList);
+					System.out.println("hereeee");
 					serverService.setParams(countList);
 					client.sendToClient(serverService);
 				} else {
@@ -544,6 +546,7 @@ public class EchoServer extends AbstractServer {
 						int declinedCount = dbConnection.getDReportDetails(from, to);
 						declinedList.add(declinedCount);
 						int totalDaysCount = dbConnection.getTReportDetails(from, to);
+						System.out.println("Tom1"+totalDaysCount);
 						totalDaysList.add(totalDaysCount);
 
 					}
@@ -552,6 +555,7 @@ public class EchoServer extends AbstractServer {
 					countList.add(closedList);
 					countList.add(declinedList);
 					countList.add(totalDaysList);
+					System.out.println("hereeee111");
 					serverService.setParams(countList);
 					client.sendToClient(serverService);
 

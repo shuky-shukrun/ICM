@@ -94,6 +94,9 @@ public class ActivityReportController implements ClientUI {
 	private ObservableList<Distribution> listDeclined;
 	private ObservableList<Distribution> listClosed;
 	private ObservableList<Distribution> listTotalDays;
+	/**
+	 * Initialize the activity report screen
+	 */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -145,12 +148,21 @@ public class ActivityReportController implements ClientUI {
 		clientController.handleMessageFromClientUI(getFrozen);
 
 	}
-
+	/**
+	 * Initialize all the tables in the report
+	 * @param cnt-the column of values
+	 * @param dis-the column of the frequency of the values
+	 */
 	private void initTableValueFactory(TableColumn<Distribution, Integer> cnt,
 			TableColumn<Distribution, Integer> dis) {
 		cnt.setCellValueFactory(new PropertyValueFactory<>("num"));
 		dis.setCellValueFactory(new PropertyValueFactory<>("dis"));
 	}
+	/**
+	 * Calculates the median of an array
+	 * @param Array-the given array of elements
+	 * @return the median
+	 */
 	public double median(Integer[] Array) {
 		double median;
 		if (Array.length % 2 == 0)
@@ -160,7 +172,11 @@ public class ActivityReportController implements ClientUI {
 
 		return median;
 	}
-
+	/**
+	 * Calculates the standard deviation of an array
+	 * @param Array-the given array of elements
+	 * @return the standard deviation
+	 */
 	public double std(Integer[] Array) {
 		double sum = 0.0;
 		double sd = 0.0;
@@ -179,7 +195,11 @@ public class ActivityReportController implements ClientUI {
 		return Math.sqrt(sd /( Array.length));
 
 	}
-
+	/**
+	 * Calculates the frequencies of elements in an array
+	 * @param Array-the given array of elements
+	 * @return list of frequencies
+	 */
 	public List<Distribution> frq(Integer[] Array) {
 		List<Distribution>l=new ArrayList<Distribution>();
 		HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
@@ -200,7 +220,9 @@ public class ActivityReportController implements ClientUI {
 		return l;
 
 	}
-	
+	/**
+	 * Handle the message that returns from server
+	 */
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		// params is the list of values for statistic
