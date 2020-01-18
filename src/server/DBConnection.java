@@ -815,6 +815,12 @@ public class DBConnection {
 
 	}
 
+	/**
+	 * Gets all the details of information engineers from the database
+	 * 
+	 * @return List of information engineers
+	 * @throws Exception have problem in query
+	 */
 	public List<ChangeInitiator> getInfoEngineers() throws SQLException {
 		System.out.println("database handle getInfoEngineers");
 		List<ChangeInitiator> infoEngineersList = new ArrayList<>();
@@ -1079,6 +1085,12 @@ public class DBConnection {
 
 	}
 
+	/**
+	 * @param changeRequest- the change request we want to confirm execution to
+	 * Updates the current phase status - DOEN
+	 * Changes the phase name- VALIDATION
+	 * @throws if have a problem in the query
+	 */
 	public void executionConfirmation(ChangeRequest changeRequest) throws SQLException {
 		System.out.println("database handle executionConfirmation");
 
