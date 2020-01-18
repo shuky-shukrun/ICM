@@ -45,7 +45,6 @@ public class SetDecision implements ClientUI {
 	 */
 	public void initialize() {
 		currPhase = CrDetails.getCurrRequest().getCurrPhaseName();
-		newCurrPhase = CCCButtons.getPhase();
 		okButton.setDisable(true);
 
 		try {
@@ -101,8 +100,9 @@ public class SetDecision implements ClientUI {
 
 		ServerService serverService = new ServerService(DatabaseService.Set_Decision, list);
 		clientController.handleMessageFromClientUI(serverService);
-		newCurrPhase.setName(Phase.PhaseName.CLOSING);
-		CCCButtons.setCurrPhase(newCurrPhase);
+		Phase closing = new Phase();
+		closing.setName(PhaseName.CLOSING);
+		CCCButtons.setCurrPhase(closing);
 		
 		System.out.println(decision);
 	}
