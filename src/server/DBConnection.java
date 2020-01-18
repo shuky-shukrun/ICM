@@ -23,6 +23,13 @@ public class DBConnection {
 	private Connection sqlConnection;
 	private PreparedStatement ps;
 
+	/**
+	 * Constructs an instance of the DBConnection.
+	 *
+	 * @param url the database url.
+	 * @param username database username.
+	 * @param password database password.
+	 */
 	public DBConnection(String url, String username, String password) {
 		// Driver definition
 		try {
@@ -47,6 +54,7 @@ public class DBConnection {
 		}
 
 	}
+
 
 	public List<ChangeInitiator> login(List<String> params) {
 		System.out.println("database received login request for: " + params);
