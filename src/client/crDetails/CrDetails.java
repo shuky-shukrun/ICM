@@ -77,14 +77,25 @@ public class CrDetails implements ClientUI {
     private ClientController clientController;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 
+    /**
+     * Get the current request.
+     * @return the current request.
+     */
     public static ChangeRequest getCurrRequest() {
         return currRequest;
     }
 
+    /**
+     * Set the current request.
+     * @param currRequest- the currant request.
+     */
     public static void setCurrRequest(ChangeRequest currRequest) {
         CrDetails.currRequest = currRequest;
     }
 
+    /**
+     * Initialize the change request details.
+     */
     public void initialize() {
         try {
             clientController = ClientController.getInstance(this);
@@ -125,6 +136,9 @@ public class CrDetails implements ClientUI {
 
 
     @FXML
+    /**
+     * Go back to the main screen.
+     */
     void backToHome() {
         try {
             IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
@@ -135,6 +149,15 @@ public class CrDetails implements ClientUI {
 
 
     @Override
+    /**
+     * Handle message from client controller.
+     *  @serverService serverService-ServerService object that the client controller send
+     *  
+	 * Get the change request details from the DB.
+	 * Attach files that were submitted with the request.  
+	 * Download the attached files.
+	 *
+	 */
     public void handleMessageFromClientController(ServerService serverService) {
         switch (serverService.getDatabaseService()){
             case Get_Request_Details:
@@ -244,6 +267,10 @@ public class CrDetails implements ClientUI {
         }
     }
 
+    /**
+     * Load the suitable buttons to the position of the user.
+     * @throws Exception.
+     */
     private void initButtons() throws Exception{
         Map<IEPhasePosition.PhasePosition, IEPhasePosition> iePhasePositionMap;
         iePhasePositionMap = currRequest.getPhases().get(0).getIePhasePosition();
@@ -358,11 +385,20 @@ public class CrDetails implements ClientUI {
     }
 
     @FXML
+    /**
+     * Load the screen again.
+     * @throws IOException
+     */
     private void refresh() throws IOException {
         IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
     }
 
     @FXML
+    /**
+     * Logout of the current user and go back to login screen.
+     * @param event
+     * @throws IOException
+     */
     void logout(ActionEvent event) throws IOException {
         ClientController.setUser(null);
         IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
