@@ -269,7 +269,7 @@ public class CrDetails implements ClientUI {
 
     /**
      * Load the suitable buttons to the position of the user.
-     * @throws Exception.
+     * @throws Exception 
      */
     private void initButtons() throws Exception{
         Map<IEPhasePosition.PhasePosition, IEPhasePosition> iePhasePositionMap;
