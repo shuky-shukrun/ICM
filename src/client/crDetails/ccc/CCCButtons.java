@@ -36,6 +36,7 @@ public class CCCButtons implements ClientUI {
 	private ClientController clientController;
 	private static Phase currPhase;
 	private CrDetails crDetails;
+	private boolean flag = false;
 
 	@FXML
 	void showAssignTesterDialog(ActionEvent event) throws IOException {
@@ -56,9 +57,10 @@ public class CCCButtons implements ClientUI {
 	@FXML
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
-			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml",
-					588,688);
-
+			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml", 588,
+					688);
+			
+			initialize();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +68,7 @@ public class CCCButtons implements ClientUI {
 
 	@FXML
 	void moreInformationEvent(ActionEvent event) {
-		IcmUtils.displayInformationMsg("Set Decision Help","Decision has been submitted",
+		IcmUtils.displayInformationMsg("Set Decision Help", "Decision has been submitted",
 				"The decision for this request already submitted.");
 	}
 
@@ -82,12 +84,17 @@ public class CCCButtons implements ClientUI {
 			e.printStackTrace();
 		}
 		Phase.PhaseStatus phaseStatus = crDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
-		Phase.PhaseName phase = crDetails.getCurrRequest().getCurrPhaseName();
+		// Phase.PhaseName phase = crDetails.getCurrRequest().getCurrPhaseName();
 		ChangeInitiator currUser = ClientController.getUser();
-		currPhase=CrDetails.getCurrRequest().getPhases().get(0);
-		IEPhasePosition tester = CrDetails.getCurrRequest().getPhases().get(0).getIePhasePosition().get(IEPhasePosition.PhasePosition.TESTER);
+		if (flag == false) {
+			currPhase = CrDetails.getCurrRequest().getPhases().get(0);
+			flag = true;
+		}
+	//	Phase.PhaseName phase = currPhase.getName();
+		IEPhasePosition tester = CrDetails.getCurrRequest().getPhases().get(0).getIePhasePosition()
+				.get(IEPhasePosition.PhasePosition.TESTER);
 
-		switch (phase) {
+		switch (currPhase.getName()) {
 		case EXAMINATION:
 			if (currUser.getPosition() == Position.CCC) {
 				setDecisionButton.setVisible(false);
@@ -100,8 +107,8 @@ public class CCCButtons implements ClientUI {
 			}
 			break;
 		case VALIDATION:
-			if(currUser.getPosition() == Position.CCC) {
-				if(currUser.getId().equals(tester.getInformationEngineer().getId())) {
+			if (currUser.getPosition() == Position.CCC) {
+				if (currUser.getId().equals(tester.getInformationEngineer().getId())) {
 					viewEvaluationReportButton.setVisible(true);
 					viewEvaluationReportButton.setDisable(false);
 					setDecisionButton.setVisible(true);
@@ -109,8 +116,7 @@ public class CCCButtons implements ClientUI {
 					setDecisionInfoButton.setVisible(true);
 					setDecisionInfoButton.setDisable(true);
 					assignTesterButton.setVisible(false);
-				}
-				else {
+				} else {
 					viewEvaluationReportButton.setVisible(true);
 					viewEvaluationReportButton.setDisable(false);
 					setDecisionButton.setVisible(false);
@@ -118,53 +124,62 @@ public class CCCButtons implements ClientUI {
 					assignTesterButton.setVisible(false);
 				}
 
-			}
-			else if(currUser.getPosition() == Position.CHAIRMAN) {
+			} else if (currUser.getPosition() == Position.CHAIRMAN) {
 				switch (phaseStatus) {
-					case PHASE_LEADER_ASSIGNED:
+				case PHASE_LEADER_ASSIGNED:
+					viewEvaluationReportButton.setVisible(true);
+					viewEvaluationReportButton.setDisable(false);
+					setDecisionButton.setDisable(true);
+					setDecisionInfoButton.setVisible(true);
+					setDecisionInfoButton.setDisable(false);
+					assignTesterButton.setVisible(true);
+					assignTesterButton.setDisable(false);
+					break;
+				case IN_PROCESS:
+				case EXTENSION_TIME_REQUESTED:
+				case EXTENSION_TIME_APPROVED:
+				case PHASE_EXEC_LEADER_ASSIGNED:
+					if (currUser.getId().equals(tester.getInformationEngineer().getId())) {
 						viewEvaluationReportButton.setVisible(true);
 						viewEvaluationReportButton.setDisable(false);
-						setDecisionButton.setDisable(true);
+						setDecisionButton.setVisible(true);
+						setDecisionButton.setDisable(false);
 						setDecisionInfoButton.setVisible(true);
-						setDecisionInfoButton.setDisable(false);
-						assignTesterButton.setVisible(true);
-						assignTesterButton.setDisable(false);
-						break;
-					case IN_PROCESS:
-					case EXTENSION_TIME_REQUESTED:
-					case EXTENSION_TIME_APPROVED:
-					case PHASE_EXEC_LEADER_ASSIGNED:
-						if(currUser.getId().equals(tester.getInformationEngineer().getId())) {
-							viewEvaluationReportButton.setVisible(true);
-							viewEvaluationReportButton.setDisable(false);
-							setDecisionButton.setVisible(true);
-							setDecisionButton.setDisable(false);
-							setDecisionInfoButton.setVisible(true);
-							setDecisionInfoButton.setDisable(true);
-							assignTesterButton.setVisible(false);
-						}
-						else {
-							viewEvaluationReportButton.setVisible(true);
-							viewEvaluationReportButton.setDisable(false);
-							setDecisionButton.setVisible(false);
-							setDecisionInfoButton.setVisible(false);
-							assignTesterButton.setVisible(false);
-						}
+						setDecisionInfoButton.setDisable(true);
+						assignTesterButton.setVisible(false);
+					} else {
+						viewEvaluationReportButton.setVisible(true);
+						viewEvaluationReportButton.setDisable(false);
+						setDecisionButton.setVisible(false);
+						setDecisionInfoButton.setVisible(false);
+						assignTesterButton.setVisible(false);
+					}
 
-						break;
+					break;
 				}
 			}
 
 			break;
+
+		default:
+			viewEvaluationReportButton.setVisible(true);
+			viewEvaluationReportButton.setDisable(false);
+			setDecisionButton.setVisible(true);
+			setDecisionButton.setDisable(true);
+			setDecisionInfoButton.setVisible(true);
+			setDecisionInfoButton.setDisable(false);
+			assignTesterButton.setVisible(false);
+
+			break;
 		}
 	}
-	
-    public static void setCurrPhase (Phase phase) {
-    	CCCButtons.currPhase=phase;
-    }
-    
-    public static Phase getPhase() {
-    	return currPhase;
-    	
-    }
+
+	public static void setCurrPhase(Phase phase) {
+		CCCButtons.currPhase = phase;
+	}
+
+	public static Phase getPhase() {
+		return currPhase;
+
+	}
 }
