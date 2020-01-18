@@ -89,9 +89,6 @@ public class EchoServer extends AbstractServer {
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		ServerService serverService = (ServerService) msg;
-		ServerService serverService1 = (ServerService) msg;
-		ServerService serverService2 = (ServerService) msg;
-		ServerService serverService3 = (ServerService) msg;
 		try {
             System.out.println("Message received: " + msg + " from " + client);
             // extract the requested service from the server
