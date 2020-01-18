@@ -271,9 +271,8 @@ public class AssignPhaseLeaders implements ClientUI {
 	
 	/**
      * helper function to add listener to ChoiceBox.
-     *
-     * @param max_Length the max length of change request id
-     * @return EventHandler that can be assign to TextField
+     * @param src- ChoiceBox
+     * @param a- ChoiceBox
      */
 	 private void addChangeListener(ChoiceBox src, ChoiceBox a) {
 	        src.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -283,6 +282,15 @@ public class AssignPhaseLeaders implements ClientUI {
 	        });
 	    }
 	 
+
+		/**
+	     * helper function to add details to IEPhasePosition object.
+	     * @param choiceBox
+	     * @param  phaseName
+	     * @param position
+	     * @return IEPhasePosition with updated details
+
+	     */
 	 private IEPhasePosition addDetails (ChoiceBox<ChangeInitiator> choiceBox, String phaseName, String position ) {
 		 
 		    IEPhasePosition iePhasePosition = new IEPhasePosition(); 
