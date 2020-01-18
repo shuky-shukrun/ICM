@@ -81,6 +81,11 @@ public class CCCButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * load the set decision info dialog when the appropriate button pressed
+	 *
+	 * @param event-"Set Decision Info" button pressed event
+	 */
 	void setDecisionInfoMsg(ActionEvent event) {
 		if(CrDetails.getCurrRequest().getCurrPhaseName() == Phase.PhaseName.VALIDATION &&
 		CrDetails.getCurrRequest().getCurrPhaseStatus() == Phase.PhaseStatus.PHASE_LEADER_ASSIGNED) {

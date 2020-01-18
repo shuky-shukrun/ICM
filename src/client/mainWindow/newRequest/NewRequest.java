@@ -67,6 +67,9 @@ public class NewRequest implements ClientUI {
         return reasonForChangeTextArea;
     }
 
+	/**
+	 * initialize the new request dialog
+	 */
     public void initialize() {
         try {
             clientController = ClientController.getInstance(this);
@@ -163,6 +166,10 @@ public class NewRequest implements ClientUI {
     }
 
     @FXML
+	/**
+	 * Sets the data of the new change request in ChangeRequest
+	 * 
+	 */
     public void submitNewChangeRequest() {
         System.out.println("new request");
 
@@ -193,6 +200,12 @@ public class NewRequest implements ClientUI {
     }
 
     @Override
+	/**
+	 * handle the returned value from server.
+	 * shows an error popup message in case of server error
+	 *
+	 * @param serverService contains the exception object from server
+	 */
     public void handleMessageFromClientController(ServerService serverService) {
         switch (serverService.getDatabaseService()) {
             case Add_New_Request:
@@ -221,6 +234,9 @@ public class NewRequest implements ClientUI {
     }
 
     @FXML
+    /**
+     * close pop up 
+     */
     private void backToMainWindow() {
         IcmUtils.getPopUp().close();
     }
