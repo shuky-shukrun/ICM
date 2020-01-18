@@ -50,11 +50,21 @@ public class CCCButtons implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * Show the evaluation report dialog, if possible when viewEvaluationReport button pressed
+	 * 
+	 * @param event-viewEvaluationReport button pressed event
+	 */
 	void showEvaluationReport(ActionEvent event) throws IOException {
 		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/ViewEvaluationReport.fxml", 588, 688);
 	}
 
 	@FXML
+	/**
+	 * Show the set decision dialog, if possible when setDecision button pressed
+	 * 
+	 * @param event-setDecision button pressed event
+	 */
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
 			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml", 588,
@@ -77,6 +87,9 @@ public class CCCButtons implements ClientUI {
 
 	}
 
+	/**
+	 * Initialize the Tester and CCC buttons according to the phase and status of the request
+	 */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
