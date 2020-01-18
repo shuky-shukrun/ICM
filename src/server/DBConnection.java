@@ -847,7 +847,14 @@ public class DBConnection {
 		}
 		System.out.println("database finish itdUpdatePermissions");
 	}
-
+	/**
+	 * Update the decision that was made in examination and validation phases to the DB.
+	 * @param params [0] - the decision that was made.
+	 * @param params [1] - the description of the decision.
+	 * @param params [2] - change request ID
+	 * @param params [3] - current phases
+	 * @return a list of boolean - true if all updates were successful.
+	 */
 	public List<Boolean> setDecision(List<String> params) {
 		boolean flag = false;
 		List<Boolean> list = new ArrayList<Boolean>();
@@ -1287,6 +1294,13 @@ public class DBConnection {
 		return isUpdate;
 	}
 
+	
+	/**
+	 * 
+	 * @param params [0] - change request ID.
+	 * @param params [1] - the current phase.
+	 * @return the requested extension date and the description.
+	 */
 	public List<String> getExtensionTime(List<String> params) {
 		List<String> extensionTime = new ArrayList<String>();
 
@@ -1308,6 +1322,14 @@ public class DBConnection {
 		return extensionTime;
 	}
 
+	/**
+	 * 
+	 * @param params [0] - change request ID.
+	 * @param params [1] - the current phase status. 
+	 * @param params [2] - the current phase.
+	 * @param params [3] - the requested date for approval (new approved deadline).
+	 * @return a list of boolean - true if all updates were successful.
+	 */
 	public List<Boolean> timeApproved(List<String> params) {
 		String currStatus = new String();
 		currStatus = params.get(1);
@@ -1371,6 +1393,13 @@ public class DBConnection {
 		return list;
 	}
 
+	/**
+	 * 
+	 * @param params [0] - change request ID.
+	 * @param params [1] - the current phase status. 
+	 * @param params [2] - the current phase.
+	 * @return a list of boolean - true if all updates were successful.
+	 */
 	public List<Boolean> timeRejected(List<String> params) {
 		String currStatus = new String();
 		currStatus = params.get(1);
@@ -1696,6 +1725,10 @@ public class DBConnection {
 		}
 	}
 
+	/**
+	 * Get the ITD full name and email.
+	 * @return the ITD full name and email.
+	 */
 	public List<Object> getITDInfo() {
 		List<Object> l = new ArrayList<Object>();
 		try {
@@ -2113,6 +2146,7 @@ public class DBConnection {
 	 * @param change [1] new deadline.
 	 * @param change [2] reason for the change.
 	 * @param change [3] current phase in the change request.
+	 * @return a list of boolean- true if all updates were successful. 
 	 */
 	public List<Boolean> editRequest(List<String> change){
 		List<Boolean> list = new ArrayList<>();
