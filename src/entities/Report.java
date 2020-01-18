@@ -19,8 +19,7 @@ public class Report {
 		// TODO: add report implementation
 		Activity_Report,
 		Performance_Report,
-		Delays_Report,
-		Custom
+		Delays_Report
 	}
 
 	public static ObservableList<ReportType> getAllReportTypes() {
@@ -28,8 +27,6 @@ public class Report {
 		reportTypes.add(ReportType.Activity_Report);
 		reportTypes.add(ReportType.Performance_Report);
 		reportTypes.add(ReportType.Delays_Report);
-		reportTypes.add(ReportType.Custom);
-
 		return reportTypes;
 	}
 

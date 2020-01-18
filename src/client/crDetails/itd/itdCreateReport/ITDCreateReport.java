@@ -27,8 +27,6 @@ public class ITDCreateReport implements ClientUI {
     @FXML
     private ChoiceBox<Report.ReportType> reportTypeChoiceBox;
 
-    private Stage popup;
-
     @FXML
     private Button createButton;
     public static LocalDate startDate;
@@ -50,35 +48,11 @@ public class ITDCreateReport implements ClientUI {
 		ITDCreateReport.endDate = endDate;
 	}
 
-    public  DatePicker getStartDateDatePicker() {
-        return startDateDatePicker;
-    }
-
-    public  DatePicker getEndDateDatePicker() {
-        return endDateDatePicker;
-    }
-
-    public ChoiceBox<Report.ReportType> getReportTypeChoiceBox() {
-        return reportTypeChoiceBox;
-    }
-
 
     public void initialize() {
 
         // add report types to choice box
         reportTypeChoiceBox.setItems(Report.getAllReportTypes());
-
-        // add changeListener to choice box - open new report scene when custom is selected
-        reportTypeChoiceBox.valueProperty().addListener(new ChangeListener<Report.ReportType>() {
-            @Override
-            public void changed(ObservableValue<? extends Report.ReportType> observable, Report.ReportType oldValue, Report.ReportType newValue) {
-                if(newValue == Report.ReportType.Custom) {
-                    System.out.println("Custom report!");
-                }
-            }
-        });
-
-
 
         // disable Create button any field is invalid
         BooleanBinding bb = Bindings.createBooleanBinding(() -> {
@@ -97,7 +71,6 @@ public class ITDCreateReport implements ClientUI {
 
     @FXML
     public void createReport() throws IOException {
-        popup = IcmUtils.getPopUp();
         System.out.println("createReportFunc");
         ITDCreateReport.setStartDate(startDateDatePicker.getValue());
         ITDCreateReport.setEndDate(endDateDatePicker.getValue());
@@ -116,9 +89,6 @@ public class ITDCreateReport implements ClientUI {
                 IcmUtils.popUpScene(this, "Delays report", "/client/crDetails/itd/itdCreateReport/delaysReport.fxml", 681, 572);
 
                 break;
-            case Custom:
-                System.out.println("Custom report created");
-                break;
         }
         IcmUtils.getPopUp().close();
     }
@@ -127,14 +97,5 @@ public class ITDCreateReport implements ClientUI {
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
 
-    }
-
-    @FXML
-    void closePopup(ActionEvent event) {
-
-        if(popup != null)
-            popup.close();
-        else
-            IcmUtils.getPopUp().close();
     }
 }

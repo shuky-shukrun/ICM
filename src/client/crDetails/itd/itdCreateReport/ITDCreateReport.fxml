@@ -54,8 +54,7 @@
                </font>
             </Label>
             <FontAwesomeIconView fill="#7156dd" glyphName="PLUS" layoutX="240.0" layoutY="173.0" size="30" />
-            <Button fx:id="createButton" defaultButton="true" layoutX="473.0" layoutY="637.0" mnemonicParsing="false" onAction="#createReport" prefHeight="39.0" prefWidth="101.0" style="-fx-background-radius: 10; -fx-background-color: #4691ce;" text="Create" />
-            <Button fx:id="cancelButton" cancelButton="true" layoutX="348.0" layoutY="637.0" mnemonicParsing="false" onAction="#closePopup" prefHeight="39.0" prefWidth="101.0" style="-fx-background-radius: 10;" text="Cancel" />
+            <Button fx:id="createButton" defaultButton="true" layoutX="242.0" layoutY="632.0" mnemonicParsing="false" onAction="#createReport" prefHeight="39.0" prefWidth="101.0" style="-fx-background-radius: 10; -fx-background-color: #4691ce;" text="Create" />
          </children>
       </AnchorPane>
    </children>
