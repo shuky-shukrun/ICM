@@ -592,6 +592,15 @@ public class EchoServer extends AbstractServer {
 				}
 				System.out.println("server finish Get Report Details");
 				break;
+				
+				case Edit_Request:
+					System.out.println("server handle edit change request by supervisor");
+                	List<String> param = serverService.getParams();
+                    List<Boolean> edit =dbConnection.editRequest(param);
+                    ServerService serversrv= new ServerService(DatabaseService.Edit_Request, edit);
+                    client.sendToClient(serversrv);
+                    System.out.println("edit change request sent to client");
+					break;
                 	
             }
         } catch (IOException | SQLException e) {

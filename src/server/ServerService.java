@@ -70,6 +70,7 @@ public class ServerService implements Serializable {
         Update_Exception_Time,
         Get_Activity_Report_Details,
         Get_Performance_Report_Details,
-        Get_Delays_Report_Details
+        Get_Delays_Report_Details,
+        Edit_Request
     }
 }
