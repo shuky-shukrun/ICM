@@ -414,7 +414,11 @@ public class DBConnection {
 		return l;
 
 	}
-
+	/**
+	 * Updates after request time of evaluation phase
+	 * @param requestTimeDetails- id of request and the requested date
+	 * @return list that contains true if update success or false else
+	 */
 	public List<Boolean> requestTimeEvaluation(List<Object> requestTimeDetails) {
 		List<Boolean> list = new ArrayList<Boolean>();
 		try {
@@ -432,7 +436,11 @@ public class DBConnection {
 		}
 		return list;
 	}
-
+	/**
+	 * Updates after request time of examination phase
+	 * @param requestTimeDetails- id of request and the requested date
+	 * @return list that contains true if update success or false else
+	 */
 	public List<Boolean> requestTimeExamination(List<Object> requestTimeDetails) {
 		List<Boolean> list = new ArrayList<Boolean>();
 		try {
@@ -450,7 +458,11 @@ public class DBConnection {
 		}
 		return list;
 	}
-
+	/**
+	 * Gets the information from the database for the forgot password action
+	 * @param params-id of the user 
+	 * @return list contains full name,email and password of this user
+	 */
 	public List<Object> forgotPasswordRequest(List<Integer> params) {
 		List<Object> l = new ArrayList<Object>();
 		try {

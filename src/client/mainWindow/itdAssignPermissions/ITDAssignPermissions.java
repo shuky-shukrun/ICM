@@ -49,7 +49,9 @@ public class ITDAssignPermissions implements ClientUI {
     ChangeInitiator selectedCcc1;
     ChangeInitiator selectedCcc2;
     ChangeInitiator selectedChairman;
-
+    /**
+     * initialize of the assign permissions screen
+     */
     public void initialize() {
         // init client controller
         try {
@@ -87,6 +89,10 @@ public class ITDAssignPermissions implements ClientUI {
         );
         updatePermissionsButton.disableProperty().bind(bb);
     }
+    /**
+     * update the permissions when update pressed 
+     * @param event-the update button pressed
+     */
 
     @FXML
     void updatePermissions(ActionEvent event) {
@@ -108,7 +114,9 @@ public class ITDAssignPermissions implements ClientUI {
 
         clientController.handleMessageFromClientUI(serverService);
     }
-
+    /**
+     * Handles the message returns from the server
+     */
     @Override
     public void handleMessageFromClientController(ServerService serverService) {
 
@@ -173,7 +181,13 @@ public class ITDAssignPermissions implements ClientUI {
         }
 
     }
-
+    /**
+     * Adds change listener to the given choice boxes
+     * @param src-choice box of supervisor
+     * @param a-choice box of ccc1
+     * @param b-choice box of ccc2
+     * @param c-choice box of chairman
+     */
     private void addChangeListener(ChoiceBox src, ChoiceBox a, ChoiceBox b, ChoiceBox c) {
         src.valueProperty().addListener((observable, oldValue, newValue) -> {
             if(a.getSelectionModel().getSelectedItem() != null &&
@@ -189,7 +203,9 @@ public class ITDAssignPermissions implements ClientUI {
                 c.getSelectionModel().clearSelection();
         });
     }
-
+    /**
+     * Back to the main window
+     */
     @FXML
     private void backToMainWindow() {
         IcmUtils.getPopUp().close();
