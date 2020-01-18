@@ -66,7 +66,7 @@ public class SetDecision implements ClientUI {
 	}
 
 	@FXML
-	/*
+	/**
 	 *Set the submit button according to the validation of the fields.(if not valid- disable the button).
 	 */
 	public void keyReleaseProperty() {

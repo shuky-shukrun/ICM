@@ -36,7 +36,7 @@ public class Edit implements ClientUI{
 	private ClientController clientController;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 	
-	/*
+	/**
 	 * Initialize the edit dialog.
 	 */
 	public void initialize() {
@@ -64,7 +64,7 @@ public class Edit implements ClientUI{
 	}
 
 	@FXML
-	/*
+	/**
 	 *Set the submit button according to the validation of the fields.(if not valid- disable the button).
 	 */
 	public void keyReleaseProperty() {

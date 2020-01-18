@@ -25,7 +25,7 @@ import java.util.List;
 public class RequestExtensionTime implements ClientUI{
 
 	@FXML
-	private DatePicker RequestedtimeDatePicker;
+	private DatePicker RequestedTimeDatePicker;
 	@FXML
 	private TextArea DescriptionTextArea;
 	@FXML
@@ -50,7 +50,7 @@ public class RequestExtensionTime implements ClientUI{
 		try {
 		newCurrPhase=PhaseLeaderButtons.getPhase();
 		
-		RequestedtimeDatePicker.setDayCellFactory(picker -> new DateCell() {
+		RequestedTimeDatePicker.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
 				super.updateItem(date, empty);
 				LocalDate deadLine = newCurrPhase.getDeadLine();
@@ -60,11 +60,11 @@ public class RequestExtensionTime implements ClientUI{
 		});
 
 		BooleanBinding test = Bindings.createBooleanBinding(() -> {
-    		datePickerChoice = RequestedtimeDatePicker.getValue();
+    		datePickerChoice = RequestedTimeDatePicker.getValue();
     		description = DescriptionTextArea.getText();
-          System.out.println(DescriptionTextArea.getText()+RequestedtimeDatePicker.getValue());
+          System.out.println(DescriptionTextArea.getText()+ RequestedTimeDatePicker.getValue());
             return (datePickerChoice == null || description.isEmpty()|| description.trim().equals(""));
-        }, 	RequestedtimeDatePicker.valueProperty(),
+        }, 	RequestedTimeDatePicker.valueProperty(),
 				DescriptionTextArea.textProperty()
         );
     	submitButton.disableProperty().bind(test);
@@ -82,7 +82,7 @@ public class RequestExtensionTime implements ClientUI{
 	 * @param event-submit button pressed event
 	 */
 	void submitRequestTime(ActionEvent event) {
-		datePickerChoice = RequestedtimeDatePicker.getValue();
+		datePickerChoice = RequestedTimeDatePicker.getValue();
 		description = DescriptionTextArea.getText();
 
 		newCurrPhase.setTimeExtensionRequest(datePickerChoice);

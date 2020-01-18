@@ -23,7 +23,7 @@
                   <FontAwesomeIconView fill="#e02e2e" glyphName="ASTERISK" />
                </graphic>
             </Label>
-            <DatePicker fx:id="RequestedtimeDatePicker" layoutX="238.0" layoutY="294.0" prefHeight="24.0" prefWidth="257.0" />
+            <DatePicker fx:id="RequestedTimeDatePicker" layoutX="238.0" layoutY="294.0" prefHeight="24.0" prefWidth="257.0" />
             <Label layoutX="69.0" layoutY="347.0" text="Description:">
                <font>
                   <Font size="18.0" />

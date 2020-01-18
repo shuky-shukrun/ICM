@@ -11,7 +11,7 @@
    <children>
       <VBox spacing="10.0" style="-fx-background-color: #3F2B63;">
          <children>
-            <JFXButton fx:id="moreInfo" alignment="TOP_LEFT" onAction="#closedRequestInfoMsg" prefHeight="26.0" prefWidth="215.0" text=" Closed Request" textFill="WHITE" underline="true">
+            <JFXButton fx:id="closedRequestInfoButton" alignment="TOP_LEFT" onAction="#closedRequestInfoMsg" prefHeight="26.0" prefWidth="215.0" text=" Closed Request" textFill="WHITE" underline="true">
                <font>
                   <Font size="18.0" />
                </font>
