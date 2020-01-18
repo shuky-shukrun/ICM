@@ -47,7 +47,7 @@ public class TimeRequestDecision implements ClientUI  {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//initialize the fields according to the time request.
+		/*initialize the fields according to the time request.*/
 		requestedTime = CrDetails.getCurrRequest().getPhases().get(0).getDeadLine();
 		phaseTimeDatePicker.setValue(requestedTime);
 		phaseTimeDatePicker.setDisable(false);

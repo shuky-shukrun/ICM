@@ -1913,5 +1913,81 @@ public class DBConnection {
 		}
 		return count;
 	}
+	
+	/**
+	 * This method edits the phase deadline.
+	 *
+	 * @param change [0] change request ID.
+	 * @param change [1] new deadline.
+	 * @param change [2] reason for the change.
+	 * @param change [3] current phase in the change request.
+	 */
+	public List<Boolean> editRequest(List<String> change){
+		List<Boolean> list = new ArrayList<>();
+		String firstName = new String();
+		String lastName = new String();
+		int editID;
+		PreparedStatement ps;
+		/*
+		 *Get the supervisor name from the DB.
+		 */
+		try {
+			
+			ps = sqlConnection.prepareStatement("SELECT firstName, lastName FROM cbaricmy_ICM.users where position = 'SUPERVISOR'");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				list.add(true);
+				firstName = rs.getString("firstName");
+				lastName = rs.getString("lastName");
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			list.add(false);
+		}
+		
+		/*
+		 *Insert the edit change to the edit table in the DB.
+		 */
+		try {
+			ps = sqlConnection.prepareStatement("SELECT MAX(editNum) FROM cbaricmy_ICM.edit WHERE crIDEdit = ? ");
+			ps.setInt(1, Integer.parseInt(change.get(0)));
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			editID = rs.getInt(1) +1;
+			System.out.println("get request id: " + editID);
+			
+			ps = sqlConnection.prepareStatement("INSERT INTO cbaricmy_ICM.edit (editorFirstName, editorLastName, crIDEdit, editNum, editDatel, editDescription, editPhase) VALUE (?,?,?,?,?,?,?) ");
+			ps.setString(1, firstName);
+			ps.setString(2, lastName);
+			ps.setInt(3, Integer.parseInt(change.get(0)));
+			ps.setInt(4, editID);
+			ps.setDate(5, Date.valueOf(LocalDate.now()));
+			ps.setString(6, change.get(2));
+			ps.setString(7, change.get(3));
+			ps.executeUpdate();
+			list.add(true);
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			list.add(false);
+		}
+		
+		try {
+			/*
+			 *Update the new deadline in phase table.
+			 */
+			ps = sqlConnection.prepareStatement("UPDATE cbaricmy_ICM.phase SET phDeadline = ? WHERE phIDChangeRequest = ? AND phPhaseName = ?");
+			ps.setDate(1, Date.valueOf(change.get(1)));
+			ps.setInt(2, Integer.parseInt(change.get(0)));
+			ps.setString(3, change.get(3));
+			ps.executeUpdate();
+			list.add(true);
+		}catch (SQLException e) {
+			e.printStackTrace();
+			list.add(false);
+		}
+		
+		return list;
+	}
 
 }

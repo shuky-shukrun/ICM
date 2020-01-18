@@ -21,7 +21,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <DatePicker fx:id="newDeadlineDatePicker" disable="true" layoutX="257.0" layoutY="329.0" prefHeight="24.0" prefWidth="257.0" />
+            <DatePicker fx:id="newDeadlineDatePicker" disable="true" layoutX="257.0" layoutY="329.0" onKeyReleased="#keyReleaseProperty" prefHeight="24.0" prefWidth="257.0" />
             <Button fx:id="submitButton" layoutX="470.0" layoutY="633.0" mnemonicParsing="false" onAction="#submitEdit" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #4691ce;" text="Submit">
                <font>
                   <Font size="16.0" />
@@ -37,7 +37,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="reasonTextArea" disable="true" layoutX="257.0" layoutY="377.0" prefHeight="120.0" prefWidth="280.0" />
+            <TextArea fx:id="reasonTextArea" disable="true" layoutX="257.0" layoutY="377.0" onKeyReleased="#keyReleaseProperty" prefHeight="120.0" prefWidth="280.0" />
             <Pane prefHeight="141.0" prefWidth="600.0" style="-fx-background-color: #7156DD; -fx-background-radius: 0 0 60 60;">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="164.0" layoutY="21.0" text="Edit Phase Deadline" textFill="#fcfcfc">

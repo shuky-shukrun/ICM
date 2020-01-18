@@ -320,7 +320,13 @@ public class SupervisorButtons implements ClientUI {
     }
 
     @FXML
-	private void editRequest(){
+	private void editRequest(ActionEvent event){
+    	try {
+			IcmUtils.popUpScene(this, "Edit Request","/client/crDetails/supervisor/edit/Edit.fxml", 588, 688);
+			//initialize();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
