@@ -55,7 +55,11 @@ public class DBConnection {
 
 	}
 
-
+	/**
+	 * Gets the user login to the system from the db if exists
+	 * @param params-the id of the user and his password
+	 * @return list that contains the details of the user log in to the system
+	 */
 	public List<ChangeInitiator> login(List<String> params) {
 		System.out.println("database received login request for: " + params);
 		List<ChangeInitiator> userDetails = new ArrayList<>();
@@ -96,7 +100,11 @@ public class DBConnection {
 		System.out.println("user details returned");
 		return userDetails;
 	}
-
+	/**
+	 * Gets all requests belongs to specific user
+	 * @param userList-the id of the user
+	 * @return list that contains the list of change requests this user added and list of the requests he take care of
+	 */
 	public List<List<ChangeRequest>> getAllRequests(List<ChangeInitiator> userList) {
 
 		List<ChangeRequest> myRequests = new ArrayList<>();
@@ -496,7 +504,11 @@ public class DBConnection {
 		}
 		return l;
 	}
-
+	/**
+	 * Adds new request to the database
+	 * @param newRequest-the change request we want to add to the database
+	 * @throws IOException-exception that notify that there was problem in the sql query
+	 */
 	public void addNewRequest(ChangeRequest newRequest) throws IOException {
 		System.out.println("Database handle addNewRequest");
 		// insert request
@@ -838,7 +850,11 @@ public class DBConnection {
 		ps.close();
 		return infoEngineersList;
 	}
-
+	/**
+	 * Updates the permissions that itd manager select in the database
+	 * @param params-the info engineers assigned by the itd 
+	 * @throws SQLException-exception that notifies that there is problem with the sql query
+	 */
 	public void itdUpdatePermissions(List<List<ChangeInitiator>> params) throws SQLException {
 		System.out.println("database handle itdUpdatePermissions");
 		List<Position> positionList = new ArrayList<>();
