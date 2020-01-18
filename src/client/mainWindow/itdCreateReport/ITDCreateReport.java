@@ -1,4 +1,4 @@
-package client.crDetails.itd.itdCreateReport;
+package client.mainWindow.itdCreateReport;
 
 import client.ClientUI;
 import common.IcmUtils;
@@ -71,16 +71,16 @@ public class ITDCreateReport implements ClientUI {
         switch (reportTypeChoiceBox.getSelectionModel().getSelectedItem()) {
             case Activity_Report:
                 System.out.println("A report created");
-                IcmUtils.popUpScene(this, "Activity report", "/client/crDetails/itd/itdCreateReport/ActivityReportScreen.fxml", 751, 612);
+                IcmUtils.popUpScene(this, "Activity report", "/client/mainWindow/itdCreateReport/ActivityReportScreen.fxml", 751, 612);
                 break;
             case Performance_Report:
                 System.out.println("B report created");
-                IcmUtils.popUpScene(this, "Performance report", "/client/crDetails/itd/itdCreateReport/PerformanceReportScreen.fxml", 481, 320);
+                IcmUtils.popUpScene(this, "Performance report", "/client/mainWindow/itdCreateReport/PerformanceReportScreen.fxml", 481, 320);
 
                 break;
             case Delays_Report:
                 System.out.println("C report created");
-                IcmUtils.popUpScene(this, "Delays report", "/client/crDetails/itd/itdCreateReport/DelaysReport.fxml", 681, 572);
+                IcmUtils.popUpScene(this, "Delays report", "/client/mainWindow/itdCreateReport/DelaysReport.fxml", 681, 572);
 
                 break;
         }

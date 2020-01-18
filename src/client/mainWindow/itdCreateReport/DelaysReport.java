@@ -1,4 +1,4 @@
-package client.crDetails.itd.itdCreateReport;
+package client.mainWindow.itdCreateReport;
 
 import java.io.IOException;
 import java.time.LocalDate;

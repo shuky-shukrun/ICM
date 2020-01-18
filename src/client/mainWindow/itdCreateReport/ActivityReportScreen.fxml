@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="751.0" style="-fx-background-color: #f1eaea;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.itd.itdCreateReport.ActivityReportController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="751.0" style="-fx-background-color: #f1eaea;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.mainWindow.itdCreateReport.ActivityReportController">
    <children>
       <ImageView fitHeight="69.0" fitWidth="151.0" layoutX="-72.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>

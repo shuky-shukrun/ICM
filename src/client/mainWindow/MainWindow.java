@@ -7,7 +7,6 @@ import common.IcmUtils;
 import entities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -240,7 +239,7 @@ public class MainWindow implements ClientUI {
      */
     @FXML
     void showCreateReportDialog() throws IOException {
-        IcmUtils.popUpScene(this, "ITD Create Reports", "/client/crDetails/itd/itdCreateReport/ITDCreateReport.fxml", 588, 688);
+        IcmUtils.popUpScene(this, "ITD Create Reports", "/client/mainWindow/itdCreateReport/ITDCreateReport.fxml", 588, 688);
     }
 
     /**

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="681.0" style="-fx-background-color: #f1eaea;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.crDetails.itd.itdCreateReport.DelaysReport">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="681.0" style="-fx-background-color: #f1eaea;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.mainWindow.itdCreateReport.DelaysReport">
    <children>
       <Label layoutX="47.0" layoutY="98.0" prefHeight="20.0" prefWidth="138.0" text="Number Of Delays:" underline="true">
          <font>
