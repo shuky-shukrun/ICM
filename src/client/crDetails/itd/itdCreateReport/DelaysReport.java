@@ -259,13 +259,14 @@ public class DelaysReport implements ClientUI {
 		listDelays.setAll(l1);
 		delaysTable.setItems(listDelays);
 		//delays per info system table
-		List<Distribution>l2=countPerInfoSystem(numArray2);
+		List<Distribution>l2=countPerInfoSystem(numArray3);
 		listPerInfoSystem.setAll(l2);
 		systemTable.setItems(listPerInfoSystem);
 		//duration of delays per info system table
-		List<Distribution>l3=countPerInfoSystem(numArray2);
-		listPerInfoSystem.setAll(l2);
-		systemTable.setItems(listPerInfoSystem);
+		List<Distribution>l3=countPerInfoSystem(numArray4);
+		listPerInfoSystem2.setAll(l3);
+		systemTable2.setItems(listPerInfoSystem2);
+		
 	}
 
 
