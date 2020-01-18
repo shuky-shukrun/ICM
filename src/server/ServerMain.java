@@ -12,11 +12,18 @@ import java.io.IOException;
 
 public class ServerMain extends Application implements ClientUI {
 
-    public static void main(String[] args) {
+    /**
+     * Start the server
+     * @param args- the server scene.
+     */
+	public static void main(String[] args) {
         launch(args);
     }
 
     @Override
+    /**
+     * Load the scene
+     */
     public void start(Stage primaryStage) {
 
         // load the scene
