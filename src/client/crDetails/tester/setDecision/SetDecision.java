@@ -103,8 +103,6 @@ public class SetDecision implements ClientUI {
 		Phase closing = new Phase();
 		closing.setName(PhaseName.CLOSING);
 		CCCButtons.setCurrPhase(closing);
-		
-		System.out.println(decision);
 	}
 	
 	@FXML

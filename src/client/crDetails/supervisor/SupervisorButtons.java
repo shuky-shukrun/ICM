@@ -41,13 +41,15 @@ public class SupervisorButtons implements ClientUI {
 	private Button freezeRequestInfoButton;
 	@FXML
 	private Button editButton;
+	@FXML
+	private Button editButtonInfo;
 
 	private static Phase.PhaseStatus CurrStatus;
     private String info;
     private ClientController clientController;
     private static Phase currPhase;
     private static Phase.PhaseName currPhaseName;
-    private boolean reloadScreen =false;
+    private boolean reloadScreen = false;
 
     private Alert pleaseWaitMessage;
 
@@ -58,11 +60,11 @@ public class SupervisorButtons implements ClientUI {
     	try {
 			clientController=ClientController.getInstance(this);
 			if(reloadScreen == false) {
-				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
+				currPhase = CrDetails.getCurrRequest().getPhases().get(0);
 				CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
- 			    reloadScreen =true;
+ 			    reloadScreen = true;
 			}
-			currPhaseName =currPhase.getName();
+			currPhaseName = currPhase.getName();
 			switch(currPhaseName) {
 			case SUBMITTED:
 			case EVALUATION:
@@ -78,7 +80,7 @@ public class SupervisorButtons implements ClientUI {
 				closeChangeRequestInfoButton.setVisible(true);
 				freezeRequestInfoButton.setVisible(false);
 				editButton.setDisable(false);
-				
+				editButtonInfo.setVisible(false);
 				switch(CurrStatus)
 				{
 				case SUBMITTED:
@@ -119,6 +121,7 @@ public class SupervisorButtons implements ClientUI {
 					closeChangeRequestInfoButton.setVisible(true);
 					freezeRequestInfoButton.setVisible(false);
 					editButton.setDisable(true);
+					editButtonInfo.setVisible(true);
 					break;
 					
 				default:
@@ -134,9 +137,7 @@ public class SupervisorButtons implements ClientUI {
 					
 				}
 				break;
-			
 			}
-			
 			if(CrDetails.getCurrRequest().isSuspended())
 			{//if the change request is suspended, the supervisor can only see the freezeRequestInfoButton.
 				phaseTimeDecisionButton.setDisable(true);
@@ -152,36 +153,6 @@ public class SupervisorButtons implements ClientUI {
 			e.printStackTrace();
 		}
 	}
-
-		
-//			if(CrDetails.getCurrRequest().getPhases().get(0).getName()!=PhaseName.CLOSING)
-//			{
-//				info="not in closing";
-//				closeChangeRequestButton.setDisable(true);
-//				moreInformation2.setVisible(true);
-//
-//			}
-//			if (CrDetails.getCurrRequest().getPhases().get(0).getName()==PhaseName.CLOSING&&CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()==Phase.PhaseStatus.DONE) {
-//				info = "finished";
-//				moreInformation2.setVisible(true);
-//				closeChangeRequestButton.setDisable(true);
-//				freezeRequestButton.setDisable(true);
-//				
-//			}
-			
-//			if(flag==false) {
-//				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
-//				CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
-// 			    flag=true; 
-//			}
-//    		if(currPhase.getName()!=PhaseName.SUBMITTED) {
-//    			assignPhaseLeadersButton.setText("View phase leaders");
-//
-//    		}
-//    		if(!(CurrStatus.equals(Phase.PhaseStatus.TIME_REQUESTED)||CurrStatus==Phase.PhaseStatus.EXTENSION_TIME_REQUESTED)){
-//    			phaseTimeDecisionButton.setDisable(true);
-//    			phaseTimeRequestInfo.setVisible(true);
-//    		}
 
     /**
      * Closes change request
@@ -219,6 +190,11 @@ public class SupervisorButtons implements ClientUI {
 			List<Integer> list = new ArrayList<Integer>();
 			list.add(CrDetails.getCurrRequest().getId());
 			clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Freeze_Request, list));
+			try {
+				IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -280,8 +256,8 @@ public class SupervisorButtons implements ClientUI {
 	void showAssignPhaseLeadersDialog(ActionEvent event) {
 		try {
 			IcmUtils.popUpScene(this, "Assign Phase Leaders",
-					"/client/crDetails/supervisor/assignPhaseLeaders/AssignPhaseLeaders.fxml", 588, 768);
-			initialize();
+					"/client/crDetails/supervisor/AssignPhaseLeaders.fxml", 588, 768);
+			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
 		} catch (IOException e) {
 			e.printStackTrace(); }
     }

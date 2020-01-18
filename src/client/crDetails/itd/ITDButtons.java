@@ -35,11 +35,12 @@ public class ITDButtons implements ClientUI {
 
     	if(CrDetails.getCurrRequest().isSuspended()) {
     		thawButton.setDisable(false);
-			thawMessage.setVisible(true);
+			thawMessage.setVisible(false);
 		}
     	else {
 			thawButton.setDisable(true);
-			thawMessage.setVisible(false);
+			thawMessage.setVisible(true);
+			thawMessage.setDisable(false);
 		}
 
     }
@@ -51,11 +52,16 @@ public class ITDButtons implements ClientUI {
     void thawChangeRequest(ActionEvent event) {
     	Optional<ButtonType>result=IcmUtils.displayConfirmationMsg("Thaw request confirmation", "Thaw request confirmation", "Are you sure you want to thaw this request?");
     	if(result.get()==ButtonType.OK) {
-    	int id=CrDetails.getCurrRequest().getId();
-    	List<Integer>l=new ArrayList<>();
-    	l.add(id);
-    	clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Thaw_Request, l));
-    	}
+			int id=CrDetails.getCurrRequest().getId();
+			List<Integer>l=new ArrayList<>();
+			l.add(id);
+			clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Thaw_Request, l));
+			try {
+				IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
     }
 
     @Override
@@ -83,10 +89,10 @@ public class ITDButtons implements ClientUI {
      */
 	@FXML
 	public void thawRequestInfoMsg() {
-		String frozenRequest = "This request is suspended.\nTo thaw it, Click 'Thaw Change Request' button.";
+		String activeRequest = "This request is active.\nOnly frozen requests can be thawed.";
 		IcmUtils.displayInformationMsg(
-				"Frozen request",
-				"Frozen request",
-				frozenRequest);
+				"Active request",
+				"Active request",
+				activeRequest);
 	}
 }

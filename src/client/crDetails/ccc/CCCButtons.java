@@ -69,8 +69,7 @@ public class CCCButtons implements ClientUI {
 		try {
 			IcmUtils.popUpScene(this, "Set Decision", "/client/crDetails/tester/setDecision/SetDecision.fxml", 588,
 					688);
-			
-			initialize();
+			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -175,7 +174,14 @@ public class CCCButtons implements ClientUI {
 			}
 
 			break;
-
+			case EVALUATION:
+				viewEvaluationReportButton.setVisible(false);
+				setDecisionButton.setVisible(true);
+				setDecisionButton.setDisable(true);
+				setDecisionInfoButton.setVisible(true);
+				setDecisionInfoButton.setDisable(false);
+				assignTesterButton.setVisible(false);
+				break;
 		default:
 			viewEvaluationReportButton.setVisible(true);
 			viewEvaluationReportButton.setDisable(false);

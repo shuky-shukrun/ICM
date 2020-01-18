@@ -130,6 +130,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 			clientController.handleMessageFromClientUI(serverService);
 			confirmExecutionButton.setDisable(true);
+			IcmUtils.displayInformationMsg("Execution confirmed", "Execution confirmed", "The request passed to VALIDATION phase.");
 		}
 	}
 
@@ -171,7 +172,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 						"Create evaluation report Help",
 						"Phase time not submitted",
 						"You need to submit phase time and get supervisor approval " +
-								"before you create evaluation report.");
+								"before you confirm the execution.");
 				break;
 			case TIME_REQUESTED:
 			case EXTENSION_TIME_REQUESTED:
@@ -180,7 +181,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 						"Create evaluation report Help",
 						"Phase time is waiting for approval",
 						"You need to get supervisor approval for the requested phase time" +
-								"before you create evaluation report.");
+								"before you confirm the execution.");
 				break;
 		}
 

@@ -2,6 +2,7 @@ package common;
 
 import client.ClientMain;
 import client.ClientUI;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
