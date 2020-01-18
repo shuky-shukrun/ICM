@@ -8,6 +8,7 @@ import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.EvaluationReport;
 import entities.IEPhasePosition;
+import entities.InfoSystem;
 import entities.InformationEngineer;
 import entities.Phase;
 import javafx.application.Platform;
@@ -582,6 +583,8 @@ public class EchoServer extends AbstractServer {
 				List<List<Integer>> sumList = new ArrayList<>();
 				List<Integer> numOfDelaysList = new ArrayList<>();
 				List<Integer> durationOfDelaysList = new ArrayList<>();
+				List<Integer> delaysPerSystemList = new ArrayList<>();
+				List<Integer>durationPerSystemList = new ArrayList<>();
 				LocalDate startDate2 = (LocalDate) serverService.getParams().get(0);
 				LocalDate from2 = startDate2;
 				LocalDate endDate2 = (LocalDate) serverService.getParams().get(1);
@@ -590,7 +593,16 @@ public class EchoServer extends AbstractServer {
 				long left2 = (long) serverService.getParams().get(3);
 				System.out.println("ronit"+weeks2);
 				System.out.println("ronit"+left2);
-
+				for (int i = 0; i < 8; i++) {
+					int delaysPerSystemCount = dbConnection.getDelaysReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
+					delaysPerSystemList.add(delaysPerSystemCount);
+				}
+				
+				for (int i = 0; i < 8; i++) {
+					int durationPerSystemCount = dbConnection.getDurationReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
+					durationPerSystemList.add(durationPerSystemCount);
+				}
+				
 				if (left2 == 0) {
 					for (int i = 0; i <= weeks2; i++) {
 						from2 = startDate2.plusDays(7 * i);
@@ -603,6 +615,8 @@ public class EchoServer extends AbstractServer {
 					}
 					sumList.add(numOfDelaysList);
 					sumList.add(durationOfDelaysList);
+					sumList.add(delaysPerSystemList);
+					sumList.add(durationPerSystemList);
 					serverService.setParams(sumList);
 					client.sendToClient(serverService);
 					
@@ -618,6 +632,8 @@ public class EchoServer extends AbstractServer {
 					}
 					sumList.add(numOfDelaysList);
 					sumList.add(durationOfDelaysList);
+					sumList.add(delaysPerSystemList);
+					sumList.add(durationPerSystemList);
 					serverService.setParams(sumList);
 					client.sendToClient(serverService);
 					

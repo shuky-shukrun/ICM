@@ -2109,5 +2109,50 @@ public class DBConnection {
 		}
 		return count;
 	}
+	
+	public int getDelaysReportPerSystemDetails(LocalDate startDate, LocalDate endDate, InfoSystem infoSystem) {
+
+		int count = 0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("select count(P.phExceptionTime) as count from cbaricmy_ICM.phase P,  cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crInfoSystem=? AND C.crID=P.phIDChangeRequest AND P.phExceptionTime>0");
+
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setString(3, infoSystem.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next())
+				count = rs.getInt("count");
+			System.out.println(count);
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public int getDurationReportPerSystemDetails(LocalDate startDate, LocalDate endDate, InfoSystem infoSystem) {
+
+		int sum = 0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("select SUM(P.phExceptionTime) as sum from cbaricmy_ICM.phase P,  cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crInfoSystem=? AND C.crID=P.phIDChangeRequest AND P.phExceptionTime>0");
+
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setString(3, infoSystem.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next())
+				sum = rs.getInt("sum");
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sum;
+	}
 
 }
