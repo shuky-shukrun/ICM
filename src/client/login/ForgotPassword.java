@@ -3,7 +3,6 @@ package client.login;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import client.ClientController;
 import client.ClientUI;
 import common.IcmUtils;
 import common.JavaEmail;
-import common.IcmUtils.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -27,9 +25,9 @@ public class ForgotPassword implements ClientUI {
 	@FXML
 	private Button SubmitLoginEmail;
 	@FXML
-	private JFXButton backToLogin;
+	private Button backToLogin;
 	@FXML
-	private Button moreInformation;
+	private JFXButton submitInfoButton;
 	private String info;
 	/**
 	 * Initialize the forgot password screen
@@ -54,14 +52,14 @@ public class ForgotPassword implements ClientUI {
 					
 						if( loginEmailTextField.getText().isEmpty())
 							info="no mail";
-						if(!JavaEmail.isValidEmailAddress(loginEmailTextField.getText()))
+						else if(!JavaEmail.isValidEmailAddress(loginEmailTextField.getText()))
 							info="not legal email";
 						return ( loginEmailTextField.getText().isEmpty()||!JavaEmail.isValidEmailAddress(loginEmailTextField.getText()));
 					}
 				};
 
 				SubmitLoginEmail.disableProperty().bind(bb);
-				moreInformation.visibleProperty().bind(bb);
+				submitInfoButton.visibleProperty().bind(bb);
 	}
 	/**
 	 * send email to restore password when appropriate button pressed
@@ -84,13 +82,13 @@ public class ForgotPassword implements ClientUI {
 		
 	}
 	@FXML
-	public void moreInformationEvent(ActionEvent e) {
+	public void submitInfoMsg(ActionEvent e) {
 		switch(info) {
 		case "no mail":
-			IcmUtils.displayInformationMsg("Information message", "you did not enter a mail");
+			IcmUtils.displayInformationMsg("Forgot password help","No email entered",  "You did not enter a mail.");
 			break;
 		case "not legal email":
-			IcmUtils.displayInformationMsg("Information message", "you did not enter a legal mail","format of legal mail: \n mail_box_name@domain_name."+"\n"+"for example:ploni@gmail.com");
+			IcmUtils.displayInformationMsg("Forgot password help", "Illegal email address","Format of legal mail: \nmail_box_name@domain_name.xyz"+"\n"+"for example:ploni@gmail.com");
 		}
 	}
  
