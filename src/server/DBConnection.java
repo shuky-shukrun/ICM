@@ -1282,6 +1282,14 @@ public class DBConnection {
 		return workersList;
 	}
 
+	/**
+	 * A method that updates the new assigned phase leaders, evaluator and executive leader
+	 *  for a specific change request.
+	 * 
+	 * @param newList- a list of information engineers and there new positions. 
+	 * (the position that was assigned by the supervisor). 
+	 * @return a list of boolean- true if all the updates were successful. 
+	 */
 	public List<Boolean> supervisorUpdatePhaseLeaders(List<IEPhasePosition> newList) {
 
 		List<Boolean> isUpdate = new ArrayList<>();
