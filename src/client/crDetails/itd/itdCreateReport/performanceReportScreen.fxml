@@ -9,8 +9,6 @@
    <children>
       <Label layoutX="32.0" layoutY="113.0" prefHeight="36.0" prefWidth="189.0" text="Total Extention Time (days)" />
       <TextField fx:id="totalExtention" editable="false" layoutX="221.0" layoutY="116.0" />
-      <Label layoutX="32.0" layoutY="171.0" text="Total Added Activity" />
-      <TextField fx:id="totalActivity" editable="false" layoutX="221.0" layoutY="166.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="52.0" prefHeight="35.0" prefWidth="318.0" text="Performance Report" textAlignment="CENTER" underline="true">
          <font>
             <Font name="System Bold" size="24.0" />
