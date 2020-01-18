@@ -1895,7 +1895,79 @@ public class DBConnection {
 		}
 		return count;
 	}
+	public int getTReportDetails(LocalDate startDate, LocalDate endDate) {
+		 
+		List<LocalDate> time1List=new ArrayList<>();
+		List<LocalDate> time2List=new ArrayList<>();
 
+		try {
+			PreparedStatement ps = sqlConnection.prepareStatement("select* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND P.phStatus!='PHASE_LEADER_ASSIGNED' AND P.phStatus!='TIME_REQUESTED' AND P.phStatus!='SUBMITTED' AND P.phDeadline is not null");
+         
+			
+			
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				time1List.add((rs.getDate("crDate")).toLocalDate());
+
+			}
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(time1List);
+		try {
+			PreparedStatement ps = sqlConnection.prepareStatement("select distinct* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >=? AND C.crDate <= ?  AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND (P.phStatus='IN_PROCESS' OR P.phStatus='EXTENSION_TIME_APPROVED' OR P.phStatus='EXTENSION_TIME_REQUESTED') AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phDeadline is not null;");
+			
+			
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			//ps.setDate(3, Date.valueOf((LocalDate) endDate));
+			//ps.setString(4, Phase.PhaseStatus.IN_PROCESS.toString());
+			//ps.setString(5, Phase.PhaseStatus.EXTENSION_TIME_APPROVED.toString());
+			//ps.setString(6, Phase.PhaseStatus.EXTENSION_TIME_REQUESTED.toString());
+
+
+
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				if(rs.getInt("phExtensionRequestDecision")==1)
+					if(rs.getDate("phTimeExtensionRequest").toLocalDate().compareTo(endDate)<=0)
+						time2List.add((rs.getDate("phTimeExtensionRequest")).toLocalDate());
+					else
+						time2List.add(endDate);
+				else 
+					if(rs.getDate("phDeadline").toLocalDate().compareTo(endDate)<=0)
+						time2List.add((rs.getDate("phDeadline")).toLocalDate());
+					else
+						time2List.add(endDate);
+					
+
+			}
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		long count=0;
+		for(int i=0;i<time1List.size();i++) {
+			String s= time1List.get(i).toString();
+			String s1=time2List.get(i).toString();
+			LocalDate localDate = LocalDate.parse(s);
+			LocalDate localDate1 = LocalDate.parse(s1);
+			long daysBetween = ChronoUnit.DAYS.between(localDate,localDate1);
+			System.out.println("check1"+daysBetween);
+			count= count+daysBetween;
+			System.out.println("check2"+count);
+		}
+		return (int) count;
+}
 	/**
 	 * Gets details of performance report from the database
 	 * 

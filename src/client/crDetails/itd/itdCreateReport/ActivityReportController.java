@@ -93,6 +93,7 @@ public class ActivityReportController implements ClientUI {
 	private ObservableList<Distribution> listFrozen;
 	private ObservableList<Distribution> listDeclined;
 	private ObservableList<Distribution> listClosed;
+	private ObservableList<Distribution> listTotalDays;
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -114,6 +115,7 @@ public class ActivityReportController implements ClientUI {
 		listFrozen = FXCollections.observableArrayList();
 		listDeclined = FXCollections.observableArrayList();
 		listClosed = FXCollections.observableArrayList();
+		listTotalDays = FXCollections.observableArrayList();
 		initTableValueFactory(cntActive, disActive);
 		
 		cntFrozen.setStyle("-fx-alignment: CENTER");
@@ -128,6 +130,11 @@ public class ActivityReportController implements ClientUI {
 		disClosed.setStyle("-fx-alignment: CENTER");
 		
 		initTableValueFactory(cntClosed, disClosed);
+		
+		cntWorkDays.setStyle("-fx-alignment: CENTER");
+		disWorkDays.setStyle("-fx-alignment: CENTER");
+		
+		initTableValueFactory(cntWorkDays, disWorkDays);
 
 		long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
 		long weeksBetween = daysBetween / 7;
@@ -169,7 +176,7 @@ public class ActivityReportController implements ClientUI {
 			//sd += Math.pow(num - avg, 2);
 		}
 
-		return Math.sqrt(sd /( Array.length-1));
+		return Math.sqrt(sd /( Array.length));
 
 	}
 
@@ -203,31 +210,37 @@ public class ActivityReportController implements ClientUI {
 		List activeCount = params.get(1);
 		List closedCount = params.get(2);
 		List declinedCount = params.get(3);
+		List totalDaysCount = params.get(4);
 		
 		int totalFrozen = 0;
 		int totalActive = 0;
 		int totalClosed = 0;
 		int totalDeclined = 0;
+		int totaldays = 0;
 
 		int size1 = frozenCount.size();
 		int size2 = activeCount.size();
 		int size3 = closedCount.size();
 		int size4 = declinedCount.size();
+		int size5 = totalDaysCount.size();
 	
 		Integer[] numArray1 = new Integer[size1];
 		Integer[] numArray2 = new Integer[size2];
 		Integer[] numArray3 = new Integer[size3];
 		Integer[] numArray4 = new Integer[size4];
+		Integer[] numArray5 = new Integer[size5];
 
 		frozenCount.toArray(numArray1);
 		activeCount.toArray(numArray2);
 		closedCount.toArray(numArray3);
 		declinedCount.toArray(numArray4);
+		totalDaysCount.toArray(numArray5);
 
 		Arrays.sort(numArray1);
 		Arrays.sort(numArray2);
 		Arrays.sort(numArray3);
 		Arrays.sort(numArray4);
+		Arrays.sort(numArray5);
 
 		for (int i = 0; i < size1; i++) {
 			totalFrozen = totalFrozen + numArray1[i];
@@ -241,17 +254,22 @@ public class ActivityReportController implements ClientUI {
 		for (int i = 0; i < size4; i++) {
 			totalDeclined = totalDeclined + numArray4[i];
 		}
+		for (int i = 0; i < size5; i++) {
+			totaldays = totaldays + numArray5[i];
+		}
 		//calculate the medians
 		double frozenMed = median(numArray1);
 		double activeMed = median(numArray2);
 		double closedMed = median(numArray3);
 		double declinedMed = median(numArray4);
+		double daysMed = median(numArray5);
 		System.out.println("ronit"+frozenMed);
 		//calculate the standard deviation
 		double frozenStd = std(numArray1);
 		double activeStd = std(numArray2);
 		double closedStd = std(numArray3);
 		double declinedStd = std(numArray4);
+		double DaysStd = std(numArray5);
 
 		String s = String.valueOf(frozenMed);
 		String s1 = String.valueOf(frozenStd);
@@ -265,6 +283,9 @@ public class ActivityReportController implements ClientUI {
 		String s9 = String.valueOf(totalActive);
 		String s10 = String.valueOf(totalClosed);
 		String s11 = String.valueOf(totalDeclined);
+		String s12 = String.valueOf(daysMed);
+		String s13 = String.valueOf(DaysStd);
+		String s14 = String.valueOf(totaldays);
 
 		medFrozen.textProperty().set(s);
 		stdFrozen.textProperty().set(s1);
@@ -278,6 +299,10 @@ public class ActivityReportController implements ClientUI {
 		countActive.textProperty().set(s9);
 		countClosed.textProperty().set(s10);
 		countDeclined.textProperty().set(s11);
+		medWorkDays.textProperty().set(s12);
+		stdWorkDays.textProperty().set(s13);
+		countWorkDays.textProperty().set(s14);
+		
 		//active table
 		List<Distribution>l=frq(numArray2);
 		listActive.setAll(l);
@@ -294,6 +319,10 @@ public class ActivityReportController implements ClientUI {
 		List<Distribution>l3=frq(numArray3);
 		listClosed.setAll(l3);
 		ClosedTable.setItems(listClosed);
+		//total Work Days table
+		List<Distribution>l4=frq(numArray5);
+		listTotalDays.setAll(l4);
+		WorkDaysTable.setItems(listTotalDays);
 
 	}
 
