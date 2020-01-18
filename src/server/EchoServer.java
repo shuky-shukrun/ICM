@@ -62,6 +62,9 @@ public class EchoServer extends AbstractServer {
      * Constructs an instance of the echo server.
      *
      * @param port The port number to connect on.
+	 * @param url the database url.
+	 * @param username database username
+	 * @param password database password
      */
     public EchoServer(int port, String url, String username, String password) {
         super(port);
