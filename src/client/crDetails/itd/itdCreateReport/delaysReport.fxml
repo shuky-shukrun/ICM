@@ -19,7 +19,7 @@
       <TextField fx:id="medNumber" layoutX="100.0" layoutY="104.0" />
       <TextField fx:id="stdNumber" layoutX="100.0" layoutY="145.0" />
       <TextField fx:id="medDelays" layoutX="419.0" layoutY="104.0" />
-      <Label layoutX="21.0" layoutY="307.0" text="Delays Per System:" underline="true">
+      <Label layoutX="21.0" layoutY="307.0" text="Number of Delays Per System:" underline="true">
          <font>
             <Font size="14.0" />
          </font>
@@ -29,22 +29,22 @@
       <TextField fx:id="medSystem" layoutX="100.0" layoutY="334.0" />
       <TextField fx:id="stdSystem" layoutX="100.0" layoutY="367.0" />
       <TextField fx:id="stdDelays" layoutX="419.0" layoutY="139.0" />
-      <TableView fx:id="numberTable" layoutX="20.0" layoutY="183.0" prefHeight="110.0" prefWidth="187.0">
+      <TableView fx:id="numberTable" layoutX="100.0" layoutY="183.0" prefHeight="110.0" prefWidth="187.0">
         <columns>
           <TableColumn fx:id="cntNumber" prefWidth="75.0" text="count" />
           <TableColumn fx:id="disNumber" prefWidth="111.0" text="distribution" />
         </columns>
       </TableView>
-      <TableView fx:id="systemTable" layoutX="21.0" layoutY="406.0" prefHeight="122.0" prefWidth="179.0">
+      <TableView fx:id="systemTable" layoutX="100.0" layoutY="406.0" prefHeight="122.0" prefWidth="187.0">
         <columns>
           <TableColumn fx:id="infoSystemCol" prefWidth="97.0" text="info system" />
           <TableColumn fx:id="cntCol" prefWidth="81.0" text="count" />
         </columns>
       </TableView>
-      <Label layoutX="335.0" layoutY="78.0" text="Days Of Delay:" underline="true" />
+      <Label layoutX="335.0" layoutY="78.0" prefHeight="21.0" prefWidth="154.0" text="Duration Of Delays:" underline="true" />
       <Label layoutX="343.0" layoutY="109.0" text="Median" />
       <Label layoutX="343.0" layoutY="144.0" text="Std" />
-      <TableView fx:id="delaysTable" layoutX="343.0" layoutY="177.0" prefHeight="122.0" prefWidth="179.0">
+      <TableView fx:id="delaysTable" layoutX="419.0" layoutY="177.0" prefHeight="122.0" prefWidth="187.0">
          <columns>
             <TableColumn fx:id="cntDelays" prefWidth="75.0" text="count" />
             <TableColumn fx:id="disDelays" prefWidth="103.0" text="distribution" />
@@ -55,5 +55,20 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <Label layoutX="339.0" layoutY="307.0" text="Duration of Delays Per System:" underline="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="335.0" layoutY="339.0" text="Median" />
+      <Label layoutX="338.0" layoutY="372.0" text="Std" />
+      <TextField fx:id="medSystem2" layoutX="418.0" layoutY="334.0" />
+      <TextField fx:id="stdSystem2" layoutX="418.0" layoutY="367.0" />
+      <TableView fx:id="systemTable2" layoutX="418.0" layoutY="406.0" prefHeight="122.0" prefWidth="187.0">
+         <columns>
+            <TableColumn fx:id="infoSystemCol2" prefWidth="97.0" text="info system" />
+            <TableColumn fx:id="cntCol2" prefWidth="81.0" text="count" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>
