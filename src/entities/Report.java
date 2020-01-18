@@ -21,7 +21,10 @@ public class Report {
 		Performance_Report,
 		Delays_Report
 	}
-
+	/**
+	 * gets all reports types
+	 * @return obseravable list with all report types
+	 */
 	public static ObservableList<ReportType> getAllReportTypes() {
 		ObservableList<ReportType> reportTypes = FXCollections.observableArrayList();
 		reportTypes.add(ReportType.Activity_Report);
@@ -29,7 +32,10 @@ public class Report {
 		reportTypes.add(ReportType.Delays_Report);
 		return reportTypes;
 	}
-
+	/**
+	 * gets start date 
+	 * @return start date
+	 */
 	public LocalDate getStartDate() {
 		return this.startDate;
 	}
@@ -41,7 +47,10 @@ public class Report {
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-
+	/**
+	 * gets end date 
+	 * @return end date
+	 */
 	public LocalDate getEndDate() {
 		return this.endDate;
 	}
@@ -53,7 +62,10 @@ public class Report {
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
-
+	/**
+	 * gets title 
+	 * @return title 
+	 */
 	public String getTitle() {
 		return this.title;
 	}
@@ -65,7 +77,10 @@ public class Report {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	/**
+	 * gets report id
+	 * @return report id 
+	 */
 	public int getReportId() {
 		return this.reportId;
 	}

@@ -17,7 +17,10 @@ public class IEPhasePosition implements Serializable {
 		PHASE_LEADER
 	}
 
-
+	/**
+	 * gets change request id
+	 * @return change request id
+	 */
 	public Integer getCrID() {
 		return crID;
 	}
@@ -25,7 +28,10 @@ public class IEPhasePosition implements Serializable {
 	public void setCrID(Integer crID) {
 		this.crID = crID;
 	}
-
+	/**
+	 * gets information engineer
+	 * @return information engineer
+	 */
 	public ChangeInitiator getInformationEngineer() {
 		return this.informationEngineer;
 	}
@@ -37,7 +43,10 @@ public class IEPhasePosition implements Serializable {
 	public void setInformationEngineer(ChangeInitiator informationEngineer) {
 		this.informationEngineer = informationEngineer;
 	}
-
+	/**
+	 * gets phase name
+	 * @return phase name
+	 */
 	public Phase.PhaseName getPhaseName() {
 		return this.phaseName;
 	}
@@ -49,7 +58,10 @@ public class IEPhasePosition implements Serializable {
 	public void setPhaseName(Phase.PhaseName phaseName) {
 		this.phaseName = phaseName;
 	}
-
+	/**
+	 * gets phase position
+	 * @return phase position
+	 */
 	public PhasePosition getPhasePosition() {
 		return this.phasePosition;
 	}
@@ -62,12 +74,16 @@ public class IEPhasePosition implements Serializable {
 		this.phasePosition = phasePosition;
 	}
 
-
+	/**
+	 * checks if two objects are equal
+	 */
 	@Override
 	public boolean equals(Object o) {
 		return super.equals(o);
 	}
-
+	/**
+	 * return hash code for an object
+	 */
 	@Override
 	public int hashCode() {
 		return super.hashCode();

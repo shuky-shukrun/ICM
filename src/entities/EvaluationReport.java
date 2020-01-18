@@ -12,6 +12,10 @@ public class EvaluationReport implements Serializable {
 	private String risksAndConstraints;
 	private LocalDate evaluatedTime;
 
+	/**
+	 * gets report id
+	 * @return report id
+	 */
 	public int getReportId() {
 		return this.reportId;
 	}
@@ -23,7 +27,10 @@ public class EvaluationReport implements Serializable {
 	public void setReportId(int reportId) {
 		this.reportId = reportId;
 	}
-
+	/**
+	 * gets info system
+	 * @return info system
+	 */
 	public InfoSystem getInfoSystem() {
 		return this.infoSystem;
 	}
@@ -35,7 +42,10 @@ public class EvaluationReport implements Serializable {
 	public void setInfoSystem(InfoSystem infoSystem) {
 		this.infoSystem = infoSystem;
 	}
-
+	/**
+	 * Gets required change
+	 * @return required change
+	 */
 	public String getRequiredChange() {
 		return this.requiredChange;
 	}
@@ -47,7 +57,10 @@ public class EvaluationReport implements Serializable {
 	public void setRequiredChange(String requiredChange) {
 		this.requiredChange = requiredChange;
 	}
-
+	/**
+	 * Gets expected result
+	 * @return expected result
+	 */
 	public String getExpectedResult() {
 		return this.expectedResult;
 	}
@@ -59,7 +72,10 @@ public class EvaluationReport implements Serializable {
 	public void setExpectedResult(String expectedResult) {
 		this.expectedResult = expectedResult;
 	}
-
+	/**
+	 * Gets risks and constraints
+	 * @return risks and constraints
+	 */
 	public String getRisksAndConstraints() {
 		return this.risksAndConstraints;
 	}
@@ -71,7 +87,10 @@ public class EvaluationReport implements Serializable {
 	public void setRisksAndConstraints(String risksAndConstraints) {
 		this.risksAndConstraints = risksAndConstraints;
 	}
-
+	/**
+	 * Gets evaluated time
+	 * @return evaluated time
+	 */
 	public LocalDate getEvaluatedTime() {
 		return evaluatedTime;
 	}

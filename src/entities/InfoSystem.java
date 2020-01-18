@@ -12,7 +12,10 @@ public enum InfoSystem {
     CLASS_COMPUTER,
     LAB_COMPUTER,
     COLLEGE_SITE;
-
+	/**
+	 * gets all info system in a list
+	 * @return observable list that contains the info systems
+	 */
     public static ObservableList<InfoSystem> getAll() {
         ObservableList<InfoSystem> infoSystems = FXCollections.observableArrayList();
 

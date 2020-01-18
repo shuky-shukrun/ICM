@@ -24,7 +24,10 @@ public class ChangeRequest implements Serializable {
 	private boolean suspended;
 
 
-
+	/**
+	 * gets position
+	 * @return position
+	 */
 
 	public Integer getId() {
 		return this.id;
@@ -37,7 +40,10 @@ public class ChangeRequest implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	/**
+	 * gets initiator
+	 * @return initiator
+	 */
 	public ChangeInitiator getInitiator() {
 		return initiator;
 	}
@@ -45,7 +51,10 @@ public class ChangeRequest implements Serializable {
 	public void setInitiator(ChangeInitiator initiator) {
 		this.initiator = initiator;
 	}
-
+	/**
+	 * gets info system
+	 * @return info system
+	 */
 	public InfoSystem getInfoSystem() {
 		return this.infoSystem;
 	}
@@ -57,7 +66,10 @@ public class ChangeRequest implements Serializable {
 	public void setInfoSystem(InfoSystem infoSystem) {
 		this.infoSystem = infoSystem;
 	}
-
+	/**
+	 * gets current state
+	 * @return current state
+	 */
 	public String getCurrState() {
 		return this.currState;
 	}
@@ -69,7 +81,10 @@ public class ChangeRequest implements Serializable {
 	public void setCurrState(String currState) {
 		this.currState = currState;
 	}
-
+	/**
+	 * gets requested change
+	 * @return requested change
+	 */
 	public String getRequestedChange() {
 		return this.requestedChange;
 	}
@@ -81,7 +96,10 @@ public class ChangeRequest implements Serializable {
 	public void setRequestedChange(String requestedChange) {
 		this.requestedChange = requestedChange;
 	}
-
+	/**
+	 * gets reason for change
+	 * @return reason for change change
+	 */
 	public String getReasonForChange() {
 		return this.reasonForChange;
 	}
@@ -93,7 +111,10 @@ public class ChangeRequest implements Serializable {
 	public void setReasonForChange(String reasonForChange) {
 		this.reasonForChange = reasonForChange;
 	}
-
+	/**
+	 * gets comment
+	 * @return comment
+	 */
 	public String getComment() {
 		return this.comment;
 	}
@@ -105,7 +126,10 @@ public class ChangeRequest implements Serializable {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-
+	/**
+	 * gets files
+	 * @return files
+	 */
 	public File[] getFiles() {
 		return this.files;
 	}
@@ -117,7 +141,10 @@ public class ChangeRequest implements Serializable {
 	public void setFiles(File[] files) {
 		this.files = files;
 	}
-
+	/**
+	 * gets date
+	 * @return date
+	 */
 	public LocalDate getDate() {
 		return this.date;
 	}
@@ -129,7 +156,10 @@ public class ChangeRequest implements Serializable {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-
+	/**
+	 * gets phases
+	 * @return date
+	 */
 	public List<Phase> getPhases() {
 		return this.phases;
 	}
@@ -141,7 +171,10 @@ public class ChangeRequest implements Serializable {
 	public void setPhases(List<Phase> phases) {
 		this.phases = phases;
 	}
-
+	/**
+	 * gets current phase
+	 * @return date
+	 */
 	public Phase.PhaseName getCurrPhaseName() {
 		return this.currPhaseName;
 	}
@@ -161,26 +194,44 @@ public class ChangeRequest implements Serializable {
 	public void setSuspended(boolean suspended) {
 		this.suspended = suspended;
 	}
-
+	/**
+	 * returns if this request suspended
+	 * @return true-if the request suspended,false-else
+	 */
 	public boolean isSuspended() {
 		return suspended;
 	}
+	/**
+	 * Gets the current phase status
+	 * @return
+	 */
 	public Phase.PhaseStatus getCurrPhaseStatus() {
 		return currPhaseStatus;
 	}
-
+	/**
+	 * Sets the current phase status
+	 * @param currPhaseStatus
+	 */
 	public void setCurrPhaseStatus(Phase.PhaseStatus currPhaseStatus) {
 		this.currPhaseStatus = currPhaseStatus;
 	}
-
+	/**
+	 * Gets the file names
+	 * @return file names
+	 */
 	public List<String> getFilesNames() {
 		return filesNames;
 	}
-
+	/**
+	 * Sets the files names
+	 * @param filesNames
+	 */
 	public void setFilesNames(List<String> filesNames) {
 		this.filesNames = filesNames;
 	}
-
+	/**
+	 * Check if two objects are the same
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -188,7 +239,9 @@ public class ChangeRequest implements Serializable {
 		ChangeRequest that = (ChangeRequest) o;
 		return id.equals(that.id);
 	}
-
+	/**
+	 * returns the hash code for this change request
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

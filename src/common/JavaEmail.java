@@ -14,6 +14,9 @@ public class JavaEmail
     Session mailSession;
 
 
+    /**
+     * Sets the mail server properties
+     */
     public void setMailServerProperties()
     {
         Properties emailProperties = System.getProperties();
@@ -22,7 +25,15 @@ public class JavaEmail
         emailProperties.put("mail.smtp.starttls.enable", "true");
         mailSession = Session.getDefaultInstance(emailProperties, null);
     }
-
+    /**
+     * Prepare the email message to send
+     * @param toEmails-who to send the mail
+     * @param emailSubject-the subject of the mail
+     * @param emailBody-the body of the mail
+     * @return email message
+     * @throws AddressException-exception of the email address
+     * @throws MessagingException-exception of the message
+     */
     private MimeMessage draftEmailMessage( String toEmails,String emailSubject,String emailBody) throws AddressException, MessagingException
     {
 
@@ -44,7 +55,14 @@ public class JavaEmail
         //emailMessage.setText(emailBody);// for a text email
         return emailMessage;
     }
-
+    /**
+     * Send mail
+     * @param toemails-who get the mail
+     * @param emailSubject-the subject of the mail
+     * @param emailBody-the body of the mail
+     * @throws AddressException-exception of the email address
+     * @throws MessagingException-exception of the message
+     */
     public void sendEmail(String toemails,String emailSubject,String emailBody) throws AddressException, MessagingException
     {
         /**
@@ -67,10 +85,5 @@ public class JavaEmail
         transport.close();
         System.out.println("Email sent successfully.");
     }
-    public static boolean isValidEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
- }
+
 }

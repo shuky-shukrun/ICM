@@ -5,7 +5,10 @@ import java.io.Serializable;
 public class InformationEngineer extends ChangeInitiator implements Serializable {
 
 	private InfoSystem managedSystem;
-
+	/**
+	 * gets managed system
+	 * @return managed system
+	 */
 	public InfoSystem getManagedSystem() {
 		return this.managedSystem;
 	}
