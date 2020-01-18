@@ -15,9 +15,12 @@ import client.ClientUI;
 import common.IcmUtils;
 import common.JavaEmail;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.StageStyle;
 import server.ServerService;
 import server.ServerService.DatabaseService;
 
@@ -27,11 +30,8 @@ public class ForgotPassword implements ClientUI {
 	private TextField loginIDTextField;
 	@FXML
 	private Button SubmitLoginEmail;
-	@FXML
-	private Button backToLogin;
-	@FXML
-	private JFXButton submitInfoButton;
-	private String info;
+
+	private Alert pleaseWaitMessage;
 	/**
 	 * Initialize the forgot password screen
 	 */
@@ -53,58 +53,46 @@ public class ForgotPassword implements ClientUI {
 					// disable, if one selection is missing or evaluated time is later than the
 					// deadline of the phase
 					protected boolean computeValue() {
-					
-						if( loginIDTextField.getText().isEmpty())
-							info="no Id";
-						return ( loginIDTextField.getText().isEmpty());
+						return (loginIDTextField.getText().isEmpty());
 					}
 				};
 
 				SubmitLoginEmail.disableProperty().bind(bb);
-				submitInfoButton.visibleProperty().bind(bb);
 	}
 	/**
 	 * send email to restore password when appropriate button pressed
 	 * @param e-"submit" button pressed
 	 */
 	public void forgotPasswordAction(ActionEvent e) {
-		IcmUtils.displayInformationMsg(
-				"Password restored",
-				"Password restored",
-				"We sent you an email with your login details.\n" +
-						"Please check your email box.");
-		try {
-			IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+		pleaseWaitMessage = new Alert(Alert.AlertType.INFORMATION);
+		pleaseWaitMessage.setTitle("Password restored");
+		pleaseWaitMessage.setHeaderText("Password restored");
+		pleaseWaitMessage.setContentText("Sending email, Please wait...");
+		pleaseWaitMessage.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
+		pleaseWaitMessage.initStyle(StageStyle.TRANSPARENT);
+
 		List<Integer> idList=new ArrayList<Integer>();
 		int id;
-		if(!loginIDTextField.getText().equals(""))
-		{
-		id=Integer.parseInt(loginIDTextField.getText());
-		idList.add(id);
-		clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Forgot_Password, idList));
-		IcmUtils.getPopUp().close();
+		if(!loginIDTextField.getText().equals("")) {
+			id=Integer.parseInt(loginIDTextField.getText());
+			idList.add(id);
+			clientController.handleMessageFromClientUI(new ServerService(DatabaseService.Forgot_Password, idList));
+			pleaseWaitMessage.showAndWait();
+			IcmUtils.displayInformationMsg(
+					"Password restored",
+					"Password restored",
+					"We sent you an email with your login details.\n" +
+							"Please check your email box.");
+			IcmUtils.getPopUp().close();
+			try {
+				IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 		
 	}
-	@FXML
-	public void submitInfoMsg(ActionEvent e) {
-		switch(info) {
-		case "no mail":
-			IcmUtils.displayInformationMsg(
-					"Forgot password help",
-					"No email entered",
-					"You did not enter a mail.");
-			break;
-		case "not legal email":
-			IcmUtils.displayInformationMsg(
-					"Forgot password help",
-					"Illegal email address",
-					"Format of legal mail: \nmail_box_name@domain_name.xyz"+"\n"+"for example:ploni@gmail.com");
-		}
-	}
+
  
 	@FXML
 	/**
@@ -138,7 +126,7 @@ public class ForgotPassword implements ClientUI {
 
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
-	
+		pleaseWaitMessage.close();
 	}
 
 }

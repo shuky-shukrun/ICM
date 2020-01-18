@@ -109,28 +109,31 @@ public class EchoServer extends AbstractServer {
                     
                 case Forgot_Password:
     				System.out.println("server handle forgot password request");
-    				List<Object> l = dbConnection.forgotPasswordRequest(serverService.getParams());
-    				if ((Boolean) l.get(0) == false)
-    					try {
-    						client.sendToClient(new ServerService(DatabaseService.Forgot_Password, l));
-    					} catch (IOException e1) {
-    						e1.printStackTrace();
-    					}
-    				else {
-    					String line1 = "Hey  " + (String) l.get(1) + " " + (String) l.get(2);
-    					String line2 = "Your id is:" + (int) l.get(5) + "    ";
-    					String line3 = "Your password is:" + (String) l.get(4);
-    					String text = line1 + "\n" + line2 + "\n" + line3;
-    					JavaEmail emailer = new JavaEmail();
-    					emailer.setMailServerProperties();
-
-    					try {
-    						emailer.sendEmail((String) l.get(3), "Restore Password", text);
-    					} catch (MessagingException e) {
-    						// TODO Auto-generated catch block
-    						e.printStackTrace();
-    					}
-    				}
+					try {
+    					List<Object> l = dbConnection.forgotPasswordRequest(serverService.getParams());
+						if ((Boolean) l.get(0) == true) {
+							Thread sendEmail = new Thread(new Runnable() {
+								@Override
+								public void run() {
+									String line1 = "Hey  " + (String) l.get(1) + " " + (String) l.get(2);
+									String line2 = "Your id is:" + (int) l.get(5) + "    ";
+									String line3 = "Your password is:" + (String) l.get(4);
+									String text = line1 + "\n" + line2 + "\n" + line3;
+									JavaEmail emailer = new JavaEmail();
+									emailer.setMailServerProperties();
+									try {
+										emailer.sendEmail((String) l.get(3), "Restore Password", text);
+									} catch (MessagingException e) {
+										e.printStackTrace();
+									}
+								}
+							});
+							sendEmail.start();
+						}
+						client.sendToClient(new ServerService(DatabaseService.Forgot_Password, l));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
     				break;
           
                 case Get_All_Requests:

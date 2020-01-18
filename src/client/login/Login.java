@@ -234,8 +234,8 @@ public class Login implements ClientUI {
             }
             else {
                 List<ChangeInitiator> userList = serverService.getParams();
-                ClientController.setUser(userList.get(0));
                 try {
+                    ClientController.setUser(userList.get(0));
                     IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
                 } catch (IOException e) {
                     e.printStackTrace();
