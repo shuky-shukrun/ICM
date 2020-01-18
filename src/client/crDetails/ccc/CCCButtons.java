@@ -39,6 +39,11 @@ public class CCCButtons implements ClientUI {
 	private boolean flag = false;
 
 	@FXML
+	/**
+	 * load the assign tester dialog when the appropriate button pressed
+	 *
+	 * @param event-"Assign Tester" button pressed event
+	 */
 	void showAssignTesterDialog(ActionEvent event) throws IOException {
 		try {
 			IcmUtils.popUpScene(this, "Assign Tester", "/client/crDetails/ccc/AssignTester.fxml", 588, 688);
@@ -51,9 +56,9 @@ public class CCCButtons implements ClientUI {
 
 	@FXML
 	/**
-	 * Show the evaluation report dialog, if possible when viewEvaluationReport button pressed
-	 * 
-	 * @param event-viewEvaluationReport button pressed event
+	 * load the view evaluation report dialog when the appropriate button pressed
+	 *
+	 * @param event-"View Evaluation Report" button pressed event
 	 */
 	void showEvaluationReport(ActionEvent event) throws IOException {
 		IcmUtils.popUpScene(this, "EvaluationReport", "/client/crDetails/ccc/ViewEvaluationReport.fxml", 588, 688);
@@ -61,9 +66,9 @@ public class CCCButtons implements ClientUI {
 
 	@FXML
 	/**
-	 * Show the set decision dialog, if possible when setDecision button pressed
-	 * 
-	 * @param event-setDecision button pressed event
+	 * load the set decision dialog when the appropriate button pressed
+	 *
+	 * @param event-"Set Decision" button pressed event
 	 */
 	void showSetDecisionDialog(ActionEvent event) {
 		try {
@@ -97,7 +102,7 @@ public class CCCButtons implements ClientUI {
 	}
 
 	/**
-	 * Initialize the Tester and CCC buttons according to the phase and status of the request
+	 * Initialize the CCC/ChairMan/tester change request summary dialog
 	 */
 	public void initialize() {
 		try {
@@ -202,13 +207,21 @@ public class CCCButtons implements ClientUI {
 			break;
 		}
 	}
-
-	public static void setCurrPhase(Phase phase) {
-		CCCButtons.currPhase = phase;
-	}
-
-	public static Phase getPhase() {
-		return currPhase;
-
-	}
+	
+	/**
+	 * Sets the attribute of current phase with phase object
+	 * @param phase-the current phase object
+	 */
+    public static void setCurrPhase (Phase phase) {
+    	CCCButtons.currPhase=phase;
+    }
+    
+	/**
+	 * gets the attribute of current phase
+	 * returns the current phase
+	 */
+    public static Phase getPhase() {
+    	return currPhase;
+    	
+    }
 }

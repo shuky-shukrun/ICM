@@ -76,11 +76,22 @@ public class RequestTimeEvaluation implements ClientUI {
 			
 				if( datePickid.valueProperty().get() == null)
 					flagHelp=0;
-				else if(datePickid.valueProperty().get().compareTo(LocalDate.now())<= 0)//check with team
-					flagHelp=1;
+				else if (datePickid.valueProperty().get().compareTo(LocalDate.now()) <= 0)// check with team
+					flagHelp = 1;
 				else
-					flagHelp=2;
-				return ( datePickid.getValue() == null|| datePickid.getValue().compareTo(LocalDate.now()) < 0);
+					flagHelp = 2;
+				if (crDetails.getCurrRequest().getPhases().get(0).isExtensionRequest() == true)
+
+					return (datePickid.getValue() == null || datePickid.getValue().compareTo(LocalDate.now()) < 0
+							|| datePickid.getValue().compareTo(
+									crDetails.getCurrRequest().getPhases().get(0).getTimeExtensionRequest()) > 0);
+				else {
+
+					return (datePickid.getValue() == null || datePickid.getValue().compareTo(LocalDate.now()) < 0
+							|| datePickid.getValue()
+									.compareTo(crDetails.getCurrRequest().getPhases().get(0).getDeadLine()) > 0);
+				}
+
 			}
 		};
 

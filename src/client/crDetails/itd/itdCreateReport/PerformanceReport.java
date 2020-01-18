@@ -21,7 +21,9 @@ public class PerformanceReport implements ClientUI {
 	
 	private ClientController clientController;
 
-
+	/**
+	 * Initializes the performance report screen
+	 */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -47,6 +49,9 @@ public class PerformanceReport implements ClientUI {
 
 
 	}
+	/**
+	 * handle the message that returns from the server
+	 */
 
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
@@ -71,16 +76,6 @@ public class PerformanceReport implements ClientUI {
 			count= count+daysBetween;
 			System.out.println(count);
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		String s = String.valueOf(count);
 		totalExtention.textProperty().set(s);
 		

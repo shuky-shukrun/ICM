@@ -8,6 +8,7 @@ import entities.ChangeInitiator;
 import entities.ChangeRequest;
 import entities.EvaluationReport;
 import entities.IEPhasePosition;
+import entities.InfoSystem;
 import entities.InformationEngineer;
 import entities.Phase;
 import javafx.application.Platform;
@@ -38,20 +39,20 @@ import java.util.*;
  */
 public class EchoServer extends AbstractServer {
 
-    private class ServerTimer extends TimerTask {
+	private class ServerTimer extends TimerTask {
 
-        @Override
-        public void run() {
-            try {
-                dbConnection.sendNotifications();
-            } catch (SQLException | MessagingException e) {
-                e.printStackTrace();
-            }
-        }
+		@Override
+		public void run() {
+			try {
+				dbConnection.sendNotifications();
+			} catch (SQLException | MessagingException e) {
+				e.printStackTrace();
+			}
+		}
 
-    }
+	}
 
-    // Class variables *************************************************
+	// Class variables *************************************************
 
 	private DBConnection dbConnection;
 
@@ -399,197 +400,244 @@ public class EchoServer extends AbstractServer {
                         e.printStackTrace();
                     }
                 	break;
-                case Assign_Tester:
 
-                    System.out.println("server handle Get CCC");
-                    serverService.setParams(dbConnection.getCCC());
-                    client.sendToClient(serverService);
-                    System.out.println("server finish Get CCC");
-                    break;
-                case Replace_Tester:
-                    System.out.println("server handle Replace Tester");
-                    dbConnection.replaceTester((ChangeInitiator)serverService.getParams().get(0),
-                    							(ChangeInitiator)serverService.getParams().get(1),
-                    							(Integer)serverService.getParams().get(2));
-                    client.sendToClient(serverService);
-                    System.out.println("server finish replace tester");
-				    
-                case Load_Extension_Time:
-                	System.out.println("server handle load extension time request details");
-                	List<String> timeExtension = dbConnection.getExtensionTime(serverService.getParams());
-                	System.out.println("Extension time details server got data");
-                	ServerService srvr = new ServerService(DatabaseService.Load_Extension_Time, timeExtension);
-                	//serverService.setParams(timeExtension);
-                	client.sendToClient(srvr);
-                    System.out.println("sent extension time request details to client");                	
-                	break;
-				    
-                case Approve_Phase_Time:
-                	System.out.println("server handle approve requested phase time by supervisor");
-                	List<String> params = serverService.getParams();
-                    List<Boolean> timeApprove =dbConnection.timeApproved(params);
-                    ServerService serversrvc= new ServerService(DatabaseService.Approve_Phase_Time, timeApprove);
-                    client.sendToClient(serversrvc);
-                    System.out.println("approve time status sent to client");
-                    break;
-                    
-                case Reject_Phase_Time:
-                	System.out.println("server handle reject requested phase time by supervisor");
-                	List<String> params2 = serverService.getParams();
-                    List<Boolean> timeReject =dbConnection.timeRejected(params2);
-                    ServerService serversrvc2= new ServerService(DatabaseService.Reject_Phase_Time, timeReject);
-                    client.sendToClient(serversrvc2);
-                    System.out.println("reject time status sent to client");
-                    break;
-                case Get_Employee:
-                    System.out.println("server handle Get Employee");
-                    serverService.setParams(dbConnection.getEmployee());
-                    client.sendToClient(serverService);
-                    System.out.println("server finish Get Employee");
-                    break;
-                case Register_IT:
-                    System.out.println("server handle Register IT");
-                    dbConnection.registerIT((ChangeInitiator)serverService.getParams().get(0),
-                    							(Integer)serverService.getParams().get(1));
-                    client.sendToClient(serverService);
-                    System.out.println("server finish register IT");
-                    break;
-                    
-                case Email_ITD_Extension_Time_Approved:
-                    System.out.println("server handle email ITD manager- extension time approved");
-                    List<Object> lst=dbConnection.getITDInfo();
-                    List<String> dtls = serverService.getParams();
-                    if((Boolean)lst.get(0)==false)
-                        try {
-                            client.sendToClient(new ServerService(DatabaseService.Email_ITD_Extension_Time_Approved, dtls));
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    else
-                    {
-                        String line1 = "Hello  "+(String)lst.get(3)+" "+(String)lst.get(2);
-                        String line2 = "Extension time has been approved to change request number: "+dtls.get(0);
-                        String line3 = "The new deadline to this change request is: "+dtls.get(1);
-                        String text = line1 + "\n" + line2+"\n"+line3;
-                        JavaEmail emailer=new JavaEmail();
-                        emailer.setMailServerProperties();
+			case Assign_Tester:
 
-                        try {
-                            emailer.sendEmail((String)lst.get(1), "Inform extension time", text);
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-                case Update_Exception_Time:
-                    System.out.println("server handle Update Exception Time");
-                    List<Phase> phaseList = serverService.getParams();
-                    dbConnection.updateExceptionTime(phaseList);
-                    System.out.println("Update_Exception_Time server got data");
-					break;
-					case Get_Activity_Report_Details:
-					System.out.println("server Get Report Details");
-					List<Integer> frozenList = new ArrayList<>();
-					List<Integer> activeList = new ArrayList<>();
-					List<Integer> closedList = new ArrayList<>();
-					List<Integer> declinedList = new ArrayList<>();
-					List<List<Integer>> countList = new ArrayList<>();
-					
-					LocalDate startDate= (LocalDate) serverService.getParams().get(0);
-					LocalDate from= startDate;
-					LocalDate endDate= (LocalDate) serverService.getParams().get(1);
-					LocalDate to= endDate;
-					long weeks= (long) serverService.getParams().get(2);
-					long left= (long) serverService.getParams().get(2);
-					if (left == 0) {
-						for (int i = 0; i <= weeks; i++) {
-							from = startDate.plusDays(7 * i);
-							to = startDate.plusDays(7 * 1 + 6);
-							int frozenCount = dbConnection.getFReportDetails(from,to);
-							frozenList.add(frozenCount);
-							int activeCount=dbConnection.getAReportDetails(from,to);
-							activeList.add(activeCount);
-							int closedCount=dbConnection.getCReportDetails(from,to);
-							closedList.add(closedCount);
-							int declinedCount = dbConnection.getDReportDetails(from,to);
-							declinedList.add(declinedCount);
-							countList.add(frozenList);
-							countList.add(activeList);
-							countList.add(closedList);
-							countList.add(declinedList);
-							serverService.setParams(countList);
-							client.sendToClient(serverService);
-	
-						}
-					} else {
-						for (int i = 0; i < weeks; i++) {
-							from= from.plusDays(7*i);
-							to= from.plusDays(7*i+6);
-							int count = dbConnection.getFReportDetails(from,to);
-							frozenList.add(count);
-							serverService.setParams(frozenList);
-							client.sendToClient(serverService);
-						}
-	
+				System.out.println("server handle Get CCC");
+				serverService.setParams(dbConnection.getCCC());
+				client.sendToClient(serverService);
+				System.out.println("server finish Get CCC");
+				break;
+			case Replace_Tester:
+				System.out.println("server handle Replace Tester");
+				dbConnection.replaceTester((ChangeInitiator) serverService.getParams().get(0),
+						(ChangeInitiator) serverService.getParams().get(1), (Integer) serverService.getParams().get(2));
+				client.sendToClient(serverService);
+				System.out.println("server finish replace tester");
+
+			case Load_Extension_Time:
+				System.out.println("server handle load extension time request details");
+				List<String> timeExtension = dbConnection.getExtensionTime(serverService.getParams());
+				System.out.println("Extension time details server got data");
+				ServerService srvr = new ServerService(DatabaseService.Load_Extension_Time, timeExtension);
+				// serverService.setParams(timeExtension);
+				client.sendToClient(srvr);
+				System.out.println("sent extension time request details to client");
+				break;
+
+			case Approve_Phase_Time:
+				System.out.println("server handle approve requested phase time by supervisor");
+				List<String> params = serverService.getParams();
+				List<Boolean> timeApprove = dbConnection.timeApproved(params);
+				ServerService serversrvc = new ServerService(DatabaseService.Approve_Phase_Time, timeApprove);
+				client.sendToClient(serversrvc);
+				System.out.println("approve time status sent to client");
+				break;
+
+			case Reject_Phase_Time:
+				System.out.println("server handle reject requested phase time by supervisor");
+				List<String> params2 = serverService.getParams();
+				List<Boolean> timeReject = dbConnection.timeRejected(params2);
+				ServerService serversrvc2 = new ServerService(DatabaseService.Reject_Phase_Time, timeReject);
+				client.sendToClient(serversrvc2);
+				System.out.println("reject time status sent to client");
+				break;
+			case Get_Employee:
+				System.out.println("server handle Get Employee");
+				serverService.setParams(dbConnection.getEmployee());
+				client.sendToClient(serverService);
+				System.out.println("server finish Get Employee");
+				break;
+			case Register_IT:
+				System.out.println("server handle Register IT");
+				dbConnection.registerIT((ChangeInitiator) serverService.getParams().get(0),
+						(Integer) serverService.getParams().get(1));
+				client.sendToClient(serverService);
+				System.out.println("server finish register IT");
+				break;
+
+			case Email_ITD_Extension_Time_Approved:
+				System.out.println("server handle email ITD manager- extension time approved");
+				List<Object> lst = dbConnection.getITDInfo();
+				List<String> dtls = serverService.getParams();
+				if ((Boolean) lst.get(0) == false)
+					try {
+						client.sendToClient(new ServerService(DatabaseService.Email_ITD_Extension_Time_Approved, dtls));
+					} catch (IOException e1) {
+						e1.printStackTrace();
 					}
-					System.out.println("server finish Get Report Details");
-					break;
-					
-				case Get_Performance_Report_Details:
-					System.out.println("server Get Performance Report Details");
-					List<List<LocalDate>> totalList= new ArrayList<>();
-					LocalDate startDate1= (LocalDate) serverService.getParams().get(0);
-					LocalDate from1= startDate1;
-					LocalDate endDate1= (LocalDate) serverService.getParams().get(1);
-					LocalDate to1= endDate1;
-					List<LocalDate> timeList = dbConnection.getPerformanceReportDetails(from1,to1);
-					System.out.println(timeList);
-					totalList.add(timeList);
-					List<LocalDate> timeList1 = dbConnection.getPerformanceReportDetails1(from1,to1);
-					System.out.println(timeList1);
-					totalList.add(timeList1);
-					serverService.setParams(totalList);
+				else {
+					String line1 = "Hello  " + (String) lst.get(3) + " " + (String) lst.get(2);
+					String line2 = "Extension time has been approved to change request number: " + dtls.get(0);
+					String line3 = "The new deadline to this change request is: " + dtls.get(1);
+					String text = line1 + "\n" + line2 + "\n" + line3;
+					JavaEmail emailer = new JavaEmail();
+					emailer.setMailServerProperties();
+
+					try {
+						emailer.sendEmail((String) lst.get(1), "Inform extension time", text);
+					} catch (MessagingException e) {
+						e.printStackTrace();
+					}
+				}
+				break;
+			case Update_Exception_Time:
+				System.out.println("server handle Update Exception Time");
+				List<Phase> phaseList = serverService.getParams();
+				dbConnection.updateExceptionTime(phaseList);
+				System.out.println("Update_Exception_Time server got data");
+				break;
+			case Get_Activity_Report_Details:
+				System.out.println("server Get Report Details");
+				List<Integer> frozenList = new ArrayList<>();
+				List<Integer> activeList = new ArrayList<>();
+				List<Integer> closedList = new ArrayList<>();
+				List<Integer> declinedList = new ArrayList<>();
+				List<Integer> totalDaysList = new ArrayList<>();
+				List<List<Integer>> countList = new ArrayList<>();
+
+				LocalDate startDate = (LocalDate) serverService.getParams().get(0);
+				LocalDate from = startDate;
+				LocalDate endDate = (LocalDate) serverService.getParams().get(1);
+				LocalDate to = endDate;
+				long weeks = (long) serverService.getParams().get(2);
+				long left = (long) serverService.getParams().get(3);
+				if (left == 0) {
+					for (int i = 0; i <= weeks; i++) {
+						from = startDate.plusDays(7 * i);
+						to = startDate.plusDays(7 * 1 + 6);
+						int frozenCount = dbConnection.getFReportDetails(from, to);
+						frozenList.add(frozenCount);
+						int activeCount = dbConnection.getAReportDetails(from, to);
+						activeList.add(activeCount);
+						int closedCount = dbConnection.getCReportDetails(from, to);
+						closedList.add(closedCount);
+						int declinedCount = dbConnection.getDReportDetails(from, to);
+						declinedList.add(declinedCount);
+						int totalDaysCount = dbConnection.getTReportDetails(from, to);
+						System.out.println("Tom"+totalDaysCount);
+						totalDaysList.add(totalDaysCount);
+
+
+					}
+					countList.add(frozenList);
+					countList.add(activeList);
+					countList.add(closedList);
+					countList.add(declinedList);
+					countList.add(totalDaysList);
+					System.out.println("hereeee");
+					serverService.setParams(countList);
 					client.sendToClient(serverService);
-					System.out.println("server finish Get Performance Report Details");
-					break;
-					
-				case Get_Delays_Report_Details:
-				System.out.println("server Get Report Details");				
-				List<List<Integer>> sumList = new ArrayList<>();
-				List<Integer> numOfDelaysList = new ArrayList<>();
-				List<Integer> durationOfDelaysList= new ArrayList<>();
-				LocalDate startDate2= (LocalDate) serverService.getParams().get(0);
-				LocalDate from2= startDate2;
-				LocalDate endDate2= (LocalDate) serverService.getParams().get(1);
-				LocalDate to2= endDate2;
-				long weeks2= (long) serverService.getParams().get(2);
-				long left2= (long) serverService.getParams().get(2);
-				if (left2 == 0) {
-					for (int i = 0; i <= weeks2; i++) {
-						from = startDate2.plusDays(7 * i);
-						to = startDate2.plusDays(7 * 1 + 6);
-						int numOfDelaysCount = dbConnection.getDelaysReportDetails(from,to);
-						numOfDelaysList.add(numOfDelaysCount);
-						int delayCount=dbConnection.getDelaysReportDetails1(from,to);
-						System.out.println(delayCount);
-						durationOfDelaysList.add(delayCount);
-						sumList.add(numOfDelaysList);
-						sumList.add(durationOfDelaysList);
-						serverService.setParams(sumList);
-						client.sendToClient(serverService);
+				} else {
+					for (int i = 0; i <= weeks; i++) {
+						from = startDate.plusDays(7 * i);
+						to = startDate.plusDays(7 * i + 6);
+						int frozenCount = dbConnection.getFReportDetails(from, to);
+						frozenList.add(frozenCount);
+						int activeCount = dbConnection.getAReportDetails(from, to);
+						activeList.add(activeCount);
+						int closedCount = dbConnection.getCReportDetails(from, to);
+						closedList.add(closedCount);
+						int declinedCount = dbConnection.getDReportDetails(from, to);
+						declinedList.add(declinedCount);
+						int totalDaysCount = dbConnection.getTReportDetails(from, to);
+						System.out.println("Tom1"+totalDaysCount);
+						totalDaysList.add(totalDaysCount);
 
 					}
-				} else {
-					for (int i = 0; i < weeks2; i++) {
-						from2= from2.plusDays(7*i);
-						to2= from2.plusDays(7*i+6);
-						int count2 = dbConnection.getFReportDetails(from2,to2);
-						numOfDelaysList.add(count2);
-						serverService.setParams(numOfDelaysList);
-						client.sendToClient(serverService);
-					}
+					countList.add(frozenList);
+					countList.add(activeList);
+					countList.add(closedList);
+					countList.add(declinedList);
+					countList.add(totalDaysList);
+					System.out.println("hereeee111");
+					serverService.setParams(countList);
+					client.sendToClient(serverService);
 
 				}
+				System.out.println("ronit"+countList);
+				System.out.println("server finish Get Report Details");
+				break;
+
+			case Get_Performance_Report_Details:
+				System.out.println("server Get Performance Report Details");
+				List<List<LocalDate>> totalList = new ArrayList<>();
+				LocalDate startDate1 = (LocalDate) serverService.getParams().get(0);
+				LocalDate from1 = startDate1;
+				LocalDate endDate1 = (LocalDate) serverService.getParams().get(1);
+				LocalDate to1 = endDate1;
+				List<LocalDate> timeList = dbConnection.getPerformanceReportDetails(from1, to1);
+				System.out.println(timeList);
+				totalList.add(timeList);
+				List<LocalDate> timeList1 = dbConnection.getPerformanceReportDetails1(from1, to1);
+				System.out.println(timeList1);
+				totalList.add(timeList1);
+				serverService.setParams(totalList);
+				client.sendToClient(serverService);
+				System.out.println("server finish Get Performance Report Details");
+				break;
+
+			case Get_Delays_Report_Details:
+				System.out.println("server Get Report Details");
+				List<List<Integer>> sumList = new ArrayList<>();
+				List<Integer> numOfDelaysList = new ArrayList<>();
+				List<Integer> durationOfDelaysList = new ArrayList<>();
+				List<Integer> delaysPerSystemList = new ArrayList<>();
+				List<Integer>durationPerSystemList = new ArrayList<>();
+				LocalDate startDate2 = (LocalDate) serverService.getParams().get(0);
+				LocalDate from2 = startDate2;
+				LocalDate endDate2 = (LocalDate) serverService.getParams().get(1);
+				LocalDate to2 = endDate2;
+				long weeks2 = (long) serverService.getParams().get(2);
+				long left2 = (long) serverService.getParams().get(3);
+				System.out.println("ronit"+weeks2);
+				System.out.println("ronit"+left2);
+				for (int i = 0; i < 8; i++) {
+					int delaysPerSystemCount = dbConnection.getDelaysReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
+					delaysPerSystemList.add(delaysPerSystemCount);
+				}
+				
+				for (int i = 0; i < 8; i++) {
+					int durationPerSystemCount = dbConnection.getDurationReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
+					durationPerSystemList.add(durationPerSystemCount);
+				}
+				
+				if (left2 == 0) {
+					for (int i = 0; i <= weeks2; i++) {
+						from2 = startDate2.plusDays(7 * i);
+						to2 = startDate2.plusDays(7 * 1 + 6);
+						int numOfDelaysCount = dbConnection.getDelaysReportDetails(from2, to2);
+						numOfDelaysList.add(numOfDelaysCount);
+						int delayCount = dbConnection.getDelaysReportDetails1(from2, to2);
+						durationOfDelaysList.add(delayCount);
+					
+					}
+					sumList.add(numOfDelaysList);
+					sumList.add(durationOfDelaysList);
+					sumList.add(delaysPerSystemList);
+					sumList.add(durationPerSystemList);
+					serverService.setParams(sumList);
+					client.sendToClient(serverService);
+					
+				} else {
+					for (int i = 0; i <= weeks2; i++) {
+						from2 = from2.plusDays(7 * i);
+						to2 = from2.plusDays(7 * i + 6);
+						int numOfDelaysCount = dbConnection.getDelaysReportDetails(from2, to2);
+						numOfDelaysList.add(numOfDelaysCount);
+						int delayCount = dbConnection.getDelaysReportDetails1(from2, to2);
+						durationOfDelaysList.add(delayCount);
+				
+					}
+					sumList.add(numOfDelaysList);
+					sumList.add(durationOfDelaysList);
+					sumList.add(delaysPerSystemList);
+					sumList.add(durationPerSystemList);
+					serverService.setParams(sumList);
+					client.sendToClient(serverService);
+					
+				}
+				System.out.println(sumList);
 				System.out.println("server finish Get Report Details");
 				break;
 				

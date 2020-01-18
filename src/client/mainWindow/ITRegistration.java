@@ -38,7 +38,9 @@ public class ITRegistration implements ClientUI {
 	ChangeInitiator oldSelection = new ChangeInitiator();
 	ObservableList<ChangeInitiator> employeeList = FXCollections.observableArrayList();
 
-	
+	/**
+	 * Initialize the register into IT department dialog
+	 */
 	public void initialize() {
 		
 		try {
@@ -60,6 +62,11 @@ public class ITRegistration implements ClientUI {
 		submitButton.disableProperty().bind(bb);
 	}
 	
+	@Override
+	/** 
+	 * @param serverService-ServerService object that the client controller send
+	 * set items in the choice box
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 
 		List<ChangeInitiator> params = serverService.getParams();
@@ -72,6 +79,11 @@ public class ITRegistration implements ClientUI {
 		employeeChoiceBox.setItems(employeeList);
 	}
 	
+	@FXML
+	/**
+	 * Register the selected employee into IT department when submit button pressed
+	 * @param e-create button pressed event
+	 */
 	public void submitAction(ActionEvent e) {
 		
 		selectedEmployee = employeeChoiceBox.getSelectionModel().getSelectedItem();
@@ -91,6 +103,11 @@ public class ITRegistration implements ClientUI {
 		IcmUtils.getPopUp().close();
 	}
 	
+	@FXML
+	/**
+	 * Back to change request summary dialog when cancel button pressed
+	 * @param e-cancel button pressed event
+	 */
 	public void cancelAction(ActionEvent e) {
 		IcmUtils.getPopUp().close();
 

@@ -34,6 +34,10 @@ public class DelaysReport implements ClientUI {
 	@FXML
 	private TextField stdDelays;
 	@FXML
+	private TextField medSystem2;
+	@FXML
+	private TextField stdSystem2;
+	@FXML
 	private TextField medSystem;
 	@FXML
 	private TextField stdSystem;
@@ -55,11 +59,22 @@ public class DelaysReport implements ClientUI {
 	private TableColumn<Distribution, String> infoSystemCol;
 	@FXML
 	private TableColumn<Distribution, Integer> cntCol;
+	@FXML
+	private TableView<Distribution> systemTable2;
+	@FXML
+	private TableColumn<Distribution, String> infoSystemCol2;
+	@FXML
+	private TableColumn<Distribution, Integer> cntCol2;
+	
 	private ClientController clientController;
 	private ObservableList<Distribution> listNumber;
 	private ObservableList<Distribution> listDelays;
 	private ObservableList<Distribution> listPerInfoSystem;
+	private ObservableList<Distribution> listPerInfoSystem2;
 	
+	/**
+	 * Initializes the delays report
+	 */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -80,6 +95,7 @@ public class DelaysReport implements ClientUI {
 		listNumber = FXCollections.observableArrayList();
 		listDelays = FXCollections.observableArrayList();
 		listPerInfoSystem = FXCollections.observableArrayList();
+		listPerInfoSystem2 = FXCollections.observableArrayList();
 		
 		cntNumber.setStyle("-fx-alignment: CENTER");
 		disNumber.setStyle("-fx-alignment: CENTER");
@@ -93,6 +109,10 @@ public class DelaysReport implements ClientUI {
 		cntCol.setStyle("-fx-alignment: CENTER");
 		initOtherTableValueFactory(infoSystemCol, cntCol);
 		
+		infoSystemCol2.setStyle("-fx-alignment: CENTER");
+		cntCol2.setStyle("-fx-alignment: CENTER");
+		initOtherTableValueFactory(infoSystemCol2, cntCol2);
+		
 		
 		long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
 		long weeksBetween = daysBetween / 7;
@@ -104,7 +124,11 @@ public class DelaysReport implements ClientUI {
 
 	}
 
-
+	/**
+	 * initializes the table of frequencies per info system
+	 * @param infoSystemCol-info system column
+	 * @param cntCol-count of delays per info system column
+	 */
 	private void initOtherTableValueFactory(TableColumn<Distribution, String> infoSystemCol,
 			TableColumn<Distribution, Integer> cntCol) {
 		// TODO Auto-generated method stub
@@ -112,13 +136,21 @@ public class DelaysReport implements ClientUI {
 		cntCol.setCellValueFactory(new PropertyValueFactory<>("dis"));
 	}
 
-
+	/**
+	 * initializes the table of frequencies not per info system
+	 * @param cnt-values column
+	 * @param dis-frequencies of values column
+	 */
 	private void initTableValueFactory(TableColumn<Distribution, Integer> cnt,
 			TableColumn<Distribution, Integer> dis) {
 		cnt.setCellValueFactory(new PropertyValueFactory<>("num"));
 		dis.setCellValueFactory(new PropertyValueFactory<>("dis"));
 	}
-	
+	/**
+	 * Calculates a median for the given array
+	 * @param Array-array of elements
+	 * @return the median of the elements
+	 */
 	public double median(Integer[] Array) {
 		double median;
 		if (Array.length % 2 == 0)
@@ -128,6 +160,11 @@ public class DelaysReport implements ClientUI {
 
 		return median;
 	}
+	/**
+	 * Calculates a standard deviation for the given array
+	 * @param Array-array of elements
+	 * @return the standard deviation of the elements
+	 */
 	
 	public double std(Integer[] Array) {
 		double sum=0.0;
@@ -146,6 +183,11 @@ public class DelaysReport implements ClientUI {
         return Math.sqrt(sd/Array.length);
 
 	}
+	/**
+	 * Calculates frequencies of array elements
+	 * @param Array-given array of elements
+	 * @return list of frequencies
+	 */
 	public List<Distribution> frq(Integer[] Array) {
 		List<Distribution>l=new ArrayList<Distribution>();
 		HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
@@ -166,64 +208,80 @@ public class DelaysReport implements ClientUI {
 		return l;
 
 	}
+	/**
+	 * Calculates the count of delays per info system
+	 * @param Array -the given array 
+	 * @return list of counters per info system
+	 */
 	public List<Distribution> countPerInfoSystem(Integer[] Array) {
+		int i;
 		List<Distribution>l=new ArrayList<Distribution>();
-		l.add(new Distribution(0, 10, InfoSystem.LIBRARY));
-		/*HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
-		for (int i = 0; i < Array.length; i++) {
-			if (hm.containsKey(Array[i]))
-				hm.put(Array[i], hm.get(Array[i]) + 1);
-			else
-
-				hm.put(Array[i], 1);
+		for(i=0;i<Array.length;i++) {
+			l.add(new Distribution(0, Array[i], InfoSystem.values()[i]));
 		}
-		 Iterator it = hm.entrySet().iterator();
-		    while (it.hasNext()) {
-		        Map.Entry pair = (Map.Entry)it.next();
-		        l.add(new Distribution((Integer)pair.getKey(), (Integer)pair.getValue(),null));
-		        it.remove(); // avoids a ConcurrentModificationException
-		    }
-		  */
 		return l;
 
 	}
+	/**
+	 * Handles the message that returns from the server
+	 */
 	@Override
 	public void handleMessageFromClientController(ServerService serverService) {
 		// params is the list of values for statistic
 		List<List<Integer>> params = serverService.getParams();
 		List delaysCount= params.get(0);
 		List durationCount=params.get(1);
+		List delaysPerSystemCount= params.get(2);
+		List durationPerSystemCount=params.get(3);
 
-		System.out.println(delaysCount.get(0));
-		System.out.println(durationCount.get(0));
 		
 		int size1=delaysCount.size();
 		int size2=durationCount.size();
+		int size3=delaysPerSystemCount.size();
+		int size4=durationPerSystemCount.size();
 		
 		Integer[] numArray1 = new Integer[size1];
 		Integer[] numArray2 = new Integer[size2];
+		Integer[] numArray3 = new Integer[size3];
+		Integer[] numArray4 = new Integer[size4];
 		
 		delaysCount.toArray(numArray1);
 		durationCount.toArray(numArray2);
+		delaysPerSystemCount.toArray(numArray3);
+		durationPerSystemCount.toArray(numArray4);
 		
 		Arrays.sort(numArray1);
 		Arrays.sort(numArray2);
+		Arrays.sort(numArray3);
+		Arrays.sort(numArray4);
 		
 		double delaysMed= median(numArray1);
 		double durationMed= median(numArray2);
+		double delaysPerSystemMed= median(numArray3);
+		double durationPerSystemMed= median(numArray4);
 		
 		double delaysStd= std(numArray1);
 		double durationStd= std(numArray2);
+		double delaysPerSystemStd= std(numArray3);
+		double durationPerSystemStd= std(numArray4);
 		
 		String s = String.valueOf(delaysMed);
 		String s1 = String.valueOf(delaysStd);
 		String s2 = String.valueOf(durationMed);
 		String s3 = String.valueOf(durationStd);
+		String s4 = String.valueOf(delaysPerSystemMed);
+		String s5 = String.valueOf(delaysPerSystemStd);
+		String s6 = String.valueOf(durationPerSystemMed);
+		String s7 = String.valueOf(durationPerSystemStd);
 		
 		medNumber.setText(s);
 		stdNumber.textProperty().set(s1);
 		medDelays.textProperty().set(s2);
 		stdDelays.textProperty().set(s3);
+		medSystem.textProperty().set(s4);
+		stdSystem.textProperty().set(s5);
+		medSystem2.textProperty().set(s6);
+		stdSystem2.textProperty().set(s7);
 		
 		//number of delays table
 		List<Distribution>l=frq(numArray1);
@@ -234,9 +292,14 @@ public class DelaysReport implements ClientUI {
 		listDelays.setAll(l1);
 		delaysTable.setItems(listDelays);
 		//delays per info system table
-		List<Distribution>l2=countPerInfoSystem(numArray2);
+		List<Distribution>l2=countPerInfoSystem(numArray3);
 		listPerInfoSystem.setAll(l2);
 		systemTable.setItems(listPerInfoSystem);
+		//duration of delays per info system table
+		List<Distribution>l3=countPerInfoSystem(numArray4);
+		listPerInfoSystem2.setAll(l3);
+		systemTable2.setItems(listPerInfoSystem2);
+		
 	}
 
 

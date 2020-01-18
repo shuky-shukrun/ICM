@@ -614,6 +614,14 @@ public class DBConnection {
 		}
 
 	}
+	
+	/**
+	 * Gets details of evaluation report from the database
+	 * 
+	 * @param params -the id of the requested change request
+	 * 
+	 * @return List of Evaluation Reports
+	 */
 
 	public List<EvaluationReport> getEvaluationReportDetails(List<Integer> params) {
 
@@ -1109,6 +1117,12 @@ public class DBConnection {
 		}
 
 	}
+	
+	/**
+	 * Gets details of members of the ccc from the database
+	 * 
+	 * @return List of all the users that are part of the ccc
+	 */
 
 	public List<ChangeInitiator> getCCC() throws SQLException {
 		System.out.println("database handle getCCC");
@@ -1136,6 +1150,15 @@ public class DBConnection {
 		return cccList;
 	}
 
+	/**
+	 * Sets a member of the ccc as a tester at the database
+	 * 
+	 * @param a -the previous tester
+	 * 
+	 * @param b- the new tester
+	 * 
+	 * @param id- the id of the change request
+	 */
 	public void replaceTester(ChangeInitiator a, ChangeInitiator b, Integer id) throws SQLException {
 		System.out.println("database handle replaceTester");
 
@@ -1385,6 +1408,11 @@ public class DBConnection {
 		return list;
 	}
 
+	/**
+	 * Gets details of employees(administration/lecturer) from the database
+	 * 
+	 * @return List of employees
+	 */
 	public List<ChangeInitiator> getEmployee() throws SQLException {
 		System.out.println("database handle getEmployee");
 		List<ChangeInitiator> employeeList = new ArrayList<>();
@@ -1412,6 +1440,13 @@ public class DBConnection {
 
 	}
 
+	/**
+	 * Sets the user as part of the IT department at the database
+	 * 
+	 * @param a- the chosen user
+	 * 
+	 * @param id- the users id
+	 */
 	public void registerIT(ChangeInitiator a, Integer id) throws SQLException {
 		System.out.println("database handle replaceTester");
 
@@ -1723,6 +1758,16 @@ public class DBConnection {
 		}
 
 	}
+	
+	/**
+	 * Gets details of activity report (frozen requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of frozen requests
+	 */
 	public int getFReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1744,6 +1789,15 @@ public class DBConnection {
 		return count;
 	}
 
+	/**
+	 * Gets details of activity report (active requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of active requests
+	 */
 	public int getAReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1765,6 +1819,15 @@ public class DBConnection {
 		return count;
 	}
 
+	/**
+	 * Gets details of activity report (closed requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of closed requests
+	 */
 	public int getCReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1789,6 +1852,15 @@ public class DBConnection {
 		return count;
 	}
 
+	/**
+	 * Gets details of activity report (declined requests) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of declined requests
+	 */
 	public int getDReportDetails(LocalDate startDate, LocalDate endDate) {
 		int count = 0;
 		try {
@@ -1812,7 +1884,95 @@ public class DBConnection {
 		}
 		return count;
 	}
+	/**
+	 * Gets details of activity report (total work days) from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of total work days
+	 */
+	public int getTReportDetails(LocalDate startDate, LocalDate endDate) {
+		 
+		List<LocalDate> time1List=new ArrayList<>();
+		List<LocalDate> time2List=new ArrayList<>();
 
+		try {
+			PreparedStatement ps = sqlConnection.prepareStatement("select* from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND P.phStatus!='PHASE_LEADER_ASSIGNED' AND P.phStatus!='TIME_REQUESTED' AND P.phStatus!='SUBMITTED' AND P.phStatus!='DONE' AND P.phStatus!='PHASE_EXEC_LEADER_ASSIGNED' AND P.phDeadline is not null");
+         
+			
+			
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				time1List.add((rs.getDate("crDate")).toLocalDate());
+
+			}
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(time1List);
+		try {
+			PreparedStatement ps = sqlConnection.prepareStatement("select distinct * from cbaricmy_ICM.phase P, cbaricmy_ICM.changeRequest C where C.crDate >=? AND C.crDate <= ?  AND P.phIDChangeRequest=C.crID AND P.phPhaseName= C.crCurrPhaseName AND (P.phStatus='IN_PROCESS' OR P.phStatus='EXTENSION_TIME_APPROVED' OR P.phStatus='EXTENSION_TIME_REQUESTED') AND C.crCurrPhaseName!='SUBMITTED' AND C.crCurrPhaseName!='CLOSING' AND P.phDeadline is not null;");
+			
+			
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			//ps.setDate(3, Date.valueOf((LocalDate) endDate));
+			//ps.setString(4, Phase.PhaseStatus.IN_PROCESS.toString());
+			//ps.setString(5, Phase.PhaseStatus.EXTENSION_TIME_APPROVED.toString());
+			//ps.setString(6, Phase.PhaseStatus.EXTENSION_TIME_REQUESTED.toString());
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				if(rs.getInt("phExtensionRequestDecision")==1)
+					if(rs.getDate("phTimeExtensionRequest").toLocalDate().compareTo(endDate)<=0)
+						time2List.add((rs.getDate("phTimeExtensionRequest")).toLocalDate());
+					else
+						time2List.add(endDate);
+				else 
+					if(rs.getDate("phDeadline").toLocalDate().compareTo(endDate)<=0)
+						time2List.add((rs.getDate("phDeadline")).toLocalDate());
+					else
+						time2List.add(endDate);
+					
+
+			}
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		long count=0;
+		for(int i=0;i<time1List.size();i++) {
+			String s= time1List.get(i).toString();
+			String s1=time2List.get(i).toString();
+			LocalDate localDate = LocalDate.parse(s);
+			LocalDate localDate1 = LocalDate.parse(s1);
+			long daysBetween =Math.abs(ChronoUnit.DAYS.between(localDate,localDate1));
+			System.out.println("check1"+daysBetween);
+			count= count+daysBetween;
+			System.out.println("check2"+count);
+		}
+		return (int)count;
+
+}
+	/**
+	 * Gets details of performance report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return list of all the extension dates
+	 */
 	public List<LocalDate> getPerformanceReportDetails(LocalDate startDate, LocalDate endDate) {
 		 
 			List<LocalDate> timeList=new ArrayList<>();
@@ -1838,6 +1998,17 @@ public class DBConnection {
 			}
 			return timeList;
 	}
+
+
+	/**
+	 * Gets details of performance report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return list of all the original deadlines
+	 */
 	
 	public List<LocalDate> getPerformanceReportDetails1(LocalDate startDate, LocalDate endDate) {
 	
@@ -1865,6 +2036,17 @@ public class DBConnection {
 		
 	}
 	
+
+	/**
+	 * Gets details of delays report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return number of delays 
+	 */
+
 	public int getDelaysReportDetails(LocalDate startDate, LocalDate endDate) {
 
 		int count = 0;
@@ -1890,6 +2072,16 @@ public class DBConnection {
 		
 	}
 	 
+
+	/**
+	 * Gets details of performance report from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the total duration of delays
+	 */
 	public int getDelaysReportDetails1(LocalDate startDate, LocalDate endDate) {
 
 		int count = 0;
@@ -1990,6 +2182,69 @@ public class DBConnection {
 		}
 		
 		return list;
+	}
+
+	/**
+	 * Gets number of delays by info system from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the number of delays by info system
+	 */
+	public int getDelaysReportPerSystemDetails(LocalDate startDate, LocalDate endDate, InfoSystem infoSystem) {
+
+		int count = 0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("select count(P.phExceptionTime) as count from cbaricmy_ICM.phase P,  cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crInfoSystem=? AND C.crID=P.phIDChangeRequest AND P.phExceptionTime>0");
+
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setString(3, infoSystem.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next())
+				count = rs.getInt("count");
+			System.out.println(count);
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	/**
+	 * Gets total duration of delays per info system from the database
+	 * 
+	 * @param startDate -the date the report needs to start
+	 * 
+	 * @param endDate -the date the report needs to end
+	 *
+	 * @return the total duration of delays per info system
+	 */
+	public int getDurationReportPerSystemDetails(LocalDate startDate, LocalDate endDate, InfoSystem infoSystem) {
+
+		int sum = 0;
+		try {
+			PreparedStatement ps = sqlConnection
+					.prepareStatement("select SUM(P.phExceptionTime) as sum from cbaricmy_ICM.phase P,  cbaricmy_ICM.changeRequest C where C.crDate >= ? AND C.crDate <= ? AND C.crInfoSystem=? AND C.crID=P.phIDChangeRequest AND P.phExceptionTime>0");
+
+			ps.setDate(1, Date.valueOf((LocalDate) startDate));
+			ps.setDate(2, Date.valueOf((LocalDate) endDate));
+			ps.setString(3, infoSystem.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next())
+				sum = rs.getInt("sum");
+			ps.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sum;
 	}
 
 }
