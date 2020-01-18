@@ -74,6 +74,9 @@ public class AssignPhaseLeaders implements ClientUI {
     private Phase newCurrPhase;
     private Phase oldPhase;
     
+    /**
+     * Initialize assign phase leaders window
+     */
 	public void initialize() {
 		try {
 			clientController = ClientController.getInstance(this);
@@ -155,7 +158,12 @@ public class AssignPhaseLeaders implements ClientUI {
 		}
 	}
 
+	
 	@FXML
+	/**
+	 * submit the chosen phase leaders when the submit button pressed and send data to DB.
+	 * @param event-submit button pressed event
+	 */
 	void submitAssignPhaseLeaders(ActionEvent event) {
 		
 		evaluationPhaseLeader= addDetails(evaluationPhaseLeaderChoiceBox, "EVALUATION", "PHASE_LEADER");
@@ -177,12 +185,20 @@ public class AssignPhaseLeaders implements ClientUI {
 	}
 
 	@FXML
+	/**
+	 * close the assign phase leaders dialog.
+	 * @param event-cancel button pressed event
+	 */
 	void cancelAssignPhaseLeaders(ActionEvent event) {
 		IcmUtils.getPopUp().close();
 	}
 	
 	
 	@Override
+	/**
+	 * handle the returned value from server.
+	 * @param serverService-ServerService object that the client controller send
+	 */
 	public void handleMessageFromClientController(ServerService serverService) {
 		switch (serverService.getDatabaseService()) {
 		case Get_Phase_Leaders_And_Workers:
@@ -253,6 +269,12 @@ public class AssignPhaseLeaders implements ClientUI {
 	}
 	}	
 	
+	/**
+     * helper function to add listener to ChoiceBox.
+     *
+     * @param max_Length the max length of change request id
+     * @return EventHandler that can be assign to TextField
+     */
 	 private void addChangeListener(ChoiceBox src, ChoiceBox a) {
 	        src.valueProperty().addListener((observable, oldValue, newValue) -> {
 	            if(a.getSelectionModel().getSelectedItem() != null &&

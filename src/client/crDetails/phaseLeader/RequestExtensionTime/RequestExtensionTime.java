@@ -108,6 +108,7 @@ public class RequestExtensionTime implements ClientUI{
 
 	@Override
 	/**
+	 * handle the returned value from server.
 	 * display alert with the information if the time extension request has been successfully submitted.
 	 * @param serverService-ServerService object that the client controller send
 	 */
