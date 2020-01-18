@@ -30,7 +30,10 @@ public class ServerMain extends Application implements ClientUI {
 
         } catch (IOException e) {
             e.printStackTrace();
-            IcmUtils.displayErrorMsg(e.getMessage());
+            IcmUtils.displayErrorMsg(
+                    "Load scene error",
+                    "Load scene error",
+                    e.getMessage() + "\nPlease contact ICM support team");
         }
     }
 

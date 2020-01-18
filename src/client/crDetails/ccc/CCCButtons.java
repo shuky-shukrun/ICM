@@ -78,7 +78,9 @@ public class CCCButtons implements ClientUI {
 
 	@FXML
 	void moreInformationEvent(ActionEvent event) {
-		IcmUtils.displayInformationMsg("Set Decision Help", "Decision has been submitted",
+		IcmUtils.displayInformationMsg(
+				"Set Decision Help",
+				"Decision already submitted",
 				"The decision for this request already submitted.");
 	}
 

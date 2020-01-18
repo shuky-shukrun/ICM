@@ -156,13 +156,19 @@ public class ITDAssignPermissions implements ClientUI {
                 break;
 
             case Itd_Update_Permissions:
-                IcmUtils.displayInformationMsg("ITD assign permissions", "Permissions updated successfully", "Permissions updated successfully.");
+                IcmUtils.displayInformationMsg(
+                        "ITD assign permissions",
+                        "Permissions updated successfully",
+                        "Permissions updated successfully.");
                 IcmUtils.getPopUp().close();
                 break;
 
             case Error:
                 IOException ioException = ((IOException) serverService.getParams().get(0));
-                IcmUtils.displayErrorMsg("Server Error", "Server Error", ioException.getMessage());
+                IcmUtils.displayErrorMsg(
+                        "Server Error",
+                        "Server Error",
+                        ioException.getMessage() + "\nPlease contact ICM support team");
                 break;
         }
 

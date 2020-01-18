@@ -79,8 +79,12 @@ public class ExecutiveLeaderButtons implements ClientUI {
 				break;
 				
             default:
-                IcmUtils.displayErrorMsg("Request status can't be " +
-                        currPhase.getPhaseStatus() + ". Please contact system administrator.");
+                IcmUtils.displayErrorMsg(
+                		"Request status error",
+						"Request status error",
+						"Request status can't be " +
+                        currPhase.getPhaseStatus() + ".\n" +
+								"Please contact ICM support team.");
                 try {
                     IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
                 } catch (IOException e) {
@@ -134,24 +138,21 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	 */
 	@FXML
 	public void requestPhaseTimeInfoMsg() {
-		 entities.Phase.PhaseStatus temp=CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
-		 switch(temp) {
+		 entities.Phase.PhaseStatus phaseStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
+		 switch(phaseStatus) {
 		 case IN_PROCESS:
-		 
-				IcmUtils.displayInformationMsg("Information message",
-						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-						"Change request " + CrDetails.getCurrRequest().getId()
-								+ " -time request approved already." );
-			
+			 IcmUtils.displayInformationMsg(
+					 "Request phase time Help",
+					 "Phase time already approved",
+					 "Phase time for this phase already approved.\n" +
+							 "Contact the phase leader if you want to request extension time.");
 		 break;
 		 case TIME_REQUESTED:
-			 
-				IcmUtils.displayInformationMsg("Information message",
-						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-						"Change request " + CrDetails.getCurrRequest().getId()
-								+ " -time request is waiting for supervisor's approval." );
+			 IcmUtils.displayInformationMsg(
+					 "Request phase time Help",
+					 "Phase time already submitted",
+					 "Phase time for this phase already submitted.\n" +
+							 "Please wait for supervisor approval.");
 				break;
 		 }
 
@@ -162,12 +163,26 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	 */
 	@FXML
 	public void confirmExecutionInfoMsg() {
-
-		IcmUtils.displayInformationMsg("Information message",
-				"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-						+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-				"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
-						+ "Execution can't be confirmed when the phase time not yet approved!");
+		entities.Phase.PhaseStatus phaseStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
+		switch (phaseStatus) {
+			case PHASE_LEADER_ASSIGNED:
+			case TIME_DECLINED:
+				IcmUtils.displayInformationMsg(
+						"Create evaluation report Help",
+						"Phase time not submitted",
+						"You need to submit phase time and get supervisor approval " +
+								"before you create evaluation report.");
+				break;
+			case TIME_REQUESTED:
+			case EXTENSION_TIME_REQUESTED:
+			case EXTENSION_TIME_APPROVED:
+				IcmUtils.displayInformationMsg(
+						"Create evaluation report Help",
+						"Phase time is waiting for approval",
+						"You need to get supervisor approval for the requested phase time" +
+								"before you create evaluation report.");
+				break;
+		}
 
 	}
 
@@ -190,7 +205,11 @@ public class ExecutiveLeaderButtons implements ClientUI {
         switch (serverService.getDatabaseService()) {
             case Error:
                 List<Exception> errorList = serverService.getParams();
-                IcmUtils.displayErrorMsg(errorList.get(0).getMessage());
+                IcmUtils.displayErrorMsg(
+                		"Server error",
+						"Server error",
+						"Can not confirm execution.\n" +
+								"Server returned error: " +	errorList.get(0).getMessage());
                 break;
         }
     }

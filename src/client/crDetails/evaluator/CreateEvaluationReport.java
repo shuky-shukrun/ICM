@@ -148,11 +148,17 @@ public class CreateEvaluationReport implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true && list.get(1) == true) {
-			IcmUtils.displayInformationMsg("Success", "Evaluation report created", "Evaluation report was successfully created.");
+			IcmUtils.displayInformationMsg(
+					"Evaluation report created",
+					"Evaluation report created",
+					"Evaluation report was successfully created.");
 
 		} else {
-			IcmUtils.displayErrorMsg("Error", "Evaluation report error", "Can not create evaluation report.\n" +
-					"please contact system administrator.");
+			IcmUtils.displayErrorMsg(
+					"Error",
+					"Evaluation report error",
+					"Can not create evaluation report.\n" +
+					"please contact ICM support team.");
 			return;
 		}
 

@@ -100,35 +100,33 @@ public class PhaseLeaderButtons implements ClientUI {
 	 * 
 	 * @param event-more information button pressed event
 	 */
-	void moreInformationEvent(ActionEvent event) {
+	void extensionTimeInfoMsg(ActionEvent event) {
 
 		switch (helpType) {
 		case "Time Exception":
-			IcmUtils.displayInformationMsg("Time Exception",
-					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
-							+ "Current phase: " + currPhase.getName().toString() + "\n" + "Deadline: "
-							+ currPhase.getDeadLine().format(formatter) + "\n" + "Time left: " + days + " days" + "\n",
-					"This request can only be submitted if 3 or less days are left to complete this phase!");
+			IcmUtils.displayInformationMsg(
+					"Extension time help",
+			"More than 3 left",
+			"Extension time can be requested only 3 days or less before phase deadline.");
 			break;
-
 		case "Time extension already exists":
-			IcmUtils.displayInformationMsg("Time extension already exists",
-					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
-							+ "Current phase: " + currPhase.getName().toString(),
-					"A time extension request for this phase has already been submitted and aproved." + "\n"
-							+ "Time extension request can only be aproved once!");
+			IcmUtils.displayInformationMsg(
+					"Extension time help",
+					"Extension request already approved",
+					"Extension time for this phase already submitted and approved.\n" +
+							"You can not submit another extension request.");
 			break;
 		case "time extension requested":
-			IcmUtils.displayInformationMsg("Time extension requested",
-					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
-							+ "Current phase: " + currPhase.getName().toString() + "\n" + "Phase status: "
-							+ currPhase.getPhaseStatus(),
-					"Time extension request for this phase has been forwarded to the supervisor's approval.");
+			IcmUtils.displayInformationMsg(
+					"Extension time help",
+					"Extension request already submitted",
+					"Extension time for this phase already submitted.\n" +
+							"Please wait for supervisor decision.");
 			break;
 		case "No deadline":
-			IcmUtils.displayInformationMsg("No deadline",
-					"Phase Details-" + "\n" + "Change request ID: " + currPhase.getChangeRequestId() + "\n"
-							+ "Current phase: " + currPhase.getName().toString() + "\n",
+			IcmUtils.displayInformationMsg(
+					"Extension time help",
+					"No deadline detected",
 					"The deadline for this phase has not been set yet.");
 			break;
 		}
@@ -146,7 +144,7 @@ public class PhaseLeaderButtons implements ClientUI {
 	/**
      * Returns the updated current phase.
      *
-     * @return the updated current phaser.
+     * @return the updated current phase.
      */
 	public static Phase getPhase() {
 		return currPhase;

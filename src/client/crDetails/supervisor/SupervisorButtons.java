@@ -36,7 +36,7 @@ public class SupervisorButtons implements ClientUI {
 	@FXML
 	private Button phaseTimeRequestInfo;
 	@FXML
-	private Button moreInformation2;
+	private Button closeChangeRequestInfoButton;
 	@FXML
 	private Button freezeRequestInfoButton;
 	@FXML
@@ -75,7 +75,7 @@ public class SupervisorButtons implements ClientUI {
 				freezeRequestButton.setDisable(false);
 				closeChangeRequestButton.setDisable(true);
 				phaseTimeRequestInfo.setVisible(true);
-				moreInformation2.setVisible(true);
+				closeChangeRequestInfoButton.setVisible(true);
 				freezeRequestInfoButton.setVisible(false);
 				editButton.setDisable(false);
 				
@@ -116,7 +116,7 @@ public class SupervisorButtons implements ClientUI {
 					freezeRequestButton.setDisable(true);
 					closeChangeRequestButton.setDisable(true);
 					phaseTimeRequestInfo.setVisible(false);
-					moreInformation2.setVisible(true);
+					closeChangeRequestInfoButton.setVisible(true);
 					freezeRequestInfoButton.setVisible(false);
 					editButton.setDisable(true);
 					break;
@@ -127,7 +127,7 @@ public class SupervisorButtons implements ClientUI {
 					freezeRequestButton.setDisable(false);
 					closeChangeRequestButton.setDisable(false);
 					phaseTimeRequestInfo.setVisible(false);
-					moreInformation2.setVisible(false);
+					closeChangeRequestInfoButton.setVisible(false);
 					freezeRequestInfoButton.setVisible(false);
 					editButton.setDisable(true);
 					break;
@@ -144,7 +144,7 @@ public class SupervisorButtons implements ClientUI {
 				freezeRequestButton.setDisable(true);
 				closeChangeRequestButton.setDisable(true);
 				phaseTimeRequestInfo.setVisible(false);
-				moreInformation2.setVisible(false);
+				closeChangeRequestInfoButton.setVisible(false);
 				freezeRequestInfoButton.setVisible(true);
 				editButton.setDisable(true);
 			}
@@ -189,7 +189,7 @@ public class SupervisorButtons implements ClientUI {
      */
 	@FXML
 	void closeChangeRequest(ActionEvent event) {
-		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("Are you sure you want to close this request?");
+		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("Close request confirmation", "Close request confirmation", "Are you sure you want to close this request?");
 		if (result.get() == ButtonType.OK) {
 			List<String> params = new ArrayList<String>();
 			params.add(CrDetails.getCurrRequest().getId().toString());
@@ -214,7 +214,7 @@ public class SupervisorButtons implements ClientUI {
 	 */
 	@FXML
 	void freezeRequest(ActionEvent event) {
-		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("are you sure you want to freeze this request?");
+		Optional<ButtonType> result = IcmUtils.displayConfirmationMsg("Freeze request confirmation", "Freeze request confirmation", "Are you sure you want to freeze this request?");
 		if (result.get() == ButtonType.OK) {
 			List<Integer> list = new ArrayList<Integer>();
 			list.add(CrDetails.getCurrRequest().getId());
@@ -254,20 +254,26 @@ public class SupervisorButtons implements ClientUI {
     			break;
 
 		default:
-			IcmUtils.displayErrorMsg("Error", "Phase time error", "There are no time requests.\n" +
-					"The button should be disable.\nPlease contact system administrator.");
+			IcmUtils.displayErrorMsg("Phase time error", "Phase time error", "There are no time requests.\n" +
+					"The button should be disable.\nPlease contact ICM support team.");
 
 		}
 	}
 
 	@FXML
 	private void phaseTimeDecisionInfo() {
-		IcmUtils.displayInformationMsg("Phase time help", "Phase time help", "There is no time request waiting for approval.");
+		IcmUtils.displayInformationMsg(
+				"Phase time help",
+				"Phase time help",
+				"There is no time request waiting for approval.");
 	}
 
 	@FXML
 	private void freezeRequestInfo() {
-		IcmUtils.displayInformationMsg("Frozen request", "Frozen request", "This request is already frozen.");
+		IcmUtils.displayInformationMsg(
+				"Frozen request",
+				"Frozen request",
+				"This request is already frozen.");
 	}
 
 	@FXML
@@ -283,14 +289,21 @@ public class SupervisorButtons implements ClientUI {
 	 * Displays information why close button disabled
 	 */
 	@FXML
-	public void moreInformation2Event() {
+	public void closeRequestInfoMsg() {
 		switch (info) {
 
 			case "finished":
-				IcmUtils.displayInformationMsg("Information message", "This request closed");
+				IcmUtils.displayInformationMsg(
+						"Closed request",
+						"Closed request",
+						"This request is already closed.");
 				break;
 			case "not in closing":
-				IcmUtils.displayInformationMsg("Information message", "This request is still not on closing phase");
+				IcmUtils.displayInformationMsg(
+						"Close request help",
+						"Request is still in process",
+						"This request is still in process.\n" +
+								"Only requests in CLOSING phase can be closed.");
 				break;
 		}
 	}
@@ -300,19 +313,29 @@ public class SupervisorButtons implements ClientUI {
     	switch(serverService.getDatabaseService()) {
     		case Freeze_Request:
     			if((Boolean)serverService.getParams().get(0)==true){
-					IcmUtils.displayInformationMsg("Success", "Freeze Request Successfully");
+					IcmUtils.displayInformationMsg(
+							"Freeze request successfully",
+							"Freeze request successfully",
+							"The request froze successfully.\n" +
+									"To thaw it, contact ITD manager.");
 					freezeRequestButton.setDisable(true);
 				}
 
     			else
-    				IcmUtils.displayErrorMsg("Error", "Freeze Request Failed");
+					IcmUtils.displayErrorMsg(
+							"Error",
+							"freeze Request Failed",
+							"Please contact ICM support team.");
     			break;
     		case Close_Request:
 				if ((Boolean) serverService.getParams().get(0) == true) {
 					pleaseWaitMessage.close();
-					IcmUtils.displayInformationMsg("Close Request","Close Request", "Close Request Successfully");
+					IcmUtils.displayInformationMsg(
+							"Close request",
+							"Close request",
+							"Request successfully closed.");
 					closeChangeRequestButton.setDisable(true);
-					moreInformation2.setVisible(true);
+					closeChangeRequestInfoButton.setVisible(true);
 					info="finished";
 				}
 				break;

@@ -210,13 +210,22 @@ public class CrDetails implements ClientUI {
             case Attach_Files:
                 boolean flag = (Boolean) serverService.getParams().get(0);
                 if (flag == true)
-                    IcmUtils.displayInformationMsg("Attach Files - Success", "Success", "Files attached successfully");
+                    IcmUtils.displayInformationMsg(
+                            "Attach Files - Success",
+                            "Files attached successfully",
+                            "Files attached successfully.");
                 else
-                    IcmUtils.displayErrorMsg("Attach Files - Error", "Error", "Attach files failed");
+                    IcmUtils.displayErrorMsg(
+                            "Attach Files - Error",
+                            "Attach files failed",
+                            "Please contact ICM support team.");
                 break;
             case Error:
                 SQLException sqlException = ((SQLException) serverService.getParams().get(0));
-                IcmUtils.displayErrorMsg("Server Error", "Server Error", sqlException.getMessage());
+                IcmUtils.displayErrorMsg(
+                        "Server Error",
+                        "Server Error",
+                        sqlException.getMessage());
                 break;
                //display specific message about download files
             case download_files:
@@ -225,7 +234,10 @@ public class CrDetails implements ClientUI {
             		IcmUtils.displayInformationMsg("Download Finished","Download Finished", "Check your chosen folder.");
             		break;
             case "exception":	
-            	IcmUtils.displayInformationMsg("Information message", "Error in process", ((Exception)serverService.getParams().get(1)).getMessage());
+            	IcmUtils.displayErrorMsg(
+            	        "Error in process",
+                        "Error in process",
+                        ((Exception)serverService.getParams().get(1)).getMessage());
             	break;
            
             	}
@@ -239,7 +251,11 @@ public class CrDetails implements ClientUI {
         Parent root = null;
 
         if(currRequest.isSuspended()) {
-            IcmUtils.displayInformationMsg("Frozen Request", "Frozen Request", "This request is suspended");
+            IcmUtils.displayInformationMsg(
+                    "Frozen Request",
+                    "Frozen Request",
+                    "This request is frozen.\n" +
+                            "For more info, contact system supervisor.");
             attachFilesButton.setDisable(true);
             if(currUser.getPosition() != Position.ITD_MANAGER) {
                 positionLabel.setText("IMPORTANT:");

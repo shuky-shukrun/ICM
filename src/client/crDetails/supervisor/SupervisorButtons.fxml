@@ -86,7 +86,7 @@
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>
       </Button>
-      <Button fx:id="moreInformation2" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="120.0" mnemonicParsing="false" onAction="#moreInformation2Event" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
+      <Button fx:id="closeChangeRequestInfoButton" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="120.0" mnemonicParsing="false" onAction="#closeRequestInfoMsg" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>

@@ -86,7 +86,10 @@ public class AssignTester implements ClientUI {
 		ServerService serverService = new ServerService(ServerService.DatabaseService.Replace_Tester,
 				oldAndNewSelection);
 		clientController.handleMessageFromClientUI(serverService);
-		IcmUtils.displayInformationMsg("Tester appointed", "Tester appointed", "Tester appointed successfully.");
+		IcmUtils.displayInformationMsg(
+				"Tester appointed",
+				"Tester appointed",
+				"Tester appointed successfully.");
 		newCurrPhase = CCCButtons.getPhase();
 		newCurrPhase.setName(PhaseName.VALIDATION);
 		newCurrPhase.setPhaseStatus(PhaseStatus.IN_PROCESS);

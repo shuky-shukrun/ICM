@@ -34,7 +34,7 @@
             <Insets left="10.0" />
          </padding>
       </VBox>
-      <Button fx:id="moreInformation" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" mnemonicParsing="false" onAction="#moreInformationEvent" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
+      <Button fx:id="moreInformation" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" mnemonicParsing="false" onAction="#extensionTimeInfoMsg" prefHeight="50.0" prefWidth="50.0" text=" " textFill="#3f2b63">
          <graphic>
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>

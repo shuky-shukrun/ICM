@@ -204,7 +204,10 @@ public class AssignPhaseLeaders implements ClientUI {
 			boolean checkUpdate= update.get(0);
 			if(checkUpdate== true) {
 			
-				IcmUtils.displayInformationMsg("Phase Leaders assigned", "Phase Leaders has been successfully assigned","Evaluation Phase Leader: " +
+				IcmUtils.displayInformationMsg(
+						"Phase Leaders assigned",
+						"Phase Leaders has been successfully assigned",
+						"Evaluation Phase Leader: " +
 					    evaluationPhaseLeader.getInformationEngineer().toString() + "\n"+ "Evaluator: " + evaluator.getInformationEngineer().toString() +
 					    "\n"+"Examination Phase Leader: " + examinationPhaseLeader.getInformationEngineer().toString() + "\n"+"Execution Phase Leader: " + 
 					    executionPhaseLeader.getInformationEngineer().toString() + "\n" +"Executive Leader: " + 

@@ -36,7 +36,10 @@ public class HostIpSelector implements ClientUI {
             IcmUtils.loadScene(this, "ICM - Login", "/client/login/Login.fxml", 800, 500);
         } catch (Exception e) {
             e.printStackTrace();
-            IcmUtils.displayErrorMsg(e.getMessage());
+            IcmUtils.displayErrorMsg(
+                    "Load scene error",
+                    "Load scene error",
+                    e.getMessage() + "\nPlease contact ICM support team");
         }
     }
 

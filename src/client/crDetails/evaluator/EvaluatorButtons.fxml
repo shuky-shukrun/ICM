@@ -57,12 +57,12 @@
             <Insets left="10.0" />
          </padding>
       </VBox>
-      <Button fx:id="phaseTimeRequestInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" mnemonicParsing="false" onAction="#moreInformation1Event" prefHeight="50.0" prefWidth="50.0" stylesheets="@../../../css/fullpackstyling.css" text=" " textFill="#3f2b63">
+      <Button fx:id="phaseTimeRequestInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" mnemonicParsing="false" onAction="#requestPhaseTimeInfoMsg" prefHeight="50.0" prefWidth="50.0" stylesheets="@../../../css/fullpackstyling.css" text=" " textFill="#3f2b63">
          <graphic>
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>
       </Button>
-      <Button fx:id="createReportInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="60.0" mnemonicParsing="false" onAction="#moreInformation2Event" prefHeight="50.0" prefWidth="50.0" stylesheets="@../../../css/fullpackstyling.css" text=" " textFill="#3f2b63">
+      <Button fx:id="createReportInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="60.0" mnemonicParsing="false" onAction="#createEvaluationReportInfoMsg" prefHeight="50.0" prefWidth="50.0" stylesheets="@../../../css/fullpackstyling.css" text=" " textFill="#3f2b63">
          <graphic>
             <FontAwesomeIconView fill="#938e8e" glyphName="QUESTION_CIRCLE" size="22" />
          </graphic>

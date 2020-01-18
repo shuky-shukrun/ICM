@@ -86,7 +86,9 @@ public class TesterButtons implements ClientUI {
 	 * @param event-setDecisionInfo button is pressed event
 	 */
 	void setDecisionInfoMsg(ActionEvent event) {
-		IcmUtils.displayInformationMsg("Set Decision Help", "Decision Already Submitted",
+		IcmUtils.displayInformationMsg(
+				"Set decision help",
+				"Decision already submitted",
 				"The decision for this phase already submitted.");
 	}
 

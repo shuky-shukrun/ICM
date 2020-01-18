@@ -99,7 +99,11 @@ public class Login implements ClientUI {
             System.out.println("login UI initialized");
         } catch (IOException e) {
             e.printStackTrace();
-            IcmUtils.displayErrorMsg(e.getMessage());
+            IcmUtils.displayErrorMsg(
+                    "Client error",
+                    "Can not connect client",
+                    "Error info: " + e.getMessage() +"\n" +
+                            "Please contact ICM support team");
         }
     }
 
@@ -224,7 +228,9 @@ public class Login implements ClientUI {
     public void handleMessageFromClientController(ServerService serverService) {
             System.out.println("login return from server");
             if(serverService.getParams() == null) {
-                IcmUtils.displayErrorMsg("Wrong user name or password");
+                IcmUtils.displayErrorMsg("Wrong details",
+                        "Wrong details",
+                        "incorrect user ID or password.");
             }
             else {
                 List<ChangeInitiator> userList = serverService.getParams();

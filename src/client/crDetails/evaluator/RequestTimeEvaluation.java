@@ -133,10 +133,11 @@ public class RequestTimeEvaluation implements ClientUI {
 			info="not legal date";
 		switch(info) {
 		case "empty fields":
-			IcmUtils.displayInformationMsg("Information message", "the date field is empty");
+			IcmUtils.displayInformationMsg(
+					"Request phase time Help",
+					"No date has been chosen",
+					"Please fill the date field.");
 			break;
-		case "not legal date":
-			IcmUtils.displayInformationMsg("information message", "the date you entered is earlier than today");
 		}
 	}
 	
@@ -158,10 +159,13 @@ public class RequestTimeEvaluation implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean>list=serverService.getParams();
 		if(list.get(0)==true)
-			IcmUtils.displayInformationMsg("Time requested", "Time requested successfully", "Time requested successfully.\n" +
+			IcmUtils.displayInformationMsg(
+					"Time requested",
+					"Time requested successfully",
+					"Time requested successfully.\n" +
 					"Request passed to supervisor for phase time approval.");
 		else
-			IcmUtils.displayErrorMsg("Error", "Time request failed", "Please contact system administrator.");
+			IcmUtils.displayErrorMsg("Time request error", "Time request failed", "Please contact ICM support team.");
 		IcmUtils.getPopUp().close();
 		
 

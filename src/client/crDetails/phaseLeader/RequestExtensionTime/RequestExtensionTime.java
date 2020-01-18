@@ -116,7 +116,10 @@ public class RequestExtensionTime implements ClientUI{
 				List<Boolean> update=serverService.getParams();
 				boolean checkUpdate= update.get(0);
 				if(checkUpdate == true) {
-					IcmUtils.displayInformationMsg("Time Extension Request Submited", "Time extension request has been successfully submited","Current deadline: " + newCurrPhase.getDeadLine().format(formatter) + "\n"+ "Time extension request: " + newCurrPhase.getTimeExtensionRequest().format(formatter));
+					IcmUtils.displayInformationMsg(
+							"Time Extension Request Submitted",
+							"Time extension request has been successfully submitted",
+							"Current deadline: " + newCurrPhase.getDeadLine().format(formatter) + "\n"+ "Time extension request: " + newCurrPhase.getTimeExtensionRequest().format(formatter));
 					IcmUtils.getPopUp().close();
 				}	
 	}

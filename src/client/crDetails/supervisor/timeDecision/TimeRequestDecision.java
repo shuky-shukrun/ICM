@@ -105,9 +105,15 @@ public class TimeRequestDecision implements ClientUI  {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true) {
-			IcmUtils.displayInformationMsg("Time request decision", "Time request decision updated", "Your decision was update successfully.");
+			IcmUtils.displayInformationMsg(
+					"Time request decision",
+					"Time request decision updated",
+					"Your decision was update successfully.");
 		} else {
-			IcmUtils.displayErrorMsg("Error", "Error in time request decision", "Please contact system administrator.");
+			IcmUtils.displayErrorMsg(
+					"Time request decision error",
+					"Error in time request decision",
+					"Please contact ICM support team.");
 		}
 		IcmUtils.getPopUp().close();
 		

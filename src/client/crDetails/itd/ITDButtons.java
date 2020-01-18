@@ -39,7 +39,7 @@ public class ITDButtons implements ClientUI {
 		}
     	else {
 			thawButton.setDisable(true);
-			thawMessage.setVisible(true);
+			thawMessage.setVisible(false);
 		}
 
     }
@@ -49,7 +49,7 @@ public class ITDButtons implements ClientUI {
      */
     @FXML
     void thawChangeRequest(ActionEvent event) {
-    	Optional<ButtonType>result=IcmUtils.displayConfirmationMsg("Are you sure you want to thaw this request?");
+    	Optional<ButtonType>result=IcmUtils.displayConfirmationMsg("Thaw request confirmation", "Thaw request confirmation", "Are you sure you want to thaw this request?");
     	if(result.get()==ButtonType.OK) {
     	int id=CrDetails.getCurrRequest().getId();
     	List<Integer>l=new ArrayList<>();
@@ -63,12 +63,18 @@ public class ITDButtons implements ClientUI {
     	switch(serverService.getDatabaseService()) {
     		case Thaw_Request:
     			if((Boolean)serverService.getParams().get(0)==true) {
-    				IcmUtils.displayInformationMsg("Success", "Request Thawed");
+    				IcmUtils.displayInformationMsg(
+    						"Request thawed",
+							"Request thawed",
+							"Request Thawed successfully.");
     				CrDetails.getCurrRequest().setSuspended(false);
     				thawButton.setDisable(true);
     			}
     			else
-    				IcmUtils.displayErrorMsg("Error", "Thaw Request Failed");
+    				IcmUtils.displayErrorMsg(
+    						"Error",
+							"Thaw Request Failed",
+							"Please contact ICM support team.");
     			break;
     	}
     }
@@ -76,15 +82,11 @@ public class ITDButtons implements ClientUI {
      * Displays information why thaw button disabled
      */
 	@FXML
-	public void importantInfoEvent() {
-    	if(CrDetails.getCurrRequest().isSuspended()) {
-			String frozenRequest = "This request is suspended.\nTo thaw it, Click 'Thaw Change Request' button.";
-			IcmUtils.displayInformationMsg("Frozen request", "Frozen request", frozenRequest);
-		}
-    	else {
-			String activeRequest = "This request is active.\nOnly frozen requests can be thawed.";
-			IcmUtils.displayInformationMsg("Active request", "Active request", activeRequest);
-		}
-
+	public void thawRequestInfoMsg() {
+		String frozenRequest = "This request is suspended.\nTo thaw it, Click 'Thaw Change Request' button.";
+		IcmUtils.displayInformationMsg(
+				"Frozen request",
+				"Frozen request",
+				frozenRequest);
 	}
 }

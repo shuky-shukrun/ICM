@@ -196,18 +196,26 @@ public class NewRequest implements ClientUI {
     public void handleMessageFromClientController(ServerService serverService) {
         switch (serverService.getDatabaseService()) {
             case Add_New_Request:
-                IcmUtils.displayInformationMsg("Request Submitted Successfully", "Congratulations!",  "Your request has been submitted successfully.\nYou will get updates to your email.");
+                IcmUtils.displayInformationMsg(
+                        "Request Submitted Successfully",
+                        "Congratulations!",
+                        "Your request has been submitted successfully.\n" +
+                                "You will get updates to your email.");
                 try {
                     IcmUtils.getPopUp().close();
                     IcmUtils.loadScene(this, IcmUtils.Scenes.Main_Window);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    IcmUtils.displayErrorMsg(e.getMessage());
+                    IcmUtils.displayErrorMsg(
+                            "Load scene error",
+                            "Load scene error",
+                            e.getMessage());
                 }
                 break;
             case Error:
                 IOException ioException = ((IOException) serverService.getParams().get(0));
-                IcmUtils.displayErrorMsg("Server Error", "Server Error", ioException.getMessage());
+                IcmUtils.displayErrorMsg("Server Error", "Server Error",
+                        ioException.getMessage() + "\nPlease contact ICM support team");
                 break;
         }
     }

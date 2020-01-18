@@ -66,7 +66,11 @@ public class ForgotPassword implements ClientUI {
 	 * @param e-"submit" button pressed
 	 */
 	public void forgotPasswordAction(ActionEvent e) {
-		IcmUtils.displayInformationMsg("restore password sent to you", "please check your entered email");
+		IcmUtils.displayInformationMsg(
+				"Password restored",
+				"Password restored",
+				"We sent you an email with your login details.\n" +
+						"Please check your email box.");
 		try {
 			IcmUtils.loadScene(this, IcmUtils.Scenes.Login);
 		} catch (IOException ex) {
@@ -85,10 +89,16 @@ public class ForgotPassword implements ClientUI {
 	public void submitInfoMsg(ActionEvent e) {
 		switch(info) {
 		case "no mail":
-			IcmUtils.displayInformationMsg("Forgot password help","No email entered",  "You did not enter a mail.");
+			IcmUtils.displayInformationMsg(
+					"Forgot password help",
+					"No email entered",
+					"You did not enter a mail.");
 			break;
 		case "not legal email":
-			IcmUtils.displayInformationMsg("Forgot password help", "Illegal email address","Format of legal mail: \nmail_box_name@domain_name.xyz"+"\n"+"for example:ploni@gmail.com");
+			IcmUtils.displayInformationMsg(
+					"Forgot password help",
+					"Illegal email address",
+					"Format of legal mail: \nmail_box_name@domain_name.xyz"+"\n"+"for example:ploni@gmail.com");
 		}
 	}
  

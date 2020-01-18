@@ -76,8 +76,10 @@ public class ClientController extends AbstractClient {
         try {
             sendToServer(service);
         } catch (IOException e) {
-            IcmUtils.displayErrorMsg
-                    ("Could not send message to server.  Terminating client.");
+            IcmUtils.displayErrorMsg(
+                    "Server error",
+                    "Server error",
+                    "Could not send message to server. Terminating client.");
             quit();
         }
     }

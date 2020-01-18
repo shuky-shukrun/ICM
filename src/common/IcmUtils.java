@@ -31,19 +31,6 @@ public class IcmUtils {
         return alert.showAndWait();
     }
 
-    public static  Optional<ButtonType> displayConfirmationMsg(String title, String contentText) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setContentText(contentText);
-        return alert.showAndWait();
-    }
-
-    public static Optional<ButtonType> displayConfirmationMsg(String contentText) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText(contentText);
-        return alert.showAndWait();
-    }
-
     public static void displayInformationMsg(String title, String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -52,30 +39,10 @@ public class IcmUtils {
         alert.showAndWait();
     }
 
-    public static void displayInformationMsg(String title, String contentText) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
-
     public static void displayErrorMsg(String title, String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
-
-    public static void displayErrorMsg(String title, String contentText) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
-
-    public static void displayErrorMsg(String contentText) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(contentText);
         alert.showAndWait();
     }

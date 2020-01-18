@@ -52,7 +52,10 @@ public class ClientMain extends Application implements ClientUI{
             IcmUtils.loadScene(this, "ICM - Client Setup", "/client/hostIpSelector/HostIpSelector.fxml", 480,460);
         } catch (Exception e) {
             e.printStackTrace();
-            IcmUtils.displayErrorMsg(e.getMessage());
+            IcmUtils.displayErrorMsg(
+                    "Load scene error",
+                    "Load scene error",
+                    e.getMessage());
         }
         primaryStage.setResizable(false);
     }

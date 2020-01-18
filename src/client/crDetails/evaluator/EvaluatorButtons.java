@@ -155,16 +155,22 @@ public class EvaluatorButtons implements ClientUI {
 	public void importantInfoEvent() {
 		switch (info) {
 			case "time of phase approved":
-				IcmUtils.displayInformationMsg("Information message", "Attention",
+				IcmUtils.displayInformationMsg(
+						"Phase time approved",
+						"Phase time approved",
 						"This request phase time approved.\nPlease create evaluation report.");
 				break;
 			case "time declined":
-				IcmUtils.displayInformationMsg("Information message", "Attention",
+				IcmUtils.displayInformationMsg(
+						"phase duration rejected",
+						"phase duration was rejected",
 						"The requested phase duration was rejected.\nPlease submit new phase duration.");
 				break;
 			case "return request":
-				IcmUtils.displayInformationMsg("Information message", "Attention",
-						"This request returns from examination for more details.\nPlease create new evaluation report.");
+				IcmUtils.displayInformationMsg(
+						"Returned request",
+						"Returned request",
+						"This request returned from examination for more details.\nPlease create new evaluation report.");
 				break;
 		}
 	}
@@ -175,24 +181,27 @@ public class EvaluatorButtons implements ClientUI {
 	 *
 	 * @param e
 	 */
-	public void moreInformation1Event(ActionEvent e) {
+	public void requestPhaseTimeInfoMsg(ActionEvent e) {
 		switch (info) {
 			case "time of phase yet not approved":
-				IcmUtils.displayInformationMsg("Information message",
-						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-						"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
-								+ "request phase time can't be submitted when there is already phase time request!");
+				IcmUtils.displayInformationMsg(
+						"Request phase time Help",
+						"Phase time already submitted",
+						"Phase time for this phase already submitted.\n" +
+								"Please wait for supervisor approval.");
 				break;
 			case "time of phase approved":
-				IcmUtils.displayInformationMsg("Information message",
-						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-						"Change request " + CrDetails.getCurrRequest().getId() + " -time request approved." + "\n\n"
-								+ "request phase time can't be submitted when there is already phase time!");
+				IcmUtils.displayInformationMsg(
+						"Request phase time Help",
+						"Phase time already approved",
+						"Phase time for this phase already approved.\n" +
+								"Contact the phase leader if you want to request extension time.");
 				break;
 			case "have Report":
-				IcmUtils.displayInformationMsg("Information message", "there is already evaluation report");
+				IcmUtils.displayInformationMsg(
+						"Create evaluation report Help",
+						"Report already exist",
+						"There is an existing evaluation report for this request.");
 				break;
 		}
 
@@ -204,29 +213,36 @@ public class EvaluatorButtons implements ClientUI {
 	 * @param e
 	 */
 	@FXML
-	public void moreInformation2Event(ActionEvent e) {
+	public void createEvaluationReportInfoMsg(ActionEvent e) {
 		switch (info) {
 			case "time of phase yet not submitted":
 			case "return request":
-				IcmUtils.displayInformationMsg("Information message",
-						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-						"Change request " + CrDetails.getCurrRequest().getId() + " -time request not submitted yet."
-								+ "\n\n" + "evaluation report can't be submited when the phase time not yet submitted!");
+				IcmUtils.displayInformationMsg(
+						"Create evaluation report Help",
+						"Phase time not submitted",
+						"You need to submit phase time and get supervisor approval " +
+								"before you create evaluation report.");
 				break;
 			case "time of phase yet not approved":
 			case "time declined":
-				IcmUtils.displayInformationMsg("Information message",
-						"Phase Details-" + "\n" + "Change request ID: " + +CrDetails.getCurrRequest().getId() + "\n"
-								+ "Current phase: " + CrDetails.getCurrRequest().getCurrPhaseName().toString(),
-						"Change request " + CrDetails.getCurrRequest().getId() + " -time request not approved yet." + "\n\n"
-								+ "evaluation report can't be submited when the phase time not yet approved!");
+				IcmUtils.displayInformationMsg(
+						"Create evaluation report Help",
+						"Phase time is waiting for approval",
+						"You need to get supervisor approval for the requested phase time" +
+								"before you create evaluation report.");
 				break;
 			case "have Report":
-				IcmUtils.displayInformationMsg("Information message", "there is already evaluation report");
+				IcmUtils.displayInformationMsg(
+						"Create evaluation report Help",
+						"Report already exist",
+						"There is an existing evaluation report for this request.");
 				break;
 			case "time of phase approved":
-				IcmUtils.displayInformationMsg("Information message", "there is already deadline");
+				IcmUtils.displayInformationMsg(
+						"Request phase time Help",
+						"Phase time already approved",
+						"Phase time for this phase already approved.\n" +
+								"Contact the phase leader if you want to request extension time.");
 				break;
 
 		}

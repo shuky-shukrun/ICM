@@ -126,9 +126,15 @@ public class SetDecision implements ClientUI {
 	public void handleMessageFromClientController(ServerService serverService) {
 		List<Boolean> list = serverService.getParams();
 		if (list.get(0) == true && list.get(2) == true) {
-			IcmUtils.displayInformationMsg("Decision updated", "Decision updated", "Your decision was update successfully.");
+			IcmUtils.displayInformationMsg(
+					"Decision updated",
+					"Decision updated",
+					"Your decision was update successfully.");
 		} else {
-			IcmUtils.displayErrorMsg("Error", "Error in tester decision", "Please contact system administrator.");
+			IcmUtils.displayErrorMsg(
+					"Tester decision error",
+					"Error in tester decision",
+					"Please contact ICM support team.");
 		}
 		//Check if there was an exception in the phase time.
 		oldCurrPhase = CrDetails.getCurrRequest().getPhases().get(0);

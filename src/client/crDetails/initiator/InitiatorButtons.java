@@ -31,8 +31,11 @@ public class InitiatorButtons implements ClientUI {
 	}
 
 	@FXML
-	public void moreInfoAction() {
-		IcmUtils.displayInformationMsg("Closed Request", "Closed Request", "This request is closed. " +
+	public void closedRequestInfoMsg() {
+		IcmUtils.displayInformationMsg(
+				"Closed Request",
+				"Closed Request",
+				"This request is closed. " +
 				"Check your email for more details.");
 	}
 
