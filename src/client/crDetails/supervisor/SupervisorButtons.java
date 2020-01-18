@@ -1,5 +1,6 @@
 package client.crDetails.supervisor;
 
+import java.awt.color.ICC_ColorSpace;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -177,6 +178,7 @@ public class SupervisorButtons implements ClientUI {
 			pleaseWaitMessage.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
 			pleaseWaitMessage.initStyle(StageStyle.TRANSPARENT);
 			pleaseWaitMessage.showAndWait();
+
 		}
 	}
 	/**
@@ -214,7 +216,7 @@ public class SupervisorButtons implements ClientUI {
     		case TIME_REQUESTED:
     			try {
     				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/TimeRequestDecision.fxml", 588, 688);
-    				initialize();
+					IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
@@ -223,7 +225,7 @@ public class SupervisorButtons implements ClientUI {
     		case EXTENSION_TIME_REQUESTED:
     			try {
     				IcmUtils.popUpScene(this, "Time Request Decision","/client/crDetails/supervisor/timeDecision/ExtensionTimeDecision.fxml", 588, 688);
-    				initialize();
+					IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
@@ -322,7 +324,7 @@ public class SupervisorButtons implements ClientUI {
 	private void editRequest(ActionEvent event){
     	try {
 			IcmUtils.popUpScene(this, "Edit Request","/client/crDetails/supervisor/edit/Edit.fxml", 588, 688);
-			//initialize();
+			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -330,8 +332,11 @@ public class SupervisorButtons implements ClientUI {
 	}
 
 	@FXML
-	private void editButtonInfoMsg(){
-
+	private void editButtonInfoMsg() {
+		IcmUtils.displayInformationMsg(
+				"Edit request help",
+				"Edit is not allowed in CLOSING phase",
+				"You can not edit requests in CLOSING phase.");
 	}
     
     public static void setCurrPhase (Phase phase) {

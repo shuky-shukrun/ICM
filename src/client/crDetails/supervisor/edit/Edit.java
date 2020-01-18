@@ -49,7 +49,8 @@ public class Edit implements ClientUI{
 			newDeadlineDatePicker.setDayCellFactory(picker -> new DateCell() {
 				public void updateItem(LocalDate date, boolean empty) {
 					super.updateItem(date, empty);					
-					setDisable(empty || date.compareTo(deadLine) ==0 );
+					setDisable(empty || date.compareTo(deadLine) == 0 ||
+							date.compareTo(LocalDate.now()) < 0);
 				}
 			});
 			newDeadlineDatePicker.setDisable(false);

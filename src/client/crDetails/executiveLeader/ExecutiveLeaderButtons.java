@@ -130,6 +130,8 @@ public class ExecutiveLeaderButtons implements ClientUI {
 
 			clientController.handleMessageFromClientUI(serverService);
 			confirmExecutionButton.setDisable(true);
+			confirmExecutionInfoButton.setVisible(true);
+			confirmExecutionInfoButton.setDisable(false);
 			IcmUtils.displayInformationMsg("Execution confirmed", "Execution confirmed", "The request passed to VALIDATION phase.");
 		}
 	}
@@ -164,12 +166,19 @@ public class ExecutiveLeaderButtons implements ClientUI {
 	 */
 	@FXML
 	public void confirmExecutionInfoMsg() {
+		if(CrDetails.getCurrRequest().getCurrPhaseName() == Phase.PhaseName.VALIDATION) {
+			IcmUtils.displayInformationMsg(
+					"Confirm Execution Help",
+					"Execution already confirmed",
+					"The request passed to VALIDATION phase.");
+			return;
+		}
 		entities.Phase.PhaseStatus phaseStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
 		switch (phaseStatus) {
 			case PHASE_LEADER_ASSIGNED:
 			case TIME_DECLINED:
 				IcmUtils.displayInformationMsg(
-						"Create evaluation report Help",
+						"Confirm Execution Help",
 						"Phase time not submitted",
 						"You need to submit phase time and get supervisor approval " +
 								"before you confirm the execution.");
@@ -178,7 +187,7 @@ public class ExecutiveLeaderButtons implements ClientUI {
 			case EXTENSION_TIME_REQUESTED:
 			case EXTENSION_TIME_APPROVED:
 				IcmUtils.displayInformationMsg(
-						"Create evaluation report Help",
+						"Confirm Execution Help",
 						"Phase time is waiting for approval",
 						"You need to get supervisor approval for the requested phase time" +
 								"before you confirm the execution.");

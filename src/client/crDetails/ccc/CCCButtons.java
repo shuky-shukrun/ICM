@@ -42,7 +42,7 @@ public class CCCButtons implements ClientUI {
 	void showAssignTesterDialog(ActionEvent event) throws IOException {
 		try {
 			IcmUtils.popUpScene(this, "Assign Tester", "/client/crDetails/ccc/AssignTester.fxml", 588, 688);
-			initialize();
+			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -76,7 +76,15 @@ public class CCCButtons implements ClientUI {
 	}
 
 	@FXML
-	void moreInformationEvent(ActionEvent event) {
+	void setDecisionInfoMsg(ActionEvent event) {
+		if(CrDetails.getCurrRequest().getCurrPhaseName() == Phase.PhaseName.VALIDATION &&
+		CrDetails.getCurrRequest().getCurrPhaseStatus() == Phase.PhaseStatus.PHASE_LEADER_ASSIGNED) {
+			IcmUtils.displayInformationMsg(
+					"Set Decision Help",
+					"Tester is not assigned",
+					"Only the tester can use this button.\n" +
+							"Please assign tester.");
+		}
 		IcmUtils.displayInformationMsg(
 				"Set Decision Help",
 				"Decision already submitted",

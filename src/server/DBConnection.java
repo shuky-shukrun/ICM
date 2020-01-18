@@ -1949,8 +1949,10 @@ public class DBConnection {
 		 *Insert the edit change to the edit table in the DB.
 		 */
 		try {
-			ps = sqlConnection.prepareStatement("SELECT MAX(editNum) FROM cbaricmy_ICM.edit WHERE crIDEdit = ? ");
+			ps = sqlConnection.prepareStatement("SELECT MAX(editNum) FROM cbaricmy_ICM.edit WHERE crIDEdit = ? AND " +
+					"editPhase = ?");
 			ps.setInt(1, Integer.parseInt(change.get(0)));
+			ps.setString(2, change.get(3));
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			editID = rs.getInt(1) +1;
