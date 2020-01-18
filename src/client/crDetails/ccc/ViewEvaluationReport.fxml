@@ -16,9 +16,9 @@
       <AnchorPane prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #f1eaea;">
          <children>
             <ChoiceBox fx:id="infoSystemChoiceBox" layoutX="275.0" layoutY="242.0" prefHeight="25.0" prefWidth="257.0" style="-fx-background-radius: 10;" />
-            <TextArea fx:id="requiredChangeTextArea" layoutX="275.0" layoutY="287.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the required change" />
-            <TextArea fx:id="expectedResultTextArea" layoutX="275.0" layoutY="372.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the expected result" />
-            <TextArea fx:id="risksAndConstraintsTextArea" layoutX="275.0" layoutY="457.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the risks and constraints that may accure due to the change" />
+            <TextArea fx:id="requiredChangeTextArea" layoutX="275.0" layoutY="287.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the required change" wrapText="true" />
+            <TextArea fx:id="expectedResultTextArea" layoutX="275.0" layoutY="372.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the expected result" wrapText="true" />
+            <TextArea fx:id="risksAndConstraintsTextArea" layoutX="275.0" layoutY="457.0" prefHeight="67.0" prefWidth="257.0" promptText="Enter the risks and constraints that may accure due to the change" wrapText="true" />
             <Button fx:id="backButton" alignment="CENTER" cancelButton="true" layoutX="258.0" layoutY="648.0" mnemonicParsing="false" onAction="#backAction" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 10;" text="Back">
                <font>
                   <Font size="16.0" />

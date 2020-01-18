@@ -133,6 +133,11 @@ public class ExecutiveLeaderButtons implements ClientUI {
 			confirmExecutionInfoButton.setVisible(true);
 			confirmExecutionInfoButton.setDisable(false);
 			IcmUtils.displayInformationMsg("Execution confirmed", "Execution confirmed", "The request passed to VALIDATION phase.");
+			try {
+				IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
