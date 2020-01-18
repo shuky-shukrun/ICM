@@ -25,6 +25,10 @@ public class ITDButtons implements ClientUI {
     private Button thawButton;
 
     private ClientController clientController;
+    
+	/**
+	 * Initialize the itd change request summary dialog
+	 */
     public void initialize() {
     	try {
     		clientController=ClientController.getInstance(this);
@@ -65,6 +69,9 @@ public class ITDButtons implements ClientUI {
     }
 
     @Override
+	/**
+	 * handle message that came from the client controller
+	 */
     public void handleMessageFromClientController(ServerService serverService) {
     	switch(serverService.getDatabaseService()) {
     		case Thaw_Request:
