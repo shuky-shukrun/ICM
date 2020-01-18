@@ -39,7 +39,7 @@ public class ITRegistration implements ClientUI {
 	ObservableList<ChangeInitiator> employeeList = FXCollections.observableArrayList();
 
 	/**
-	 * Initialize the register into IT department dialog
+	 * Initialize the "register into IT department" dialog
 	 */
 	public void initialize() {
 		

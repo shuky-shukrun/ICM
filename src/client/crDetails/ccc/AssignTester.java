@@ -87,6 +87,8 @@ public class AssignTester implements ClientUI {
 	/**
 	 * Assigning the tester is possible when submit button pressed
 	 * @param e-submit button pressed event
+	 * @throws IOException if have problem to get data from server.
+	 * after submit- phase status changes to IN_PROCESS
 	 */
 	public void submitTester(ActionEvent e) throws IOException {
 		selectedTester = testerChoiceBox.getSelectionModel().getSelectedItem();
