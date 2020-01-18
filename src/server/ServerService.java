@@ -12,33 +12,45 @@ public class ServerService implements Serializable {
     	this.databaseService = databaseService;
         this.params = params;
     }
-
+    /**
+     * Gets database connection object
+     * @return database connection
+     */
     public DatabaseService getDatabaseService() {
         return databaseService;
     }
 
+    /**
+     * Sets database connection
+     */
     public void setDatabaseService(DatabaseService databaseService) {
         this.databaseService = databaseService;
     }
 
+    /**
+     * Gets List of params from ServerService object
+     * @return List object
+     */
     public List getParams() {
         return params;
     }
 
+    /**
+     * Sets List of params for ServerService object
+     */
     public void setParams(List params) {
         this.params = params;
     }
 
+    /**
+     * This enum describes the type of service that requests from the server.
+     */
     public enum DatabaseService {
         Error,
         Login,
         Get_All_Requests,
-        Get_All_Requests_New,
         Get_Request_Details,
-        Update_Request_Status,
-        Get_Phase_Details,
         Update_Phase_Extension,
-        Submit_New_Request,
         Create_Evaluation_Report,
         Request_Time_Evaluation,
         Forgot_Password,
