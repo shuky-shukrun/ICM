@@ -10,14 +10,12 @@ import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
 import entities.Phase;
-import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.StageStyle;
 import server.ServerService;
 import server.ServerService.DatabaseService;
@@ -49,18 +47,20 @@ public class SupervisorButtons implements ClientUI {
     private ClientController clientController;
     private static Phase currPhase;
     private static Phase.PhaseName currPhaseName;
-    private boolean flag=false;
+    private boolean reloadScreen =false;
 
     private Alert pleaseWaitMessage;
-    
-  //Initialize the supervisor buttons according to the phase and status of the request.
+
+	/**
+	 * Initialize the supervisor buttons according to the phase and status of the request.
+	 */
     public void initialize() {
     	try {
 			clientController=ClientController.getInstance(this);
-			if(flag==false) {
+			if(reloadScreen == false) {
 				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
 				CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
- 			    flag=true; 
+ 			    reloadScreen =true;
 			}
 			currPhaseName =currPhase.getName();
 			switch(currPhaseName) {
@@ -124,7 +124,7 @@ public class SupervisorButtons implements ClientUI {
 				default:
 					phaseTimeDecisionButton.setDisable(true);
 					assignPhaseLeadersButton.setDisable(false);
-					freezeRequestButton.setDisable(true);
+					freezeRequestButton.setDisable(false);
 					closeChangeRequestButton.setDisable(false);
 					phaseTimeRequestInfo.setVisible(false);
 					moreInformation2.setVisible(false);
