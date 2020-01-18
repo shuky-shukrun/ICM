@@ -167,23 +167,11 @@ public class DelaysReport implements ClientUI {
 
 	}
 	public List<Distribution> countPerInfoSystem(Integer[] Array) {
+		int i;
 		List<Distribution>l=new ArrayList<Distribution>();
-		l.add(new Distribution(0, 10, InfoSystem.LIBRARY));
-		/*HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
-		for (int i = 0; i < Array.length; i++) {
-			if (hm.containsKey(Array[i]))
-				hm.put(Array[i], hm.get(Array[i]) + 1);
-			else
-
-				hm.put(Array[i], 1);
+		for(i=0;i<Array.length;i++) {
+			l.add(new Distribution(0, Array[i], InfoSystem.values()[i]));
 		}
-		 Iterator it = hm.entrySet().iterator();
-		    while (it.hasNext()) {
-		        Map.Entry pair = (Map.Entry)it.next();
-		        l.add(new Distribution((Integer)pair.getKey(), (Integer)pair.getValue(),null));
-		        it.remove(); // avoids a ConcurrentModificationException
-		    }
-		  */
 		return l;
 
 	}
