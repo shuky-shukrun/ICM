@@ -10,7 +10,6 @@ import client.ClientUI;
 import client.crDetails.CrDetails;
 import common.IcmUtils;
 import entities.Phase;
-import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,49 +46,143 @@ public class SupervisorButtons implements ClientUI {
     private String info;
     private ClientController clientController;
     private static Phase currPhase;
-    private boolean flag=false;
+    private static Phase.PhaseName currPhaseName;
+    private boolean reloadScreen =false;
 
     private Alert pleaseWaitMessage;
-    
+
+	/**
+	 * Initialize the supervisor buttons according to the phase and status of the request.
+	 */
     public void initialize() {
     	try {
 			clientController=ClientController.getInstance(this);
-			moreInformation2.setVisible(false);	
-			phaseTimeRequestInfo.setVisible(false);
-
-		
-			if(CrDetails.getCurrRequest().getPhases().get(0).getName()!=PhaseName.CLOSING)
-			{
-				info="not in closing";
-				closeChangeRequestButton.setDisable(true);
-				moreInformation2.setVisible(true);
-
-			}
-			if (CrDetails.getCurrRequest().getPhases().get(0).getName()==PhaseName.CLOSING&&CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()==Phase.PhaseStatus.DONE) {
-				info = "finished";
-				moreInformation2.setVisible(true);
-				closeChangeRequestButton.setDisable(true);
-				freezeRequestButton.setDisable(true);
-				
-			}
-			
-			if(flag==false) {
+			if(reloadScreen == false) {
 				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
 				CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
- 			    flag=true; 
+ 			    reloadScreen =true;
 			}
-    		if(currPhase.getName()!=PhaseName.SUBMITTED) {
-    			assignPhaseLeadersButton.setText("View phase leaders");
-
-    		}
-    		if(!(CurrStatus.equals(Phase.PhaseStatus.TIME_REQUESTED)||CurrStatus==Phase.PhaseStatus.EXTENSION_TIME_REQUESTED)){
-    			phaseTimeDecisionButton.setDisable(true);
-    			phaseTimeRequestInfo.setVisible(true);
-    		}
+			currPhaseName =currPhase.getName();
+			switch(currPhaseName) {
+			case SUBMITTED:
+			case EVALUATION:
+			case EXAMINATION:
+			case EXECUTION:
+			case VALIDATION:
+				info = "not in closing";
+				phaseTimeDecisionButton.setDisable(true);
+				assignPhaseLeadersButton.setDisable(false);
+				freezeRequestButton.setDisable(false);
+				closeChangeRequestButton.setDisable(true);
+				phaseTimeRequestInfo.setVisible(true);
+				moreInformation2.setVisible(true);
+				freezeRequestInfoButton.setVisible(false);
+				editButton.setDisable(false);
+				
+				switch(CurrStatus)
+				{
+				case SUBMITTED:
+					phaseTimeDecisionButton.setDisable(true);
+	    			phaseTimeRequestInfo.setVisible(true);
+	    			break;
+				case PHASE_LEADER_ASSIGNED:
+				case PHASE_EXEC_LEADER_ASSIGNED:
+				case EXTENSION_TIME_APPROVED:
+				case IN_PROCESS:
+				case DECLINED:
+				case DONE:
+				case TIME_DECLINED:
+					assignPhaseLeadersButton.setText("View phase leaders");
+					phaseTimeDecisionButton.setDisable(true);
+	    			phaseTimeRequestInfo.setVisible(true);
+	    			break;
+				case TIME_REQUESTED:
+				case EXTENSION_TIME_REQUESTED:
+					assignPhaseLeadersButton.setText("View phase leaders");
+					phaseTimeDecisionButton.setDisable(false);
+	    			phaseTimeRequestInfo.setVisible(false);
+	    			break;
+				}
+				break;
+				
+			case CLOSING:
+				assignPhaseLeadersButton.setText("View phase leaders");
+				switch(CurrStatus)
+				{
+				case DONE:
+					info = "finished";
+					phaseTimeDecisionButton.setDisable(true);
+					assignPhaseLeadersButton.setDisable(false);
+					freezeRequestButton.setDisable(true);
+					closeChangeRequestButton.setDisable(true);
+					phaseTimeRequestInfo.setVisible(false);
+					moreInformation2.setVisible(true);
+					freezeRequestInfoButton.setVisible(false);
+					editButton.setDisable(true);
+					break;
+					
+				default:
+					phaseTimeDecisionButton.setDisable(true);
+					assignPhaseLeadersButton.setDisable(false);
+					freezeRequestButton.setDisable(false);
+					closeChangeRequestButton.setDisable(false);
+					phaseTimeRequestInfo.setVisible(false);
+					moreInformation2.setVisible(false);
+					freezeRequestInfoButton.setVisible(false);
+					editButton.setDisable(true);
+					break;
+					
+				}
+				break;
+			
+			}
+			
+			if(CrDetails.getCurrRequest().isSuspended())
+			{//if the change request is suspended, the supervisor can only see the freezeRequestInfoButton.
+				phaseTimeDecisionButton.setDisable(true);
+				assignPhaseLeadersButton.setDisable(false);
+				freezeRequestButton.setDisable(true);
+				closeChangeRequestButton.setDisable(true);
+				phaseTimeRequestInfo.setVisible(false);
+				moreInformation2.setVisible(false);
+				freezeRequestInfoButton.setVisible(true);
+				editButton.setDisable(true);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+		
+//			if(CrDetails.getCurrRequest().getPhases().get(0).getName()!=PhaseName.CLOSING)
+//			{
+//				info="not in closing";
+//				closeChangeRequestButton.setDisable(true);
+//				moreInformation2.setVisible(true);
+//
+//			}
+//			if (CrDetails.getCurrRequest().getPhases().get(0).getName()==PhaseName.CLOSING&&CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus()==Phase.PhaseStatus.DONE) {
+//				info = "finished";
+//				moreInformation2.setVisible(true);
+//				closeChangeRequestButton.setDisable(true);
+//				freezeRequestButton.setDisable(true);
+//				
+//			}
+			
+//			if(flag==false) {
+//				currPhase=CrDetails.getCurrRequest().getPhases().get(0);
+//				CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();
+// 			    flag=true; 
+//			}
+//    		if(currPhase.getName()!=PhaseName.SUBMITTED) {
+//    			assignPhaseLeadersButton.setText("View phase leaders");
+//
+//    		}
+//    		if(!(CurrStatus.equals(Phase.PhaseStatus.TIME_REQUESTED)||CurrStatus==Phase.PhaseStatus.EXTENSION_TIME_REQUESTED)){
+//    			phaseTimeDecisionButton.setDisable(true);
+//    			phaseTimeRequestInfo.setVisible(true);
+//    		}
+
     /**
      * Closes change request
      * @param event-close request button pressed
@@ -131,6 +224,11 @@ public class SupervisorButtons implements ClientUI {
 	}
 
     @FXML
+    /**
+	 * Set decision on a time request 
+	 * (Show the dialog according to the time request- phase time or phase time extension).
+	 * @param event-setTimeDecision button pressed
+	 */
     void setTimeDecision(ActionEvent event) {
 
     		CurrStatus = CrDetails.getCurrRequest().getPhases().get(0).getPhaseStatus();

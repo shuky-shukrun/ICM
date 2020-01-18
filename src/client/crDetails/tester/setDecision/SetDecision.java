@@ -45,14 +45,6 @@ public class SetDecision implements ClientUI {
 	 */
 	public void initialize() {
 		currPhase = CrDetails.getCurrRequest().getCurrPhaseName();
-		switch(currPhase) {
-		case VALIDATION:
-			newCurrPhase = TesterButtons.getPhase();
-			break;
-		case EXAMINATION:
-			newCurrPhase = CCCButtons.getPhase();
-		}
-		oldCurrPhase = newCurrPhase;
 		okButton.setDisable(true);
 
 		try {
@@ -108,16 +100,9 @@ public class SetDecision implements ClientUI {
 
 		ServerService serverService = new ServerService(DatabaseService.Set_Decision, list);
 		clientController.handleMessageFromClientUI(serverService);
-		newCurrPhase.setName(Phase.PhaseName.CLOSING);
-		switch(currPhase) {
-		case VALIDATION:
-			TesterButtons.setPhase(newCurrPhase);
-			break;
-			
-		case EXAMINATION:
-			CCCButtons.setCurrPhase(newCurrPhase);
-			break;
-		}
+		Phase closing = new Phase();
+		closing.setName(PhaseName.CLOSING);
+		CCCButtons.setCurrPhase(closing);
 		
 		System.out.println(decision);
 	}
@@ -146,6 +131,8 @@ public class SetDecision implements ClientUI {
 			IcmUtils.displayErrorMsg("Error", "Error in tester decision", "Please contact system administrator.");
 		}
 		//Check if there was an exception in the phase time.
+		oldCurrPhase = CrDetails.getCurrRequest().getPhases().get(0);
+		oldCurrPhase.setName(currPhase);
 		List<Phase> phList = new ArrayList<>();
 		phList.add(oldCurrPhase);
 		ServerService updateExceptionTime = new ServerService(ServerService.DatabaseService.Update_Exception_Time, phList);
