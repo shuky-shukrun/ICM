@@ -518,7 +518,7 @@ public class DBConnection {
 	/**
 	 * Adds new request to the database
 	 * @param newRequest-the change request we want to add to the database
-	 * @throws IOException-exception that notify that there was problem in the sql query
+	 * @throws IOException
 	 */
 	public void addNewRequest(ChangeRequest newRequest) throws IOException {
 		System.out.println("Database handle addNewRequest");
@@ -842,7 +842,7 @@ public class DBConnection {
 	 * Gets all the details of information engineers from the database
 	 * 
 	 * @return List of information engineers
-	 * @throws Exception have problem in query
+	 * @throws SQLException have problem in query
 	 */
 	public List<ChangeInitiator> getInfoEngineers() throws SQLException {
 		System.out.println("database handle getInfoEngineers");
@@ -870,7 +870,7 @@ public class DBConnection {
 	/**
 	 * Updates the permissions that itd manager select in the database
 	 * @param params-the info engineers assigned by the itd 
-	 * @throws SQLException-exception that notifies that there is problem with the sql query
+	 * @throws SQLException exception that notifies that there is problem with the sql query
 	 */
 	public void itdUpdatePermissions(List<List<ChangeInitiator>> params) throws SQLException {
 		System.out.println("database handle itdUpdatePermissions");
@@ -1114,9 +1114,9 @@ public class DBConnection {
 
 	/**
 	 * @param changeRequest- the change request we want to confirm execution to
-	 * Updates the current phase status - DOEN
+	 * Updates the current phase status - DONE
 	 * Changes the phase name- VALIDATION
-	 * @throws if have a problem in the query
+	 * @throws SQLException
 	 */
 	public void executionConfirmation(ChangeRequest changeRequest) throws SQLException {
 		System.out.println("database handle executionConfirmation");

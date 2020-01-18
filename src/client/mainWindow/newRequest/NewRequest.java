@@ -108,7 +108,7 @@ public class NewRequest implements ClientUI {
 
     /**
      * Adds files when add new change request
-     * @param-add files button pressed
+     * @param event add files button pressed
      */
     @FXML
     void addFiles(ActionEvent event) {

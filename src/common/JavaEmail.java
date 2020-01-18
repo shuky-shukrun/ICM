@@ -31,8 +31,8 @@ public class JavaEmail
      * @param emailSubject-the subject of the mail
      * @param emailBody-the body of the mail
      * @return email message
-     * @throws AddressException-exception of the email address
-     * @throws MessagingException-exception of the message
+     * @throws AddressException
+     * @throws MessagingException
      */
     private MimeMessage draftEmailMessage( String toEmails,String emailSubject,String emailBody) throws AddressException, MessagingException
     {
@@ -60,8 +60,8 @@ public class JavaEmail
      * @param toemails-who get the mail
      * @param emailSubject-the subject of the mail
      * @param emailBody-the body of the mail
-     * @throws AddressException-exception of the email address
-     * @throws MessagingException-exception of the message
+     * @throws AddressException
+     * @throws MessagingException
      */
     public void sendEmail(String toemails,String emailSubject,String emailBody) throws AddressException, MessagingException
     {

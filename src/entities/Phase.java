@@ -148,7 +148,7 @@ public class Phase implements Serializable {
 	}
 	/**
 	 * sets extension time
-	 * @param extension Time
+	 * @param timeExtesion Time
 	 */
 	public void setTimeExtensionRequest(LocalDate timeExtesion) {
 		this.timeExtensionRequest = timeExtesion;

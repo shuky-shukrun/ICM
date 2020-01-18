@@ -38,7 +38,7 @@ public class Distribution {
 	}
 	/**
 	 * sets the value
-	 * @param value
+	 * @param num
 	 */
 	public void setNum(int num) {
 		this.num = num;
@@ -52,7 +52,7 @@ public class Distribution {
 	}
 	/**
 	 * sets the distribution
-	 * @param distribution
+	 * @param dis
 	 */
 	public void setDis(int dis) {
 		this.dis = dis;

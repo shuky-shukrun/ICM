@@ -132,13 +132,6 @@ public class CreateEvaluationReport implements ClientUI {
 		IcmUtils.getPopUp().close();
 	}
 
-	/**
-	 * Displays information about why create button is disabled
-	 * 
-	 * @param e
-	 */
-
-
 	@Override
 	/**
 	 * Show pop-up with the information if the create evaluation report succeed

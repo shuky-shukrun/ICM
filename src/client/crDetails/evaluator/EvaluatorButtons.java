@@ -258,7 +258,6 @@ public class EvaluatorButtons implements ClientUI {
 	/**
 	 * gets the attribute of current phase
 	 */
-
 	public static Phase getPhase1() {
 		return currPhase;
 	}

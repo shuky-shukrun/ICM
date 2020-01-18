@@ -109,7 +109,7 @@ public class ChangeInitiator implements Serializable {
 	}
 	/**
 	 * Sets phone number
-	 * @param  phone number
+	 * @param  phoneNumber number
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
