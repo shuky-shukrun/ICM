@@ -159,7 +159,13 @@ public class DBConnection {
 		return allRequests;
 	}
 
-	// helper function for getAllRequests()
+	/**
+	 * Helper function for getAllRequest function.
+	 *
+	 * @param userId the id of the current active user
+	 * @return Set of all the user's requests
+	 * @throws SQLException if sql statement fail
+	 */
 	private Set<ChangeRequest> insertRequestsIntoList(int userId) throws SQLException {
 		ResultSet rs = ps.executeQuery();
 
@@ -1627,7 +1633,12 @@ public class DBConnection {
 		}
 		return phaseLeadersAndWorkersList;
 	}
-
+	/**
+	 * Send email notification if the phase deadline is tomorrow
+	 *
+	 * @throws SQLException if sql statement fail
+	 * @throws MessagingException if sending email fail
+	 */
 	public void sendNotifications() throws SQLException, MessagingException {
 		System.out.println("start sendNotifications");
 
@@ -1727,6 +1738,17 @@ public class DBConnection {
 		System.out.println("done send notifications");
 	}
 
+	/**
+	 * Helper function for sendNotification function.
+	 *
+	 * @param phaseName the phase name of the request
+	 * @param changeRequestId the id of the change request
+	 * @param getEmailRs ResultSet object, containing the database result
+	 * @param content email content
+	 * @throws SQLException if ResultSet get info fail
+	 * @throws MessagingException if sending email fail
+	 *
+	 */
 	private void sendReminderEmail(PhaseName phaseName, Integer changeRequestId, ResultSet getEmailRs, String content)
 			throws SQLException, MessagingException {
 		JavaEmail javaEmail = new JavaEmail();
