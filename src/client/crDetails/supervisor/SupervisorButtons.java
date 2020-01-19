@@ -342,6 +342,14 @@ public class SupervisorButtons implements ClientUI {
      */
 	private void editRequest(ActionEvent event){
     	try {
+			if(CrDetails.getCurrRequest().getPhases().get(0).getDeadLine() == null) {
+				IcmUtils.displayInformationMsg(
+						"Edit request Help",
+						"No deadline",
+						"There is no deadline to edit."
+				);
+				return;
+			}
 			IcmUtils.popUpScene(this, "Edit Request","/client/crDetails/supervisor/edit/Edit.fxml", 588, 688);
 			IcmUtils.loadScene(this, IcmUtils.Scenes.Change_Request_Summary);
 		} catch (IOException e) {
