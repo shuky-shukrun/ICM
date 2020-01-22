@@ -11,10 +11,11 @@ import entities.IEPhasePosition;
 import entities.InfoSystem;
 import entities.InformationEngineer;
 import entities.Phase;
-import javafx.application.Platform;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import server.ServerService.DatabaseService;
+import unittests.FakeDBConnection;
+import unittests.IDBConnection;
 
 import javax.mail.MessagingException;
 
@@ -55,10 +56,19 @@ public class EchoServer extends AbstractServer {
 	// Class variables *************************************************
 
 	private DBConnection dbConnection;
-
+	private IDBConnection idbConnection;
+	private boolean connectionType;
 	// Constructors ****************************************************
 
-    /**
+
+	public DBConnection getDbConnection() {
+		return dbConnection;
+	}
+	public IDBConnection getIdbConnection() {
+		return idbConnection;
+	}
+
+	/**
      * Constructs an instance of the echo server.
      *
      * @param port The port number to connect on.
@@ -66,21 +76,27 @@ public class EchoServer extends AbstractServer {
 	 * @param username database username
 	 * @param password database password
      */
-    public EchoServer(int port, String url, String username, String password) {
+    public EchoServer(int port, String url, String username, String password, boolean realConnection) {
         super(port);
-        dbConnection = new DBConnection(url, username, password);
-
-        //the Date and time at which you want to execute
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date date = dateFormatter.parse("2020-01-19 07:00:00");
-            Timer timer = new Timer("Server Timer");
-            ServerTimer serverTimer = new ServerTimer();
-            long period = 1000L * 60L * 60L * 24L;
-            timer.schedule(serverTimer, date, period);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.connectionType = realConnection;
+        if(realConnection) {
+			this.dbConnection = new DBConnection(url, username, password);
+			this.idbConnection = this.dbConnection;
+			//the Date and time at which you want to execute
+			DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				Date date = dateFormatter.parse("2020-01-19 07:00:00");
+				Timer timer = new Timer("Server Timer");
+				ServerTimer serverTimer = new ServerTimer();
+				long period = 1000L * 60L * 60L * 24L;
+				timer.schedule(serverTimer, date, period);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+        else {
+        	idbConnection = new FakeDBConnection();
+		}
     }
 
 	// Instance methods ************************************************
@@ -493,6 +509,7 @@ public class EchoServer extends AbstractServer {
 				dbConnection.updateExceptionTime(phaseList);
 				System.out.println("Update_Exception_Time server got data");
 				break;
+
 			case Get_Activity_Report_Details:
 				System.out.println("server Get Report Details");
 				List<Integer> frozenList = new ArrayList<>();
@@ -511,16 +528,16 @@ public class EchoServer extends AbstractServer {
 				if (left == 0) {
 					for (int i = 0; i <= weeks; i++) {
 						from = startDate.plusDays(7 * i);
-						to = startDate.plusDays(7 * 1 + 6);
-						int frozenCount = dbConnection.getFReportDetails(from, to);
+						to = startDate.plusDays(7 * i + 6);
+						int frozenCount = idbConnection.getFReportDetails(from, to);
 						frozenList.add(frozenCount);
-						int activeCount = dbConnection.getAReportDetails(from, to);
+						int activeCount = idbConnection.getAReportDetails(from, to);
 						activeList.add(activeCount);
-						int closedCount = dbConnection.getCReportDetails(from, to);
+						int closedCount = idbConnection.getCReportDetails(from, to);
 						closedList.add(closedCount);
-						int declinedCount = dbConnection.getDReportDetails(from, to);
+						int declinedCount = idbConnection.getDReportDetails(from, to);
 						declinedList.add(declinedCount);
-						int totalDaysCount = dbConnection.getTReportDetails(from, to);
+						int totalDaysCount = idbConnection.getTReportDetails(from, to);
 						System.out.println("Tom"+totalDaysCount);
 						totalDaysList.add(totalDaysCount);
 
@@ -538,15 +555,15 @@ public class EchoServer extends AbstractServer {
 					for (int i = 0; i <= weeks; i++) {
 						from = startDate.plusDays(7 * i);
 						to = startDate.plusDays(7 * i + 6);
-						int frozenCount = dbConnection.getFReportDetails(from, to);
+						int frozenCount = idbConnection.getFReportDetails(from, to);
 						frozenList.add(frozenCount);
-						int activeCount = dbConnection.getAReportDetails(from, to);
+						int activeCount = idbConnection.getAReportDetails(from, to);
 						activeList.add(activeCount);
-						int closedCount = dbConnection.getCReportDetails(from, to);
+						int closedCount = idbConnection.getCReportDetails(from, to);
 						closedList.add(closedCount);
-						int declinedCount = dbConnection.getDReportDetails(from, to);
+						int declinedCount = idbConnection.getDReportDetails(from, to);
 						declinedList.add(declinedCount);
-						int totalDaysCount = dbConnection.getTReportDetails(from, to);
+						int totalDaysCount = idbConnection.getTReportDetails(from, to);
 						System.out.println("Tom1"+totalDaysCount);
 						totalDaysList.add(totalDaysCount);
 
@@ -559,23 +576,24 @@ public class EchoServer extends AbstractServer {
 					System.out.println("hereeee111");
 					serverService.setParams(countList);
 					client.sendToClient(serverService);
-
 				}
 				System.out.println("ronit"+countList);
 				System.out.println("server finish Get Report Details");
+				idbConnection = this.dbConnection;
 				break;
 
 			case Get_Performance_Report_Details:
+
 				System.out.println("server Get Performance Report Details");
 				List<List<LocalDate>> totalList = new ArrayList<>();
 				LocalDate startDate1 = (LocalDate) serverService.getParams().get(0);
 				LocalDate from1 = startDate1;
 				LocalDate endDate1 = (LocalDate) serverService.getParams().get(1);
 				LocalDate to1 = endDate1;
-				List<LocalDate> timeList = dbConnection.getPerformanceReportDetails(from1, to1);
+				List<LocalDate> timeList = this.dbConnection.getPerformanceReportDetails(from1, to1);
 				System.out.println(timeList);
 				totalList.add(timeList);
-				List<LocalDate> timeList1 = dbConnection.getPerformanceReportDetails1(from1, to1);
+				List<LocalDate> timeList1 = this.dbConnection.getPerformanceReportDetails1(from1, to1);
 				System.out.println(timeList1);
 				totalList.add(timeList1);
 				serverService.setParams(totalList);
@@ -599,12 +617,12 @@ public class EchoServer extends AbstractServer {
 				System.out.println("ronit"+weeks2);
 				System.out.println("ronit"+left2);
 				for (int i = 0; i < 8; i++) {
-					int delaysPerSystemCount = dbConnection.getDelaysReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
+					int delaysPerSystemCount = this.dbConnection.getDelaysReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
 					delaysPerSystemList.add(delaysPerSystemCount);
 				}
 				
 				for (int i = 0; i < 8; i++) {
-					int durationPerSystemCount = dbConnection.getDurationReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
+					int durationPerSystemCount = this.dbConnection.getDurationReportPerSystemDetails(from2, to2, InfoSystem.values()[i]);
 					durationPerSystemList.add(durationPerSystemCount);
 				}
 				
@@ -612,9 +630,9 @@ public class EchoServer extends AbstractServer {
 					for (int i = 0; i <= weeks2; i++) {
 						from2 = startDate2.plusDays(7 * i);
 						to2 = startDate2.plusDays(7 * 1 + 6);
-						int numOfDelaysCount = dbConnection.getDelaysReportDetails(from2, to2);
+						int numOfDelaysCount = this.dbConnection.getDelaysReportDetails(from2, to2);
 						numOfDelaysList.add(numOfDelaysCount);
-						int delayCount = dbConnection.getDelaysReportDetails1(from2, to2);
+						int delayCount = this.dbConnection.getDelaysReportDetails1(from2, to2);
 						durationOfDelaysList.add(delayCount);
 					
 					}
@@ -629,9 +647,9 @@ public class EchoServer extends AbstractServer {
 					for (int i = 0; i <= weeks2; i++) {
 						from2 = from2.plusDays(7 * i);
 						to2 = from2.plusDays(7 * i + 6);
-						int numOfDelaysCount = dbConnection.getDelaysReportDetails(from2, to2);
+						int numOfDelaysCount = this.dbConnection.getDelaysReportDetails(from2, to2);
 						numOfDelaysList.add(numOfDelaysCount);
-						int delayCount = dbConnection.getDelaysReportDetails1(from2, to2);
+						int delayCount = this.dbConnection.getDelaysReportDetails1(from2, to2);
 						durationOfDelaysList.add(delayCount);
 				
 					}
@@ -650,7 +668,7 @@ public class EchoServer extends AbstractServer {
 				case Edit_Request:
 					System.out.println("server handle edit change request by supervisor");
                 	List<String> param = serverService.getParams();
-                    List<Boolean> edit =dbConnection.editRequest(param);
+                    List<Boolean> edit = this.dbConnection.editRequest(param);
                     ServerService serversrv= new ServerService(DatabaseService.Edit_Request, edit);
                     client.sendToClient(serversrv);
                     System.out.println("edit change request sent to client");

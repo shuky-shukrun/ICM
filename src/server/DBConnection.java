@@ -1,11 +1,11 @@
 package server;
 
-import common.IcmUtils;
 import common.JavaEmail;
 import entities.*;
 import entities.IEPhasePosition.PhasePosition;
 import entities.Phase.PhaseName;
 import entities.Phase.PhaseStatus;
+import unittests.IDBConnection;
 
 import javax.mail.MessagingException;
 import java.io.*;
@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class DBConnection {
+public class DBConnection implements IDBConnection {
 	private static final int BUFFER_SIZE = 4096;
 	private Connection sqlConnection;
 	private PreparedStatement ps;

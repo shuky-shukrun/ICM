@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="libs/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="lib" path="libs/activation-1.1.jar"/>
 	<classpathentry kind="lib" path="libs/javax.mail-1.6.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="out/production/ICMprototype"/>
 </classpath>

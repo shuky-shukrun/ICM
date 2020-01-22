@@ -41,7 +41,7 @@ public class ServerUI {
             String databaseUsername = databaseUsernameTextFiled.getText();
             String databasePassword = databasePasswordField.getText();
 
-            echoServer = new EchoServer(port, databaseUrl, databaseUsername, databasePassword);
+            echoServer = new EchoServer(port, databaseUrl, databaseUsername, databasePassword, true);
             try {
                 echoServer.listen();
                 serverStatusLabel.setText("On");
