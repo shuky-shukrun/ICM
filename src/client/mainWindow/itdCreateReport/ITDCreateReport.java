@@ -7,6 +7,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import server.EchoServer;
 import server.ServerService;
 
 import java.io.IOException;

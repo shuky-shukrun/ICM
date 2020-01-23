@@ -11,6 +11,7 @@ import entities.IEPhasePosition;
 import entities.InfoSystem;
 import entities.InformationEngineer;
 import entities.Phase;
+import entities.Report;
 import entities.Report.ReportType;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -524,7 +525,7 @@ public class EchoServer extends AbstractServer {
 				LocalDate from = startDate;
 				LocalDate endDate = (LocalDate) serverService.getParams().get(1);
 				LocalDate to = endDate;
-				idbConnection.saveReport(from,to,ReportType.Activity_Report);
+				save(from,to,ReportType.Activity_Report);
 				long weeks = (long) serverService.getParams().get(2);
 				long left = (long) serverService.getParams().get(3);
 				if (left == 0) {
@@ -592,7 +593,7 @@ public class EchoServer extends AbstractServer {
 				LocalDate from1 = startDate1;
 				LocalDate endDate1 = (LocalDate) serverService.getParams().get(1);
 				LocalDate to1 = endDate1;
-				idbConnection.saveReport(from1,to1,ReportType.Performance_Report);
+				save(from1,to1,ReportType.Performance_Report);
 				List<LocalDate> timeList = this.dbConnection.getPerformanceReportDetails(from1, to1);
 				System.out.println(timeList);
 				totalList.add(timeList);
@@ -615,7 +616,7 @@ public class EchoServer extends AbstractServer {
 				LocalDate from2 = startDate2;
 				LocalDate endDate2 = (LocalDate) serverService.getParams().get(1);
 				LocalDate to2 = endDate2;
-				idbConnection.saveReport(from2,to2,ReportType.Delays_Report);
+				save(from2,to2,ReportType.Delays_Report);
 				long weeks2 = (long) serverService.getParams().get(2);
 				long left2 = (long) serverService.getParams().get(3);
 				System.out.println("ronit"+weeks2);
@@ -677,6 +678,9 @@ public class EchoServer extends AbstractServer {
                     client.sendToClient(serversrv);
                     System.out.println("edit change request sent to client");
 					break;
+			
+					
+			
                 	
             }
         } catch (IOException | SQLException e) {
@@ -694,7 +698,13 @@ public class EchoServer extends AbstractServer {
 			}
 		}
 	}
-
+	public Boolean save(LocalDate from,LocalDate to,ReportType type) {
+		return idbConnection.saveReport(from,to,type);
+		
+	}
+	public Boolean isExistsReport(LocalDate from,LocalDate to,ReportType type) {
+		return idbConnection.isExistsReport(from, to, type);
+	}
 	/**
 	 * This method overrides the one in the superclass. Called when the server
 	 * starts listening for connections.
