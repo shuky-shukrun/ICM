@@ -25,7 +25,6 @@ public class ActivityReportTest {
 	public void setUp() throws Exception {
 		echoServer = new EchoServer(5555, "fake", "fake", "fake", false);
 		activityReportController = new ActivityReportController();
-
 		activeList = new ArrayList<>();
 		FakeDBConnection.i=0;
 		totalActive = 0;
@@ -83,5 +82,9 @@ public class ActivityReportTest {
 
 		double std = activityReportController.std(numArray1);
 		assertEquals(0.0, std);
+	}
+	@Test
+	public void testSaveReport() {
+		
 	}
 }

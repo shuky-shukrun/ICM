@@ -92,5 +92,12 @@ public class Report {
 	public void setReportId(int reportId) {
 		this.reportId = reportId;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Report) {
+			return ((Report)obj).getStartDate().equals(this.getStartDate())&&((Report)obj).getEndDate().equals(this.getEndDate())&&((Report)obj).getTitle().equals(this.getTitle());
+		}
+		return false;
+	}
 
 }

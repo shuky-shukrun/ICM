@@ -2378,5 +2378,35 @@ public class DBConnection implements IDBConnection {
 		}
 		return sum;
 	}
-
+	public boolean saveReport(LocalDate from,LocalDate to,Report.ReportType type) {
+		try {
+			PreparedStatement ps=sqlConnection.prepareStatement("INSERT INTO  cbaricmy_ICM.report VALUES(?,?,?)");
+			ps.setDate(1, Date.valueOf((LocalDate)from));
+			ps.setDate(2, Date.valueOf((LocalDate)to));
+			ps.setString(3, type.toString());
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public boolean isExistsReport(LocalDate from,LocalDate to,Report.ReportType type) {
+		try {
+			PreparedStatement ps=sqlConnection.prepareStatement("SELECT COUNT(*) AS count FROM cbaricmy_ICM.report WHERE startDate=? AND endDate=? AND reportType=?");
+			ps.setDate(1, Date.valueOf((LocalDate)from));
+			ps.setDate(2, Date.valueOf((LocalDate)to));
+			ps.setString(3, type.toString());
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			if(rs.getInt("count")>0)
+				return true;
+			return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
