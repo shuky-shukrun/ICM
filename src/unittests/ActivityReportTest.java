@@ -27,6 +27,7 @@ public class ActivityReportTest {
 		activityReportController = new ActivityReportController();
 
 		activeList = new ArrayList<>();
+		FakeDBConnection.i=0;
 		totalActive = 0;
 		for (int i = 0; i < 8; i++) {
 			int activeCount = echoServer.getIdbConnection().getAReportDetails(LocalDate.now(), LocalDate.now().plusDays(100));
@@ -37,7 +38,7 @@ public class ActivityReportTest {
 
 	@Test
 	public void testTotalActiveRequests() {
-		assertEquals(40, totalActive);
+		assertEquals(36, totalActive);
 	}
 
 	@Test
@@ -48,7 +49,7 @@ public class ActivityReportTest {
 		Arrays.sort(numArray1);
 
 		double med = activityReportController.median(numArray1);
-		assertEquals(5.0, med);
+		assertEquals(4.5, med);
 	}
 
 	@Test
@@ -59,7 +60,7 @@ public class ActivityReportTest {
 		Arrays.sort(numArray1);
 
 		double std = activityReportController.std(numArray1);
-		assertEquals(0.0, std);
+		assertEquals(2.29128784747792, std);
 	}
 
 	@Test
