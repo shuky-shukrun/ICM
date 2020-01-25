@@ -532,15 +532,15 @@ public class EchoServer extends AbstractServer {
 					for (int i = 0; i <= weeks; i++) {
 						from = startDate.plusDays(7 * i);
 						to = startDate.plusDays(7 * i + 6);
-						int frozenCount = idbConnection.getFReportDetails(from, to);
+						int frozenCount = dbConnection.getFReportDetails(from, to);
 						frozenList.add(frozenCount);
 						int activeCount = idbConnection.getAReportDetails(from, to);
 						activeList.add(activeCount);
-						int closedCount = idbConnection.getCReportDetails(from, to);
+						int closedCount = dbConnection.getCReportDetails(from, to);
 						closedList.add(closedCount);
-						int declinedCount = idbConnection.getDReportDetails(from, to);
+						int declinedCount = dbConnection.getDReportDetails(from, to);
 						declinedList.add(declinedCount);
-						int totalDaysCount = idbConnection.getTReportDetails(from, to);
+						int totalDaysCount = dbConnection.getTReportDetails(from, to);
 						System.out.println("Tom"+totalDaysCount);
 						totalDaysList.add(totalDaysCount);
 
@@ -558,15 +558,15 @@ public class EchoServer extends AbstractServer {
 					for (int i = 0; i <= weeks; i++) {
 						from = startDate.plusDays(7 * i);
 						to = startDate.plusDays(7 * i + 6);
-						int frozenCount = idbConnection.getFReportDetails(from, to);
+						int frozenCount = dbConnection.getFReportDetails(from, to);
 						frozenList.add(frozenCount);
 						int activeCount = idbConnection.getAReportDetails(from, to);
 						activeList.add(activeCount);
-						int closedCount = idbConnection.getCReportDetails(from, to);
+						int closedCount = dbConnection.getCReportDetails(from, to);
 						closedList.add(closedCount);
-						int declinedCount = idbConnection.getDReportDetails(from, to);
+						int declinedCount = dbConnection.getDReportDetails(from, to);
 						declinedList.add(declinedCount);
-						int totalDaysCount = idbConnection.getTReportDetails(from, to);
+						int totalDaysCount = dbConnection.getTReportDetails(from, to);
 						System.out.println("Tom1"+totalDaysCount);
 						totalDaysList.add(totalDaysCount);
 
