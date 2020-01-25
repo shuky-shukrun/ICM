@@ -11,6 +11,7 @@ public class FakeDBConnection implements IDBConnection {
 	private List<Report>l=new ArrayList<>();
 	public static int i=0;
 
+	// get number of active requests between given dates
     @Override
     public int getAReportDetails(LocalDate from, LocalDate to) {
     	i++;
@@ -18,6 +19,7 @@ public class FakeDBConnection implements IDBConnection {
      
     }
 
+	// save the created report
 	@Override
 	public boolean saveReport(LocalDate from, LocalDate to, ReportType type) {
 		
@@ -32,6 +34,7 @@ public class FakeDBConnection implements IDBConnection {
 		
 	}
 
+	// check if a given report is exist
 	@Override
 	public boolean isExistsReport(LocalDate from, LocalDate to, ReportType type) {
 		Report r=new Report();
