@@ -237,111 +237,89 @@ public class ActivityReportController implements ClientUI {
 		int totalActive = 0;
 		int totalClosed = 0;
 		int totalDeclined = 0;
-		int totaldays = 0;
+		int totalDays = 0;
 
-		int size1 = frozenCount.size();
-		int size2 = activeCount.size();
-		int size3 = closedCount.size();
-		int size4 = declinedCount.size();
-		int size5 = totalDaysCount.size();
-	
-		Integer[] numArray1 = new Integer[size1];
-		Integer[] numArray2 = new Integer[size2];
-		Integer[] numArray3 = new Integer[size3];
-		Integer[] numArray4 = new Integer[size4];
-		Integer[] numArray5 = new Integer[size5];
+		Integer[] frozenRequestArray = new Integer[frozenCount.size()];
+		Integer[] activeRequestArray = new Integer[activeCount.size()];
+		Integer[] closedRequestArray = new Integer[closedCount.size()];
+		Integer[] declinedRequestArray = new Integer[declinedCount.size()];
+		Integer[] totalRequestArray = new Integer[totalDaysCount.size()];
 
-		frozenCount.toArray(numArray1);
-		activeCount.toArray(numArray2);
-		closedCount.toArray(numArray3);
-		declinedCount.toArray(numArray4);
-		totalDaysCount.toArray(numArray5);
+		frozenCount.toArray(frozenRequestArray);
+		activeCount.toArray(activeRequestArray);
+		closedCount.toArray(closedRequestArray);
+		declinedCount.toArray(declinedRequestArray);
+		totalDaysCount.toArray(totalRequestArray);
 
-		Arrays.sort(numArray1);
-		Arrays.sort(numArray2);
-		Arrays.sort(numArray3);
-		Arrays.sort(numArray4);
-		Arrays.sort(numArray5);
+		Arrays.sort(frozenRequestArray);
+		Arrays.sort(activeRequestArray);
+		Arrays.sort(closedRequestArray);
+		Arrays.sort(declinedRequestArray);
+		Arrays.sort(totalRequestArray);
 
-		for (int i = 0; i < size1; i++) {
-			totalFrozen = totalFrozen + numArray1[i];
+		for (int i = 0; i < frozenCount.size(); i++) {
+			totalFrozen = totalFrozen + frozenRequestArray[i];
 		}
-		for (int i = 0; i < size2; i++) {
-			totalActive = totalActive + numArray2[i];
+		for (int i = 0; i < activeCount.size(); i++) {
+			totalActive = totalActive + activeRequestArray[i];
 		}
-		for (int i = 0; i < size3; i++) {
-			totalClosed = totalClosed + numArray3[i];
+		for (int i = 0; i < closedCount.size(); i++) {
+			totalClosed = totalClosed + closedRequestArray[i];
 		}
-		for (int i = 0; i < size4; i++) {
-			totalDeclined = totalDeclined + numArray4[i];
+		for (int i = 0; i < declinedCount.size(); i++) {
+			totalDeclined = totalDeclined + declinedRequestArray[i];
 		}
-		for (int i = 0; i < size5; i++) {
-			totaldays = totaldays + numArray5[i];
+		for (int i = 0; i < totalDaysCount.size(); i++) {
+			totalDays = totalDays + totalRequestArray[i];
 		}
 		//calculate the medians
-		double frozenMed = median(numArray1);
-		double activeMed = median(numArray2);
-		double closedMed = median(numArray3);
-		double declinedMed = median(numArray4);
-		double daysMed = median(numArray5);
-		System.out.println("ronit"+frozenMed);
+		double frozenMed = median(frozenRequestArray);
+		double activeMed = median(activeRequestArray);
+		double closedMed = median(closedRequestArray);
+		double declinedMed = median(declinedRequestArray);
+		double daysMed = median(totalRequestArray);
+
 		//calculate the standard deviation
-		double frozenStd = std(numArray1);
-		double activeStd = std(numArray2);
-		double closedStd = std(numArray3);
-		double declinedStd = std(numArray4);
-		double DaysStd = std(numArray5);
+		double frozenStd = std(frozenRequestArray);
+		double activeStd = std(activeRequestArray);
+		double closedStd = std(closedRequestArray);
+		double declinedStd = std(declinedRequestArray);
+		double DaysStd = std(totalRequestArray);
 
-		String s = String.valueOf(frozenMed);
-		String s1 = String.valueOf(frozenStd);
-		String s2 = String.valueOf(activeMed);
-		String s3 = String.valueOf(activeStd);
-		String s4 = String.valueOf(closedMed);
-		String s5 = String.valueOf(closedStd);
-		String s6 = String.valueOf(declinedMed);
-		String s7 = String.valueOf(declinedStd);
-		String s8 = String.valueOf(totalFrozen);
-		String s9 = String.valueOf(totalActive);
-		String s10 = String.valueOf(totalClosed);
-		String s11 = String.valueOf(totalDeclined);
-		String s12 = String.valueOf(daysMed);
-		String s13 = String.valueOf(DaysStd);
-		String s14 = String.valueOf(totaldays);
-
-		medFrozen.textProperty().set(s);
-		stdFrozen.textProperty().set(s1);
-		medActive.textProperty().set(s2);
-		stdActive.textProperty().set(s3);
-		medClosed.textProperty().set(s4);
-		stdClosed.textProperty().set(s5);
-		medDeclined.textProperty().set(s6);
-		stdDeclined.textProperty().set(s7);
-		countFrozen.textProperty().set(s8);
-		countActive.textProperty().set(s9);
-		countClosed.textProperty().set(s10);
-		countDeclined.textProperty().set(s11);
-		medWorkDays.textProperty().set(s12);
-		stdWorkDays.textProperty().set(s13);
-		countWorkDays.textProperty().set(s14);
+		medFrozen.textProperty().set(String.valueOf(frozenMed));
+		stdFrozen.textProperty().set(String.valueOf(frozenStd));
+		medActive.textProperty().set(String.valueOf(activeMed));
+		stdActive.textProperty().set(String.valueOf(activeStd));
+		medClosed.textProperty().set(String.valueOf(closedMed));
+		stdClosed.textProperty().set(String.valueOf(closedStd));
+		medDeclined.textProperty().set(String.valueOf(declinedMed));
+		stdDeclined.textProperty().set(String.valueOf(declinedStd));
+		countFrozen.textProperty().set(String.valueOf(totalFrozen));
+		countActive.textProperty().set(String.valueOf(totalActive));
+		countClosed.textProperty().set(String.valueOf(totalClosed));
+		countDeclined.textProperty().set(String.valueOf(totalDeclined));
+		medWorkDays.textProperty().set(String.valueOf(daysMed));
+		stdWorkDays.textProperty().set(String.valueOf(DaysStd));
+		countWorkDays.textProperty().set(String.valueOf(totalDays));
 		
 		//active table
-		List<Distribution>l=frq(numArray2);
+		List<Distribution>l=frq(activeRequestArray);
 		listActive.setAll(l);
 		ActiveTable.setItems(listActive);
 		//frozen table
-		List<Distribution>l1=frq(numArray1);
+		List<Distribution>l1=frq(frozenRequestArray);
 		listFrozen.setAll(l1);
 		FrozenTable.setItems(listFrozen);
 		//declined table
-		List<Distribution>l2=frq(numArray4);
+		List<Distribution>l2=frq(declinedRequestArray);
 		listDeclined.setAll(l2);
 		DeclinedTable.setItems(listDeclined);
 		//closed table
-		List<Distribution>l3=frq(numArray3);
+		List<Distribution>l3=frq(closedRequestArray);
 		listClosed.setAll(l3);
 		ClosedTable.setItems(listClosed);
 		//total Work Days table
-		List<Distribution>l4=frq(numArray5);
+		List<Distribution>l4=frq(totalRequestArray);
 		listTotalDays.setAll(l4);
 		WorkDaysTable.setItems(listTotalDays);
 
