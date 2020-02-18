@@ -1,5 +1,4 @@
 # ICM
-** *UNDER STRUCTURES* **
 
 Desktop application that allows students and college employees to request and manage changes on the college's info systems.
  
